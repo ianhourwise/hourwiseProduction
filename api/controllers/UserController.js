@@ -37,13 +37,46 @@ module.exports = {
  			if(err) {
  				return res.redirect('/user/edit/'+ req.parm('id'));
  			}
- 		res.redirect('/user/companysettings/' +req.param('id'));
+ 			var parsed_url = {}
+ 			var url = req.headers['referer'];
+ 			protocol_i = url.indexOf('://');
+    		parsed_url.protocol = url.substr(0,protocol_i);
+    		remaining_url = url.substr(protocol_i + 3, url.length);
+    		domain_i = remaining_url.indexOf('/');
+    		domain_i = domain_i == -1 ? remaining_url.length - 1 : domain_i;
+    		parsed_url.domain = remaining_url.substr(0, domain_i);
+    		parsed_url.path = domain_i == -1 || domain_i + 1 == remaining_url.length ? null : remaining_url.substr(domain_i + 1, remaining_url.length);
+    		domain_parts = parsed_url.domain.split('.');
+
+ 			switch(parsed_url.path) {
+			    case 'user/companysettings':
+			        res.redirect('/user/companysettings/' +req.param('id'));
+			        break;
+			    case 'user/wizard':
+			        res.redirect('/user/pending')
+			        break;
+			    default:
+			        res.redirect('/user/profile');
+			}
+ 			
  		});
  	}, 	
 
 
+ 	wizard: function(req, res, next) {
+ 		
+ 		res.locals.layout = false;
+ 		res.view('user/wizard');
+
+ 	},
+
+ 	pending: function(req, res, next){
+ 		res.locals.layout = false;
+ 		// res.redirect('http://www.google.com')
+ 		res.view('user/pending')
+ 	},
+
 	dashboard: function(req, res, next) {
-		console.log('got here');
 		res.locals.layout = "layouts/layout"; 
 		res.view('user/dashboard');
 	},
@@ -84,7 +117,8 @@ module.exports = {
 	    , companySettings = req.param('companySettings');
 	
 	  if (!email) {
-	    req.flash('error', 'Error.Passport.Email.Missing');
+	    req.flash('error', 'Sorry, looks like you forgot an email address!');
+	    // req.flash('error', 'Error.Passport.Email.Missing');
 	    return next(new Error('No email was entered.'));
 	  }
 	

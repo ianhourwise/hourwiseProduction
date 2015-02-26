@@ -33,8 +33,9 @@ exports.register = function (req, res, next) {
   }
 
   if (!username) {
-    req.flash('error', 'Error.Passport.Username.Missing');
-    return next(new Error('No username was entered.'));
+    var username = email.split("@")[0];
+    // req.flash('error', 'Error.Passport.Username.Missing');
+    // return next(new Error('No username was entered.'));
   }
 
   if (!password) {
@@ -49,9 +50,11 @@ exports.register = function (req, res, next) {
     if (err) {
       if (err.code === 'E_VALIDATION') {
         if (err.invalidAttributes.email) {
-          req.flash('error', 'Error.Passport.Email.Exists');
+          // req.flash('error', 'Error.Passport.Email.Exists');
+          req.flash('error', 'We have already met! Try to sign in...');
         } else {
-          req.flash('error', 'Error.Passport.User.Exists');
+          // req.flash('error', 'Error.Passport.User.Exists');
+          req.flash('error', 'We have already met! Try to sign in...');
         }
       }
 
@@ -146,9 +149,11 @@ exports.login = function (req, identifier, password, next) {
 
     if (!user) {
       if (isEmail) {
-        req.flash('error', 'Error.Passport.Email.NotFound');
+        // req.flash('error', 'Error.Passport.Email.NotFound');
+        req.flash('error', 'Sorry, you must have tried the wrong email!');
       } else {
-        req.flash('error', 'Error.Passport.Username.NotFound');
+        // req.flash('error', 'Error.Passport.Username.NotFound');
+        req.flash('error', 'Sorry, you must have tried the wrong username!');
       }
 
       return next(null, false);
@@ -165,7 +170,8 @@ exports.login = function (req, identifier, password, next) {
           }
 
           if (!res) {
-            req.flash('error', 'Error.Passport.Password.Wrong');
+            // req.flash('error', 'Error.Passport.Password.Wrong');
+            req.flash('error', 'Uhoh! Wrong password...');
             return next(null, false);
           } else {
             return next(null, user);
@@ -173,7 +179,8 @@ exports.login = function (req, identifier, password, next) {
         });
       }
       else {
-        req.flash('error', 'Error.Passport.Password.NotSet');
+        // req.flash('error', 'Error.Passport.Password.NotSet');
+        req.flash('error', 'Strange...it looks like you exist but never set a password!');
         return next(null, false);
       }
     });

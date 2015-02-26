@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>New Sails App</title>
-
+    <meta charset="UTF-8">
+    <meta name="description" content="Building better businesses" />
+    <meta name="keywords" content="business services, trades"/>
+    <meta name="author" content="Jon Hill" />
     <!-- Viewport mobile tag for sensible mobile support -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,  maximum-scale=1 ">
+    <title>Hourwise</title>    
 
     
     <!--  
@@ -27,18 +30,95 @@
             + Import stylesheets from other directories
             + Use a different or additional preprocessor, like SASS, SCSS or Stylus
     -->
-
-    <!--STYLES-->
-    <link rel="stylesheet" href="/styles/animate.min.css">
+    <!-- =========================
+     FAV AND TOUCH ICONS  
+    ============================== -->
+    <link rel="shortcut icon" href="assets/images/icons/favicon.png">
+    <link rel="apple-touch-icon" href="assets/images/icons/favicon.png">
+    
+    <!--STYLES DON'T AUTOLOAD-->
     <link rel="stylesheet" href="/styles/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/importer.css">
-    <link rel="stylesheet" href="/styles/jquery.vegas.min.css">
-    <link rel="stylesheet" href="/styles/owl.carousel.css">
     <link rel="stylesheet" href="/styles/owl.theme.css">
+    <link rel="stylesheet" href="/styles/owl.carousel.css">
+    <link rel="stylesheet" href="/styles/jquery.vegas.min.css">
+    <link rel="stylesheet" href="/styles/animate.min.css">
+    <!-- <link rel="stylesheet" href="/styles/importer.css"> -->
+
+
+    <link rel="stylesheet" href="/assets/icon-fonts/styles.css"> 
     <link rel="stylesheet" href="/styles/pixeden-icons.css">
-    <link rel="stylesheet" href="/styles/responsive.css">
+    
+    <!-- CUSTOM STYLES -->    
     <link rel="stylesheet" href="/styles/styles.css">
-    <!--STYLES END-->
+    <link rel="stylesheet" href="/styles/responsive.css">
+    
+    <!-- WEBFONT -->
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,400italic|Montserrat:700,400|Homemade+Apple' rel='stylesheet' type='text/css'>
+    
+    <!--[if lt IE 9]>
+          <script src="js/html5shiv.js"></script>
+          <script src="js/respond.min.js"></script>
+        <![endif]-->
+    
+    <!-- JQUERY -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <!-- Begin Inspectlet Embed Code -->
+    <!--
+    <script type="text/javascript" id="inspectletjs">
+     window.__insp = window.__insp || [];
+     __insp.push(['wid', 1404777810]);
+    (function() {
+     function __ldinsp(){var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); }
+        if (window.attachEvent){
+          window.attachEvent('onload', __ldinsp);
+        }else{
+          window.addEventListener('load', __ldinsp, false);
+        }
+      })();
+    </script>
+    -->
+    <!-- End Inspectlet Embed Code -->
+    <!-- Begin Google Analytics -->
+    <!--
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-39616852-2', 'auto');
+      ga('send', 'pageview');
+    
+    </script>
+    -->
+    <!-- End Google Analytics -->
+    
+    <!-- Begin Pixels -->
+    <!--
+    <script>(function() {
+      var _fbq = window._fbq || (window._fbq = []);
+      if (!_fbq.loaded) {
+        var fbds = document.createElement('script');
+        fbds.async = true;
+        fbds.src = '//connect.facebook.net/en_US/fbds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(fbds, s);
+        _fbq.loaded = true;
+      }
+      _fbq.push(['addPixelId', '1614923785402447']);
+    })();
+    window._fbq = window._fbq || [];
+    window._fbq.push(['track', 'PixelInitialized', {}]);
+    </script>
+    <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?id=1614923785402447&amp;ev=PixelInitialized" /></noscript>
+    -->
+    <!-- End Pixels -->
+
+
+
+
+
+
   </head>
 
   <body>
@@ -95,141 +175,24 @@
 
     -->
 
-    <!--SCRIPTS-->
+    <!--SCRIPTS DON'T AUTOLOAD-->
     <script src="/js/dependencies/sails.io.js"></script>
-    <script src="/js/bootstrap.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/demo/chartjs-demo.js"></script>
-    <script src="/js/demo/dashboard-demo.js"></script>
-    <script src="/js/demo/flot-demo.js"></script>
-    <script src="/js/demo/flot-demo2.js"></script>
-    <script src="/js/demo/morris-demo.js"></script>
-    <script src="/js/demo/peity-demo.js"></script>
-    <script src="/js/demo/rickshaw-demo.js"></script>
-    <script src="/js/demo/sparkline-demo.js"></script>
+    <script src="/js/bootstrap.min.js"></script>    
     <script src="/js/html5shiv.js"></script>
-    <script src="/js/inspinia.js"></script>
-    <script src="/js/jquery-2.1.1.js"></script>
-    <script src="/js/jquery-ui-1.10.4.min.js"></script>
-    <script src="/js/jquery-ui.custom.min.js"></script>
     <script src="/js/jquery.fittext.js"></script>
     <script src="/js/jquery.knob.js"></script>
     <script src="/js/jquery.nav.js"></script>
     <script src="/js/jquery.scrollTo.min.js"></script>
     <script src="/js/jquery.vegas.min.js"></script>
     <script src="/js/owl.carousel.min.js"></script>
-    <script src="/js/plugins/chosen/chosen.jquery.js"></script>
-    <script src="/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
-    <script src="/js/plugins/cropper/cropper.min.js"></script>
-    <script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-    <script src="/js/plugins/easypiechart/easypiechart.js"></script>
-    <script src="/js/plugins/easypiechart/jquery.easypiechart.js"></script>
-    <script src="/js/plugins/flot/curvedLines.js"></script>
-    <script src="/js/plugins/flot/excanvas.min.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.pie.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.spline.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.symbol.js"></script>
-    <script src="/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="/js/plugins/fullcalendar/fullcalendar.min.js"></script>
-    <script src="/js/plugins/fullcalendar/moment.min.js"></script>
-    <script src="/js/plugins/gritter/jquery.gritter.min.js"></script>
-    <script src="/js/plugins/iCheck/icheck.min.js"></script>
-    <script src="/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
-    <script src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery-ui-i18n.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-af.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-ar-DZ.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-ar.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-az.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-be.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-bg.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-bs.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-ca.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-cs.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-cy-GB.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-da.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-de.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-el.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-en-AU.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-en-GB.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-en-NZ.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-eo.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-es.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-et.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-eu.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-fa.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-fi.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-fo.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-fr-CA.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-fr-CH.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-fr.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-gl.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-he.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-hi.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-hr.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-hu.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-hy.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-id.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-is.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-it.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-ja.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-ka.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-kk.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-km.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-ko.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-ky.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-lb.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-lt.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-lv.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-mk.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-ml.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-ms.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-nb.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-nl-BE.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-nl.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-nn.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-no.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-pl.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-pt-BR.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-pt.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-rm.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-ro.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-ru.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-sk.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-sl.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-sq.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-sr-SR.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-sr.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-sv.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-ta.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-th.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-tj.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-tr.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-uk.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-vi.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-zh-CN.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-zh-HK.min.js"></script>
-    <script src="/js/plugins/jquery-ui/i18n/jquery.ui.datepicker-zh-TW.min.js"></script>
-    <script src="/js/plugins/jquery-ui/jquery-ui.js"></script>
-    <script src="/js/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="/js/plugins/jsKnob/jquery.knob.js"></script>
-    <script src="/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="/js/plugins/nouslider/jquery.nouislider.min.js"></script>
-    <script src="/js/plugins/pace/pace.min.js"></script>
-    <script src="/js/plugins/peity/jquery.peity.min.js"></script>
-    <script src="/js/plugins/slimscroll/jquery.slimscroll.js"></script>
-    <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="/js/plugins/sparkline/jquery.sparkline.min.js"></script>
-    <script src="/js/plugins/switchery/switchery.js"></script>
     <script src="/js/respond.min.js"></script>
     <script src="/js/scrollReveal.js"></script>
     <script src="/js/smoothscroll.js"></script>
     <script src="/js/wow.min.js"></script>
     <script src="/js/zerif.js"></script>
-    <!--SCRIPTS END-->
+
+
+    <!--SCRIPTS END-->    
+
   </body>
 </html>

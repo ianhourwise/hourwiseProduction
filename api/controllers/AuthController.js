@@ -169,7 +169,13 @@ var AuthController = {
           res.redirect('/user/admin');
         }
         else{
-          res.redirect('/user/dashboard');  
+          if(user.reroute){
+            res.redirect('/user/'+user.reroute)
+          }
+          else{
+            res.redirect('/user/dashboard');  
+          }
+          
         }
         
       });

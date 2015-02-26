@@ -14,6 +14,15 @@ var User = {
     	defaultsTo: 'user'
     },
 
+    reroute: {
+      type: 'string',
+      defaultsTo: 'wizard'
+    },
+
+    wizardInfo:{
+      type: 'json'
+    },
+
     //For company owner's
     myCompany : { model: 'company'},
 

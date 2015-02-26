@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>Hello!</title>
+
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="/css/gsdk-base.css" rel="stylesheet" />  
+  <link href="/css/font-awesome/css/font-awesome.css" rel="stylesheet">    
+  <!-- <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet"> -->
+  
+</head>
+
+<body>
+<div class="image-container set-full-height" style="background-image: url('/images/backgrounds/bg2.jpg')">
+    <!--   Creative Tim Branding   -->
+    <a href="http://www.hourwise.com">
+         <div class="logo-container">
+            <div class="logo">
+                <img src="/images/emily1.jpg">
+            </div>
+            <div class="brand">
+                Later Gator!
+            </div>
+        </div>
+    </a>
+    
+    <!--   Big container   -->
+    <div class="container">
+        <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+           
+            <!--      Wizard container        -->   
+            <div class="wizard-container"> 
+                <form action= "/user/update/<%= user.id %>" method="POST" >
+                  <!-- <input type= "hidden" name = "_csrf" value = "<%= _csrf %>" />                   -->
+                  <input type= "hidden" name = "reroute" value = "pending" />                                                 
+                <div class="card wizard-card ct-wizard-green" id="wizard">
+                
+                <!--        You can switch "ct-wizard-azzure"  with one of the next bright colors: "ct-wizard-blue", "ct-wizard-green", "ct-wizard-orange", "ct-wizard-red"             -->
+                
+                    	<div class="wizard-header">
+                        	<h3>
+                        	   <b>THANK YOU!</b> <br>
+                        	   <small></small>
+                        	</h3>
+                    	</div>
+                    	<ul>
+                            <li><a href="#introduction" data-toggle="tab">We're psyched to get started!</a></li>
+                            <!-- <li><a href="#info" data-toggle="tab">Tell Us About You!</a></li> -->
+                            <!-- <li><a href="#schedule" data-toggle="tab">Let's Talk!</a></li> -->
+                            <!-- <li><a href="#payment" data-toggle="tab">Reserve Your Spot...</a></li> -->
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="introduction">
+                              <div class="row">
+                                  <div class="col-sm-12">
+                                    <h4 class="info-text"> We can't wait to learn more about you!!! </h4>
+                                  </div>
+                                 
+                              </div>                                  
+                                <div class="row">                              
+                                    <div class="col-sm-10 col-sm-offset-1">
+                                         <div class="form-group">
+                                            <p class = "description">Thank you for signing up!  If you scheduled a meeting, we're really looking forward to talking more about your business and how we can help.  If you skipped that step, someone will reach out ASAP.  In the meantime, if you need ANYTHING AT ALL!! Email us at support@hourwise.com.  That's where the magic happens :-) </p>
+                                          </div>
+                                    </div>
+                                </div>   
+                            </div>
+                        <div class="wizard-footer">
+                            	<div class="pull-right">
+                                   
+                                </div>
+                                <div class="pull-left">
+                                  
+                                </div>
+                                <div class="clearfix"></div>
+                        </div>	
+                </div>
+                </form>
+            </div> <!-- wizard container -->
+        </div>
+        </div> <!-- row -->
+    </div> <!--  big container -->
+   
+    <div class="footer">
+      <div class="container">
+             Check out more <i class="fa fa-clock"></i> at <a href="http://www.hourwise.com">Hourwise</a>. 
+      </div>
+    </div>
+    
+</div>
+
+</body>
+
+    <script src="/js/jquery-2.1.1.js" type="text/javascript"></script>
+	<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+		
+	<!--   plugins 	 -->
+	<script src="/js/jquery.bootstrap.wizard.js" type="text/javascript"></script>
+	<script src="/js/wizard.js"></script>
+	
+</html>
