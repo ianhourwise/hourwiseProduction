@@ -45,12 +45,36 @@ var User = {
     integrations: 'json',
     //put into integrations
 	//NutshellAPI
-	nutshellAPI_Key: 'string',
-	nutshellAPI_Password: 'string',
+	  nutshellAPI_Key: 'string',
+	  nutshellAPI_Password: 'string',
 	//Nutshell UserId
   	nutshellId: 'integer',
+    lastSyncedOn: 'date',
   	performanceMetrics: 'json',
   	redLeads: 'json', 
+
+    getPerformanceMetrics: function(user){
+    // NutshellApi.getSalesAnalytics(user, function(err, response){
+    //   this.performanceMetrics = response;
+    //   console.log(this.name);
+    //   this.save();
+    // }.bind(this));
+      NutshellApi.getPerformanceReports(user, function(err, response){
+        this.performanceMetrics = response;
+        // console.log(this.name);
+        console.log('success performance');
+        this.save();
+      }.bind(this));
+    },
+
+    getRedLeads: function(user){
+      NutshellApi.getRedLeads(user, function(err, response){
+        this.redLeads = response;
+        // console.log(this.name);
+        console.log('success red leads');
+        this.save();
+      }.bind(this));
+    },
 
     // company: {model: 'company'},
     // jobs: {

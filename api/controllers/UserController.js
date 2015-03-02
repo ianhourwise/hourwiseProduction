@@ -20,10 +20,14 @@ module.exports = {
  		});
  	},
 
-
 	index: function(req, res) {
-		res.locals.layout = "layouts/layout"; 
-		return res.view('test');
+		User.find(function foundUsers(err, users){
+	 		if(err) return next(err);
+
+	 		res.view({
+	 			users: users
+	 		});
+	 	});
 	},
 
 	new: function(req, res) {
@@ -80,6 +84,52 @@ module.exports = {
 		res.locals.layout = "layouts/layout"; 
 		res.view('user/dashboard');
 	},
+
+	newDashTest: function(req, res, next) {
+ 		User.findOne(req.param('id'), function foundUser(err, user){
+	 		if(err) return next(err);
+	 		if(!user) return next();
+	 		user.getPerformanceMetrics(user);
+	 		user.getRedLeads(user);
+	 		console.log(user.performanceMetrics);
+	 		if(user.performanceMetrics ==={} || user.redLead === {}){
+	 			console.log('no PMs or Leads');
+	 			var salesData = {"summaryData" : {"won_lead_value": {"sum": 0}}};
+				var leadData = {"seriesData" : {"won_leads": []}};
+				var pipelineData = [];
+				var redMetrics = [];
+				var redLeads = [];
+	 
+			}
+
+			else{
+				console.log('got the data');
+				var salesData = JSON.stringify(user.performanceMetrics.sales);
+				var leadData = JSON.stringify(user.performanceMetrics.leads);
+				var pipelineData = JSON.stringify(user.performanceMetrics.pipeline);
+				var redMetrics = user.redLeads.counts;
+				var redLeads = user.redLeads.leads;
+			}
+	 		
+	 		var date = new Date();
+
+	 		User.update(req.param('id'), { lastSyncedOn: date}, function(err) {
+	 			res.locals.layout= 'layouts/dashboard_layout';
+		 		res.view({
+		 			user: user,
+		 			salesData: salesData,
+		 			leadData: leadData,
+		 			pipelineData: pipelineData,
+		 			// redMetrics: nsResponse.counts,
+		 			// redLeads: nsResponse.leads
+		 			// redMetrics: redMetrics,
+		 			// redLeads: redLeads
+		 			redMetrics: redMetrics,
+		 			redLeads: redLeads
+		 		});
+	 		});
+	 	});
+ 	},
 
 	admin: function(req, res, next) {
 		res.locals.layout = "layouts/layout"; 
