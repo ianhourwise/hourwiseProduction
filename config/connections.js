@@ -63,6 +63,9 @@ module.exports.connections = {
     // user: 'username',
     // password: 'password',
     // database: 'your_mongo_db_name_here'
+    database: 'hourwise'
+
+
   },
 
   /***************************************************************************

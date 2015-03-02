@@ -7,7 +7,7 @@
 
 module.exports = {
   // schema: true,
-  // connection: ['someMongodbServer'], 	
+  connection: ['someMongodbServer'], 	
 
 
   attributes: {
