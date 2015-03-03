@@ -1,0 +1,338 @@
+<link href="/styles/icons.css" rel="stylesheet" />
+<!-- jQueryUI -->
+<link href="/styles/sprflat-theme/jquery.ui.all.css" rel="stylesheet" />
+<!-- Bootstrap stylesheets (included template modifications) -->
+<!-- Plugins stylesheets (all plugin custom css) -->
+<link href="/styles/plugins.css" rel="stylesheet" />
+<!-- Main stylesheets (template main css file) -->
+<link href="/styles/main.css" rel="stylesheet" />
+<!-- Custom stylesheets ( Put your own changes here ) -->
+
+<div class = "container">
+<h1> <%=user.name + '-' + user.company%> </h1>
+<h3 id = "percentElapsed"> </h3>
+<hr>
+
+<div class = "row">
+	<div class = "col-lg-4">
+		<div class = "tile blue">
+		<div class = "tile-content">	
+			<div class = "number"><%= '$'+ user.performanceMetrics.sales.summaryData.won_lead_value.sum.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")%></div>
+			<h3> YTD Sales </h3>
+		</div>
+		</div>
+	</div>
+	<div class = "col-lg-4">
+		<div class = "tile green">
+		<div class = "tile-content">	
+			<div class = "number" id = 'projectedSales'><%= '$'+ (user.performanceMetrics.sales.summaryData.won_lead_value.sum*15).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")%></div>
+			<h3> Projected Sales </h3>
+		</div>
+		</div>
+	</div>
+	<div class = "col-lg-4">
+		<div class="pie-charts green-pie">
+            <div class="easy-pie-chart-green easyPieChart" id = 'percentGoal' data-percent="<%= (user.performanceMetrics.sales.summaryData.won_lead_value.sum/user.salesGoal*100).toString()%>%" style="width: 100px; height: 100px; line-height: 100px;"> <canvas width="100" height="100"></canvas><%= (user.performanceMetrics.sales.summaryData.won_lead_value.sum/user.wizardInfo.salesGoal*100).toFixed(2).toString()%>%</div>
+           <div class="label">Projected Goal</div>
+       </div>
+	</div>
+</div>
+<div class = "row">
+	<div class="form-group">
+        <label class="col-lg-3 col-md-3 col-sm-12 control-label">Monthly Sales Performance</label>
+        <div class="col-lg-9 col-md-9">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <select class="form-control" id = "monthOfInterest">              
+                     <option value="0">January</option>
+                     <option value="1">February</option>
+                     <option value="2">March</option>
+                     <option value="3">April</option>
+                     <option value="4">May</option>
+                     <option value="5">June</option>
+                     <option value="6">July</option>
+                     <option value="7">August</option>
+                     <option value="8">September</option>
+                     <option value="9">October</option>
+                     <option value="10">November</option>
+                     <option value="11">December</option> 
+                    </select>
+                </br>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 
+Ok, let's think about this...there are a few ways to calculate/project.
+* Average $/Sale (over what period, and how do we filter out the outliers)
+* Leads Per Day (what's our lead flow and what over what range...catching changes early is important)
+Lead:Estimate Conversion (How many of the incoming leads turn into estimate...this is important to track but we don't reall have a mechanism)
+* Closes Per Day (win, lose or draw we are getting an answer.  This is important but not sure what a good number is...match incoming?)
+* Win:Close (this is actual win rate, and if you have an accurate close rate becomes valuable)
+Estimate:Win Rate (same same but different....since estimates are more difficult for us to track we can probably work with the others)
+Lead:Close (combined conversions of lead:estime * estimate:closed, this would be useful and factors in issues with setting apts)
+Lead:Win (comined conversions of lead:estimate* estimate:win, could be useful but not much added info)
+* $/Lead (will this be dynamic or not? )
+* % Projected Leads For Month
+* % Projected Sales For Month
+
+** Is it important to track these metrics on a per lead basis or a given time-frame?  My gut says it doesn't really matter now...might want to 
+capture the data while we have it...but it will be pure optimization. 
+
+**Current monthly projection formula is: $/sale * closed/day * sale/closed * days (doesn't factor in open pipeline or values...should work that in later)
+
+*** Should definitely check leads in > close rate 
+
+**** How about a pipeline guage?  Open Leads / Leads Closed /Day = No Days Remaining  or something like that?
+
+** Suggestions ** So we can back calculate what we can control - lead flow, estimates set, close - rate (get a decision), win_rate, $/Sale (types of jobs)
+Let's start with what we can control, lead rate and close rate, then move to win rate and $/sale.  Thresholds are important as well. 
+
+-->
+
+<div class= "row">
+    <div class= "col-lg-10 col-md-12">
+    	<div class="panel panel-default toggle" id="spr_9">
+    		<!-- Start .panel -->
+    		<div class="panel-heading">
+    			<h4 class="panel-title"><i class="im-pie"></i> Monthly Metrics</h4>
+    			<div class="panel-controls panel-controls-hide" style="display: none;"><a href="#" class="toggle panel-minimize"><i class="im-minus"></i></a></div></div>
+    			<div class="panel-body">		
+    				<div class = "col-lg-7">
+                        
+                        <div class = "col-lg-6">
+                            <!-- <div class = "tile blue"> -->
+                                <div class="tile-stats b brall mb25">
+                                    <a href="#">
+                                        <div class="tile-stats-icon"><i class="fa-money color-green"></i>
+                                        </div>
+                                        <div class="tile-stats-content">
+                                            <div id = "monthSales" class="tile-stats-number">$</div>
+                                            <div class="tile-stats-text">Actual Sales</div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </div>
+    
+                            <!--     <div class = "tile-content">    
+                                    <div id = "monthSales" class = "number"> 0 </div>
+                                    <h3> Sales </h3>
+                                </div> -->
+                            <!-- </div> -->
+                        </div>
+                        <div class = "col-lg-6">
+                            <!-- <div class = "tile orange"> -->
+    
+                            <div class="tile-stats b brall mb25 green-bg">
+                                    <a href="#">
+                                        <div class="tile-stats-icon"><i class="fa-money color-white"></i>
+                                        </div>
+                                        <div class="tile-stats-content">
+                                            <div id = "projMonthSales" class="tile-stats-number color-white"> </div>
+                                            <div class="tile-stats-text color-white">Projected Sales</div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </div>
+                                
+                            <!-- <div class = "tile-stats b brall mb25 orange-bg">
+                                <div class = "tile-stats-content">    
+                                    <div id = "pojMonthSales" class = "number">0</div>
+                                    <h3> Proj Sales </h3>
+                                </div>
+                            </div> -->
+                         </div>     
+                        <div class = "col-lg-12 ">
+                            <div class="tile dark">
+                                <!-- tile start here -->
+                                <div class="tile-icon">
+                                    <i class="ec-star s64"></i>
+                                </div>
+                                <div class="tile-content">
+                                    <div id = "monthSalesGoal" class="number countTo" data-from="0" data-to="2">$100,000</div>
+                                    <h3>Sales Goal</h3>
+                                </div>
+                            </div>
+                        </div>                             
+                        
+                        <div class = "col-lg-12">
+                            <div class="pie-charts green-pie">
+                            <div id = "pctToGoal" class="easy-pie-chart-green easyPieChart" data-percent="0" style="width: 100px; height: 100px; line-  height: 100px; ">
+                                <span class = "percent" id = "pctToGoalInner"> 0 </span>
+                                <canvas width="100" height="100"></canvas>
+    
+                            </div>
+                            <div class="label">PCT To Goal </div>
+                            </div>
+                            <div class="pie-charts blue-pie">
+                                <div id = "winRate"class="easy-pie-chart-blue easyPieChart" data-percent="0" style="width: 100px; height: 100px; line-  height: 100px;">
+                                    <span class = "percent" id = "winRateInner"> 0 </span>
+                                 <canvas width="100" height="100"></canvas>
+                                </div>
+                                <div class="label">Win Rate </div>
+                            </div>
+                    
+                            <div class="pie-charts">
+                                <div id = "leadToClose" class="easy-pie-chart easyPieChart" data-percent="0" style="width: 100px; height: 100px; line-height: 100px;">
+                                    <span class = "percent" id = "leadToCloseInner"> 0 </span>
+                                    <canvas width="100" height="100"></canvas></div>
+                                <div class="label">LeadsIn:LeadsOut</div>
+                            </div>
+
+                        </div>
+
+                    </div> 
+                    
+                    <div class="col-lg-5 col-md-12">
+                            <!-- Start col-lg-6 -->
+                            <div class="panel panel-default toggle">
+                                <!-- Start .panel -->
+                                <div class="panel-heading">
+                                    <h4 id= "leadsTitle" class="panel-title"><i class="im-bars"></i> Need 10 Leads!</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="leads-bars-chart" style="width: 100%; height:250px;"></div>
+                                </div>
+                            </div>
+                            <!-- End .panel -->
+                    </div>
+                    
+    					    				
+    			</div>
+
+            <div class="panel-footer teal-bg">
+<!--                 Month Selector - averaged, lead flow
+                     Curr/ Projected sales tile - % to goal - win rate - lead2win
+                     Avg Sale - $/Lead - Lead/Day - Close/Day  -->
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile teal m0">
+                        <div class="tile-content text-center pl0 pr0">
+                            <div id="avgSale" class="number countTo" data-from = "0" data-to = "2300" >2,300</div>
+                            <h3>Avg Sale</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile teal m0">
+                        <div class="tile-content text-center pl0 pr0">
+                            <div id="dollarPerLead" class="number countTo" data-from="0" data-to="1000">1,000</div>
+                            <h3>$/Lead</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile teal m0">
+                        <div class="tile-content text-center pl0 pr0">
+                            <div id="leadsPerWeek" class="number countTo" data-from="0" data-to="2">8</div>
+                            <h3>Leads In/Week</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile teal m0">
+                        <div class="tile-content text-center pl0 pr0">
+                            <div id="closedPerWeek" class="number countTo" data-from="0" data-to="2">2</div>
+                            <h3>Leads Out/Week</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class = "clearfix"></div>
+            </div>
+    	</div>
+    </div>
+</div>
+
+
+
+<div class="col-lg-10 col-md-10">
+ <!-- col-lg-6 start here -->
+    <div class="panel panel-default plain toggle panelClose panelRefresh" id="spr_1">
+         <!-- Start .panel -->
+         <div class="panel-heading white-bg">
+             <h4 class="panel-title"><%= redMetrics.Total_Red_Leads +' '%>Red Leads </h4>
+             <div class="panel-controls panel-controls-hide" style="display: none;"><a href="#" class="panel-refresh"><i class="im-spinner6"></i></a><a href="#" class="toggle panel-minimize"><i class="im-minus"></i></a><a href="#" class="panel-close"><i class="im-close"></i></a></div></div>
+             <div class="panel-body" style="display: block;">
+             <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 100%; height: auto;"><div class="table-responsive" style="overflow: hidden; width: 100%; height: auto;">
+             	<table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="per20">Lead</th>
+                        <th class="per40">Description</th>
+                        <th class="per20">Value</th>
+                        <th class="per20">Milestone</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var index in redLeads){for(i = 0; i<redLeads[index].length; i++) {  %>
+                    <tr>
+                        <td><%= redLeads[index][i].name%></td>
+                        <td><%= redLeads[index][i].description%></td>
+                        <td><%= redLeads[index][i].value%></td>
+                  		<td><%= redLeads[index][i].milestone%></td>
+               		</tr>
+               		<% }} %>
+			   </tbody>
+            </table>
+        </div> 
+        <div class="slimScrollBar ui-draggable" style="height: 5px; position: absolute; bottom: 3px; opacity: 0.4; display: none; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; z-index: 99; width: 525px; left: 0px; background: rgb(153, 153, 153);">
+        </div>
+        <div class="slimScrollRail" style="width: 100%; height: 5px; position: absolute; bottom: 3px; display: none; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; opacity: 0.5; z-index: 90; background: rgb(51, 51, 51);">
+        </div>
+    </div>
+            </div>
+    </div>
+<!-- End .panel -->
+</div>
+ <div class="outlet">
+    <!-- Start .outlet -->
+    <!-- Page start here ( usual with .row ) -->
+    <div class="row">
+        <div class="col-lg-10 col-md-12">
+            <!-- Start col-lg-6 -->
+            <div class="panel panel-primary plain toggle">
+                <!-- Start .panel -->
+                <div class="panel-heading">
+                    <h4 class="panel-title"><i class="im-bars"></i> Monthly Sales </h4>
+                </div>
+                <div class="panel-body blue-bg">
+                    <div id="line-chart-dots" style="width: 100%; height:250px;"></div>
+                </div>
+            </div>
+            <!-- End .panel -->
+        </div>
+    </div>
+ </div>
+ <div class="row">
+        <div class="col-lg-10 col-md-12">
+            <!-- Start col-lg-6 -->
+            <div class="panel panel-primary plain toggle">
+                <!-- Start .panel -->
+                <div class="panel-heading">
+                    <h4 class="panel-title"><i class="im-bars"></i> Sales Curve</h4>
+                </div>
+                <div class="panel-body blue-bg">
+                    <div id="year" style="width: 100%; height:250px;"></div>
+                </div>
+            </div>
+            <!-- End .panel -->
+        </div>
+    </div>
+ </div>
+<a class= "btn btn-primary btn-medium" href= "/user/edit/<%=user.id%>"> Edit </a>
+
+</div>
+
+
+<script> 
+var sales_data = <%- salesData %> ;
+var lead_data = <%- leadData %> ;
+var pipeline_data = <%- pipelineData %> ;
+var goal = <%= user.salesGoal %>;
+
+</script>
+
