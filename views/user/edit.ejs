@@ -1,0 +1,32 @@
+<div class= "container" style="width: 80%;">
+
+<form action = "/user/addNutshellCredentials/<%= user.id %>" method = "GET" class= "form-signin">
+    <h2 class= "form-signin-heading">Update Information...</h2>
+
+        <% if (user.nutshellId != null) { %>
+            <input type= "text" class = "form-control" placeholder = "<%= user.nutshellId %>" name = "nutshellId" value="<%= user.nutshellId %>">
+        <% } 
+           else { %>
+            <input type= "text" class = "form-control" placeholder = "Nutshell Id" name = "nutshellId">
+        <% } %>
+        <hr>
+        <% if (user.nutshellAPI_Key != null) { %>
+            <input type= "text" class = "form-control" placeholder = "<%= user.nutshellAPI_Key %>" name = "nutshellAPI_Key" value="<%= user.nutshellAPI_Key %>">
+        <% } 
+           else { %>
+            <input type= "text" class = "form-control" placeholder = "Nutshell API Key" name = "nutshellAPI_Key">
+        <% } %>
+        <hr>
+        <% if (user.nutshellAPI_Password != null) { %>
+            <input type= "text" class = "form-control" placeholder = "<%= user.nutshellAPI_Password %>" name = "nutshellAPI_Password" value="<%= user.nutshellAPI_Password %>">
+        <% } 
+           else { %>
+            <input type= "text" class = "form-control" placeholder = "Nutshell API Password" name = "nutshellAPI_Password">
+        <% } %>
+        <hr>
+        <input type = "submit" class = "btn btn-lg btn-primary btn-block" value = "Update Profile" />
+        <input type= "hidden"  name = "_csrf" value = "<%= _csrf %>"/>
+
+</form>
+
+</div>

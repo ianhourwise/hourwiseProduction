@@ -91,6 +91,7 @@ module.exports = {
  getRedLeads: function(user, callback){
   // console.log(user.nutshellAPI_Password);
   // callback(null, user, {'heck': 'yeah hector'});  
+  console.log('getting leads....');
   var client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
   client.call('findLeads',{ "query" :{"status": 0, "assignee":[{"entityType": "Users", "id": user.nutshellId}]},
                   "stubResponses": false, "limit": 100}, function(err, res){
@@ -358,6 +359,7 @@ function checkIfComplete2(callback){
 
 
 function getSalesReport(user, callback){
+  console.log('getting sales reports...');
   // client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
   var client = createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
   // var client = createClient(username,api_key);
@@ -394,7 +396,8 @@ function getSalesReport(user, callback){
                 });
 }
 
-function getLeadsReport(user, callback){
+function getLeadsReport(user, callback){ 
+  console.log('getting leads report...');
   // client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
   var client = createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
   client.call('getAnalyticsReport', 
@@ -407,12 +410,14 @@ function getLeadsReport(user, callback){
                   else{                            
                       // console.log(res);
                       data["leads"] = res;
+                      console.log('got leads reports');
                       checkIfComplete2(callback);           
                   }
                 });
 }
 
 function getPipelineReport(user, callback){
+  console.log('getting pipeline report...');
   // client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
   var client = createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
   client.call('getAnalyticsReport', 
@@ -425,6 +430,7 @@ function getPipelineReport(user, callback){
                   else{                            
                       // console.log(res);
                       data["pipeline"] = res;
+                      console.log('got pipeline report');
                       checkIfComplete2(callback);           
                   }
                 });

@@ -13,7 +13,7 @@ module.exports = {
  		User.findOne(req.param('id'), function foundUser(err, user){
  			if(err) return next(err);
  			if(!user) return next('User doesn\'t exist!');
-	
+
  			res.view({
  				user: user
  			});
@@ -24,15 +24,78 @@ module.exports = {
 		User.find(function foundUsers(err, users){
 	 		if(err) return next(err);
 
+	 		var totalSales = 0.00;
+
+			for (var i = 0; i < users.length; i++) {
+				console.log(users[i].username);
+				if (users[i].performanceMetrics.sales.summaryData.won_lead_value.sum != null)
+					totalSales += users[i].performanceMetrics.sales.summaryData.won_lead_value.sum;
+			}
+
 	 		res.view({
-	 			users: users
+	 			users: users,
+	 			totalSales: totalSales
 	 		});
+	 	});
+	},
+
+	getUsers: function(req, res) {
+		User.find(function foundUsers(err, users){
+	 		if(err) return next(err);
+
+	 		res.send(users);
 	 	});
 	},
 
 	new: function(req, res) {
 		res.locals.layout = "layouts/layout"; 
 		res.view('user/new');
+	},
+
+	addNutshellCredentials: function(req, res) {
+		console.log(req.params.all());
+		var performanceMetrics = {};
+		var redLeads = {};
+
+		User.update(req.param('id'), { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') }, function(err) {
+			NutshellApi.getPerformanceReports({ 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') }, function(err, response) {
+				performanceMetrics = response;
+
+				NutshellApi.getRedLeads({ 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') }, function(err, response1) {
+					redLeads = response1;
+
+					User.update({ performanceMetrics: performanceMetrics, redLeads: redLeads }, function(err, response) {
+
+						res.redirect('/user/newDashTest/' + req.param('id'));
+
+					});
+				});
+			});
+		});
+
+
+
+		// User.update(req.param('id'), req.params.all(), function userUpdated (err) {
+		// 	console.log('adding nutshell creds');
+		// 	NutshellApi.getPerformanceReports({"nutshellAPI_Password": req.param('nutshellAPI_Password'), 
+	 //                                            "nutshellAPI_Key": req.param('nutshellAPI_Key'), 
+	 //                                            "nutshellId": req.param('nutshellId')}, function(err, response) {
+	 //            	console.log('got the performanceMetrics');
+	 //                User.update(req.param('id'), { performanceMetrics: response, redLeads: {} }, function(err) {
+	 //                		console.log('saved the performanceMetrics');
+	 //                		NutshellApi.getRedLeads({"nutshellAPI_Password": req.param('nutshellAPI_Password'), 
+	 //                                            "nutshellAPI_Key": req.param('nutshellAPI_Key'), 
+	 //                                            "nutshellId": req.param('nutshellId')}, function(err, response) {
+	 //                                console.log('got the red leads');
+	 //                                User.update(req.param('id'), { redLeads: response }, function(err) {
+	 //                                	console.log('saved the red leads');
+	 //                                	res.redirect('/user/newDashTest/' + req.param('id'));            	
+	 //                        });
+	 //                	});
+	 //                });                        
+		//         });
+		// });
+
 	},
 
 	update: function(req, res, next) {
@@ -60,7 +123,7 @@ module.exports = {
 			        res.redirect('/user/pending')
 			        break;
 			    default:
-			        res.redirect('/user/profile');
+			        res.redirect('/user/newDashTest/' + req.param('id'));
 			}
  			
  		});

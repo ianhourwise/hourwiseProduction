@@ -1,5 +1,13 @@
-<div class= "container">
+<div class= "container" style="width: 90%;">
 <h1> Users </h1>
+
+<h2>Total Sales = $<%= totalSales.toFixed(0) %></div></h2>
+
+<div class="demo-container" style="width: 90%; height: 450px; padding: 20px 15px 15px 15px; margin-bottom: 5%;">
+	<div id="placeholder" class="demo-placeholder" style="width: inherit; height: inherit;">
+
+	</div>
+</div>
 
 <table class = "table">
 <tr>
@@ -11,9 +19,9 @@
 	<th></th>
 </tr>
 
-<% _.each(users, function(user){ %>
+<% _.each(users, function(user) { %>
 <tr data-id = "<% user.id %>" data-model = "user">
-	<td><%= user.company %></td>
+	<td><%= user.wizardInfo.company %></td>
 	<td><%= user.username %></td>
 	<td><%= user.email %></td>
 	<td><a href= "/user/newDashTest/<%= user.id %>" class= "btn btn-sm btn-primary" >Show</a> </td>
