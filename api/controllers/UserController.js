@@ -20,6 +20,10 @@ module.exports = {
  		});
  	},
 
+ 	testEmail: function(req, res) {
+ 		Mandrill.sendEmail({toEmail: 'ian@hourwise.com', toName: 'Ian Kidd', fromEmail: 'ian@hourwise.com', subject: 'This is the subject', body: 'Some email content'});
+ 	},
+
 	index: function(req, res) {
 		User.find(function foundUsers(err, users){
 	 		if(err) return next(err);
@@ -28,7 +32,7 @@ module.exports = {
 
 			for (var i = 0; i < users.length; i++) {
 				console.log(users[i].username);
-				if (users[i].performanceMetrics.sales.summaryData.won_lead_value.sum != null)
+				if (users[i].performanceMetrics != undefined)
 					totalSales += users[i].performanceMetrics.sales.summaryData.won_lead_value.sum;
 			}
 
@@ -61,41 +65,24 @@ module.exports = {
 			NutshellApi.getPerformanceReports({ 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') }, function(err, response) {
 				performanceMetrics = response;
 
-				NutshellApi.getRedLeads({ 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') }, function(err, response1) {
-					redLeads = response1;
+				User.update(req.param('id'), { performanceMetrics: performanceMetrics}, function(err, response) {
 
-					User.update({ performanceMetrics: performanceMetrics, redLeads: redLeads }, function(err, response) {
+					console.log('Now we should be calling getRedLeads but it never gets invoked it seems....'); 
 
-						res.redirect('/user/newDashTest/' + req.param('id'));
+					NutshellApi.getRedLeads({ 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') }, function(err, response1) {
+						redLeads = response1;
 
+						User.update(req.param('id'), { redLeads: redLeads}, function(err, response) {
+
+									res.redirect('/user/newDashTest/' + req.param('id'));
+
+						});
 					});
+
 				});
+
 			});
 		});
-
-
-
-		// User.update(req.param('id'), req.params.all(), function userUpdated (err) {
-		// 	console.log('adding nutshell creds');
-		// 	NutshellApi.getPerformanceReports({"nutshellAPI_Password": req.param('nutshellAPI_Password'), 
-	 //                                            "nutshellAPI_Key": req.param('nutshellAPI_Key'), 
-	 //                                            "nutshellId": req.param('nutshellId')}, function(err, response) {
-	 //            	console.log('got the performanceMetrics');
-	 //                User.update(req.param('id'), { performanceMetrics: response, redLeads: {} }, function(err) {
-	 //                		console.log('saved the performanceMetrics');
-	 //                		NutshellApi.getRedLeads({"nutshellAPI_Password": req.param('nutshellAPI_Password'), 
-	 //                                            "nutshellAPI_Key": req.param('nutshellAPI_Key'), 
-	 //                                            "nutshellId": req.param('nutshellId')}, function(err, response) {
-	 //                                console.log('got the red leads');
-	 //                                User.update(req.param('id'), { redLeads: response }, function(err) {
-	 //                                	console.log('saved the red leads');
-	 //                                	res.redirect('/user/newDashTest/' + req.param('id'));            	
-	 //                        });
-	 //                	});
-	 //                });                        
-		//         });
-		// });
-
 	},
 
 	update: function(req, res, next) {
