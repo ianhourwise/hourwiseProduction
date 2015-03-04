@@ -76,6 +76,8 @@ var User = {
       }.bind(this));
     },
 
+    
+
     // company: {model: 'company'},
     // jobs: {
     // 	collection: "job",
