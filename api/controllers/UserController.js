@@ -24,6 +24,10 @@ module.exports = {
  		Mandrill.sendEmail({toEmail: 'ian@hourwise.com', toName: 'Ian Kidd', fromEmail: 'ian@hourwise.com', subject: 'This is the subject', body: 'Some email content'});
  	},
 
+ 	testSMS: function(req, res) {
+ 		Twilio.sendSMS({toNumber: '7578807276', smsContent: 'Trying out the Twilio service...'});
+ 	},
+
 	index: function(req, res) {
 		User.find(function foundUsers(err, users){
 	 		if(err) return next(err);
