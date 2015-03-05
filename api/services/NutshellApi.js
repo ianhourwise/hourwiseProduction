@@ -76,6 +76,8 @@ module.exports = {
   }, 
 
   getPerformanceReports: function(user, callback){
+  console.log(pTasks + '____________________');
+  console.log(completedTasks + '_________________________');
   var task1= function(){ return getSalesReport(user, callback)};
   var task2= function(){ return getLeadsReport(user,callback)};
   var task3= function(){ return getPipelineReport(user,callback)};
@@ -88,7 +90,9 @@ module.exports = {
 },
 
   //Find open leads on one user 
- getRedLeads: function(user, callback){
+ getRedLeads: function(user, callback) {
+  pTasks = [];
+  completedTasks = 0;
   // console.log(user.nutshellAPI_Password);
   // callback(null, user, {'heck': 'yeah hector'});  
   console.log('getting leads....');
@@ -97,7 +101,7 @@ module.exports = {
                   "stubResponses": false, "limit": 100}, function(err, res){
                       if(err) {console.log(err); throw err}
                       else{ 
-                        // console.log(res);
+                        console.log(res);
                         var red=0;
                         var green=0;
                         var userCounts={};
@@ -126,6 +130,7 @@ module.exports = {
                         //I thing the line below got brought over from another function...
                         // leadCounts[user] = userCounts; 
                         newResponse= {'counts': userCounts, 'leads': leadsDetail};
+                        completedTasks = 0;
                         // newResponse['res']= res;
                         // console.log(newResponse);
                         // callback(null, user, newResponse);
@@ -350,6 +355,8 @@ function checkIfComplete2(callback){
     //trigger callback that pushes performance metrics to user. 
     // console.log("we made it!" + data['leads'] + data['sales']);
     // console.log(require('util').inspect(data, true, 10));
+    pTasks = [];
+    completedTasks = 0;
     callback(null, data);
   }
 
@@ -398,6 +405,7 @@ function getSalesReport(user, callback){
 
 function getLeadsReport(user, callback){ 
   console.log('getting leads report...');
+
   // client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
   var client = createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
   client.call('getAnalyticsReport', 

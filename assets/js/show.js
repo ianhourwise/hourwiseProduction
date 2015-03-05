@@ -251,6 +251,7 @@ function monthSummary(month, colours){
 	//Need to get real lead data...right now just putting in leads won and closed 
 	var monthCode = (new Date(today.getFullYear(), month, 1, 0)).valueOf();
 	var	weight = MONTHLY_WEIGHTS[month][1];
+	console.log('--------goal: ' + goal);
 	var salesTarget = goal*weight; 
 	var monthSales = d1[month][1];
 	var monthGoal = goal*MONTHLY_WEIGHTS[month][1];
