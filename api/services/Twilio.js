@@ -2,11 +2,11 @@ module.exports = {
 	sendSMS: function(data) {
 		var twilio = require('twilio');
 
-		var client = new twilio.RestClient('ACd29c9b195a61c0fe4e6fc80681686749', 'c61d62a14889fa090b1b7f4d684326db');
+		var client = new twilio.RestClient('AC1a4872ecbf44901850cd912d7ad4095b', 'b2f8d9837c132f73281ce615ca933952');
 
 		client.sms.messages.create({
 		    to:'+1' + data.toNumber,
-		    from:'+15005550006', //change later? Not sure just found it in the account
+		    from:'+18046812173', //change later? Not sure just found it in the account
 		    body: data.smsContent
 		}, function(error, message) {
 		    if (!error) {
