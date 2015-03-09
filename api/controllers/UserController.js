@@ -14,10 +14,35 @@ module.exports = {
  			if(err) return next(err);
  			if(!user) return next('User doesn\'t exist!');
 
+ 			var isSuperUser = false;
+
+ 			if (req.session.User.role == 'super_user')
+ 				isSuperUser = true;
+
  			res.view({
- 				user: user
+ 				user: user,
+ 				isSuperUser: isSuperUser
  			});
  		});
+ 	},
+
+ 	integrateNutshell: function(req, res) {
+ 		User.findOne(req.param('id'), function foundUser(err, user){
+ 			if(err) return next(err);
+ 			if(!user) return next('User doesn\'t exist!');
+
+ 			res.view({
+ 				user: user
+  			});
+ 		});
+ 	},
+
+ 	communications: function(req, res) {
+ 		if (req.session.User.role != 'user') {
+ 			res.view();
+ 		}
+ 		else
+ 			res.send(403);
  	},
 
  	testEmail: function(req, res) {
@@ -25,26 +50,72 @@ module.exports = {
  	},
 
  	testSMS: function(req, res) {
- 		Twilio.sendSMS({toNumber: '7578807276', smsContent: 'Trying out the Twilio service...'});
+ 		Twilio.sendSMS({toNumber: '7578807276', smsContent: 'Sent from hourwise.com...'});
  	},
 
 	index: function(req, res) {
-		User.find(function foundUsers(err, users){
-	 		if(err) return next(err);
 
-	 		var totalSales = 0.00;
+		if (req.session.User.role == 'super_user') {
+			User.find(function foundUsers(err, users){
+		 		if(err) return next(err);
 
-			for (var i = 0; i < users.length; i++) {
-				console.log(users[i].username);
-				if (users[i].performanceMetrics != undefined)
-					totalSales += users[i].performanceMetrics.sales.summaryData.won_lead_value.sum;
-			}
+		 		var showGraph = true;
 
-	 		res.view({
-	 			users: users,
-	 			totalSales: totalSales
-	 		});
-	 	});
+		 		var totalSales = 0.00;
+
+				for (var i = 0; i < users.length; i++) {
+					console.log(users[i].username);
+					if (users[i].performanceMetrics != undefined)
+						totalSales += users[i].performanceMetrics.sales.summaryData.won_lead_value.sum;
+				}
+
+		 		res.view({
+		 			users: users,
+		 			totalSales: totalSales,
+		 			showGraph: showGraph
+		 		});
+		 	});
+		}
+
+		else if (req.session.User.role == 'concierge') {
+			User.find(function foundUsers(err, users){
+		 		if(err) return next(err);
+
+		 		var showGraph = true;
+
+		 		var totalSales = 0.00;
+
+				for (var i = 0; i < users.length; i++) {
+					console.log(users[i].username);
+					if (users[i].performanceMetrics != undefined)
+						totalSales += users[i].performanceMetrics.sales.summaryData.won_lead_value.sum;
+				}
+
+		 		res.view({
+		 			users: users,
+		 			totalSales: totalSales,
+		 			showGraph: showGraph
+		 		});
+		 	});
+		}
+
+		else if (req.session.User.role == 'user') {
+				var showGraph = false;
+
+		 		var totalSales = 0.00;
+
+		 		if (req.session.User.performanceMetrics != undefined)
+						totalSales += req.session.User.performanceMetrics.sales.summaryData.won_lead_value.sum;
+
+		 		res.view({
+		 			users: [req.session.User],
+		 			totalSales: totalSales,
+		 			showGraph: showGraph
+		 		});
+		}
+
+		else
+			res.send(403);	
 	},
 
 	getUsers: function(req, res) {
@@ -111,8 +182,15 @@ module.exports = {
 			        res.redirect('/user/companysettings/' +req.param('id'));
 			        break;
 			    case 'user/wizard':
-			        res.redirect('/user/pending')
-			        break;
+			    	var wizardInfo = req.param('wizardInfo');
+			    	
+			    	Company.create({"company": wizardInfo.company, "industry": wizardInfo.industry, "sales": wizardInfo.sales ,"salesGoal": wizardInfo.salesGoal, "name": wizardInfo.company, "owner": req.param('id'), "primaryIndustry": wizardInfo.industry}, function (err, company) {
+			    		if (err)
+			    			return res.redirect('/user/edit/' + req.param('id'));
+
+			    		res.redirect('/user/pending')
+			    	});
+			    	break;
 			    default:
 			        res.redirect('/user/newDashTest/' + req.param('id'));
 			}
@@ -256,24 +334,31 @@ module.exports = {
 	
 	      return next(err);
 	    }
-	
-	    Passport.create({
-	      protocol : 'local'
-	    , password : password
-	    , user     : user.id
-	    }, function (err, passport) {
-	      if (err) {
-	        if (err.code === 'E_VALIDATION') {
-	          req.flash('error', 'Error.Passport.Password.Invalid');
-	        }
-	
-	        return user.destroy(function (destroyErr) {
-	          next(destroyErr || err);
-	        });
-	      }
-	
-	      // next(null, user);
-	      res.redirect('/company/profile');
+
+	    Company.create(req.param('wizardInfo'), function (err, company) {
+	    	if (err) 
+		        req.flash('error', 'Error creating company...');
+
+		    console.log('Created company????');
+		    
+		    Passport.create({
+		      protocol : 'local'
+		    , password : password
+		    , user     : user.id
+		    }, function (err, passport) {
+		      if (err) {
+		        if (err.code === 'E_VALIDATION') {
+		          req.flash('error', 'Error.Passport.Password.Invalid');
+		        }
+		
+		        return user.destroy(function (destroyErr) {
+		          next(destroyErr || err);
+		        });
+		      }
+		
+		      // next(null, user);
+		      res.redirect('/company/profile');
+		    });
 	    });
 	  });		
 	

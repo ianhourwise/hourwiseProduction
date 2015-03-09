@@ -17,6 +17,5 @@ module.exports = {
 			//everything's good, lets see what mandrill said
 			else console.log(response);
 			});
-
 	}
 };
