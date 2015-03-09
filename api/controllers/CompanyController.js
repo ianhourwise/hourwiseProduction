@@ -27,5 +27,31 @@ module.exports = {
 		});
 	},
 
+	create: function(req, res, next) {
+		//console.log('-----ABOUT TO CREATE COMPANY-----');
+		console.log(req.params.all());
+	 	Company.create(req.params.all(), function companyCreated(err, company) {
+	 		if(err) {
+	 			console.log(err);
+	 			// req.session.flash = {
+	 			// 	err: err
+	 			// }
+
+
+	 			return res.redirect('user/login');
+	 		}
+
+	 		User.update(req.param('owner'), {myCompany: company.id}, function(err) {
+	 			if (err) 
+	 				console.log(err);
+	 			console.log('should be updating the user...');
+
+	 			res.send(true); //send back true instead of reroute
+	 		});
+	 	});
+	 
+
+	 }
+
 };
 

@@ -3,27 +3,30 @@
 <form action = "/user/addNutshellCredentials/<%= user.id %>" method = "GET" class= "form-signin">
     <h2 class= "form-signin-heading">Update Information...</h2>
 
-        <% if (user.nutshellId != null) { %>
-            <input type= "text" class = "form-control" placeholder = "<%= user.nutshellId %>" name = "nutshellId" value="<%= user.nutshellId %>">
+        <input type= "text" class = "form-control" placeholder = "<%= user.username %>" value="<%= user.username %>" disabled>
+        <hr>
+        <input type= "text" class = "form-control" placeholder = "<%= user.email %>" value="<%= user.email %>" disabled>
+        <hr>
+        <input type= "text" class = "form-control" placeholder = "<%= user.wizardInfo.company %>" value="<%= user.wizardInfo.company %>" disabled>
+        <hr>
+        <% if (isSuperUser) { %>
+            <select name='role'>
+              <option value="user">User</option>
+              <option value="concierge">Concierge</option>
+              <option value="super_user">Super User</option>
+            </select>
+            <hr> 
         <% } 
            else { %>
-            <input type= "text" class = "form-control" placeholder = "Nutshell Id" name = "nutshellId">
+
         <% } %>
-        <hr>
-        <% if (user.nutshellAPI_Key != null) { %>
-            <input type= "text" class = "form-control" placeholder = "<%= user.nutshellAPI_Key %>" name = "nutshellAPI_Key" value="<%= user.nutshellAPI_Key %>">
+        <a href="/user/integrateNutshell/<%= user.id %>" class="btn btn-med btn-primary btn-block">Integrate Nutshell</a>
+        <% if (user.lastSyncedOn != undefined) { %>
+          <h5 style="float: right;">Last synced on: <%= user.lastSyncedOn %></h5>
         <% } 
            else { %>
-            <input type= "text" class = "form-control" placeholder = "Nutshell API Key" name = "nutshellAPI_Key">
+           <h5 style="float: right;">You have not synced a nutshell account yet.</h5>
         <% } %>
-        <hr>
-        <% if (user.nutshellAPI_Password != null) { %>
-            <input type= "text" class = "form-control" placeholder = "<%= user.nutshellAPI_Password %>" name = "nutshellAPI_Password" value="<%= user.nutshellAPI_Password %>">
-        <% } 
-           else { %>
-            <input type= "text" class = "form-control" placeholder = "Nutshell API Password" name = "nutshellAPI_Password">
-        <% } %>
-        <hr>
         <input type = "submit" class = "btn btn-lg btn-primary btn-block" value = "Update Profile" />
         <input type= "hidden"  name = "_csrf" value = "<%= _csrf %>"/>
 
