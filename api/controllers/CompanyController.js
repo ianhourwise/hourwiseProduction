@@ -14,11 +14,14 @@ module.exports = {
 	profile: function(req, res, next) {
 		
 		console.log(req.user);
+		if (req.session.User.myCompany == undefined)
+			res.send(403);
 		Company.findOne({ id: req.user.myCompany}).populate('owner').populate('employees').exec(function foundCompany(err, company) {
 			if(err) return next(err);
 				if(!company) return next();
 			console.log(company);
-			res.locals.layout = "layouts/layout"; 	
+			res.locals.layout = "layouts/layout";
+
 			res.view('company/profile', 
 			{
 				// name: company.name,

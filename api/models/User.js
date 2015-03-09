@@ -1,6 +1,6 @@
 var User = {
   // Enforce model schema in the case of schemaless databases
-  schema: true,
+  //schema: true,
   connection: ['someMongodbServer'], 
 
   attributes: {
