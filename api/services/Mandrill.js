@@ -1,5 +1,6 @@
+
 module.exports = {
-	sendEmail: function(data) {
+	sendEmail: function(data, callback) {
 		var mandrill = require('node-mandrill')('mLUovq8DRL15J1jJFDJKWA');
 
 		mandrill('/messages/send', {
@@ -12,10 +13,16 @@ module.exports = {
 			}, function(error, response)
 			{
 			//uh oh, there was an error
-			if (error) console.log( JSON.stringify(error) );
+			if (error) {
+				console.log( JSON.stringify(error) );
+				callback(error);
+			} 
 
 			//everything's good, lets see what mandrill said
 			else console.log(response);
-			});
+
+			callback(null);
+
+		});
 	}
 };

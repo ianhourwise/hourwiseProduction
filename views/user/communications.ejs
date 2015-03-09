@@ -30,10 +30,20 @@
                             <!-- Start .email-wrapper -->
                             <div class="email-write">
                                 <!-- Start .email-write -->
-                                <form action="/user/testEmail" role="form" class="form-horizontal">
+                                <form action="/user/sendEmail" id="emailForm" role="form" class="form-horizontal">
                                     <div class="form-group">
                                         <div class="col-lg-12">
-                                            <input type="text" class="form-control" id="to" name="to" placeholder="To">
+                                            <input type="text" class="form-control" id="to" name="toEmail" placeholder="To">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-12">
+                                        	<select name='fromEmail'>
+									        	<% _.each(users, function(u) { %>
+									        		<option value="<%= u.email %>"><%= u.email %></option>
+									        	<%	}) %>	   	
+								            </select>
+                                            <!-- <input type="text" class="form-control" id="from" name="fromEmail" placeholder="<%= user.email %>"> -->
                                         </div>
                                     </div>
                                     <!-- End .form-group  -->
@@ -45,21 +55,21 @@
                                     <!-- End .form-group  -->
                                     <div class="form-group">
                                         <div class="col-lg-12">
-                                            <textarea name="email-text" id="email-text" class="form-control tinymce" rows="21"></textarea>
+                                            <textarea name="body" id="email-text" class="form-control tinymce" rows="21" form="emailForm"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-12">
+                                            <input type="hidden" class="form-control" id="to" name="toName" value="test">
                                         </div>
                                     </div>
                                     <!-- End .form-group  -->
                                     <div class="form-group">
                                         <div class="col-lg-12">
                                             <div class="pull-left">
-                                                <a href="#" class="btn btn-primary mr15"> Send</a>
-                                                <a href="#" class="mr10 tip color-dark" title="Attach file"><i class="im-attachment s20"></i></a>
-                                                <a href="#" class="mr10 tip color-dark" title="Insert files using drive"><i class="im-google-drive s20"></i></a>
-                                                <a href="#" class="mr10 tip color-dark" title="Insert files using dropbox"><i class="fa-dropbox s20"></i></a>
-                                                <a href="#" class="mr10 tip color-dark" title="Insert photo"><i class="im-image2 s20"></i></a>
-                                                <a href="#" class="mr10 tip color-dark" title="Insert link"><i class="im-link s20"></i></a>
+                                                <input type="submit" class="btn btn-lrg btn-primary btn-block" value="Send">
                                             </div>
-                                            <div class="pull-right">
+                                            <!-- <div class="pull-right">
                                                 <div class="btn-group dropup">
                                                     <a href="#" class="mr10 tip color-dark" title="Discard draft"><i class="im-remove s20"></i></a>
                                                     <a href="#" class="tip color-dark" title="More options" data-toggle="dropdown"><i class="im-cog2 s20"></i></a>
@@ -73,7 +83,7 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <!-- End .form-group  -->
                                 </form>

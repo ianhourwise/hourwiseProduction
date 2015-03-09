@@ -39,14 +39,38 @@ module.exports = {
 
  	communications: function(req, res) {
  		if (req.session.User.role != 'user') {
- 			res.view();
+ 			User.find(function (err, users) {
+ 				res.view({
+ 				user: req.session.User,
+ 				users: users
+ 			});
+ 			});
  		}
  		else
  			res.send(403);
  	},
 
- 	testEmail: function(req, res) {
- 		Mandrill.sendEmail({toEmail: 'ian@hourwise.com', toName: 'Ian Kidd', fromEmail: 'ian@hourwise.com', subject: 'This is the subject', body: 'Some email content'});
+ 	sendEmail: function(req, res) {
+ 		console.log(req.params.all());
+ 		Mandrill.sendEmail(req.params.all(), function (err) {
+ 			if (err) 
+ 				console.log(err);
+ 			else {
+ 				var date = new Date();
+ 				var emails = [];
+
+ 				if (req.session.User.emails != undefined)
+ 					emails = req.session.User.emails;
+
+ 				emails.push({'sentOn': date, 'sentTo': req.param('toEmail'), 'sentFrom': req.param('fromEmail')});
+
+ 				User.update(req.session.User.id, {'emails': emails}, function(err) {
+ 					if (err)
+ 						console.log('----' + error);
+ 					res.redirect('/user/communications');
+ 				});
+ 			}
+ 		});
  	},
 
  	testSMS: function(req, res) {
@@ -62,6 +86,8 @@ module.exports = {
 		 		var showGraph = true;
 
 		 		var totalSales = 0.00;
+
+		 		res.locals.layout = "layouts/userIndexWithGraph"; 
 
 				for (var i = 0; i < users.length; i++) {
 					console.log(users[i].username);
@@ -84,6 +110,8 @@ module.exports = {
 		 		var showGraph = true;
 
 		 		var totalSales = 0.00;
+
+		 		res.locals.layout = "layouts/userIndexWithGraph"; 
 
 				for (var i = 0; i < users.length; i++) {
 					console.log(users[i].username);
