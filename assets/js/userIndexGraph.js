@@ -8,7 +8,7 @@ $(function() {
 
 
 			for (var z = 0; z < users.length; z++) {
-				if (users[z].performanceMetrics == undefined)
+				if (users[z].integrations.nutshell.performanceMetrics == undefined)
 					console.log('no metrics');
 				else {
 					var today= new Date();
@@ -17,35 +17,35 @@ $(function() {
 					var noDaysForLeads = 30 //to be dynamic eventually
 
 					// Current Month Calculations
-					var noLeadsOpened = previousDaysTotal(noDaysForLeads, users[z].performanceMetrics.leads.seriesData.leads);
-					var noLeadsClosed = previousDaysTotal(noDaysForLeads, users[z].performanceMetrics.sales.seriesData.closed_leads);
-					var noLeadsWon = previousDaysTotal(noDaysForLeads, users[z].performanceMetrics.sales.seriesData.leads_won);
+					var noLeadsOpened = previousDaysTotal(noDaysForLeads, users[z].integrations.nutshell.performanceMetrics.leads.seriesData.leads);
+					var noLeadsClosed = previousDaysTotal(noDaysForLeads, users[z].integrations.nutshell.performanceMetrics.sales.seriesData.closed_leads);
+					var noLeadsWon = previousDaysTotal(noDaysForLeads, users[z].integrations.nutshell.performanceMetrics.sales.seriesData.leads_won);
 					var Won2Close = parseFloat(noLeadsWon)/parseFloat(noLeadsClosed);
 					//Leads open/day
 					var openRate = noLeadsOpened/noDaysForLeads;
 					//Leads closed/day
 					var closeRate = noLeadsClosed/noDaysForSales;
 					//No. Open Leads 
-					var i = dayIndex(users[z].performanceMetrics.pipeline.seriesData.open_leads, beginningOfToday.valueOf());
-					var noOpen = users[z].performanceMetrics.pipeline.seriesData.open_leads[i][1];
+					var i = dayIndex(users[z].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads, beginningOfToday.valueOf());
+					var noOpen = users[z].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads[i][1];
 					//Previous Days Totals
 					console.log('------z: ' + z);
-					var salesOfInterest= previousDaysTotal(noDaysForSales, users[z].performanceMetrics.sales.seriesData.won_lead_value);
+					var salesOfInterest= previousDaysTotal(noDaysForSales, users[z].integrations.nutshell.performanceMetrics.sales.seriesData.won_lead_value);
 					var avgSaleOfInterest = salesOfInterest/noLeadsWon;
 					var avgSalePerDay = salesOfInterest/noDaysForSales;
 					var DPLOfInterest = salesOfInterest/noLeadsOpened;
 					//Previous Months Calculations
 
-					var d4 = aggregateMonthly(users[z].performanceMetrics.sales.seriesData.won_lead_value); 
+					var d4 = aggregateMonthly(users[z].integrations.nutshell.performanceMetrics.sales.seriesData.won_lead_value); 
 
 
 					//Monthly data
 					console.log('------z------: ' + z);
-					var leadsOpenByMonth = aggregateMonthly(users[z].performanceMetrics.leads.seriesData.leads);
-					var leadsWonByMonth = aggregateMonthly(users[z].performanceMetrics.sales.seriesData.leads_won);
-					var leadsClosedByMonth = aggregateMonthly(users[z].performanceMetrics.sales.seriesData.closed_leads);
-					var salesByMonth = aggregateMonthly(users[z].performanceMetrics.sales.seriesData.won_lead_value);
-					var won2closeByMonth = aggregateMonthly(users[z].performanceMetrics.sales.seriesData.win_rate);
+					var leadsOpenByMonth = aggregateMonthly(users[z].integrations.nutshell.performanceMetrics.leads.seriesData.leads);
+					var leadsWonByMonth = aggregateMonthly(users[z].integrations.nutshell.performanceMetrics.sales.seriesData.leads_won);
+					var leadsClosedByMonth = aggregateMonthly(users[z].integrations.nutshell.performanceMetrics.sales.seriesData.closed_leads);
+					var salesByMonth = aggregateMonthly(users[z].integrations.nutshell.performanceMetrics.sales.seriesData.won_lead_value);
+					var won2closeByMonth = aggregateMonthly(users[z].integrations.nutshell.performanceMetrics.sales.seriesData.win_rate);
 
 					var month = new Date();
 					month = month.getMonth();
@@ -68,7 +68,7 @@ $(function() {
 					var avgSale = (isThisMonthMOI(month)) ? avgSaleOfInterest : salesByMonth[month][1]/leadsWonByMonth[month][1] ; 
 					var dollarPerLead = (isThisMonthMOI(month)) ? DPLOfInterest : salesByMonth[month][1]/leadsOpenByMonth[month][1] ; 
 					var lead2close = (isThisMonthMOI(month)) ? noLeadsOpened/noLeadsClosed*100 : leadsOpenByMonth[month][1]/leadsClosedByMonth[month][1]*100 ; ; 
-					var totalLeadsStarting = parseFloat(users[z].performanceMetrics.pipeline.seriesData.open_leads[dayIndex(users[z].performanceMetrics.pipeline.seriesData.open_leads, monthCode)][1]);
+					var totalLeadsStarting = parseFloat(users[z].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads[dayIndex(users[z].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads, monthCode)][1]);
 				    console.log('month code '+ monthCode + 'has this many leads' + totalLeadsStarting);
 					var totalLeadsOpened = leadsOpenByMonth[month][1] + projectedLeads(month);
 					console.log('leads opened: ' + leadsOpenByMonth[month][1] + " leads projected: " + projectedLeads(month)+ 'leads closed' + leadsClosedByMonth[month][1]);

@@ -10,7 +10,7 @@
 
 <div class = "container">
 <h1><%= user.wizardInfo.company %> - <%= user.username %>   
-<h3>Data last synced on: <%=user.lastSyncedOn%> </h3>
+<h3>Data last synced on: <%= user.integrations.nutshell.lastSyncedOn.date %> </h3>
 <h3 id = "percentElapsed"> </h3>
 <hr>
 
@@ -18,7 +18,7 @@
 	<div class = "col-lg-4">
 		<div class = "tile blue">
 		<div class = "tile-content">	
-			<div class = "number"><%= '$'+ user.performanceMetrics.sales.summaryData.won_lead_value.sum.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")%></div>
+			<div class = "number"><%= '$'+ user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")%></div>
 			<h3> YTD Sales </h3>
 		</div>
 		</div>
@@ -26,14 +26,14 @@
 	<div class = "col-lg-4">
 		<div class = "tile green">
 		<div class = "tile-content">	
-			<div class = "number" id = 'projectedSales'><%= '$'+ (user.performanceMetrics.sales.summaryData.won_lead_value.sum*15).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")%></div>
+			<div class = "number" id = 'projectedSales'><%= '$'+ (user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum*15).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")%></div>
 			<h3> Projected Sales </h3>
 		</div>
 		</div>
 	</div>
 	<div class = "col-lg-4">
 		<div class="pie-charts green-pie">
-            <div class="easy-pie-chart-green easyPieChart" id = 'percentGoal' data-percent="<%= (user.performanceMetrics.sales.summaryData.won_lead_value.sum/user.salesGoal*100).toString()%>%" style="width: 100px; height: 100px; line-height: 100px;"> <canvas width="100" height="100"></canvas><%= (user.performanceMetrics.sales.summaryData.won_lead_value.sum/user.wizardInfo.salesGoal*100).toFixed(2).toString()%>%</div>
+            <div class="easy-pie-chart-green easyPieChart" id = 'percentGoal' data-percent="<%= (user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum/user.wizardInfo.salesGoal*100).toString()%>%" style="width: 100px; height: 100px; line-height: 100px;"> <canvas width="100" height="100"></canvas><%= (user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum/user.wizardInfo.salesGoal*100).toFixed(2).toString()%>%</div>
            <div class="label">Projected Goal</div>
        </div>
 	</div>

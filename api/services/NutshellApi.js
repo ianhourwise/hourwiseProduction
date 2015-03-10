@@ -53,14 +53,14 @@ module.exports = {
   getSalesAnalytics: function(user, callback){
     // var client = NutshellApi.createClient("jon@hourwise.com","22b17e8532cef15c2dc2a4579caf94498c1d0324");
     console.log(user.name);
-    console.log(user.nutshellId);
-    var client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
+    console.log(user.integrations.nutshell.nutshellId);
+    var client = NutshellApi.createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
     client.call('getAnalyticsReport', 
                   { "reportType": "Success", 
                     "period":"y", 
                     "filter": [
                        {
-                           "entityId" : user.nutshellId,
+                           "entityId" : user.integrations.nutshell.nutshellId,
                            "entityName" : "Users"
                        }
                     ],                    
@@ -96,8 +96,8 @@ module.exports = {
   // console.log(user.nutshellAPI_Password);
   // callback(null, user, {'heck': 'yeah hector'});  
   console.log('getting leads....');
-  var client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
-  client.call('findLeads',{ "query" :{"status": 0, "assignee":[{"entityType": "Users", "id": user.nutshellId}]},
+  var client = NutshellApi.createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
+  client.call('findLeads',{ "query" :{"status": 0, "assignee":[{"entityType": "Users", "id": user.integrations.nutshell.nutshellId}]},
                   "stubResponses": false, "limit": 100}, function(err, res){
                       if(err) {console.log(err); throw err}
                       else{ 
@@ -368,7 +368,7 @@ function checkIfComplete2(callback){
 function getSalesReport(user, callback){
   console.log('getting sales reports...');
   // client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
-  var client = createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
+  var client = createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
   // var client = createClient(username,api_key);
   // console.log(client);
   client.call('getAnalyticsReport', 
@@ -384,7 +384,7 @@ function getSalesReport(user, callback){
                  //  "options":null}, 
                  { "reportType": "Success", 
                     "period":"y", 
-                    "filter": [{"entityId" : user.nutshellId, "entityName" : "Users"}],                  
+                    "filter": [{"entityId" : user.integrations.nutshell.nutshellId, "entityName" : "Users"}],                  
                     "options":null}, 
 
                 function(err, res){
@@ -393,10 +393,10 @@ function getSalesReport(user, callback){
                       // console.log(res);
                       data["sales"] = res;
                       // console.log(data);
-                      console.log("nutshell id:" + user.nutshellId);
-                      console.log("nutshell name:" + user.name);
-                      console.log("nutshell u/n:" + user.nutshellAPI_Key);
-                      console.log("nutshell p/w:" + user.nutshellAPI_Password);
+                      console.log("nutshell id:" + user.integrations.nutshell.nutshellId);
+                      //console.log("nutshell name:" + user.name);
+                      console.log("nutshell u/n:" + user.integrations.nutshell.nutshellAPI_Key);
+                      console.log("nutshell p/w:" + user.integrations.nutshell.nutshellAPI_Password);
                       console.log(res.summaryData.won_lead_value.sum);
                       checkIfComplete2(callback);            
                   }
@@ -407,11 +407,11 @@ function getLeadsReport(user, callback){
   console.log('getting leads report...');
 
   // client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
-  var client = createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
+  var client = createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
   client.call('getAnalyticsReport', 
                 { "reportType": "NewLeads", 
                   "period":"y", 
-                  "filter":[{"entityId": user.nutshellId, "entityName": "Users"}], 
+                  "filter":[{"entityId": user.integrations.nutshell.nutshellId, "entityName": "Users"}], 
                   "options":null}, 
                 function(err, res){
                   if(err) {console.log(err); throw err}
@@ -427,11 +427,11 @@ function getLeadsReport(user, callback){
 function getPipelineReport(user, callback){
   console.log('getting pipeline report...');
   // client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
-  var client = createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
+  var client = createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
   client.call('getAnalyticsReport', 
                 { "reportType": "Pipeline", 
                   "period":"y", 
-                  "filter":[{"entityId": user.nutshellId, "entityName": "Users"}], 
+                  "filter":[{"entityId": user.integrations.nutshell.nutshellId, "entityName": "Users"}], 
                   "options":null}, 
                 function(err, res){
                   if(err) {console.log(err); throw err}

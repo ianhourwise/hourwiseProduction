@@ -87,15 +87,13 @@ module.exports = {
 
 		 		var totalSales = 0.00;
 
-		 		res.locals.layout = "layouts/userIndexWithGraph"; 
-
 				for (var i = 0; i < users.length; i++) {
 					console.log(users[i].username);
 					if (users[i].performanceMetrics != undefined)
 						totalSales += users[i].performanceMetrics.sales.summaryData.won_lead_value.sum;
 				}
 
-		 		res.view({
+		 		res.view('/user/adminIndex', {
 		 			users: users,
 		 			totalSales: totalSales,
 		 			showGraph: showGraph
@@ -164,24 +162,25 @@ module.exports = {
 		var performanceMetrics = {};
 		var redLeads = {};
 
-		User.update(req.param('id'), { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') }, function(err) {
-			NutshellApi.getPerformanceReports({ 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') }, function(err, response) {
+		User.update(req.param('id'), { 'integrations': { 'nutshell': { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId'), 'lastSyncedOn': { 'date': new Date() } , 'performanceMetrics': {} , 'redLeads': {} } } }, function (err) {
+			NutshellApi.getPerformanceReports( { 'integrations': { 'nutshell': { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') } } }, function(err, response) {
 				performanceMetrics = response;
 
-				User.update(req.param('id'), { performanceMetrics: performanceMetrics}, function(err, response) {
+				console.log('Now we should be calling getRedLeads but it never gets invoked it seems....'); 
 
-					console.log('Now we should be calling getRedLeads but it never gets invoked it seems....'); 
+				NutshellApi.getRedLeads( { 'integrations': { 'nutshell': { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') } } }, function(err, response1) {
+					redLeads = response1;
 
-					NutshellApi.getRedLeads({ 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') }, function(err, response1) {
-						redLeads = response1;
+					var nutshell = { 'nutshell': { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId'), 'lastSyncedOn': { 'date': new Date() } , 'performanceMetrics': {} , 'redLeads': {} } } ;
 
-						User.update(req.param('id'), { redLeads: redLeads}, function(err, response) {
+					nutshell.nutshell.performanceMetrics = performanceMetrics;
+					nutshell.nutshell.redLeads = redLeads;
 
-									res.redirect('/user/newDashTest/' + req.param('id'));
+					User.update(req.param('id'), { 'integrations': nutshell}, function(err, response) {
 
-						});
+								res.redirect('/user/newDashTest/' + req.param('id'));
+
 					});
-
 				});
 
 			});
@@ -251,8 +250,8 @@ module.exports = {
 	 		if(!user) return next();
 	 		user.getPerformanceMetrics(user);
 	 		user.getRedLeads(user);
-	 		console.log(user.performanceMetrics);
-	 		if(user.performanceMetrics ==={} || user.redLead === {}){
+	 		console.log(user.integrations.nutshell.performanceMetrics);
+	 		if(user.integrations.nutshell.performanceMetrics ==={} || user.integrations.nutshell.redLead === {}){
 	 			console.log('no PMs or Leads');
 	 			var salesData = {"summaryData" : {"won_lead_value": {"sum": 0}}};
 				var leadData = {"seriesData" : {"won_leads": []}};
@@ -264,16 +263,18 @@ module.exports = {
 
 			else{
 				console.log('got the data');
-				var salesData = JSON.stringify(user.performanceMetrics.sales);
-				var leadData = JSON.stringify(user.performanceMetrics.leads);
-				var pipelineData = JSON.stringify(user.performanceMetrics.pipeline);
-				var redMetrics = user.redLeads.counts;
-				var redLeads = user.redLeads.leads;
+				var salesData = JSON.stringify(user.integrations.nutshell.performanceMetrics.sales);
+				var leadData = JSON.stringify(user.integrations.nutshell.performanceMetrics.leads);
+				var pipelineData = JSON.stringify(user.integrations.nutshell.performanceMetrics.pipeline);
+				var redMetrics = user.integrations.nutshell.redLeads.counts;
+				var redLeads = user.integrations.nutshell.redLeads.leads;
 			}
-	 		
-	 		var date = new Date();
 
-	 		User.update(req.param('id'), { lastSyncedOn: date}, function(err) {
+			var nutshell = user.integrations.nutshell;
+
+			nutshell.lastSyncedOn.date = new Date();
+
+	 		User.update(req.param('id'), { 'integrations': { 'nutshell': nutshell } }, function(err) {
 	 			res.locals.layout= 'layouts/dashboard_layout';
 		 		res.view({
 		 			user: user,

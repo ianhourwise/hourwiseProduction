@@ -60,7 +60,7 @@ var User = {
     //   this.save();
     // }.bind(this));
       NutshellApi.getPerformanceReports(user, function(err, response){
-        this.performanceMetrics = response;
+        this.integrations.nutshell.performanceMetrics = response;
         // console.log(this.name);
         console.log('success performance');
         this.save();
@@ -69,7 +69,7 @@ var User = {
 
     getRedLeads: function(user){
       NutshellApi.getRedLeads(user, function(err, response){
-        this.redLeads = response;
+        this.integrations.nutshell.redLeads = response;
         // console.log(this.name);
         console.log('success red leads');
         this.save();
