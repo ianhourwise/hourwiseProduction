@@ -113,8 +113,14 @@ module.exports = {
 
 				for (var i = 0; i < users.length; i++) {
 					console.log(users[i].username);
-					if (users[i].performanceMetrics != undefined)
-						totalSales += users[i].performanceMetrics.sales.summaryData.won_lead_value.sum;
+					if (users[i].performanceMetrics != undefined){
+						try {
+							totalSales += users[i].performanceMetrics.sales.summaryData.won_lead_value.sum;	
+						}
+						catch(err){
+							totalSales += 0;
+						}
+					}
 				}
 
 		 		res.view({

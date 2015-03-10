@@ -232,6 +232,9 @@ $(function() {
 
 				function plotWithOptions() {
 					$.plot("#placeholder", [ d1, d2, d3 ], {
+						xaxis: {
+        					ticks:[[0,'Takaoma'],[1,'Giacompany'],[2,'FreshFields'],[3,'Generalisimo'],[4, 'Greenleaves']]
+    					},
 						series: {
 							stack: stack,
 							lines: {
