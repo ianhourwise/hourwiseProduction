@@ -7,8 +7,18 @@
 
 module.exports = {
 
-  attributes: {
+	connection: ['someMongodbServer'], 
 
-  }
+  	attributes: {
+  		name: 'string',
+  		addresses: 'json',
+  		phoneNumbers: 'json',
+  		emails: 'json',
+  		user: { model: 'user'},
+  		groups: { collection: 'group', via: 'contacts'},
+  		company: { model: 'company'},
+  		createdBy: { model: 'user'}
+
+  	}
 };
 

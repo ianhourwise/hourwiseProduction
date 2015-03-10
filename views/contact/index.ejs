@@ -1,0 +1,26 @@
+<div class= "container" style="width: 100%;">
+
+    <div class="row" style="margin-top: 15px;">
+        <% _.each(contacts, function(contact) { %>
+
+            <div class="col-lg-4">
+                <div class="contact-box">
+                    <a href="/contact/edit/<%= contact.id %>">
+                    
+                    <div class="col-sm-8">
+                        <h3><strong><%= contact.name %></strong></h3>
+                        <h4><%= contact.emails.email1 %></h4>
+                        <address>
+                            <%= contact.addresses.address1 %> <br>
+                            <abbr title="Phone">P:</abbr> <%= contact.phoneNumbers.phoneNumber1 %>
+                        </address>
+                    </div>
+                    <div class="clearfix"></div>
+                        </a>
+                </div>
+            </div>
+
+        <% }) %>
+    </div>
+
+</div>

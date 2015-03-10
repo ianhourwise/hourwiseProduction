@@ -1,0 +1,23 @@
+<div class= "container" style="width: 80%;">
+
+    <form action = "/group/create/" method = "GET" class= "form-signin">
+        <h2 class= "form-signin-heading">Add Group...</h2>
+
+            <input type= "text" class = "form-control" placeholder = "Name" name="name">
+            <hr>
+            <input type= "text" class = "form-control" placeholder = "Address" name="address">
+            <hr>
+            <select name='addUser'>
+                <option value="0">Select Contacts to add to the Group</option>
+                <% _.each(contacts, function(contact) { %>
+                    <option value="<%= contact.id %>"><%= contact.name %></option>
+                <%  }) %>       
+            </select>
+            <hr>
+            
+            <input type = "submit" class = "btn btn-lg btn-primary btn-block" value = "Create Contact" />
+            <input type= "hidden"  name = "_csrf" value = "<%= _csrf %>"/>
+
+    </form>
+
+</div>

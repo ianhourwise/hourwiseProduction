@@ -1,0 +1,56 @@
+<div class= "container" style="width: 90%;">
+<h1> Users </h1>
+
+<h2>Total Sales = $<%= totalSales.toFixed(0) %></div></h2>
+
+<% if (showGraph) { %>
+	<div class="demo-container" style="width: 90%; height: 450px; padding: 20px 15px 15px 15px; margin-bottom: 5%;">
+		<div id="placeholder" class="demo-placeholder" style="width: inherit; height: inherit;">
+
+		</div>
+	</div>
+
+	<h4>Legend: Blue - Projected Sales | Yellow - Targeted Sales | Red - Actual Sales</h4>
+<% } 
+   else { 
+
+   } %>
+
+
+
+<table class = "table">
+<tr>
+	<th>Company</th>
+	<th>Name</th>
+	<th>Email</th>
+	<th></th>
+	<th></th>
+	<th></th>
+</tr>
+
+<% _.each(users, function(user) { if(!user.wizardInfo){user.wizardInfo = {company:'NoCo'}}%>
+<tr data-id = "<% user.id %>" data-model = "user">
+	<td><%= user.wizardInfo.company %></td>
+	<td><%= user.username %></td>
+	<td><%= user.email %></td>
+	<td><a href= "/user/newDashTest/<%= user.id %>" class= "btn btn-sm btn-primary" >Show</a> </td>
+	<td><a href= "/user/edit/<%= user.id %>" class= "btn btn-sm btn-warning" >Edit</a> </td>
+	<td>
+		<% if (showGraph) { %>
+			<form action= "user/destroy/<%= user.id %>"  method = 'POST'>
+				<input type= "hidden" name = "_method" value = "delete" />
+				<input type= "submit" class= "btn btn-sm btn-danger" value = "Delete" />
+				<input type= "hidden" name = "_csrf" value = "<%= _csrf %>" />
+			</form>
+		<% } 
+			else {
+
+			}
+		%>	
+	 </td>
+</tr>
+
+<% }) %>
+</table>
+
+</div>

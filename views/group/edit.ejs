@@ -1,0 +1,31 @@
+<div class= "container" style="width: 80%;">
+
+    <form action = "/contact/create/" method = "GET" class= "form-signin">
+        <h2 class= "form-signin-heading">Add Conact...</h2>
+
+            <% if (group.name != null) { %>
+                <input type= "text" class = "form-control" placeholder = "<%= group.name %>" name = "name" value="<%= group.name %>">
+            <% } 
+               else { %>
+                <input type= "text" class = "form-control" placeholder = "Name" name="name">
+            <% } %>
+            <hr>
+            <% if (group.address != null) { %>
+                <input type= "text" class = "form-control" placeholder = "<%= group.address %>" name = "address" value="<%= group.address %>">
+            <% } 
+               else { %>
+                <input type= "text" class = "form-control" placeholder = "Address" name="address">
+            <% } %>
+            <hr>
+            <select name='addUser'>
+                <% _.each(contacts, function(contact) { %>
+                    <option value="<%= contact.id %>"><%= contact.name %></option>
+                <%  }) %>       
+            </select>
+            
+            <input type = "submit" class = "btn btn-lg btn-primary btn-block" value = "Create Contact" />
+            <input type= "hidden"  name = "_csrf" value = "<%= _csrf %>"/>
+
+    </form>
+
+</div>
