@@ -24,10 +24,10 @@ var User = {
     },
 
     //For company owner's
-    myCompany : { model: 'company'},
+    myCompany : { model: 'company', defaultsTo: null},
 
     //For employees:
-    company: {model: 'company'},
+    company: {model: 'company', defaultsTo: null},
     //Going to store company settings here for now, even though it's probably better to do in a relationship table...security issues?
     //{role: "admin", paymentInfo: {bank:"Chase", acctno: "sdfsdf"}, addres:{}, etc:{}}
     companySettings: {
@@ -39,7 +39,10 @@ var User = {
     jobs: {collection: 'job', via: 'owner'},
 
 
-    salesGoal: 'float',
+    salesGoal: {
+      type: 'float',
+      defaultsTo: '350000'
+    },
     //stores user metrics
     //{nutshell: {key:'', password: '', id: '', synced: 'datetime', metrics: [], etc:{}}}
     integrations: 'json',
@@ -50,8 +53,27 @@ var User = {
 	//Nutshell UserId
   	nutshellId: 'integer',
     lastSyncedOn: 'date',
-  	performanceMetrics: 'json',
-  	redLeads: 'json', 
+  	performanceMetrics: {
+      type: 'json',
+      defaultsTo: {
+        leads: {
+            seriesData: {leads: []},
+            summaryData: {leads: []},
+        },
+        sales: {
+            seriesData: {},
+            summaryData: {},
+        },
+        pipeline: {
+            seriesData: {},
+            summaryData: {},
+        }
+      }
+    },
+  	redLeads: {
+      type: 'json', 
+      defaultsTo: {}
+    },
 
     getPerformanceMetrics: function(user){
     // NutshellApi.getSalesAnalytics(user, function(err, response){
