@@ -32,6 +32,7 @@ module.exports = {
 	edit: function(req, res) {
 		Group.findOne(req.param('id'), function (err, group) {
 			Contact.find(function (err, contacts) {
+				console.log(contacts[0].groups.length);
 				res.view({
 					group: group,
 					contacts: contacts
@@ -47,38 +48,44 @@ module.exports = {
 
 			var contacts = group.contacts;
 
-			if (req.param('addUser') != 0) 
+			if (req.param('addUser'))
 				contacts.push(req.param('addUser'));
 
-			Group.update(req.param('id'), {'name': name, 'address': address, 'contacts': contacts}, function (err) {
-				if (err)
-					console.log('craparino daddy-o');
+			Group.findOne(req.param('id'), function (err, group) {
 
-				if (req.param('id') != 0) {
-					Contact.findOne(req.param('addUser'), function (err, contact) {
-						var groups = contact.groups;
+				Group.update(req.param('id'), {'name': name, 'address': address, 'contacts': contacts}, function (err) {
+					if (err)
+						console.log('craparino daddy-o');
 
-						groups.push(group.id);
+					if (req.param('id') != 0) {
 
-						Contact.update(contact.id, {groups: groups}, function (err) {
-							res.redirect('/group/index');
+
+						Contact.findOne(req.param('addUser'), function (err, contact) {
+							var groups = contact.groups;
+
+							groups.push(group.id);
+
+							Contact.update(contact.id, {groups: groups}, function (err) {
+								res.redirect('/group/index');
+							});
 						});
-					});
-				}
-				else
-					res.redirect('/group/index');
+					}
+					else
+						res.redirect('/group/index');
+				});
 			});
 		});
 	},
 
 	create: function(req, res) {
-		var contact = null;
+
+		var contacts = [];
 
 		if (req.param('addUser') != 0)
-			contact = req.param('addUser');
+			contacts = req.param('addUser');
 
 
-		Group.create({'name': req.param('name'), 'address': req.param('address'), 'contacts': contact}, function (err, group) {
+		Group.create({'name': req.param('name'), 'address': req.param('address'), 'contacts': contacts}, function (err, group) {
 
 			if (req.param('addUser') != 0) {
 				Contact.findOne(req.param('addUser'), function (err, contact) {
