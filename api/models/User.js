@@ -23,6 +23,8 @@ var User = {
       type: 'json'
     },
 
+    tasks: { collection: 'task', via: 'owner'},
+
     //For company owner's
     myCompany : { model: 'company', defaultsTo: null},
 

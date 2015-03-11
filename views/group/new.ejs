@@ -8,7 +8,7 @@
             <input type= "text" class = "form-control" placeholder = "Address" name="address">
             <hr>
             <select name='addUser'>
-                <option value="0">Select Contacts to add to the Group...</option>
+                <option value="0" selected>Select Contacts to add to the Group...</option>
                 <% _.each(contacts, function(contact) { %>
                     <option value="<%= contact.id %>"><%= contact.name %></option>
                 <%  }) %>       

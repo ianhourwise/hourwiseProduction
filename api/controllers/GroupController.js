@@ -30,12 +30,26 @@ module.exports = {
 	},
 
 	edit: function(req, res) {
-		Group.findOne(req.param('id'), function (err, group) {
+		Group.findOne(req.param('id')).populate('contacts').exec(function (err, group) {
 			Contact.find(function (err, contacts) {
-				console.log(contacts[0].groups.length);
+				
+				if (group.contacts.length > 0) {
+					var groupContacts = group.contacts;
+
+					for (var i = 0; i < groupContacts.length; i++) {
+						for (var j = 0; j < contacts.length; j++) {
+							if (groupContacts[i].id == contacts[j].id)
+								contacts.splice(j, 1);
+						}
+					}
+				}
+
+				var existingGroupContacts = group.contacts;
+				
 				res.view({
 					group: group,
-					contacts: contacts
+					contacts: contacts,
+					existingGroupContacts: existingGroupContacts
 				});
 			});
 		});
@@ -48,31 +62,29 @@ module.exports = {
 
 			var contacts = group.contacts;
 
-			if (req.param('addUser'))
+			if (req.param('addUser') != 0)
 				contacts.push(req.param('addUser'));
 
-			Group.findOne(req.param('id'), function (err, group) {
 
-				Group.update(req.param('id'), {'name': name, 'address': address, 'contacts': contacts}, function (err) {
-					if (err)
-						console.log('craparino daddy-o');
+			Group.update(req.param('id'), {'name': name, 'address': address, 'contacts': contacts}, function (err) {
+				if (err)
+					console.log(err);
 
-					if (req.param('id') != 0) {
+				if (req.param('addUser') != 0) {
 
+					Contact.findOne(req.param('addUser'), function (err, contact) {
+						var groups = contact.groups;
 
-						Contact.findOne(req.param('addUser'), function (err, contact) {
-							var groups = contact.groups;
+						groups.push(group.id);
 
-							groups.push(group.id);
-
-							Contact.update(contact.id, {groups: groups}, function (err) {
-								res.redirect('/group/index');
-							});
+						Contact.update(contact.id, {groups: groups}, function (err) {
+							res.redirect('/group/index');
 						});
-					}
-					else
-						res.redirect('/group/index');
-				});
+					});
+					
+				}
+				else
+					res.redirect('/group/index');
 			});
 		});
 	},

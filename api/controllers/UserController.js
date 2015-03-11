@@ -274,7 +274,8 @@ module.exports = {
 	},
 
 	newDashTest: function(req, res, next) {
- 		User.findOne(req.param('id')).populate('company').exec(function foundUser(err, user){
+
+ 		User.findOne(req.param('id')).populate(['company','tasks']).exec(function (err, user) {
 	 		if(err) return next(err);
 	 		if(!user) return next();
 	 		user.getPerformanceMetrics(user);
@@ -302,6 +303,7 @@ module.exports = {
 			var nutshell = user.integrations.nutshell;
 
 			nutshell.lastSyncedOn.date = new Date();
+			var tasks = user.tasks;
 
 	 		User.update(req.param('id'), { 'integrations': { 'nutshell': nutshell } }, function(err) {
 	 			res.locals.layout= 'layouts/dashboard_layout';
@@ -315,7 +317,8 @@ module.exports = {
 		 			// redMetrics: redMetrics,
 		 			// redLeads: redLeads
 		 			redMetrics: redMetrics,
-		 			redLeads: redLeads
+		 			redLeads: redLeads,
+		 			tasks: tasks
 		 		});
 	 		});
 	 	});

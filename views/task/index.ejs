@@ -1,0 +1,24 @@
+<div class= "container" style="width: 100%;">
+
+    <div class="row" style="margin-top: 15px;">
+        <% _.each(tasks, function(task) { %>
+
+            <div class="col-lg-4">
+                <div class="contact-box">
+                    <a href="/task/edit/<%= task.id %>">
+                    
+                    <div class="col-sm-8">
+                        <h3><strong><%= task.name %></strong></h3>
+                        <h4><%= task.description %></h4>
+                        <h4><%= task.startDate %></h4>
+                        <h4><%= task.endDate %></h4>
+                    </div>
+                    <div class="clearfix"></div>
+                        </a>
+                </div>
+            </div>
+
+        <% }) %>
+    </div>
+
+</div>

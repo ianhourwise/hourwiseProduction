@@ -9,6 +9,40 @@
 <!-- Custom stylesheets ( Put your own changes here ) -->
 
 <div class = "container">
+
+<% if (tasks.length > 0) { %>
+<div class="row">
+    <div class="col-lg-9">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Tasks</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <ul class="todo-list m-t">
+                    <% _.each(tasks, function(task) { %>
+                    <li>
+                        <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                        <span class="m-l-xs"><%= task.description %><br>  Due: <%= task.endDate %></span>
+                    </li>
+                    <% }) %>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<% } 
+   else { 
+   }
+%>
+<br>
 <h1><%= user.company.name %> - <%= user.username %>   
 <h3>Data last synced on: <%= user.integrations.nutshell.lastSyncedOn.date %> </h3>
 <h3 id = "percentElapsed"> </h3>
