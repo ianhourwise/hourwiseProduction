@@ -6,10 +6,31 @@
  */
 
 module.exports = {
-	index: function(req, res) {
-		res.locals.layout = "layouts/layout"; 
-		return res.view('test');
+	new: function(req, res) {
+		//Should look for users without any company associations, but will fix that later.
+		User.find({myCompany: null}).exec(function foundUsers(err, users) {
+			console.log('---Users----'+ users )
+			res.locals.layout = "layouts/layout"; 
+			res.view({
+				availableUsers: users
+			});
+		});
+
 	},
+
+	show: function(req, res, next){
+		// console.log(req.params.all());
+		Company.findOne(req.param('id'), function foundCompany(err, company){
+			if(err) return next(err);
+			res.locals.layout = "layouts/layout";
+			res.view(
+			{ 
+				company: company
+				// user: {companySettings: {role: "Test", type: "Test type"}}
+			}
+				);
+		});
+	},	
 
 	profile: function(req, res, next) {
 		
@@ -49,7 +70,7 @@ module.exports = {
 	 				console.log(err);
 	 			console.log('should be updating the user...');
 
-	 			res.send(true); //send back true instead of reroute
+	 			res.redirect('/company/show/'+company.id); //send back true instead of reroute
 	 		});
 	 	});
 	 

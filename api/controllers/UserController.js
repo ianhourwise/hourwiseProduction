@@ -79,7 +79,7 @@ module.exports = {
 
 	index: function(req, res) {
 
-		if (req.session.User.role == 'super_user') {
+		if (req.session.User.role == 'superUser') {
 			User.find(function foundUsers(err, users){
 		 		if(err) return next(err);
 
@@ -93,7 +93,7 @@ module.exports = {
 						totalSales += users[i].performanceMetrics.sales.summaryData.won_lead_value.sum;
 				}
 
-		 		res.view('/user/adminIndex', {
+		 		res.view( {
 		 			users: users,
 		 			totalSales: totalSales,
 		 			showGraph: showGraph
@@ -250,6 +250,29 @@ module.exports = {
 		res.view('user/dashboard');
 	},
 
+	admin: function(req, res, next) {
+		console.log('GOT TO ADMIN');
+		if(req.session.User.role == 'superUser'){
+			console.log('YOU ARE SUPER');
+			Company.find(function foundCompanies(err, companies){
+				if(err) return next(err);
+				if(!companies) return next(err);
+				console.log(companies);
+				res.locals.layout = "layouts/layout";
+				res.view({
+					companies: companies
+				});
+			});
+			
+				
+		}
+		
+		else{ 
+			req.flash('error','tsk tsk...you are NOT superMan!');
+			res.redirect('/user/dashboard');
+		}
+	},
+
 	newDashTest: function(req, res, next) {
  		User.findOne(req.param('id'), function foundUser(err, user){
 	 		if(err) return next(err);
@@ -298,10 +321,6 @@ module.exports = {
 	 	});
  	},
 
-	admin: function(req, res, next) {
-		res.locals.layout = "layouts/layout"; 
-		res.view('user/admin');
-	},
 
 	profile: function(req, res, next){
 		res.locals.layout = "layouts/layout";

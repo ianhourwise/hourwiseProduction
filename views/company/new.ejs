@@ -1,0 +1,115 @@
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>New Job</h2>
+                  
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+
+                        <div class="ibox-content">
+                            <form action = "/company/create" method="post" class="form-horizontal">
+                                <div class="form-group"><label class="col-sm-2 control-label">Company Name</label>
+                                    <div class="col-sm-10"><input type="text" name ="name" class="form-control"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-2 control-label">Type</label>
+                                        <div class="col-sm-10 ">
+                                        <select class="form-control col-xs-12 chosen-select" name ="type" data-placeholder="blah...">
+                                            <option disabled="" selected="">- type -</option>
+                                            <option value = "provider"> Service Provider </option>
+                                            <option value = "vendor"> Vendor </option>
+                                            <option value = "reseller"> Reseller </option>
+                                            <option value = "coach"> Coach </option>
+                                        </select>
+                                    </div>  
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-2 control-label">Owner</label>
+                                        <div class="col-sm-10 ">
+                                        <select class="form-control col-xs-12 chosen-select" name ="owner" data-placeholder="Owner">
+                                            <option disabled="" selected="">- create new -</option>                                
+                                            <% _.each(availableUsers, function(owner){ %>
+                                            <option value = "<%= owner.id %>"> <%= owner.username %> - <%= owner.email %> </option>
+                                            <% })%>
+                                        </select>
+                                    </div>  
+                                </div>
+                				<div class="form-group">
+                					<label class="col-xs-2 control-label">Industry</label>
+                                        <div class="col-sm-10 ">
+                                        <select class="form-control col-xs-12 chosen-select" name ="primaryIndustry" data-placeholder="Assign to...">
+                                            <option disabled="" selected="">- industry -</option>
+                                            <option> Carpentry </option>
+                                            <option> Carpet Install </option>
+                                            <option> Deck/Porch </option>
+                                            <option> Disaster Restoration </option>
+                                            <option> Driveways </option>
+                                            <option> Drywall </option>
+                                            <option> Electrical </option>
+                                            <option> Fencing </option>
+                                            <option> Floor Refinishing </option>
+                                            <option> Flooring/Hardwood </option>
+                                            <option> Framing </option>
+                                            <option> Gutters </option>
+                                            <option> Handyman </option>
+                                            <option> Hardscapes </option>
+                                            <option> HVAC </option>
+                                            <option> Insulation </option>
+                                            <option> Irrigation </option>
+                                            <option> Kitchen/Bath </option>
+                                            <option> Landscape Design/Install </option>
+                                            <option> Landscape Maintenance </option>
+                                            <option> Masonry </option>
+                                            <option> Painting </option>
+                                            <option> Plumbing </option>
+                                            <option> Renovations/Additions </option>
+                                            <option> Roofing </option>
+                                            <option> Siding </option>
+                                            <option> Tile/Stone </option>
+                                            <option> Windows/Doors </option>
+                                            <option> Other...</option>
+                                        </select>
+                					</div>  
+                				</div>	   
+                				<div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">Street</label>
+                                    <div class="col-sm-10"><input type="text" name="contactInfo[Address][street1]" class="form-control"></div>
+                                </div> 
+                                <div class="form-group"><label class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-10"><input type="text" name ="contactInfo[Address][street2]" class="form-control"></div>
+                                </div>     
+                                <div class="form-group"><label class="col-sm-2 control-label">City</label>
+                                    <div class="col-sm-10"><input type="text" name ="contactInfo[Address][city]" class="form-control"></div>
+                                </div>     
+                                <div class="form-group"><label class="col-sm-2 control-label">State</label>
+                                    <div class="col-sm-10"><input type="text" name ="contactInfo[Address][state]"class="form-control"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Zip Code</label>
+                                    <div class="col-sm-10"><input type="text" name ="contactInfo[Address][zip]" class="form-control"></div>
+                                </div>                                
+                                 <input type='submit' class='btn btn-finish btn-fill btn-success btn-wd btn-sm' value='Save' />
+
+			       			</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+
+        </div>
+        </div>

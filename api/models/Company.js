@@ -30,7 +30,17 @@ module.exports = {
     	via: 'company'
     },
 
-    accountSettings: 'json'
+    accountSettings: {
+
+        type: 'json',
+        defaultsTo: {plan: 'Pro'}
+    },
+
+    contactInfo: {
+        type: 'json',
+        defaultsTo: {}
+    }
+
 
     // employeeRelationships : {
     //         collection: 'companyrelationship',
