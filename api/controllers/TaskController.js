@@ -1,13 +1,12 @@
 /**
- * ContactController
+ * TaskController
  *
- * @description :: Server-side logic for managing contacts
+ * @description :: Server-side logic for managing tasks
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
 module.exports = {
 	new: function(req, res) {
-
 		User.findOne(req.session.User.id).populate('company').exec(function (err, user) {
 			res.locals.layout = "layouts/layout"; 
 			res.view({
@@ -16,17 +15,24 @@ module.exports = {
 		});
 	},
 
+	create: function(req, res) {
+		Task.create(req.params.all(), function (err, task) {
+			res.redirect('/task/index');
+		});	
+	},
+
 	index: function(req, res) {
-		Contact.find( function (err, contacts) {
-			res.locals.layout = "layouts/layout";
+		User.findOne(req.session.User.id).populate('tasks').exec(function (err, user) {
+			var tasks = user.tasks;
+
 			res.view({
-				contacts: contacts
+				tasks: tasks
 			});
 		});
 	},
-	
+
 	edit: function(req, res) {
-		Contact.findOne(req.param('id')).populate('groups').exec(function (err, contact) {
+		Task.findOne(req.param('id'), function (err, contact) {
 			res.view({
 				contact: contact,
 				groups: contact.groups
@@ -35,27 +41,22 @@ module.exports = {
 	},
 
 	update: function(req, res) {
-		Contact.update(req.param('id'), req.params.all(), function (err) {
+		Task.update(req.param('id'), req.params.all(), function (err) {
 			if (err)
 				console.log('craparino daddy-o');
 
-			res.redirect('/contact/index');
+			res.redirect('/task/index');
 		});
-	},
-
-	create: function(req, res) {
-		Contact.create(req.params.all(), function (err, contact) {
-			res.redirect('/contact/index');
-		});	
 	},
 
 	destroy: function(req, res) {
-		Contact.destroy(req.param('id'), function (err) {
+		Task.destroy(req.param('id'), function (err) {
 			if (err)
 				console.log('Aww jeeezeeeeee');
 
-			res.redirect('/contact/index');
+			res.redirect('/task/index');
 		});
 	}
+
 };
 

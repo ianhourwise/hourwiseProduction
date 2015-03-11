@@ -40,4 +40,31 @@
 
     </form>
 
+    <hr>
+
+    <table class = "table">
+                <tr>
+                    <th>Group</th>
+                    <th>Address</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+
+                <% _.each(groups, function(group) { %>
+                <tr data-id = "groupContacts" data-model = "contact">
+                    <td><%= group.name %></td>
+                    <td><%= group.address %></td>
+                    <td><a href= "/group/edit/<%= group.id %>" class= "btn btn-sm btn-warning" >Edit</a> </td>
+                    <td>
+                        <form action= "/group/destroy/<%= group.id %>"  method = 'POST'>
+                            <input type= "hidden" name = "_method" value = "delete" />
+                            <input type= "submit" class= "btn btn-sm btn-danger" value = "Delete" />
+                            <input type= "hidden" name = "_csrf" value = "<%= _csrf %>" />
+                        </form>  
+                     </td>
+                </tr>
+
+                <% }) %>
+                </table>
+
 </div>

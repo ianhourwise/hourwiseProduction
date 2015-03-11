@@ -26,41 +26,9 @@
             </select>
             <hr>
             
-            <input type = "submit" class = "btn btn-lg btn-primary btn-block" value = "Update Group" />
+            <input type = "submit" class = "btn btn-lg btn-primary btn-block" value = "Update Task" />
             <input type= "hidden"  name = "_csrf" value = "<%= _csrf %>"/>
 
     </form>
-
-    <hr>
-
-    <table class = "table">
-        <tr>
-            <th>Contact</th>
-            <th>Address</th>
-            <th>Phone Number</th>
-            <th>Email</th> 
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-
-        <% _.each(existingGroupContacts, function(contact) { %>
-        <tr data-id = "groupContacts" data-model = "contact">
-            <td><%= contact.name %></td>
-            <td><%= contact.addresses.address1 %></td>
-            <td><%= contact.phoneNumbers.phoneNumber1 %></td>
-            <td><%= contact.emails.email1 %></td>
-            <td><a href= "/contact/edit/<%= contact.id %>" class= "btn btn-sm btn-warning" >Edit</a> </td>
-            <td>
-                <form action= "/contact/destroy/<%= contact.id %>"  method = 'POST'>
-                    <input type= "hidden" name = "_method" value = "delete" />
-                    <input type= "submit" class= "btn btn-sm btn-danger" value = "Delete" />
-                    <input type= "hidden" name = "_csrf" value = "<%= _csrf %>" />
-                </form>  
-             </td>
-        </tr>
-
-        <% }) %>
-    </table>
 
 </div>

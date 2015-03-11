@@ -1,0 +1,20 @@
+<div class= "container" style="width: 80%;">
+
+    <form action = "/task/create/" method = "GET" class= "form-signin">
+        <h2 class= "form-signin-heading">Add Task...</h2>
+
+            <input type= "text" class = "form-control" placeholder = "Name" name="name">
+            <hr>
+            <input type= "text" class = "form-control" placeholder = "Description" name="description">
+            <hr>
+            <input type= "text" class = "form-control" placeholder = "Start Date" name="startDate">
+            <hr>
+            <input type= "text" class = "form-control" placeholder = "End Date" name="endDate">
+            <hr>
+            <input type="hidden" class="form-control" value="<%= user.id %>" name="owner">
+            <input type = "submit" class = "btn btn-lg btn-primary btn-block" value = "Create Task" />
+            <input type= "hidden"  name = "_csrf" value = "<%= _csrf %>"/>
+
+    </form>
+
+</div>
