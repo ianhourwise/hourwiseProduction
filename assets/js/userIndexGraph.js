@@ -8,7 +8,7 @@ $(function() {
 
 
 			for (var z = 0; z < users.length; z++) {
-				if (users[z].integrations.nutshell.performanceMetrics == undefined)
+				if (users[z].integrations == undefined)
 					console.log('no metrics');
 				else {
 					var today= new Date();
@@ -29,7 +29,6 @@ $(function() {
 					var i = dayIndex(users[z].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads, beginningOfToday.valueOf());
 					var noOpen = users[z].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads[i][1];
 					//Previous Days Totals
-					console.log('------z: ' + z);
 					var salesOfInterest= previousDaysTotal(noDaysForSales, users[z].integrations.nutshell.performanceMetrics.sales.seriesData.won_lead_value);
 					var avgSaleOfInterest = salesOfInterest/noLeadsWon;
 					var avgSalePerDay = salesOfInterest/noDaysForSales;
@@ -40,7 +39,6 @@ $(function() {
 
 
 					//Monthly data
-					console.log('------z------: ' + z);
 					var leadsOpenByMonth = aggregateMonthly(users[z].integrations.nutshell.performanceMetrics.leads.seriesData.leads);
 					var leadsWonByMonth = aggregateMonthly(users[z].integrations.nutshell.performanceMetrics.sales.seriesData.leads_won);
 					var leadsClosedByMonth = aggregateMonthly(users[z].integrations.nutshell.performanceMetrics.sales.seriesData.closed_leads);
@@ -51,12 +49,9 @@ $(function() {
 					month = month.getMonth();
 
 
-					console.log('----month: ' + month);
-
 					var monthCode = (new Date(today.getFullYear(), month, 1, 0)).valueOf();
 					var	weight = MONTHLY_WEIGHTS[month][1];
 					var goal = users[z].wizardInfo.salesGoal * weight;
-					console.log('--------goal: ' + goal);
 					var salesTarget = goal*weight; 
 					var monthSales = d4[month][1];
 					var monthGoal = goal*MONTHLY_WEIGHTS[month][1];
@@ -69,25 +64,47 @@ $(function() {
 					var dollarPerLead = (isThisMonthMOI(month)) ? DPLOfInterest : salesByMonth[month][1]/leadsOpenByMonth[month][1] ; 
 					var lead2close = (isThisMonthMOI(month)) ? noLeadsOpened/noLeadsClosed*100 : leadsOpenByMonth[month][1]/leadsClosedByMonth[month][1]*100 ; ; 
 					var totalLeadsStarting = parseFloat(users[z].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads[dayIndex(users[z].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads, monthCode)][1]);
-				    console.log('month code '+ monthCode + 'has this many leads' + totalLeadsStarting);
 					var totalLeadsOpened = leadsOpenByMonth[month][1] + projectedLeads(month);
-					console.log('leads opened: ' + leadsOpenByMonth[month][1] + " leads projected: " + projectedLeads(month)+ 'leads closed' + leadsClosedByMonth[month][1]);
 					var totalLeads = totalLeadsStarting + totalLeadsOpened - leadsClosedByMonth[month][1];
 					var leadsNeeded = (monthGoal - projectedSales)/dollarPerLead+totalLeads;
-					console.log('leads needed' + (monthGoal-projectedSales));
-					console.log('$/lead - ' +  dollarPerLead );
 					//Sales Data
 				 	var sCurrent =[[0,sales]];
 				 	var sProjected=[[0,projectedSales]];
 				 	var sGoal = [[0,monthGoal]];
 
-				 	console.log('--------salesTarget: ' + salesTarget);
+					d1.push([z, salesTarget, users[z].id, users[z].username]);
+					d2.push([z, projectedSales, users[z].id, users[z].username]);
+					d3.push([z, sales, users[z].id, users[z].username]);
 
-					d1.push([z, salesTarget]);
-					d2.push([z, projectedSales]);
-					d3.push([z, sales]);
 				}
 
+				d2.sort(function (a,b) {
+					return a[1] > b[1];
+				});
+
+				var newd1 = [];
+				var newd3 = [];
+
+				for (var i = 0; i < d2.length; i++) {
+					for (var j = 0; j < d1.length; j++) {
+						if (d2[i][2] == d1[j][2]) {
+							newd1.push(d1[j]);
+							newd3.push(d3[j]);
+							break;
+						}
+					}
+				}
+
+
+ 				console.log(d2);
+				console.log(newd1);
+				console.log(newd3);
+
+				if (d2.length > 5) {
+					d2.slice(5, d2.length - 1);
+					newd1.slice(5, newd1.length - 1);
+					newd3.slice(5, newd3.length -1);
+				}
 				
 				// for (var i = 0; i < users.length; i++) {
 				// 	d2.push([i, users[i].performanceMetrics.sales.summaryData.won_lead_value.sum + 40000]);
@@ -150,8 +167,7 @@ $(function() {
 					var daysArray = data.map(function(arr){
 						return arr[0];
 					})
-					console.log('looking for...' + dayOfInterest + "in....");
-					console.log(daysArray);
+		
 					index = daysArray.indexOf(dayOfInterest);
 
 					if (index != 0 ) { return index} 
@@ -203,8 +219,6 @@ $(function() {
 
 					totalProjected = currentSales + projectedSales;
 
-					console.log(projectedSales);
-
 					return totalProjected
 				}
 
@@ -230,10 +244,17 @@ $(function() {
 					lines = false,
 					steps = false;
 
+				var ticksArray = [];
+
+				for (var i = 0; i < d2.length; i++)
+					ticksArray.push([i, d2[i][3]]);
+
+				console.log('----' + ticksArray);
+
 				function plotWithOptions() {
-					$.plot("#placeholder", [ d1, d2, d3 ], {
+					$.plot("#placeholder", [ newd1, d2, newd3 ], {
 						xaxis: {
-        					ticks:[[0,'Takaoma'],[1,'Giacompany'],[2,'FreshFields'],[3,'Generalisimo'],[4, 'Greenleaves']]
+        					ticks: ticksArray
     					},
 						series: {
 							stack: stack,
@@ -250,7 +271,8 @@ $(function() {
 					});
 				}
 
-				plotWithOptions();			
+				plotWithOptions();		
+
 				}
 		});
 });

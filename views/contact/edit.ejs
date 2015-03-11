@@ -1,0 +1,43 @@
+<div class= "container" style="width: 80%;">
+
+    <form action = "/contact/update/<%= contact.id %>" method = "GET" class= "form-signin">
+        <h2 class= "form-signin-heading">Edit Conact...</h2>
+
+            <% if (contact.name != null) { %>
+                <input type= "text" class = "form-control" placeholder = "<%= contact.name %>" name = "name" value="<%= contact.name %>">
+            <% } 
+               else { %>
+                <input type= "text" class = "form-control" placeholder = "Name" name="name">
+            <% } %>
+            <hr>
+            <% if (contact.addresses.address1 != null) { %>
+                <input type= "text" class = "form-control" placeholder = "<%= contact.addresses.address1 %>" name = "addresses[address1]" value="<%= contact.addresses.address1 %>">
+            <% } 
+               else { %>
+                <input type= "text" class = "form-control" placeholder = "Address" name="addresses[address1]">
+            <% } %>
+            <hr>
+            <% if (contact.phoneNumbers.phoneNumber1 != null) { %>
+                <input type= "text" class = "form-control" placeholder = "<%= contact.phoneNumbers.phoneNumber1 %>" name = "phoneNumers[phoneNumber1]" value="<%= contact.phoneNumbers.phoneNumber1 %>">
+            <% } 
+               else { %>
+                <input type= "text" class = "form-control" placeholder = "Phone Number" name="phoneNumbers[phoneNumber1]">
+            <% } %>
+            <hr>
+            <% if (contact.emails.email1 != null) { %>
+                <input type= "text" class = "form-control" placeholder = "<%= contact.emails.email1 %>" name = "emails[email1]" value="<%= contact.emails.email1 %>">
+            <% } 
+               else { %>
+                <input type= "text" class = "form-control" placeholder = "Email" name="emails[email1]">
+            <% } %>
+            <hr>
+            
+            <input type = "submit" class = "btn btn-lg btn-primary btn-block" value = "Update Contact" />
+            <input type= "hidden"  name = "_csrf" value = "<%= _csrf %>"/>
+            <hr>
+            <hr>
+            <a href="/contact/destroy/<%= contact.id %>" class = "btn btn-lg btn-danger btn-block">DELETE</a>
+
+    </form>
+
+</div>

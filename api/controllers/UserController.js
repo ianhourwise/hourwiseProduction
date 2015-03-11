@@ -90,7 +90,7 @@ module.exports = {
 				for (var i = 0; i < users.length; i++) {
 					console.log(users[i].username);
 					if (users[i].performanceMetrics != undefined)
-						totalSales += users[i].performanceMetrics.sales.summaryData.won_lead_value.sum;
+						totalSales += users[i].integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum;
 				}
 
 		 		res.view( {
@@ -115,7 +115,7 @@ module.exports = {
 					console.log(users[i].username);
 					if (users[i].performanceMetrics != undefined){
 						try {
-							totalSales += users[i].performanceMetrics.sales.summaryData.won_lead_value.sum;	
+							totalSales += users[i].integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum;	
 						}
 						catch(err){
 							totalSales += 0;
@@ -123,7 +123,7 @@ module.exports = {
 					}
 				}
 
-		 		res.view({
+		 		res.view('user/conciergeIndex', {
 		 			users: users,
 		 			totalSales: totalSales,
 		 			showGraph: showGraph
@@ -136,8 +136,8 @@ module.exports = {
 
 		 		var totalSales = 0.00;
 
-		 		if (req.session.User.performanceMetrics != undefined)
-						totalSales += req.session.User.performanceMetrics.sales.summaryData.won_lead_value.sum;
+		 		if (req.session.User.integrations != undefined)
+						totalSales += req.session.User.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum;
 
 		 		res.view({
 		 			users: [req.session.User],
