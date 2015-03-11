@@ -9,7 +9,7 @@
 <!-- Custom stylesheets ( Put your own changes here ) -->
 
 <div class = "container">
-<h1><%= user.wizardInfo.company %> - <%= user.username %>   
+<h1><%= user.company.name %> - <%= user.username %>   
 <h3>Data last synced on: <%= user.integrations.nutshell.lastSyncedOn.date %> </h3>
 <h3 id = "percentElapsed"> </h3>
 <hr>
@@ -33,7 +33,7 @@
 	</div>
 	<div class = "col-lg-4">
 		<div class="pie-charts green-pie">
-            <div class="easy-pie-chart-green easyPieChart" id = 'percentGoal' data-percent="<%= (user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum/user.wizardInfo.salesGoal*100).toString()%>%" style="width: 100px; height: 100px; line-height: 100px;"> <canvas width="100" height="100"></canvas><%= (user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum/user.wizardInfo.salesGoal*100).toFixed(2).toString()%>%</div>
+            <div class="easy-pie-chart-green easyPieChart" id = 'percentGoal' data-percent="<%= (user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum/user.salesGoal*100).toString()%>%" style="width: 100px; height: 100px; line-height: 100px;"> <canvas width="100" height="100"></canvas><%= (user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum/user.salesGoal*100).toFixed(2).toString()%>%</div>
            <div class="label">Projected Goal</div>
        </div>
 	</div>
@@ -333,7 +333,7 @@ Let's start with what we can control, lead rate and close rate, then move to win
 var sales_data = <%- salesData %> ;
 var lead_data = <%- leadData %> ;
 var pipeline_data = <%- pipelineData %> ;
-var goal = <%= user.wizardInfo.salesGoal %>;
+var goal = <%= user.salesGoal %>;
 
 </script>
 

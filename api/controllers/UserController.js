@@ -10,7 +10,7 @@ module.exports = {
 
 
  	edit: function(req, res, next){
- 		User.findOne(req.param('id'), function foundUser(err, user){
+ 		User.findOne(req.param('id')).populate('company').exec(function foundUser(err, user){
  			if(err) return next(err);
  			if(!user) return next('User doesn\'t exist!');
 
@@ -274,7 +274,7 @@ module.exports = {
 	},
 
 	newDashTest: function(req, res, next) {
- 		User.findOne(req.param('id'), function foundUser(err, user){
+ 		User.findOne(req.param('id')).populate('company').exec(function foundUser(err, user){
 	 		if(err) return next(err);
 	 		if(!user) return next();
 	 		user.getPerformanceMetrics(user);
