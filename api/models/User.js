@@ -55,27 +55,6 @@ var User = {
 	//Nutshell UserId
   	nutshellId: 'integer',
     lastSyncedOn: 'date',
-  	performanceMetrics: {
-      type: 'json',
-      defaultsTo: {
-        leads: {
-            seriesData: {leads: []},
-            summaryData: {leads: []},
-        },
-        sales: {
-            seriesData: {},
-            summaryData: {},
-        },
-        pipeline: {
-            seriesData: {},
-            summaryData: {},
-        }
-      }
-    },
-  	redLeads: {
-      type: 'json', 
-      defaultsTo: {}
-    },
 
     getPerformanceMetrics: function(user){
     // NutshellApi.getSalesAnalytics(user, function(err, response){

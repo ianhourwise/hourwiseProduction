@@ -20,23 +20,25 @@ module.exports = {
 
 	show: function(req, res, next){
 		// console.log(req.params.all());
-		Company.findOne(req.param('id'), function foundCompany(err, company){
+		Company.findOne(req.param('id')).populate('owner').populate('employees').exec( function foundCompany(err, company) {
 			if(err) return next(err);
 			res.locals.layout = "layouts/layout";
 			res.view(
 			{ 
 				company: company
 				// user: {companySettings: {role: "Test", type: "Test type"}}
-			}
-				);
+			});
 		});
 	},	
 
 	profile: function(req, res, next) {
 		
 		console.log(req.user);
-		if (req.session.User.myCompany == undefined)
-			res.send(403);
+		if (req.session.User.myCompany == undefined) {
+			res.locals.layout = 'layouts/layout';
+			res.forbidden( 'You do not have permission to view this part of the site' );
+		}
+
 		Company.findOne({ id: req.user.myCompany}).populate('owner').populate('employees').exec(function foundCompany(err, company) {
 			if(err) return next(err);
 				if(!company) return next();
@@ -65,7 +67,7 @@ module.exports = {
 	 			return res.redirect('user/login');
 	 		}
 
-	 		User.update(req.param('owner'), {myCompany: company.id}, function(err) {
+	 		User.update(req.param('owner'), {'myCompany': company.id, 'company': company.id}, function(err) {
 	 			if (err) 
 	 				console.log(err);
 	 			console.log('should be updating the user...');

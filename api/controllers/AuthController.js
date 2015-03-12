@@ -166,15 +166,18 @@ var AuthController = {
         // Upon successful login, send the user to the homepage were req.user
         // will available.
         req.session.User = user;
-        if(user.role === 'admin' || user.role === 'super_admin'){
+        if(user.role === 'admin' || user.role === 'superUser'){
           res.redirect('/user/admin');
         }
+        else if (user.role == 'concierge') {
+          res.redirect('/user/index');
+        }
         else{
-          if(user.reroute){
+          if(user.reroute == 'wizard' || user.reroute == 'pending'){
             res.redirect('/user/'+user.reroute)
           }
           else{
-            res.redirect('/user/dashboard');  
+            res.redirect('/user/index');  
           }
           
         }
