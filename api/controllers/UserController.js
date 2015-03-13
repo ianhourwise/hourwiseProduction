@@ -368,7 +368,6 @@ module.exports = {
 					var redLeads = [];
 		 
 				}
-
 				else{
 					console.log('got the data');
 					var salesData = JSON.stringify(user.integrations.nutshell.performanceMetrics.sales);
@@ -377,7 +376,6 @@ module.exports = {
 					var redMetrics = user.integrations.nutshell.redLeads.counts;
 					var redLeads = user.integrations.nutshell.redLeads.leads;
 				}
-
 				var nutshell = user.integrations.nutshell;
 
 				nutshell.lastSyncedOn.date = new Date();
