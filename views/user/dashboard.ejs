@@ -1,416 +1,372 @@
+<link href="/styles/icons.css" rel="stylesheet" />
+<!-- jQueryUI -->
+<link href="/styles/sprflat-theme/jquery.ui.all.css" rel="stylesheet" />
+<!-- Bootstrap stylesheets (included template modifications) -->
+<!-- Plugins stylesheets (all plugin custom css) -->
+<link href="/styles/plugins.css" rel="stylesheet" />
+<!-- Main stylesheets (template main css file) -->
+<link href="/styles/main.css" rel="stylesheet" />
+<!-- Custom stylesheets ( Put your own changes here ) -->
 
-<div class="wrapper wrapper-content">
-
+<div class = "container">
+<% if (tasks.length > 0) { %>
 <div class="row">
-            <div class="col-lg-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>Needs Attention</h5>
-   
-                    </div>
-                    <div class="ibox-content">
-                                <table class="table table-hover no-margins ">
-                                    <thead>
-                                    <tr>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th>User</th>
-                                        <th class = "hidden-xs">Value</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td><small>Pending...</small></td>
-                                        <td><i class="fa fa-clock-o"></i> 11:20pm</td>
-                                        <td>Samantha</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 24% </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="label label-warning">Canceled</span> </td>
-                                        <td><i class="fa fa-clock-o"></i> 10:40am</td>
-                                        <td>Monica</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 66% </td>
-                                    </tr>
-                                    <tr>
-                                        <td><small>Pending...</small> </td>
-                                        <td><i class="fa fa-clock-o"></i> 01:30pm</td>
-                                        <td>John</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 54% </td>
-                                    </tr>
-                                    <tr>
-                                        <td><small>Pending...</small> </td>
-                                        <td><i class="fa fa-clock-o"></i> 02:20pm</td>
-                                        <td>Agnes</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 12% </td>
-                                    </tr>
-                                    <tr>
-                                        <td><small>Pending...</small> </td>
-                                        <td><i class="fa fa-clock-o"></i> 09:40pm</td>
-                                        <td>Janet</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 22% </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="label label-primary">Completed</span> </td>
-                                        <td><i class="fa fa-clock-o"></i> 04:10am</td>
-                                        <td>Amelia</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 66% </td>
-                                    </tr>
-                                    <tr>
-                                        <td><small>Pending...</small> </td>
-                                        <td><i class="fa fa-clock-o"></i> 12:08am</td>
-                                        <td>Damian</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 23% </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>	
-
-
-
-
-
-
-                        </div>
-
-               
-           
-<div class="row">
-            <div class="col-lg-3">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-success pull-right">Monthly</span>
-                        <h5>Income</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins">40 886,200</h1>
-                        <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                        <small>Total income</small>
-                    </div>
+    <div class="col-lg-9">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Tasks</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
                 </div>
             </div>
-            <div class="col-lg-3">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-info pull-right">Annual</span>
-                        <h5>Orders</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins">275,800</h1>
-                        <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                        <small>New orders</small>
-                    </div>
-                </div>
+            <div class="ibox-content">
+                <ul class="todo-list m-t">
+                    <% _.each(tasks, function(task) { %>
+                    <li>
+                        <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                        <span class="m-l-xs"><%= task.description %><br>  Due: <%= task.endDate %></span>
+                    </li>
+                    <% }) %>
+                </ul>
             </div>
-            <div class="col-lg-3">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-primary pull-right">Today</span>
-                        <h5>Vistits</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins">106,120</h1>
-                        <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
-                        <small>New visits</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-danger pull-right">Low value</span>
-                        <h5>User activity</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins">80,600</h1>
-                        <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>
-                        <small>In first month</small>
-                    </div>
-                </div>
-    </div>
-</div>
-
-<div class="row">
-            <div class="col-lg-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>Orders</h5>
-                        <div class="pull-right">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-xs btn-white active">Today</button>
-                                <button type="button" class="btn btn-xs btn-white">Monthly</button>
-                                <button type="button" class="btn btn-xs btn-white">Annual</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <div class="row">
-                        <div class="col-lg-9">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-dashboard-chart"></div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <ul class="stat-list">
-                                <li>
-                                    <h2 class="no-margins">2,346</h2>
-                                    <small>Total orders in period</small>
-                                    <div class="stat-percent">48% <i class="fa fa-level-up text-navy"></i></div>
-                                    <div class="progress progress-mini">
-                                        <div style="width: 48%;" class="progress-bar"></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h2 class="no-margins ">4,422</h2>
-                                    <small>Orders in last month</small>
-                                    <div class="stat-percent">60% <i class="fa fa-level-down text-navy"></i></div>
-                                    <div class="progress progress-mini">
-                                        <div style="width: 60%;" class="progress-bar"></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h2 class="no-margins ">9,180</h2>
-                                    <small>Monthly income from orders</small>
-                                    <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
-                                    <div class="progress progress-mini">
-                                        <div style="width: 22%;" class="progress-bar"></div>
-                                    </div>
-                                </li>
-                                </ul>
-                            </div>
-                        </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>Messages</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ibox-content ibox-heading">
-                        <h3><i class="fa fa-envelope-o"></i> New messages</h3>
-                        <small><i class="fa fa-tim"></i> You have 22 new messages and 16 waiting in draft folder.</small>
-                    </div>
-                    <div class="ibox-content">
-                        <div class="feed-activity-list">
-
-                            <div class="feed-element">
-                                <div>
-                                    <small class="pull-right text-navy">1m ago</small>
-                                    <strong>Monica Smith</strong>
-                                    <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</div>
-                                    <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
-                                </div>
-                            </div>
-
-                            <div class="feed-element">
-                                <div>
-                                    <small class="pull-right">2m ago</small>
-                                    <strong>Jogn Angel</strong>
-                                    <div>There are many variations of passages of Lorem Ipsum available</div>
-                                    <small class="text-muted">Today 2:23 pm - 11.06.2014</small>
-                                </div>
-                            </div>
-
-                            <div class="feed-element">
-                                <div>
-                                    <small class="pull-right">5m ago</small>
-                                    <strong>Jesica Ocean</strong>
-                                    <div>Contrary to popular belief, Lorem Ipsum</div>
-                                    <small class="text-muted">Today 1:00 pm - 08.06.2014</small>
-                                </div>
-                            </div>
-
-                            <div class="feed-element">
-                                <div>
-                                    <small class="pull-right">5m ago</small>
-                                    <strong>Monica Jackson</strong>
-                                    <div>The generated Lorem Ipsum is therefore </div>
-                                    <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                                </div>
-                            </div>
-
-
-                            <div class="feed-element">
-                                <div>
-                                    <small class="pull-right">5m ago</small>
-                                    <strong>Anna Legend</strong>
-                                    <div>All the Lorem Ipsum generators on the Internet tend to repeat </div>
-                                    <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                                </div>
-                            </div>
-                            <div class="feed-element">
-                                <div>
-                                    <small class="pull-right">5m ago</small>
-                                    <strong>Damian Nowak</strong>
-                                    <div>The standard chunk of Lorem Ipsum used </div>
-                                    <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                                </div>
-                            </div>
-                            <div class="feed-element">
-                                <div>
-                                    <small class="pull-right">5m ago</small>
-                                    <strong>Gary Smith</strong>
-                                    <div>200 Latin words, combined with a handful</div>
-                                    <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-8">
-
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>User project list</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                    <a class="close-link">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content">
-                                <table class="table table-hover no-margins">
-                                    <thead>
-                                    <tr>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th>User</th>
-                                        <th>Value</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td><small>Pending...</small></td>
-                                        <td><i class="fa fa-clock-o"></i> 11:20pm</td>
-                                        <td>Samantha</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 24% </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="label label-warning">Canceled</span> </td>
-                                        <td><i class="fa fa-clock-o"></i> 10:40am</td>
-                                        <td>Monica</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 66% </td>
-                                    </tr>
-                                    <tr>
-                                        <td><small>Pending...</small> </td>
-                                        <td><i class="fa fa-clock-o"></i> 01:30pm</td>
-                                        <td>John</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 54% </td>
-                                    </tr>
-                                    <tr>
-                                        <td><small>Pending...</small> </td>
-                                        <td><i class="fa fa-clock-o"></i> 02:20pm</td>
-                                        <td>Agnes</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 12% </td>
-                                    </tr>
-                                    <tr>
-                                        <td><small>Pending...</small> </td>
-                                        <td><i class="fa fa-clock-o"></i> 09:40pm</td>
-                                        <td>Janet</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 22% </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="label label-primary">Completed</span> </td>
-                                        <td><i class="fa fa-clock-o"></i> 04:10am</td>
-                                        <td>Amelia</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 66% </td>
-                                    </tr>
-                                    <tr>
-                                        <td><small>Pending...</small> </td>
-                                        <td><i class="fa fa-clock-o"></i> 12:08am</td>
-                                        <td>Damian</td>
-                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 23% </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Small todo list</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                    <a class="close-link">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content">
-                                <ul class="todo-list m-t small-list">
-                                    <li>
-                                        <a href="#" class="check-link"><i class="fa fa-check-square"></i> </a>
-                                        <span class="m-l-xs todo-completed">Buy a milk</span>
-
-                                    </li>
-                                    <li>
-                                        <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                        <span class="m-l-xs">Go to shop and find some products.</span>
-
-                                    </li>
-                                    <li>
-                                        <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                        <span class="m-l-xs">Send documents to Mike</span>
-                                        <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 mins</small>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                        <span class="m-l-xs">Go to the doctor dr Smith</span>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="check-link"><i class="fa fa-check-square"></i> </a>
-                                        <span class="m-l-xs todo-completed">Plan vacation</span>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                        <span class="m-l-xs">Create new stuff</span>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                        <span class="m-l-xs">Call to Anna for dinner</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
-</div>
-<div class="footer">
-    <div class="pull-right">
-        10GB of <strong>250GB</strong> Free.
-    </div>
-    <div>
-        <strong>Copyright</strong> Example Company &copy; 2014-2015
     </div>
 </div>
+<% } 
+   else { 
+   }
+%>
+<br>
+<h1><%= user.company.name %> - <%= user.username %>   
+<h3>Data last synced on: <%= user.integrations.nutshell.lastSyncedOn.date %> </h3>
+<h3 id = "percentElapsed"> </h3>
+<hr>
+
+<div class = "row">
+	<div class = "col-lg-4">
+		<div class = "tile blue">
+		<div class = "tile-content">	
+			<div class = "number"><%= '$'+ user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")%></div>
+			<h3> YTD Sales </h3>
+		</div>
+		</div>
+	</div>
+	<div class = "col-lg-4">
+		<div class = "tile green">
+		<div class = "tile-content">	
+			<div class = "number" id = 'projectedSales'><%= '$'+ (user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum*15).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")%></div>
+			<h3> Projected Sales </h3>
+		</div>
+		</div>
+	</div>
+	<div class = "col-lg-4">
+		<div class="pie-charts green-pie">
+            <div class="easy-pie-chart-green easyPieChart" id = 'percentGoal' data-percent="<%= (user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum/user.company.salesGoal*100).toString()%>%" style="width: 100px; height: 100px; line-height: 100px;"> <canvas width="100" height="100"></canvas><%= (user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum/user.company.salesGoal*100).toFixed(2).toString()%>%</div>
+           <div class="label">Projected Goal</div>
+       </div>
+	</div>
+</div>
+<div class = "row">
+	<div class="form-group">
+        <label class="col-lg-3 col-md-3 col-sm-12 control-label">Monthly Sales Performance</label>
+        <div class="col-lg-9 col-md-9">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <select class="form-control" id = "monthOfInterest">              
+                     <option value="0">January</option>
+                     <option value="1">February</option>
+                     <option value="2">March</option>
+                     <option value="3">April</option>
+                     <option value="4">May</option>
+                     <option value="5">June</option>
+                     <option value="6">July</option>
+                     <option value="7">August</option>
+                     <option value="8">September</option>
+                     <option value="9">October</option>
+                     <option value="10">November</option>
+                     <option value="11">December</option> 
+                    </select>
+                </br>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 
+Ok, let's think about this...there are a few ways to calculate/project.
+* Average $/Sale (over what period, and how do we filter out the outliers)
+* Leads Per Day (what's our lead flow and what over what range...catching changes early is important)
+Lead:Estimate Conversion (How many of the incoming leads turn into estimate...this is important to track but we don't reall have a mechanism)
+* Closes Per Day (win, lose or draw we are getting an answer.  This is important but not sure what a good number is...match incoming?)
+* Win:Close (this is actual win rate, and if you have an accurate close rate becomes valuable)
+Estimate:Win Rate (same same but different....since estimates are more difficult for us to track we can probably work with the others)
+Lead:Close (combined conversions of lead:estime * estimate:closed, this would be useful and factors in issues with setting apts)
+Lead:Win (comined conversions of lead:estimate* estimate:win, could be useful but not much added info)
+* $/Lead (will this be dynamic or not? )
+* % Projected Leads For Month
+* % Projected Sales For Month
+
+** Is it important to track these metrics on a per lead basis or a given time-frame?  My gut says it doesn't really matter now...might want to 
+capture the data while we have it...but it will be pure optimization. 
+
+**Current monthly projection formula is: $/sale * closed/day * sale/closed * days (doesn't factor in open pipeline or values...should work that in later)
+
+*** Should definitely check leads in > close rate 
+
+**** How about a pipeline guage?  Open Leads / Leads Closed /Day = No Days Remaining  or something like that?
+
+** Suggestions ** So we can back calculate what we can control - lead flow, estimates set, close - rate (get a decision), win_rate, $/Sale (types of jobs)
+Let's start with what we can control, lead rate and close rate, then move to win rate and $/sale.  Thresholds are important as well. 
+
+-->
+
+<div class= "row">
+    <div class= "col-lg-10 col-md-12">
+    	<div class="panel panel-default toggle" id="spr_9">
+    		<!-- Start .panel -->
+    		<div class="panel-heading">
+    			<h4 class="panel-title"><i class="im-pie"></i> Monthly Metrics</h4>
+    			<div class="panel-controls panel-controls-hide" style="display: none;"><a href="#" class="toggle panel-minimize"><i class="im-minus"></i></a></div></div>
+    			<div class="panel-body">		
+    				<div class = "col-lg-7">
+                        
+                        <div class = "col-lg-6">
+                            <!-- <div class = "tile blue"> -->
+                                <div class="tile-stats b brall mb25">
+                                    <a href="#">
+                                        <div class="tile-stats-icon"><i class="fa-money color-green"></i>
+                                        </div>
+                                        <div class="tile-stats-content">
+                                            <div id = "monthSales" class="tile-stats-number">$</div>
+                                            <div class="tile-stats-text">Actual Sales</div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </div>
+    
+                            <!--     <div class = "tile-content">    
+                                    <div id = "monthSales" class = "number"> 0 </div>
+                                    <h3> Sales </h3>
+                                </div> -->
+                            <!-- </div> -->
+                        </div>
+                        <div class = "col-lg-6">
+                            <!-- <div class = "tile orange"> -->
+    
+                            <div class="tile-stats b brall mb25 green-bg">
+                                    <a href="#">
+                                        <div class="tile-stats-icon"><i class="fa-money color-white"></i>
+                                        </div>
+                                        <div class="tile-stats-content">
+                                            <div id = "projMonthSales" class="tile-stats-number color-white"> </div>
+                                            <div class="tile-stats-text color-white">Projected Sales</div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </div>
+                                
+                            <!-- <div class = "tile-stats b brall mb25 orange-bg">
+                                <div class = "tile-stats-content">    
+                                    <div id = "pojMonthSales" class = "number">0</div>
+                                    <h3> Proj Sales </h3>
+                                </div>
+                            </div> -->
+                         </div>     
+                        <div class = "col-lg-12 ">
+                            <div class="tile dark">
+                                <!-- tile start here -->
+                                <div class="tile-icon">
+                                    <i class="ec-star s64"></i>
+                                </div>
+                                <div class="tile-content">
+                                    <div id = "monthSalesGoal" class="number countTo" data-from="0" data-to="2">$100,000</div>
+                                    <h3>Sales Goal</h3>
+                                </div>
+                            </div>
+                        </div>                             
+                        
+                        <div class = "col-lg-12">
+                            <div class="pie-charts green-pie">
+                            <div id = "pctToGoal" class="easy-pie-chart-green easyPieChart" data-percent="0" style="width: 100px; height: 100px; line-  height: 100px; ">
+                                <span class = "percent" id = "pctToGoalInner"> 0 </span>
+                                <canvas width="100" height="100"></canvas>
+    
+                            </div>
+                            <div class="label">PCT To Goal </div>
+                            </div>
+                            <div class="pie-charts blue-pie">
+                                <div id = "winRate"class="easy-pie-chart-blue easyPieChart" data-percent="0" style="width: 100px; height: 100px; line-  height: 100px;">
+                                    <span class = "percent" id = "winRateInner"> 0 </span>
+                                 <canvas width="100" height="100"></canvas>
+                                </div>
+                                <div class="label">Win Rate </div>
+                            </div>
+                    
+                            <div class="pie-charts">
+                                <div id = "leadToClose" class="easy-pie-chart easyPieChart" data-percent="0" style="width: 100px; height: 100px; line-height: 100px;">
+                                    <span class = "percent" id = "leadToCloseInner"> 0 </span>
+                                    <canvas width="100" height="100"></canvas></div>
+                                <div class="label">LeadsIn:LeadsOut</div>
+                            </div>
+
+                        </div>
+
+                    </div> 
+                    
+                    <div class="col-lg-5 col-md-12">
+                            <!-- Start col-lg-6 -->
+                            <div class="panel panel-default toggle">
+                                <!-- Start .panel -->
+                                <div class="panel-heading">
+                                    <h4 id= "leadsTitle" class="panel-title"><i class="im-bars"></i> Need 10 Leads!</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="leads-bars-chart" style="width: 100%; height:250px;"></div>
+                                </div>
+                            </div>
+                            <!-- End .panel -->
+                    </div>
+                    
+    					    				
+    			</div>
+
+            <div class="panel-footer teal-bg">
+<!--                 Month Selector - averaged, lead flow
+                     Curr/ Projected sales tile - % to goal - win rate - lead2win
+                     Avg Sale - $/Lead - Lead/Day - Close/Day  -->
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile teal m0">
+                        <div class="tile-content text-center pl0 pr0">
+                            <div id="avgSale" class="number countTo" data-from = "0" data-to = "2300" >2,300</div>
+                            <h3>Avg Sale</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile teal m0">
+                        <div class="tile-content text-center pl0 pr0">
+                            <div id="dollarPerLead" class="number countTo" data-from="0" data-to="1000">1,000</div>
+                            <h3>$/Lead</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile teal m0">
+                        <div class="tile-content text-center pl0 pr0">
+                            <div id="leadsPerWeek" class="number countTo" data-from="0" data-to="2">8</div>
+                            <h3>Leads In/Week</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile teal m0">
+                        <div class="tile-content text-center pl0 pr0">
+                            <div id="closedPerWeek" class="number countTo" data-from="0" data-to="2">2</div>
+                            <h3>Leads Out/Week</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class = "clearfix"></div>
+            </div>
+    	</div>
+    </div>
+</div>
+
+
+
+<div class="col-lg-10 col-md-10">
+ <!-- col-lg-6 start here -->
+    <div class="panel panel-default plain toggle panelClose panelRefresh" id="spr_1">
+         <!-- Start .panel -->
+         <div class="panel-heading white-bg">
+             <h4 class="panel-title"><%= redMetrics.Total_Red_Leads +' '%>Red Leads </h4>
+             <div class="panel-controls panel-controls-hide" style="display: none;"><a href="#" class="panel-refresh"><i class="im-spinner6"></i></a><a href="#" class="toggle panel-minimize"><i class="im-minus"></i></a><a href="#" class="panel-close"><i class="im-close"></i></a></div></div>
+             <div class="panel-body" style="display: block;">
+             <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 100%; height: auto;"><div class="table-responsive" style="overflow: hidden; width: 100%; height: auto;">
+             	<table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="per20">Lead</th>
+                        <th class="per40">Description</th>
+                        <th class="per20">Value</th>
+                        <th class="per20">Milestone</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var index in redLeads){for(i = 0; i<redLeads[index].length; i++) {  %>
+                    <tr>
+                        <td><%= redLeads[index][i].name%></td>
+                        <td><%= redLeads[index][i].description%></td>
+                        <td><%= redLeads[index][i].value%></td>
+                  		<td><%= redLeads[index][i].milestone%></td>
+               		</tr>
+               		<% }} %>
+			   </tbody>
+            </table>
+        </div> 
+        <div class="slimScrollBar ui-draggable" style="height: 5px; position: absolute; bottom: 3px; opacity: 0.4; display: none; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; z-index: 99; width: 525px; left: 0px; background: rgb(153, 153, 153);">
+        </div>
+        <div class="slimScrollRail" style="width: 100%; height: 5px; position: absolute; bottom: 3px; display: none; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; opacity: 0.5; z-index: 90; background: rgb(51, 51, 51);">
+        </div>
+    </div>
+            </div>
+    </div>
+<!-- End .panel -->
+</div>
+ <div class="outlet">
+    <!-- Start .outlet -->
+    <!-- Page start here ( usual with .row ) -->
+    <div class="row">
+        <div class="col-lg-10 col-md-12">
+            <!-- Start col-lg-6 -->
+            <div class="panel panel-primary plain toggle">
+                <!-- Start .panel -->
+                <div class="panel-heading">
+                    <h4 class="panel-title"><i class="im-bars"></i> Monthly Sales </h4>
+                </div>
+                <div class="panel-body blue-bg">
+                    <div id="line-chart-dots" style="width: 100%; height:250px;"></div>
+                </div>
+            </div>
+            <!-- End .panel -->
+        </div>
+    </div>
+ </div>
+ <div class="row">
+        <div class="col-lg-10 col-md-12">
+            <!-- Start col-lg-6 -->
+            <div class="panel panel-primary plain toggle">
+                <!-- Start .panel -->
+                <div class="panel-heading">
+                    <h4 class="panel-title"><i class="im-bars"></i> Sales Curve</h4>
+                </div>
+                <div class="panel-body blue-bg">
+                    <div id="year" style="width: 100%; height:250px;"></div>
+                </div>
+            </div>
+            <!-- End .panel -->
+        </div>
+    </div>
+ </div>
+<a class= "btn btn-primary btn-medium" href= "/user/edit/<%=user.id%>"> Edit </a>
+
+</div>
+
+
+<script> 
+var sales_data = <%- salesData %> ;
+var lead_data = <%- leadData %> ;
+var pipeline_data = <%- pipelineData %> ;
+var goal = <%= user.company.salesGoal %>;
+
+</script>
 

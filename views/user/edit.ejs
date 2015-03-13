@@ -1,27 +1,59 @@
 <div class= "container" style="width: 80%;">
 
-<form action = "/user/addNutshellCredentials/<%= user.id %>" method = "GET" class= "form-signin">
+<form action = "/user/update/<%= user.id %>" method = "GET" class= "form-signin">
     <h2 class= "form-signin-heading">Update Information...</h2>
 
         <input type= "text" class = "form-control" placeholder = "<%= user.username %>" value="<%= user.username %>" disabled>
         <hr>
         <input type= "text" class = "form-control" placeholder = "<%= user.email %>" value="<%= user.email %>" disabled>
         <hr>
-        <% if(user.company) { %> 
-          <input type= "text" class = "form-control" placeholder = "<%= user.company.name %>" value="<%= user.company.name %>" disabled>
-        <%}%>
+        <% if (user.company != null) { %>
+          <input type= "text" class = "form-control" placeholder = "<%= user.company.name %>" disabled>
+        <% } 
+           else { %>
+            <input type= "text" class = "form-control" placeholder = "No Company Set" disabled>
+        <% } %>
         <hr>
         <% if (isSuperUser) { %>
             <select name='role'>
-              <option value="user">User</option>
-              <option value="concierge">Concierge</option>
-              <option value="super_user">Super User</option>
+              <% if (user.role == 'user') { %>
+                  <option value="user" selected>User</option>
+              <% } 
+                 else { %>
+                  <option value="user">User</option>
+              <% } %>
+              <% if (user.role == 'concierge') { %>
+                  <option value="concierge" selected>Concierge</option>
+              <% } 
+                 else { %>
+                  <option value="concierge">Concierge</option>
+              <% } %>
+              <% if (user.role == 'superUser') { %>
+                  <option value="superUser" selected>Super User</option>
+              <% } 
+                 else { %>
+                  <option value="superUser">Super User</option>
+              <% } %>
             </select>
-            <hr> 
-        <% } 
-           else { %>
+            <hr>
+            <select name='company'>
+                <option value="null">Select a Company to add <%= user.username %></option>
+              <% _.each(companies, function(company) { %>
+                <% if (user.company != null) { %>
+                  <% if (user.company.id == company.id) { %>
+                    <option value="<%= company.id %>" selected><%= company.name %></option>
+                  <% } 
+                     else { %> <option value="<%= company.id %>"><%= company.name %></option> <% } 
+                  %>
+               <% } 
+                  else { %> <option value="<%= company.id %>"><%= company.name %></option>} <% } %>
+              <%  }) %>
+            </select>
+              <hr>  
+          <% } 
 
-        <% } %>
+           else { } %>
+        
         <a href="/user/integrateNutshell/<%= user.id %>" class="btn btn-med btn-primary btn-block">Integrate Nutshell</a>
         <% if (user.integrations != undefined) { %>
           <h5 style="float: right;">Last synced on: <%= user.integrations.nutshell.lastSyncedOn.date %></h5>

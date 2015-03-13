@@ -95,11 +95,6 @@ $(function() {
 					}
 				}
 
-
- 				console.log(d2);
-				console.log(newd1);
-				console.log(newd3);
-
 				if (d2.length > 5) {
 					d2.slice(5, d2.length - 1);
 					newd1.slice(5, newd1.length - 1);
