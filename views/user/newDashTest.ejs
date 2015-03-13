@@ -43,7 +43,7 @@
    }
 %>
 <br>
-<h1><%= user.company.name %> - <%= user.username %>   
+<h1><% if(user.company){%> <%= user.company.name %> <% }%> - <%= user.username %>   
 <h3>Data last synced on: <%= user.integrations.nutshell.lastSyncedOn.date %> </h3>
 <h3 id = "percentElapsed"> </h3>
 <hr>

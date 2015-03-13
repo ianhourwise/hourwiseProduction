@@ -275,7 +275,7 @@ module.exports = {
 
 	newDashTest: function(req, res, next) {
 
- 		User.findOne(req.param('id')).populate(['company','tasks']).exec(function (err, user) {
+ 		User.findOne(req.param('id')).populate('company').populate('tasks').exec(function (err, user) {
 	 		if(err) return next(err);
 	 		if(!user) return next();
 	 		user.getPerformanceMetrics(user);

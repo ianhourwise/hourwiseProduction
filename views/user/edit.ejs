@@ -7,7 +7,9 @@
         <hr>
         <input type= "text" class = "form-control" placeholder = "<%= user.email %>" value="<%= user.email %>" disabled>
         <hr>
-        <input type= "text" class = "form-control" placeholder = "<%= user.company.name %>" value="<%= user.company.name %>" disabled>
+        <% if(user.company) { %> 
+          <input type= "text" class = "form-control" placeholder = "<%= user.company.name %>" value="<%= user.company.name %>" disabled>
+        <%}%>
         <hr>
         <% if (isSuperUser) { %>
             <select name='role'>
