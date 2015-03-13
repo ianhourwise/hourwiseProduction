@@ -20,7 +20,9 @@ var i = dayIndex(pipeline_data.seriesData.open_leads, beginningOfToday.valueOf()
 var noOpen = pipeline_data.seriesData.open_leads[i][1];
 //Previous Days Totals
 var salesOfInterest= previousDaysTotal(noDaysForSales,sales_data.seriesData.won_lead_value);
-var avgSaleOfInterest = salesOfInterest/noLeadsWon;
+var avgSaleOfInterest = 0;
+if (noLeadsWon > 0)
+	avgSaleOfInterest = salesOfInterest/noLeadsWon;
 var avgSalePerDay = salesOfInterest/noDaysForSales;
 var DPLOfInterest = salesOfInterest/noLeadsOpened;
 //Previous Months Calculations
@@ -517,8 +519,10 @@ function projectedLeads(month){
 function projectedMonthsSales(month){
 	var totalProjected = 0;
 	var currentSales = salesByMonth[month][1];
+	
 	var dollarPerLead = (isThisMonthMOI(month)) ? DPLOfInterest : salesByMonth[month][1]/leadsOpenByMonth[month][1] ; 
 	//
+	console.log(closeRate + '-' + Won2Close + '-' + avgSaleOfInterest + '-' + daysRemaining(month));
 	var projectedSales = closeRate*Won2Close*avgSaleOfInterest*daysRemaining(month);
 	// var projectedSales = dollarPerLead*openRate*daysRemaining(month);
 

@@ -187,7 +187,7 @@ module.exports = {
 
 					User.update(req.param('id'), { 'integrations': nutshell}, function(err, response) {
 
-								res.redirect('/user/newDashTest/' + req.param('id'));
+								res.redirect('/user/dashboard/' + req.param('id'));
 
 					});
 				});
@@ -491,7 +491,23 @@ module.exports = {
 			      }
 			
 			      // next(null, user);
-			      res.redirect('/company/profile');
+			      var parsed_url = {}
+				  var url = req.headers['referer'];
+				  protocol_i = url.indexOf('://');
+				  parsed_url.protocol = url.substr(0,protocol_i);
+				  remaining_url = url.substr(protocol_i + 3, url.length);
+				  domain_i = remaining_url.indexOf('/');
+				  domain_i = domain_i == -1 ? remaining_url.length - 1 : domain_i;
+				  parsed_url.domain = remaining_url.substr(0, domain_i);
+				  parsed_url.path = domain_i == -1 || domain_i + 1 == remaining_url.length ? null : remaining_url.substr(domain_i + 1, remaining_url.length);
+				  domain_parts = parsed_url.domain.split('.');
+
+
+
+				  if (parsed_url.path == 'user/admin')
+				  	res.redirect('/user/admin')
+				  else
+			      	res.redirect('/company/profile');
 			   });
 	   });	
 	

@@ -1,11 +1,11 @@
-<link href="/styles/icons.css" rel="stylesheet" />
+<!-- <link href="/styles/icons.css" rel="stylesheet" /> -->
 <!-- jQueryUI -->
 <link href="/styles/sprflat-theme/jquery.ui.all.css" rel="stylesheet" />
 <!-- Bootstrap stylesheets (included template modifications) -->
 <!-- Plugins stylesheets (all plugin custom css) -->
 <link href="/styles/plugins.css" rel="stylesheet" />
 <!-- Main stylesheets (template main css file) -->
-<link href="/styles/main.css" rel="stylesheet" />
+<!-- <link href="/styles/main.css" rel="stylesheet" /> -->
 <!-- Custom stylesheets ( Put your own changes here ) -->
 
 <div class = "container">
@@ -51,7 +51,7 @@
 	<div class = "col-lg-4">
 		<div class = "tile blue">
 		<div class = "tile-content">	
-			<div class = "number"><%= '$'+ user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")%></div>
+			<div class = "number" style="font-size: 32px;"><%= '$'+ user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")%></div>
 			<h3> YTD Sales </h3>
 		</div>
 		</div>
@@ -59,7 +59,7 @@
 	<div class = "col-lg-4">
 		<div class = "tile green">
 		<div class = "tile-content">	
-			<div class = "number" id = 'projectedSales'><%= '$'+ (user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum*15).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")%></div>
+			<div class = "number" style="font-size: 32px;" id = 'projectedSales'><%= '$'+ (user.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum*15).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")%></div>
 			<h3> Projected Sales </h3>
 		</div>
 		</div>
@@ -140,9 +140,9 @@ Let's start with what we can control, lead rate and close rate, then move to win
                         
                         <div class = "col-lg-6">
                             <!-- <div class = "tile blue"> -->
-                                <div class="tile-stats b brall mb25">
+                                <div class="tile-stats b brall mb25" style="border: 1px solid #e7e7e2; border-radius: 4px;">
                                     <a href="#">
-                                        <div class="tile-stats-icon"><i class="fa-money color-green"></i>
+                                        <div class="tile-stats-icon"><i class="fa fa-money"></i>
                                         </div>
                                         <div class="tile-stats-content">
                                             <div id = "monthSales" class="tile-stats-number">$</div>
@@ -161,9 +161,9 @@ Let's start with what we can control, lead rate and close rate, then move to win
                         <div class = "col-lg-6">
                             <!-- <div class = "tile orange"> -->
     
-                            <div class="tile-stats b brall mb25 green-bg">
+                            <div class="tile-stats b brall mb25 green-bg" style="border-radius: 4px;">
                                     <a href="#">
-                                        <div class="tile-stats-icon"><i class="fa-money color-white"></i>
+                                        <div class="tile-stats-icon"><i class="fa fa-money"></i>
                                         </div>
                                         <div class="tile-stats-content">
                                             <div id = "projMonthSales" class="tile-stats-number color-white"> </div>
@@ -181,13 +181,13 @@ Let's start with what we can control, lead rate and close rate, then move to win
                             </div> -->
                          </div>     
                         <div class = "col-lg-12 ">
-                            <div class="tile dark">
+                            <div class="tile dark" style="margin-top: 2%;">
                                 <!-- tile start here -->
                                 <div class="tile-icon">
                                     <i class="ec-star s64"></i>
                                 </div>
                                 <div class="tile-content">
-                                    <div id = "monthSalesGoal" class="number countTo" data-from="0" data-to="2">$100,000</div>
+                                    <div id = "monthSalesGoal" class="number countTo" data-from="0" data-to="2" style="font-size: 32px;">$100,000</div>
                                     <h3>Sales Goal</h3>
                                 </div>
                             </div>
@@ -366,7 +366,7 @@ Let's start with what we can control, lead rate and close rate, then move to win
 var sales_data = <%- salesData %> ;
 var lead_data = <%- leadData %> ;
 var pipeline_data = <%- pipelineData %> ;
-var goal = <%= user.company.salesGoal %>;
+var goal = <%= user.salesGoal %>;
 
 </script>
 

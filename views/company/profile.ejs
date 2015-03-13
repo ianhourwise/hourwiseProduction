@@ -189,10 +189,10 @@
                                         </tr>
 
                                         <% _.each(company.employees, function(employee){ %>
-                                        <tr data-id = "<% user.id %>" data-model = "user">
+                                        <tr data-id = "<% employee.id %>" data-model = "user">
                                             <td><%= employee.username %></td>
                                             <td><%= employee.email %></td>
-                                            <td><a href= "/user/companysettings/<%= employee.id %>" class= "btn btn-sm btn-primary" >Show</a> </td>
+                                            <td><a href= "/user/dashboard/<%= employee.id %>" class= "btn btn-sm btn-primary" >Show</a> </td>
 
                                             <!-- <td><a href= "user/edit/<%= user.id %>" class= "btn btn-sm btn-warning" >Edit</a> </td> -->
                                        <!--  <td><form action= "user/destroy/<%= user.id %>"  method = 'POST'>

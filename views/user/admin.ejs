@@ -114,7 +114,7 @@
                                                             <span class="label label-primary"><%= user.role %></span>
                                                         </td>
                                                         <td class="user-name">
-                                                            <a href="/user/show<%= user.id %>"><%= user.username%></a>
+                                                            <a href="/user/dashboard/<%= user.id %>"><%= user.username%></a>
                                                             <br/>
                                                             <small>Since <%= user.createdAt%></small>
                                                         </td>
@@ -127,12 +127,12 @@
                                                             <% } %>
                                                         </td>
                                                         <td class="user-reroute">
-                                                            <a href="/user/update?reroute=dashboard">
+                                                            <a href="/user/update?id=<%=user.id %>&reroute=dashboard">
                                                                 <span class="label label-primary"><%= user.reroute %></span>
                                                             </a>
                                                         </td>                                                
                                                         <td class="user-actions">
-                                                            <a href="/user/show/<%= user.id %>" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
+                                                            <a href="/user/dashboard/<%= user.id %>" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
                                                             <a href="/user/edit/<%= user.id %>" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </a>
                                                         </td>
                                                     </tr>
