@@ -166,6 +166,8 @@ var AuthController = {
         // Upon successful login, send the user to the homepage were req.user
         // will available.
         req.session.User = user;
+
+        console.log(req.session.User.role);
         if(user.role === 'admin' || user.role === 'superUser'){
           res.redirect('/user/admin');
         }

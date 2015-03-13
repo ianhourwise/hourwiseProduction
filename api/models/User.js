@@ -130,7 +130,12 @@ var User = {
   		return obj;
   	}
 
-  }
+  },
+
+  beforeCreate: function (attrs, next) {
+      delete attrs.password;
+      next();
+    }
 };
 
 module.exports = User;
