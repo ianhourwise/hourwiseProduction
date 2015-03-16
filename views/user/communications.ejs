@@ -6,8 +6,8 @@
 	        <div class="panel-options">
 
 	            <ul class="nav nav-tabs">
-	                <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">Phone/SMS</a></li>
-	                <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">Email</a></li>
+	                <li class=""><a data-toggle="tab" href="#tab-1" aria-expanded="false">Phone/SMS</a></li>
+	                <li class="active"><a data-toggle="tab" href="#tab-2" aria-expanded="true">Email</a></li>
 	            </ul>
 	        </div>
 	    </div>
@@ -41,9 +41,12 @@
                                         <% } %>
                                         <br>
                                         <% if (touch.createdBy != null) { %>
-                                            <small class="text-navy">Created by: <%= touch.createdBy.username %></small>
+                                            <small class="text-navy">Created by:<br> <%= touch.createdBy.username %></small>
+                                        <% } else if (touch.contact != null) { %>
+                                            <small class="text-navy">Sent from:<br> <%= touch.contact.name %></small>
                                         <% } else { %>
-                                            <small class="text-navy">
+                                            <small class="text-navy">Sent from:<br> Unknown</small>
+                                        <% } %>
                                     </div>
                                     <div class="col-xs-7 content no-top-border">
                                         <p class="m-b-xs"><strong>Message</strong></p>

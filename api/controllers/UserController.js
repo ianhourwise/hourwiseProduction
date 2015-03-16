@@ -425,7 +425,8 @@ module.exports = {
 			}
 				);
 		});
-	},		
+	},
+			
 	create: function(req, res, next){
 	  var email    = req.param('email')
 	    , username = req.param('username')
