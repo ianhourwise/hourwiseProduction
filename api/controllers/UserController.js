@@ -43,18 +43,22 @@ module.exports = {
  	communications: function(req, res) {
  		if (req.session.User.role != 'user') {
  			User.find(function (err, users) {
- 				res.view({
- 				user: req.session.User,
- 				users: users
- 			});
+
+ 				Touch.find({type: 'sms'}).populate('createdBy').populate('contact').exec(function (err, touches) {
+ 					if (err)
+ 						console.log(err);
+
+ 					res.view({
+ 						user: req.session.User,
+		 				users: users,
+		 				touches: touches
+	 				});
+		 				
+ 				});
  			});
  		}
  		else
  			res.send(403);
- 	},
-
- 	testSMS: function(req, res) {
- 		Twilio.sendSMS({toNumber: '7578807276', smsContent: 'Sent from hourwise.com...'});
  	},
 
 	index: function(req, res) {
@@ -151,12 +155,22 @@ module.exports = {
 		var redLeads = {};
 
 		User.update(req.param('id'), { 'integrations': { 'nutshell': { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId'), 'lastSyncedOn': { 'date': new Date() } , 'performanceMetrics': {} , 'redLeads': {} } } }, function (err) {
-			NutshellApi.getPerformanceReports( { 'integrations': { 'nutshell': { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') } } }, function(err, response) {
+			if(err) {
+ 				return res.redirect('/user/edit/'+ req.parm('id'));
+ 			}
+
+			NutshellApi.getPerformanceReports( { 'integrations': { 'nutshell': { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') } } }, function (err, response) {
+				if(err) {
+ 					return res.redirect('/user/edit/'+ req.parm('id'));
+ 				}
 				performanceMetrics = response;
 
 				console.log('Now we should be calling getRedLeads but it never gets invoked it seems....'); 
 
-				NutshellApi.getRedLeads( { 'integrations': { 'nutshell': { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') } } }, function(err, response1) {
+				NutshellApi.getRedLeads( { 'integrations': { 'nutshell': { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') } } }, function (err, response1) {
+					if(err) {
+ 						return res.redirect('/user/edit/'+ req.parm('id'));
+ 					}
 					redLeads = response1;
 
 					var nutshell = { 'nutshell': { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId'), 'lastSyncedOn': { 'date': new Date() } , 'performanceMetrics': {} , 'redLeads': {} } } ;
@@ -164,7 +178,7 @@ module.exports = {
 					nutshell.nutshell.performanceMetrics = performanceMetrics;
 					nutshell.nutshell.redLeads = redLeads;
 
-					User.update(req.param('id'), { 'integrations': nutshell}, function(err, response) {
+					User.update(req.param('id'), { 'integrations': nutshell}, function (err, response) {
 
 								res.redirect('/user/dashboard/' + req.param('id'));
 
@@ -280,7 +294,7 @@ module.exports = {
 				nutshell.lastSyncedOn.date = new Date();
 				var tasks = user.tasks;
 
-		 		User.update(req.param('id'), { 'integrations': { 'nutshell': nutshell } }, function(err) {
+		 		User.update(req.param('id'), { 'integrations': { 'nutshell': nutshell } }, function (err) {
 		 			res.locals.layout= 'layouts/dashboard_layout';
 			 		res.view({
 			 			user: user,
@@ -312,8 +326,8 @@ module.exports = {
 				res.locals.layout = "layouts/layout";
 				User.find().populate('myCompany').populate('company').exec(function (err, users) {
 					res.view({
-					companies: companies,
-					users: users
+						companies: companies,
+						users: users
 					});	
 				});
 			});	
@@ -512,8 +526,7 @@ module.exports = {
 	
 
 
-	},
-	_config:{}
+	}
 	
 };
 
