@@ -90,6 +90,8 @@ module.exports = {
 
 		 		var totalSales = 0.00;
 
+		 		res.locals.layout = "layouts/userIndexWithGraph"; 
+
 				for (var i = 0; i < users.length; i++) {
 					console.log(users[i].username);
 					if (users[i].integrations != undefined)
