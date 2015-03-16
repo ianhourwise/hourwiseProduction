@@ -28,9 +28,9 @@
 	<th></th>
 </tr>
 
-<% _.each(users, function(user) { if(!user.wizardInfo){user.wizardInfo = {company:'NoCo'}}%>
+<% _.each(users, function(user) { if(!user.company){user.company.name = {company:'NoCo'}}%>
 <tr data-id = "<% user.id %>" data-model = "user">
-	<td><%= user.wizardInfo.company %></td>
+	<td><%= user.company.name %></td>
 	<td><%= user.username %></td>
 	<td><%= user.email %></td>
 	<td><a href= "/user/dashboard/<%= user.id %>" class= "btn btn-sm btn-primary" >Show</a> </td>
