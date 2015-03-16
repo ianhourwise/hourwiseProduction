@@ -13,12 +13,12 @@ module.exports = {
  				console.log(err);
  			else {
 
- 				User.findOne('email': req.param('fromEmail'))
+ 				// User.findOne('email': req.param('fromEmail'))
 
- 				var touchData = {
- 					type: 'email',
- 					owner: 
- 				};
+ 				// var touchData = {
+ 				// 	type: 'email',
+ 				// 	owner: 
+ 				// };
  			}
  		});
  	},
