@@ -75,7 +75,7 @@ module.exports = {
 						totalSales += users[i].integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum;
 				}
 
-		 		res.view( {
+		 		res.view('user/conciergeIndex', {
 		 			users: users,
 		 			totalSales: totalSales,
 		 			showGraph: showGraph
