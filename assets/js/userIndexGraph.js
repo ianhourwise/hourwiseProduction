@@ -97,6 +97,10 @@ $(function() {
 					}
 				}
 
+				console.log(d2);
+				console.log(newd1);
+				console.log(newd3);
+
 				if (d2.length > 5) {
 					d2.slice(5, d2.length - 1);
 					newd1.slice(5, newd1.length - 1);
@@ -244,7 +248,7 @@ $(function() {
 				var ticksArray = [];
 
 				for (var i = 0; i < d2.length; i++)
-					ticksArray.push([i, d2[i][3]]);
+					ticksArray.push([d2[i][0], d2[i][3]]);
 
 				console.log('----' + ticksArray);
 
@@ -268,6 +272,8 @@ $(function() {
 						}
 					});
 				}
+
+				console.log('++++' + ticksArray);
 
 				plotWithOptions();		
 
