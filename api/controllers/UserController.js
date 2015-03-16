@@ -53,29 +53,6 @@ module.exports = {
  			res.send(403);
  	},
 
- 	sendEmail: function(req, res) {
- 		console.log(req.params.all());
- 		Mandrill.sendEmail(req.params.all(), function (err) {
- 			if (err) 
- 				console.log(err);
- 			else {
- 				var date = new Date();
- 				var emails = [];
-
- 				if (req.session.User.emails != undefined)
- 					emails = req.session.User.emails;
-
- 				emails.push({'sentOn': date, 'sentTo': req.param('toEmail'), 'sentFrom': req.param('fromEmail')});
-
- 				User.update(req.session.User.id, {'emails': emails}, function(err) {
- 					if (err)
- 						console.log('----' + error);
- 					res.redirect('/user/communications');
- 				});
- 			}
- 		});
- 	},
-
  	testSMS: function(req, res) {
  		Twilio.sendSMS({toNumber: '7578807276', smsContent: 'Sent from hourwise.com...'});
  	},

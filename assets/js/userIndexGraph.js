@@ -51,7 +51,7 @@ $(function() {
 
 					var monthCode = (new Date(today.getFullYear(), month, 1, 0)).valueOf();
 					var	weight = MONTHLY_WEIGHTS[month][1];
-					var goal = users[z].wizardInfo.salesGoal * weight;
+					var goal = users[z].salesGoal * weight;
 					var salesTarget = goal*weight; 
 					var monthSales = d4[month][1];
 					var monthGoal = goal*MONTHLY_WEIGHTS[month][1];
@@ -77,6 +77,8 @@ $(function() {
 					d3.push([z, sales, users[z].id, users[z].username]);
 
 				}
+			}
+
 
 				d2.sort(function (a,b) {
 					return a[1] > b[1];
@@ -98,7 +100,7 @@ $(function() {
 				if (d2.length > 5) {
 					d2.slice(5, d2.length - 1);
 					newd1.slice(5, newd1.length - 1);
-					newd3.slice(5, newd3.length -1);
+					newd3.slice(5, newd3.length - 1);
 				}
 				
 				// for (var i = 0; i < users.length; i++) {
@@ -246,6 +248,7 @@ $(function() {
 
 				console.log('----' + ticksArray);
 
+
 				function plotWithOptions() {
 					$.plot("#placeholder", [ newd1, d2, newd3 ], {
 						xaxis: {
@@ -268,6 +271,6 @@ $(function() {
 
 				plotWithOptions();		
 
-				}
+			
 		});
 });
