@@ -78,12 +78,17 @@ module.exports = {
  		var twilio = require('twilio');
 
 		console.log(req.params.all());
-	    var twiml = new twilio.TwimlResponse();
+		res.header('Content-Type', 'text/xml');
 
-	    twiml.message('Your text has been received. One of our helpful concierges will respond to you as soon as possible!');
+		res.send('<Response><Message>Your text has been received. One of our helpful concierges will respond to you as soon as possible!</Message></Response>'); 
+	 //    var twiml = new twilio.TwimlResponse();
 
-	    res.type('text/xml');
-	    res.send(twiml.toString());
+	 //    twiml.message('Your text has been received. One of our helpful concierges will respond to you as soon as possible!');
+
+	 //    res.type('xml');
+
+		// console.log(twiml.toString());
+	    //res.send(twiml.toString());
 
 
  	},

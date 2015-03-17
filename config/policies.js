@@ -34,6 +34,10 @@ module.exports.policies = {
   },
 
   '/': 'layoutSelection',
+  
+  'touch': {
+    inboundSMS: true
+  },
 
   /***************************************************************************
   *                                                                          *
