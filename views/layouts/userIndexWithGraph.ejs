@@ -90,7 +90,7 @@
                     <li>
                         <a href="/task/index"><i class="fa fa-calendar"></i> <span class="nav-label">Tasks</span></a>
                     </li>
-                    <% if (req.session.User.role != user) %>
+                    <% if (req.session.User.role != user) { %>
                         <li>
                             <a href="/user/communications"><i class="fa fa-keyboard-o"></i> <span class="nav-label">Communications</span></a>
                         </li>
