@@ -86,7 +86,7 @@ module.exports = {
 			outbound: null,
 			inbound: req.param('From'),
 			contact: null,
-			body: req.param('body'),
+			body: req.param('Body'),
 			createdBy: null,
 			job: null, //change later
 			notes: null //change later
