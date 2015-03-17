@@ -73,9 +73,9 @@ module.exports = {
  	},
 
  	inboundSMS: function(req, res) {
- 		var twilio = require('twilio');
-
  		console.log('-------HIT INBOUND SMS ENDPOINT------');
+ 		
+ 		var twilio = require('twilio');
 
  		if (twilio.validateExpressRequest(req, 'b2f8d9837c132f73281ce615ca933952')) {
  			console.log(req.params.all());
