@@ -80,16 +80,25 @@ module.exports = {
 		console.log(req.params.all());
 		res.header('Content-Type', 'text/xml');
 
-		res.send('<Response><Message>Your text has been received. One of our helpful concierges will respond to you as soon as possible!</Message></Response>'); 
-	 //    var twiml = new twilio.TwimlResponse();
+		var touchData = {
+			type: 'sms',
+			owner: null,
+			outbound: null,
+			inbound: req.param('From'),
+			contact: null,
+			body: req.param('body'),
+			createdBy: null,
+			job: null, //change later
+			notes: null //change later
+		};
 
-	 //    twiml.message('Your text has been received. One of our helpful concierges will respond to you as soon as possible!');
+		Touch.create(touchData, function (err, touch) {
+			if (err)
+				console.log(err);
 
-	 //    res.type('xml');
+			res.send('<Response><Message>Your text has been received. One of our helpful concierges will respond to you as soon as possible!</Message></Response>'); 
 
-		// console.log(twiml.toString());
-	    //res.send(twiml.toString());
-
+		});
 
  	},
 	
