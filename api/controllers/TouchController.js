@@ -74,23 +74,18 @@ module.exports = {
 
  	inboundSMS: function(req, res) {
  		console.log('-------HIT INBOUND SMS ENDPOINT------');
- 		
+
  		var twilio = require('twilio');
 
- 		if (twilio.validateExpressRequest(req, 'b2f8d9837c132f73281ce615ca933952')) {
- 			console.log(req.params.all());
-	        var twiml = new twilio.TwimlResponse();
+		console.log(req.params.all());
+	    var twiml = new twilio.TwimlResponse();
 
-	        twiml.message('Your text has been received. One of our helpful concierges will respond to you as soon as possible!');
+	    twiml.message('Your text has been received. One of our helpful concierges will respond to you as soon as possible!');
 
-	        res.type('text/xml');
-	        res.send(twiml.toString());
+	    res.type('text/xml');
+	    res.send(twiml.toString());
 
 
-	    }
-	    else {
-	        res.send('unauthorized request');
-	    }
  	},
 	
 };
