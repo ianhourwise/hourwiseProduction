@@ -80,6 +80,11 @@ module.exports = {
 		console.log(req.params.all());
 		res.header('Content-Type', 'text/xml');
 
+		var mediaURL = null;
+
+		if (req.param('MediaUrl0'))
+			mediaURL = req.param('MediaUrl0');
+
 		var touchData = {
 			type: 'sms',
 			owner: null,
@@ -89,7 +94,8 @@ module.exports = {
 			body: req.param('Body'),
 			createdBy: null,
 			job: null, //change later
-			notes: null //change later
+			notes: null, //change later
+			mediaURL: mediaURL
 		};
 
 		Touch.create(touchData, function (err, touch) {
