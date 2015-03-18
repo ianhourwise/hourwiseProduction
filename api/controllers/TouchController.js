@@ -98,12 +98,23 @@ module.exports = {
 			mediaURL: mediaURL
 		};
 
-		Touch.create(touchData, function (err, touch) {
-			if (err)
-				console.log(err);
+		Contact.find(function (err, contacts) {
+			for (var i = 0; i < contacts.length; i++) {
+				var phoneNumber = req.param('From');
+				var phoneNumberTrim = phoneNumber.substring(2, phoneNumber.length); //trimming to remove +1 from phone number
 
-			res.send('<Response><Message>Your text has been received. One of our helpful concierges will respond to you as soon as possible!</Message></Response>'); 
 
+				if (contacts[i].phoneNumber == phoneNumberTrim)
+					touchData.contact = contacts[i].id;
+			}
+
+			Touch.create(touchData, function (err, touch) {
+				if (err)
+					console.log(err);
+
+				res.send('<Response><Message>Your text has been received. One of our helpful concierges will respond to you as soon as possible!</Message></Response>'); 
+
+			});
 		});
 
  	},

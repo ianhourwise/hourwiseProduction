@@ -36,27 +36,19 @@ module.exports.policies = {
   '/': 'layoutSelection',
   
   'touch': {
-    inboundSMS: true
+    inboundSMS: true,
+    sendEmail: ['isSuperUser', 'isConcierge'],
+    outboundSMS: ['isSuperUser', 'isConcierge']
   },
 
-  /***************************************************************************
-  *                                                                          *
-  * Here's an example of mapping some policies to run before a controller    *
-  * and its actions                                                          *
-  *                                                                          *
-  ***************************************************************************/
-	// RabbitController: {
+  'user': {
+    admin: 'isSuperUser',
+    communications: ['isSuperUser', 'isConcierge'],
 
-		// Apply the `false` policy as the default for all of RabbitController's actions
-		// (`false` prevents all access, which ensures that nothing bad happens to our rabbits)
-		// '*': false,
+  },
 
-		// For the action `nurture`, apply the 'isRabbitMother' policy
-		// (this overrides `false` above)
-		// nurture	: 'isRabbitMother',
-
-		// Apply the `isNiceToAnimals` AND `hasRabbitFood` policies
-		// before letting any users feed our rabbits
-		// feed : ['isNiceToAnimals', 'hasRabbitFood']
-	// }
+  'company': {
+    profile: 'isCompanyOwner'
+  }
+  
 };

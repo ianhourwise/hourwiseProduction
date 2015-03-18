@@ -537,15 +537,19 @@ function previousDaysTotal(noDays, data){
 	// data should be in series form and [[datecode, value],[datecode, value]]
 	// functions returns the sum of values between midight noDays before today and Now. 
 	var total=0;
+	var numOpened = 0;
 	var noDays= noDays*3600*1000*24;
 	var prevDay = today - noDays;
 	var startDay = new Date(prevDay);
 	startDay.setHours(0,0,0,0);
 	
 	for(var i in data){
+		console.log(i);
 		var dataDate= new Date(data[i][0]);
-		if(dataDate>=startDay){total+=parseFloat(data[i][1])}
+		if(dataDate>=startDay){total+=parseFloat(data[i][1]); numOpened++;}
 	}
+
+	console.log('-------' + total + '--------' + numOpened + '-------');
 	return total
 
 }
@@ -555,6 +559,7 @@ function updateMonthly(){
 	var	weight = MONTHLY_WEIGHTS[index][1];
 	var salesTarget = goal*weight; 
 	var monthSales = d1[index][1];
+	console.log (goal + '*' + MONTHLY_WEIGHTS[index][1] + '=' + goal*MONTHLY_WEIGHTS[index][1]);
 	var monthGoal = goal*MONTHLY_WEIGHTS[index][1];
 	var noLeadsWon = leadsWonByMonth[index][1];
 	var sales = salesByMonth[index][1];

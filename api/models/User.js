@@ -79,6 +79,15 @@ var User = {
       }.bind(this));
     },
 
+    // getSalesAnalytics: function(user) {
+    //   NutshellApi.getSalesAnalytics(user, function(err, response){
+    //     this.integrations.nutshell.redLeads = response;
+    //     // console.log(this.name);
+    //     console.log('success getSalesAnalytics');
+    //     this.save();
+    //   }.bind(this));
+    // },
+
     
 
     // company: {model: 'company'},

@@ -64,7 +64,7 @@ module.exports = {
 	index: function(req, res) {
 
 		if (req.session.User.role == 'superUser') {
-			User.find(function foundUsers(err, users){
+			User.find().populate('company').exec(function foundUsers(err, users){
 		 		if(err) return next(err);
 
 		 		var showGraph = true;
@@ -75,8 +75,24 @@ module.exports = {
 
 				for (var i = 0; i < users.length; i++) {
 					console.log(users[i].username);
-					if (users[i].integrations != undefined)
+					if (users[i].integrations != undefined) {
 						totalSales += users[i].integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum;
+
+						var today= new Date();
+						var numOpened = 0;
+						var noDays= 30*3600*1000*24;
+						var prevDay = today - noDays;
+						var startDay = new Date(prevDay);
+						startDay.setHours(0,0,0,0);
+					
+						for(var j in users[i].integrations.nutshell.performanceMetrics.leads.seriesData.leads){
+							var dataDate= new Date(users[i].integrations.nutshell.performanceMetrics.leads.seriesData.leads[j][0]);
+							if(dataDate>=startDay){numOpened++;}
+						}
+
+						users[i].numOpened = numOpened;
+					}
+						
 				}
 
 		 		res.view('user/conciergeIndex', {
@@ -88,7 +104,7 @@ module.exports = {
 		}
 
 		else if (req.session.User.role == 'concierge') {
-			User.find(function foundUsers(err, users){
+			User.find().populate('company').exec(function foundUsers(err, users){
 		 		if(err) return next(err);
 
 		 		var showGraph = true;
@@ -339,62 +355,6 @@ module.exports = {
 		}
 	},
 
-	newDashTest: function(req, res, next) {
- 		User.findOne(req.param('id')).populate('tasks').populate('company').exec(function (err, user) {
- 			if (user.integrations == null) {
- 				res.view('user/simpleDash', {
- 					tasks: user.tasks
- 				})
- 			}
- 			else {
- 				if(err) return next(err);
-		 		if(!user) return next();
-		 		user.getPerformanceMetrics(user);
-		 		user.getRedLeads(user);
-		 		console.log(user.integrations.nutshell.performanceMetrics);
-		 		if(user.integrations.nutshell.performanceMetrics ==={} || user.integrations.nutshell.redLead === {}){
-		 			console.log('no PMs or Leads');
-		 			var salesData = {"summaryData" : {"won_lead_value": {"sum": 0}}};
-					var leadData = {"seriesData" : {"won_leads": []}};
-					var pipelineData = [];
-					var redMetrics = [];
-					var redLeads = [];
-		 
-				}
-				else{
-					console.log('got the data');
-					var salesData = JSON.stringify(user.integrations.nutshell.performanceMetrics.sales);
-					var leadData = JSON.stringify(user.integrations.nutshell.performanceMetrics.leads);
-					var pipelineData = JSON.stringify(user.integrations.nutshell.performanceMetrics.pipeline);
-					var redMetrics = user.integrations.nutshell.redLeads.counts;
-					var redLeads = user.integrations.nutshell.redLeads.leads;
-				}
-				var nutshell = user.integrations.nutshell;
-
-				nutshell.lastSyncedOn.date = new Date();
-				var tasks = user.tasks;
-
-		 		User.update(req.param('id'), { 'integrations': { 'nutshell': nutshell } }, function(err) {
-		 			res.locals.layout= 'layouts/dashboard_layout';
-			 		res.view({
-			 			user: user,
-			 			salesData: salesData,
-			 			leadData: leadData,
-			 			pipelineData: pipelineData,
-			 			// redMetrics: nsResponse.counts,
-			 			// redLeads: nsResponse.leads
-			 			// redMetrics: redMetrics,
-			 			// redLeads: redLeads
-			 			redMetrics: redMetrics,
-			 			redLeads: redLeads,
-			 			tasks: tasks
-			 		});
-		 		});
- 			}
-	 		
-	 	});
- 	},
-
 
 	profile: function(req, res, next){
 		res.locals.layout = "layouts/layout";
@@ -505,28 +465,6 @@ module.exports = {
 			   });
 	   });	
 	
-	
-	
-			// User.create(req.params.all(), function userCreated(err, user){
-			// 	if(err) {
-			// 		console.log(err);
-			// 		req.session.flash = {
-			// 			err: err
-			// 		}
-	
-	
-			// 		return res.redirect('/company/profile');
-			// 	}
-	
-	
-				// res.json(user);
-				// res.redirect('user/show/'+ user.id);
-				// res.redirect('/company/profile');
-				// req.session.flash = {};
-			// });
-	
-
-
 	}
 	
 };
