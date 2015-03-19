@@ -43,7 +43,6 @@ module.exports.policies = {
 
   'user': {
     admin: 'isSuperUser',
-    communications: ['isSuperUser', 'isConcierge']
   },
 
   'company': {

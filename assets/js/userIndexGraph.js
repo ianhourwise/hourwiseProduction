@@ -294,8 +294,8 @@ $(function() {
 		});
 
 	 $(document).on('click', '.talkedTo', function(e) {
-       $.post('/user/talkedTo?id=' + $(this).attr('name'), function( something ) {
-          	console.log('Cool, got it!');     
+       $.post('/user/talkedTo?id=' + $(this).attr('name'), function ( something ) {
+          	     
        });
     });
 
