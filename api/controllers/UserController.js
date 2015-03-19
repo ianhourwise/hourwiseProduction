@@ -101,7 +101,6 @@ module.exports = {
 				for (var i = 0; i < users.length; i++) {
 					console.log(users[i].username);
 					if (users[i].integrations != undefined) {
-						if ()
 						totalSales += users[i].integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum;
 
 						var openLeadsByDay = users[i].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads;
