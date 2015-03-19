@@ -107,6 +107,9 @@ module.exports = {
 
 						users[i].numOpened = openLeadsByDay[openLeadsByDay.length - 1][1];
 
+						
+						}
+
 						var currentDate = new Date();
 						var weekAgo = new Date();
 
@@ -121,7 +124,6 @@ module.exports = {
 							}
 
 							users[i].callsThisWeek = callCount;
-						}
 					}
 						
 				}
