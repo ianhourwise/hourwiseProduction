@@ -41,9 +41,9 @@
 	<% if (user.integrations) { %>
 		<td><%= user.integrations.nutshell.redLeads.counts.Total_Red_Leads %></td>
 	<% } else { %> <td></td> <% } %>
-	<td class="percentToGoal" name="<%= user.id %>">Loading...</td>
-	<td class="actualSales" name="<%= user.id %>">Loading...</td>
-	<td class="salesGoal" name="<%= user.id %>">Loading...</td>
+	<td class="percentToGoal" name="<%= user.id %>"></td>
+	<td class="actualSales" name="<%= user.id %>"></td>
+	<td class="salesGoal" name="<%= user.id %>"></td>
 	<% if (user.calls != undefined) { %>
 		<td><div class="talkedTo btn btn-sm btn-primary" name="<%= user.id %>">(<%= user.callsThisWeek %>) Talked to...</div></td>
 	<% } else {%>
