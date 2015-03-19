@@ -61,6 +61,31 @@ module.exports = {
  			res.send(403);
  	},
 
+ 	talkedTo: function(req, res) {
+ 		User.findOne(req.param('id'), function (err, user) {
+ 			if (err)
+ 				res.send(err);
+ 			var calls = {};
+ 			if (user.calls != undefined) {
+ 				calls = user.calls;
+ 				calls.callCount = calls.callCount + 1;
+ 				calls.calledBy.push([req.session.User.id, new Date()]);
+ 			}
+ 				
+ 			else
+ 				calls = {
+ 					callCount: 1,
+ 					calledBy: [req.session.User.id, new Date()]
+ 				};
+
+ 			User.update(req.param('id'), {calls: calls}, function (err) {
+ 				if (err)
+ 					res.send(err);
+ 				res.send('Updated');
+ 			});
+ 		});
+ 	},
+
 	index: function(req, res) {
 
 		if (req.session.User.role == 'superUser') {
@@ -78,19 +103,25 @@ module.exports = {
 					if (users[i].integrations != undefined) {
 						totalSales += users[i].integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum;
 
-						var today= new Date();
-						var numOpened = 0;
-						var noDays= 30*3600*1000*24;
-						var prevDay = today - noDays;
-						var startDay = new Date(prevDay);
-						startDay.setHours(0,0,0,0);
-					
-						for(var j in users[i].integrations.nutshell.performanceMetrics.leads.seriesData.leads){
-							var dataDate= new Date(users[i].integrations.nutshell.performanceMetrics.leads.seriesData.leads[j][0]);
-							if(dataDate>=startDay){numOpened++;}
-						}
+						var openLeadsByDay = users[i].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads;
 
-						users[i].numOpened = numOpened;
+						users[i].numOpened = openLeadsByDay[openLeadsByDay.length - 1][1];
+
+						var currentDate = new Date();
+						var weekAgo = new Date();
+
+						weekAgo.setDate(weekAgo.getDate() - 7);
+
+						var callCount = 0;
+
+						if (users[i].calls != undefined) {
+							for (var j = 0; j < users[i].calls.calledBy.length; j++) {
+								if (users[i].calls.calledBy[j][1] >= weekAgo)
+									callCount++;
+							}
+
+							users[i].callsThisWeek = callCount;
+						}
 					}
 						
 				}
@@ -117,7 +148,27 @@ module.exports = {
 					console.log(users[i].username);
 					if (users[i].integrations != undefined){
 						try {
-							totalSales += users[i].integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum;	
+							totalSales += users[i].integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum;
+
+							var openLeadsByDay = users[i].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads;
+
+							users[i].numOpened = openLeadsByDay[openLeadsByDay.length - 1][1];
+
+							var currentDate = new Date();
+							var weekAgo = new Date();
+
+							weekAgo.setDate(weekAgo.getDate() - 7);
+
+							var callCount = 0;
+
+							if (users[i].calls != undefined) {
+								for (var j = 0; j < users[i].calls.calledBy.length; j++) {
+									if (users[i].calls.calledBy[j][1] >= weekAgo)
+										callCount++;
+								}
+
+								users[i].callsThisWeek = callCount;
+							}	
 						}
 						catch(err){
 							totalSales += 0;
@@ -153,7 +204,7 @@ module.exports = {
 	},
 
 	getUsers: function(req, res) {
-		User.find(function foundUsers(err, users){
+		User.find().populate('company').exec(function foundUsers(err, users) {
 	 		if(err) return next(err);
 
 	 		res.send(users);

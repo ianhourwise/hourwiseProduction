@@ -1,5 +1,6 @@
 $(function() {
 	MONTHLY_WEIGHTS= [["January",.02], ["February",.05], ["March", .13], ["April", .13], ["May", .13], ["June", .10], ["July", .10], ["August",.07], ["September", .09], ["October", .10], ["November", .06], ["December", .04] ];
+		
 		$.get('/user/getUsers', function(users) {
 
 			var d1 = [];
@@ -10,6 +11,8 @@ $(function() {
 			for (var z = 0; z < users.length; z++) {
 				if (users[z].integrations == undefined)
 					console.log('no metrics');
+				else if (users[z].company && users[z].company.name == 'Hourwise' && users[z].email != 'randy@hourwise.com' && users[z].email != 'peter@hourwise.com')
+					console.log('Hourwise employees... don\'t run metrics');
 				else {
 					var today= new Date();
 					var beginningOfToday= new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0);
@@ -51,14 +54,16 @@ $(function() {
 
 					var monthCode = (new Date(today.getFullYear(), month, 1, 0)).valueOf();
 					var	weight = MONTHLY_WEIGHTS[month][1];
-					var goal = users[z].salesGoal * weight;
+					var goal = users[z].salesGoal;
 					var salesTarget = goal*weight; 
 					var monthSales = d4[month][1];
 					var monthGoal = goal*MONTHLY_WEIGHTS[month][1];
 					var noLeadsWon = leadsWonByMonth[month][1];
 					var sales = salesByMonth[month][1];
 					var projectedSales = projectedMonthsSales(month);
-					var pctToGoal = projectedSales/monthGoal;	
+					console.log('PROJECTED SALES: ' + projectedSales);
+					var pctToGoal = projectedSales/monthGoal*100;
+					if (isNaN(pctToGoal)) pctToGoal = 0;	
 					var winRate = (isThisMonthMOI(month)) ? Won2Close*100 : leadsWonByMonth[month][1]/leadsClosedByMonth[month][1]*100;
 					var avgSale = (isThisMonthMOI(month)) ? avgSaleOfInterest : salesByMonth[month][1]/leadsWonByMonth[month][1] ; 
 					var dollarPerLead = (isThisMonthMOI(month)) ? DPLOfInterest : salesByMonth[month][1]/leadsOpenByMonth[month][1] ; 
@@ -75,6 +80,10 @@ $(function() {
 					d1.push([z, salesTarget, users[z].id, users[z].username]);
 					d2.push([z, projectedSales, users[z].id, users[z].username]);
 					d3.push([z, sales, users[z].id, users[z].username]);
+
+					$('.percentToGoal[name=' + users[z].id + ']').html(pctToGoal.toFixed(0).toString() + '%');
+					$('.actualSales[name=' + users[z].id + ']').html('$' + sales);
+					$('.salesGoal[name=' + users[z].id + ']').html('$' + monthGoal);
 
 				}
 			}
@@ -258,6 +267,10 @@ $(function() {
 						xaxis: {
         					ticks: ticksArray
     					},
+    					yaxis: {
+    						min: 0, 
+    						max: 50000 
+    					},
 						series: {
 							stack: stack,
 							lines: {
@@ -279,4 +292,11 @@ $(function() {
 
 			
 		});
+
+	 $(document).on('click', '.talkedTo', function(e) {
+       $.post('/user/talkedTo?id=' + $(this).attr('name'), function( something ) {
+          	console.log('Cool, got it!');     
+       });
+    });
+
 });
