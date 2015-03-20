@@ -80,8 +80,8 @@ module.exports = {
 
  			User.update(req.param('id'), {calls: calls}, function (err) {
  				if (err)
- 					res.send(err);
- 				res.send('Updated');
+ 					res.send('error');
+ 				res.send('a-ok');
  			});
  		});
  	},

@@ -294,8 +294,32 @@ $(function() {
 		});
 
 	 $(document).on('click', '.talkedTo', function(e) {
-       $.post('/user/talkedTo?id=' + $(this).attr('name'), function ( something ) {
-          	     
+
+	 	var currentDiv = $(this);
+	 	var htmlContent = $(this).html();
+
+	 	var currentCallCount;
+
+	 	var firstIndex;
+	 	var secondIndex;
+
+	 	for (var i = 0; i < htmlContent.length; i++) {
+	 		if (htmlContent[i] == '(') 
+	 			firstIndex = i + 1;
+	 		else if (htmlContent[i] == ')') {
+	 			secondIndex = i;
+	 		}
+	 	}
+
+	 	currentCallCount = parseInt(htmlContent.substring(firstIndex, secondIndex));
+
+        $.post('/user/talkedTo?id=' + $(this).attr('name'), function ( response ) {
+          	if (response != 'error') {
+          		currentCallCount++;
+          		currentDiv.html('(' + currentCallCount + ') Talked to...');
+          	}	
+          		
+          	
        });
     });
 
