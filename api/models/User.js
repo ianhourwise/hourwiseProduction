@@ -67,6 +67,7 @@ var User = {
         // console.log(this.name);
         console.log('success performance');
         this.save();
+
       }.bind(this));
     },
 
@@ -75,7 +76,9 @@ var User = {
         this.integrations.nutshell.redLeads = response;
         // console.log(this.name);
         console.log('success red leads');
-        this.save();
+        this.integrations.nutshell.lastSyncedOn.date = new Date();
+        this.save();  
+        
       }.bind(this));
     },
 

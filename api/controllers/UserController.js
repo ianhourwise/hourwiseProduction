@@ -344,7 +344,7 @@ module.exports = {
 		 		if(!user) return next();
 		 		user.getPerformanceMetrics(user);
 		 		user.getRedLeads(user);
-		 		console.log(user.integrations.nutshell.performanceMetrics);
+		 		//console.log(user.integrations.nutshell.performanceMetrics);
 		 		if(user.integrations.nutshell.performanceMetrics ==={} || user.integrations.nutshell.redLead === {}){
 		 			console.log('no PMs or Leads');
 		 			var salesData = {"summaryData" : {"won_lead_value": {"sum": 0}}};
@@ -364,13 +364,9 @@ module.exports = {
 					var redLeads = user.integrations.nutshell.redLeads.leads;
 				}
 
-				var nutshell = user.integrations.nutshell;
-
-				nutshell.lastSyncedOn.date = new Date();
 				var tasks = user.tasks;
 
-		 		User.update(req.param('id'), { 'integrations': { 'nutshell': nutshell } }, function (err) {
-		 			res.locals.layout= 'layouts/dashboard_layout';
+		 		res.locals.layout= 'layouts/dashboard_layout';
 			 		res.view({
 			 			user: user,
 			 			salesData: salesData,
@@ -384,7 +380,6 @@ module.exports = {
 			 			redLeads: redLeads,
 			 			tasks: tasks
 			 		});
-		 		});
  			}
 	 		
 	 	});
