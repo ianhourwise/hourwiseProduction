@@ -41,13 +41,13 @@
                                         <input type= "text" class = "form-control" placeholder = "<%= user.email %>" value="<%= user.email %>" >
                                         <hr>
                                         <% if (user.company != null) { %>
-                                          <input type= "text" class = "form-control" placeholder = "<%= user.company.name %>" disable>
+                                          <input type= "text" class = "form-control" placeholder = "<%= user.company.name %>" disabled>
                                         <% } 
                                            else { %>
-                                            <input type= "text" class = "form-control" placeholder = "No Company Set" disable>
+                                            <input type= "text" class = "form-control" placeholder = "No Company Set" disabled
                                         <% } %>
                                         <hr>
-                                        <input type= "text" class = "form-control" placeholder = "<%= user.role %>" disable>
+                                        <input type= "text" class = "form-control" placeholder = "<%= user.role %>" disabled>
                                         <hr>
                                         <a href="/user/integrateNutshell/<%= user.id %>" class="btn btn-med btn-primary btn-block">Integrate Nutshell</a>
                                         <% if (user.integrations != undefined) { %>
@@ -65,8 +65,10 @@
                     </div>
                 </div>
                     </div>
+
                 <div class="col-md-8">
-                    <div class="ibox float-e-margins">
+                    <%- partial ('../partials/taskList.ejs') %>
+                    <!-- <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>Tasks</h5>
                         </div>
@@ -82,7 +84,7 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
                                 </div>

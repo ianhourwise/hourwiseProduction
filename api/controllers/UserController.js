@@ -198,11 +198,13 @@ module.exports = {
 		 		if (req.session.User.integrations != undefined)
 						totalSales += req.session.User.integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum;
 
-		 		res.view({
-		 			users: [req.session.User],
-		 			totalSales: totalSales,
-		 			showGraph: showGraph
-		 		});
+				User.findOne(req.session.User.id).populate('company').exec( function (err, user) {
+					res.view({
+			 			users: [user],
+			 			totalSales: totalSales,
+			 			showGraph: showGraph
+		 			});
+				});
 		}
 
 		else

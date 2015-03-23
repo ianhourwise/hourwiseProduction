@@ -1,59 +1,10 @@
 <div class= "container" style="width: 90%;">
 <h1> Users </h1>
 
-<h2>Total Sales = $<%= totalSales.toFixed(0) %></div></h2>
-
-<% if (showGraph) { %>
-	<div class="demo-container" style="width: 90%; height: 450px; padding: 20px 15px 15px 15px; margin-bottom: 5%;">
-		<div id="placeholder" class="demo-placeholder" style="width: inherit; height: inherit;">
-
-		</div>
-	</div>
-
-	<h4>Legend: Blue - Projected Sales | Yellow - Targeted Sales | Red - Actual Sales</h4>
-<% } 
-   else { 
-
-   } %>
+<%- partial ('../partials/userGraph.ejs') %>
 
 
 
-<table class = "table">
-<tr>
-	<th>Company</th>
-	<th>User</th>
-	<th>#Open Leads</th>
-	<th>#Red Leads</th>
-	<th>%To Goal</th>
-	<th>$Actual</th>
-	<th>$Goal</th>
-	<th></th>
-	<th></th>
-</tr>
-
-<% _.each(users, function(user) { if(!user.company){user.company = {name: 'NoCo'}}%>
-<tr data-id = "<% user.id %>" data-model = "user">
-	<td><%= user.company.name %></td>
-	<td><%= user.username %></td>
-	<% if (user.integrations) { %>
-		<td><%= user.numOpened %></td>
-	<% } else { %> <td></td> <% } %>
-	<% if (user.integrations) { %>
-		<td><%= user.integrations.nutshell.redLeads.counts.Total_Red_Leads %></td>
-	<% } else { %> <td></td> <% } %>
-	<td class="percentToGoal" name="<%= user.id %>"></td>
-	<td class="actualSales" name="<%= user.id %>"></td>
-	<td class="salesGoal" name="<%= user.id %>"></td>
-	<% if (user.calls != undefined) { %>
-		<td><div class="talkedTo btn btn-sm btn-primary" name="<%= user.id %>">(<%= user.callsThisWeek %>) Talked to...</div></td>
-	<% } else {%>
-		<td><div class="talkedTo btn btn-sm btn-primary" name="<%= user.id %>">(0) Talked to...</div></td>
-	<% } %>
-	<td><a href= "/user/dashboard/<%= user.id %>" class= "btn btn-sm btn-primary" >Show</a> </td>
-	<td><a href= "/user/edit/<%= user.id %>" class= "btn btn-sm btn-warning" >Edit</a> </td>
-</tr>
-
-<% }) %>
-</table>
+<%- partial ('../partials/userTable.ejs') %>
 
 </div>

@@ -32,10 +32,9 @@ module.exports = {
 	},
 
 	edit: function(req, res) {
-		Task.findOne(req.param('id'), function (err, contact) {
+		Task.findOne(req.param('id'), function (err, task) {
 			res.view({
-				contact: contact,
-				groups: contact.groups
+				task: task
 			});
 		});
 	},

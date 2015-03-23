@@ -39,7 +39,7 @@ module.exports = {
 			res.forbidden( 'You do not have permission to view this part of the site' );
 		}
 
-		Company.findOne({ id: req.user.myCompany}).populate('owner').populate('employees').exec(function foundCompany(err, company) {
+		Company.findOne({ id: req.session.User.myCompany}).populate('owner').populate('employees').exec(function foundCompany(err, company) {
 			if(err) return next(err);
 				if(!company) return next();
 			console.log(company);
