@@ -482,7 +482,7 @@ module.exports = {
 	      }
 	
 	      return next(err);
-	    }
+	    }	    
 	     Passport.create({
 			      protocol : 'local'
 			    , password : password
@@ -519,6 +519,20 @@ module.exports = {
 			   });
 	   });	
 	
+	},
+
+	subscribe: function (req, res) {
+		console.log(req.isSocket);
+		User.find({}).exec(function(e,listOfUsers){
+	        User.subscribe(req.socket,listOfUsers);
+	        console.log('Subscribed now? ---- ' + req.socket.id);
+	    });
+	},
+
+	testSocket: function (req, res) {
+		User.update('5501eebca8b7a16b03760c2f',{username:'Heisenberg'}).exec(function update(err,updated){
+            User.publishUpdate(updated[0].id,{ name:req.socket.id });
+          });
 	}
 	
 };

@@ -1,0 +1,37 @@
+<table class = "table">
+<tr>
+	<th>Company</th>
+	<th>User</th>
+	<th>#Open Leads</th>
+	<th>#Red Leads</th>
+	<th>%To Goal</th>
+	<th>$Actual</th>
+	<th>$Goal</th>
+	<th></th>
+	<th></th>
+</tr>
+
+<% _.each(users, function(user) { if(!user.company){user.company = {name: 'NoCo'}}%>
+<tr data-id = "<% user.id %>" data-model = "user">
+	<td><%= user.company.name %></td>
+	<td><%= user.username %></td>
+	<% if (user.integrations) { %>
+		<td><%= user.numOpened %></td>
+	<% } else { %> <td></td> <% } %>
+	<% if (user.integrations) { %>
+		<td><%= user.integrations.nutshell.redLeads.counts.Total_Red_Leads %></td>
+	<% } else { %> <td></td> <% } %>
+	<td class="percentToGoal" name="<%= user.id %>"></td>
+	<td class="actualSales" name="<%= user.id %>"></td>
+	<td class="salesGoal" name="<%= user.id %>"></td>
+	<% if (user.calls != undefined) { %>
+		<td><div class="talkedTo btn btn-sm btn-primary" name="<%= user.id %>">(<%= user.callsThisWeek %>) Talked to...</div></td>
+	<% } else {%>
+		<td><div class="talkedTo btn btn-sm btn-primary" name="<%= user.id %>">(0) Talked to...</div></td>
+	<% } %>
+	<td><a href= "/user/dashboard/<%= user.id %>" class= "btn btn-sm btn-primary" >Show</a> </td>
+	<td><a href= "/user/edit/<%= user.id %>" class= "btn btn-sm btn-warning" >Edit</a> </td>
+</tr>
+
+<% }) %>
+</table>
