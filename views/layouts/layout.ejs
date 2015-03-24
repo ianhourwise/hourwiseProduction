@@ -154,6 +154,28 @@
             <li>
                 <span class="m-r-sm text-muted welcome-message">Welcome to Hourwise.</span>
             </li>
+            <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="false" id="alertDropdown">
+                        <% if (req.session.User.alerts != undefined) { %>
+                            <i class="fa fa-bell"></i>  <span class="label label-primary" id="newAlert"><%= req.session.User.alerts.length %></span>
+                        <% } else { %>
+                            <i class="fa fa-bell"></i>  <span class="label label-primary" id="newAlert">0</span>
+                        <% } %>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts" id="alertsList">
+                        <% if (req.session.User.alerts != undefined) { %>
+                            <% _.each(req.session.User.alerts, function(alert) { %>
+                                <li name="<%= alert.id %>">
+                                    <div><i class="fa fa-bullhorn fa-fw"></i>  <%= alert.message %> 
+                                        <span class="pull-right text-muted small"><div class="btn dismissAlert">Dismiss</div></span>
+                                    </div> 
+                                </li>
+                                <li class="divider"></li>
+                            <% }) %>
+                        <% } else {} %>
+                        <li><div class="btn clearAll">Clear All</div></li>
+                    </ul>
+                </li>
     
             <li>
                 <a href="/logout">

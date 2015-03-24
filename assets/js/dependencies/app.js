@@ -12,14 +12,40 @@
 
   // as soon as this file is loaded, connect automatically, 
   //var socket = io.connect();
+$(document).ready(function() {
 
-  io.socket.get('/user/subscribe');
+  io.socket.get('/user/subscribeToAlerts');
 
   io.socket.on('user', function (obj) {
-    console.log(obj);
-    var data = obj.data;
-    console.log('Getting publish message from socket with id ---- '+ data.name);
+      console.log(obj);
+      var data = obj.data;
+      $('#newAlert').html('1');
+      $('#alertsList').prepend('<li id=' + data.id + '><div><i class="fa fa-bullhorn fa-fw"></i> ' + data.message + '<span class="pull-right text-muted small"><div class="btn btn-sml dismissAlert" id="req.session.User.id">Dismiss</div></span></div></li><li class="divider"></li>');
+      console.log(data.message);
   });
+
+   $(document).on('click', '#alertDropdown', function(e) {
+      $('#newAlert').html('0');
+   });
+
+   $(document).on('click', '.dismissAlert', function(e) {
+      var alertId = $(this).closest('li').attr('name');
+      var scopedThis = this;
+
+      $.post('/user/dismissAlert?alertId=' + alertId, function (response) {
+        $(scopedThis).closest('li').remove();
+        $(scopedThis).closest('.divider').remove();
+      });
+   });
+
+   $(document).on('click', '.clearAll', function(e) {
+      var scopedThis = this;
+
+      $.post('/user/clearAllAlerts', function (response) {
+        $(scopedThis).closest('ul').empty();
+      });
+   });
+});
 
 
   // io.socket.get('/user/testSocket/', function(something) {

@@ -71,15 +71,55 @@ var User = {
       }.bind(this));
     },
 
-    getRedLeads: function(user){
+    getRedLeads: function(user, callback){
       NutshellApi.getRedLeads(user, function(err, response){
         this.integrations.nutshell.redLeads = response;
         // console.log(this.name);
         console.log('success red leads');
         this.integrations.nutshell.lastSyncedOn.date = new Date();
-        this.save();  
-        
+        this.save();
+        callback(this);  
       }.bind(this));
+    },
+
+    addAlert: function(message, alertId) {
+
+      var alerts = [];
+
+      if (this.alerts != undefined)
+        alerts = this.alerts;
+
+      alerts.push({id: alertId, message: message});
+
+      this.alerts = alerts;
+
+      this.save();
+    },
+
+    removeAlert: function(id, callback) {
+      if (this.alerts != undefined) {
+        for (var i = 0; i < this.alerts.length; i++) {
+          if (this.alerts[i].id == id) {
+            this.alerts.splice(i, 1);
+            break;
+          }
+            
+        }
+
+        this.save();
+
+        callback(this);
+      }
+    },
+
+    clearAllAlerts: function(callback) {
+      if (this.alerts != undefined) {
+        this.alerts = [];
+
+        this.save();
+
+        callback(this);
+      }
     },
 
     // getSalesAnalytics: function(user) {

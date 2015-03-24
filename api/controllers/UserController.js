@@ -253,10 +253,22 @@ module.exports = {
 					nutshell.nutshell.performanceMetrics = performanceMetrics;
 					nutshell.nutshell.redLeads = redLeads;
 
-					User.update(req.param('id'), { 'integrations': nutshell}, function (err, response) {
+					User.update(req.param('id'), { 'integrations': nutshell}, function (err, updated) {
+						var uuid = require('node-uuid');
 
-								res.redirect('/user/dashboard/' + req.param('id'));
+						var alertId = uuid.v4();
 
+						User.find({ id: { '!' : req.session.User.id } }).exec( function (err, users) {
+			 				for (var i = 0; i < users.length; i++) {
+			 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+			 						users[i].addAlert(user.username + ' just had their nutshell data synced!', alertId);
+			 						User.publishUpdate(users[i].id, { message: user.username + ' just had their nutshell data synced!', id: alertId });
+			 					}
+			 				}
+									
+			 			});
+											
+						res.redirect('/user/dashboard/' + req.param('id'));
 					});
 				});
 
@@ -343,7 +355,22 @@ module.exports = {
  				if(err) return next(err);
 		 		if(!user) return next();
 		 		user.getPerformanceMetrics(user);
-		 		user.getRedLeads(user);
+		 		user.getRedLeads(user, function (user) {
+		 			var uuid = require('node-uuid');
+
+					var alertId = uuid.v4();
+
+		 			User.find({ id: { '!' : req.session.User.id } }).exec( function (err, users) {
+		 				for (var i = 0; i < users.length; i++) {
+		 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+		 						users[i].addAlert(user.username + ' just had their nutshell data synced!', alertId);
+		 						User.publishUpdate(users[i].id, { message: user.username + ' just had their nutshell data synced!', id: alertId });
+		 					}
+		 					
+		 				}
+								
+		 			});
+		 		});
 		 		//console.log(user.integrations.nutshell.performanceMetrics);
 		 		if(user.integrations.nutshell.performanceMetrics ==={} || user.integrations.nutshell.redLead === {}){
 		 			console.log('no PMs or Leads');
@@ -523,16 +550,38 @@ module.exports = {
 
 	subscribe: function (req, res) {
 		console.log(req.isSocket);
-		User.find({}).exec(function(e,listOfUsers){
-	        User.subscribe(req.socket,listOfUsers);
-	        console.log('Subscribed now? ---- ' + req.socket.id);
-	    });
+		User.find({role: ['superUser', 'concierge']}).exec( function (err, users) {
+			if (err)
+				console.log(err);
+
+			User.subscribe(req.socket, users);
+			console.log('subscribed');
+		});
 	},
 
-	testSocket: function (req, res) {
-		User.update('5501eebca8b7a16b03760c2f',{username:'Heisenberg'}).exec(function update(err,updated){
-            User.publishUpdate(updated[0].id,{ name:req.socket.id });
-          });
+	subscribeToAlerts: function (req, res) {
+		User.subscribe(req.socket, req.session.User);
+		console.log('subscribed to yourself?');
+	},
+
+	dismissAlert: function (req, res) {
+		User.findOne(req.session.User.id, function (err, user) {
+			user.removeAlert(req.param('alertId'), function (user) {
+				req.session.User = user;
+
+				res.send('cool beans');
+			});
+		});
+	},
+
+	clearAllAlerts: function (req, res) {
+		User.findOne(req.session.User.id, function (err, user) {
+			user.clearAllAlerts(function (user) {
+				req.session.User = user;
+
+				res.send('well alrightttt');
+			});
+		});
 	}
 	
 };
