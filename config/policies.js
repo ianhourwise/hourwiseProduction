@@ -37,8 +37,8 @@ module.exports.policies = {
   
   'touch': {
     inboundSMS: true,
-    sendEmail: ['isSuperUser', 'isConcierge'],
-    outboundSMS: ['isSuperUser', 'isConcierge']
+    sendEmail: 'isConcierge',
+    outboundSMS: 'isConcierge'
   },
 
   'user': {

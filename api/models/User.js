@@ -71,6 +71,16 @@ var User = {
       }.bind(this));
     },
 
+    getRedLeadsNoCallback: function(user){
+      NutshellApi.getRedLeads(user, function(err, response){
+        this.integrations.nutshell.redLeads = response;
+        // console.log(this.name);
+        console.log('success red leads');
+        this.integrations.nutshell.lastSyncedOn.date = new Date();
+        this.save();
+      }.bind(this));
+    },
+
     getRedLeads: function(user, callback){
       NutshellApi.getRedLeads(user, function(err, response){
         this.integrations.nutshell.redLeads = response;

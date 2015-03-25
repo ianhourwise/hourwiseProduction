@@ -112,8 +112,23 @@ module.exports = {
 				if (err)
 					console.log(err);
 
-				res.send('<Response><Message>Your text has been received. One of our helpful concierges will respond to you as soon as possible!</Message></Response>'); 
+				User.find().exec( function (err, users) {
+	 				for (var i = 0; i < users.length; i++) {
+	 					var uuid = require('node-uuid');
 
+						var alertId = uuid.v4();
+
+	 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+	 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId);
+	 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId });
+	 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+	 					}
+	 					
+	 				}
+
+	 				res.send('<Response><Message>Your text has been received. One of our helpful concierges will respond to you as soon as possible!</Message></Response>'); 
+							
+	 			});
 			});
 		});
 

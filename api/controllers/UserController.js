@@ -254,19 +254,19 @@ module.exports = {
 					nutshell.nutshell.redLeads = redLeads;
 
 					User.update(req.param('id'), { 'integrations': nutshell}, function (err, updated) {
-						var uuid = require('node-uuid');
+						// var uuid = require('node-uuid');
 
-						var alertId = uuid.v4();
+						// var alertId = uuid.v4();
 
-						User.find({ id: { '!' : req.session.User.id } }).exec( function (err, users) {
-			 				for (var i = 0; i < users.length; i++) {
-			 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-			 						users[i].addAlert(user.username + ' just had their nutshell data synced!', alertId);
-			 						User.publishUpdate(users[i].id, { message: user.username + ' just had their nutshell data synced!', id: alertId });
-			 					}
-			 				}
+						// User.find({ id: { '!' : req.session.User.id } }).exec( function (err, users) {
+			 		// 		for (var i = 0; i < users.length; i++) {
+			 		// 			if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+			 		// 				users[i].addAlert(user.username + ' just had their nutshell data synced!', alertId);
+			 		// 				User.publishUpdate(users[i].id, { message: user.username + ' just had their nutshell data synced!', id: alertId });
+			 		// 			}
+			 		// 		}
 									
-			 			});
+			 		// 	});
 											
 						res.redirect('/user/dashboard/' + req.param('id'));
 					});
@@ -355,22 +355,22 @@ module.exports = {
  				if(err) return next(err);
 		 		if(!user) return next();
 		 		user.getPerformanceMetrics(user);
-		 		user.getRedLeads(user, function (user) {
-		 			var uuid = require('node-uuid');
+		 		user.getRedLeadsNoCallback(user)
+		 		// 	var uuid = require('node-uuid');
 
-					var alertId = uuid.v4();
+					// var alertId = uuid.v4();
 
-		 			User.find({ id: { '!' : req.session.User.id } }).exec( function (err, users) {
-		 				for (var i = 0; i < users.length; i++) {
-		 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-		 						users[i].addAlert(user.username + ' just had their nutshell data synced!', alertId);
-		 						User.publishUpdate(users[i].id, { message: user.username + ' just had their nutshell data synced!', id: alertId });
-		 					}
+		 		// 	User.find({ id: { '!' : req.session.User.id } }).exec( function (err, users) {
+		 		// 		for (var i = 0; i < users.length; i++) {
+		 		// 			if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+		 		// 				users[i].addAlert(user.username + ' just had their nutshell data synced!', alertId);
+		 		// 				User.publishUpdate(users[i].id, { message: user.username + ' just had their nutshell data synced!', id: alertId });
+		 		// 			}
 		 					
-		 				}
+		 		// 		}
 								
-		 			});
-		 		});
+		 		// 	});
+		 		//});
 		 		//console.log(user.integrations.nutshell.performanceMetrics);
 		 		if(user.integrations.nutshell.performanceMetrics ==={} || user.integrations.nutshell.redLead === {}){
 		 			console.log('no PMs or Leads');
