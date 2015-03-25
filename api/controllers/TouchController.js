@@ -72,6 +72,13 @@ module.exports = {
  		});
  	},
 
+ 	testCall: function (req, res) {
+ 		Twilio.makeCall({}, function(err) {
+ 			console.log('--call was made');
+ 			res.redirect('user/communications');
+ 		});
+ 	},
+
  	inboundSMS: function(req, res) {
  		console.log('-------HIT INBOUND SMS ENDPOINT------');
 

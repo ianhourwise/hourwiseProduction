@@ -18,7 +18,7 @@
 	<% if (user.integrations) { %>
 		<td><%= user.numOpened %></td>
 	<% } else { %> <td></td> <% } %>
-	<% if (user.integrations) { %>
+	<% if (user.integrations && user.integrations.nutshell && user.integrations.nutshell.redLeads && user.integrations.nutshell.redLeads.counts && user.integrations.nutshell.redLeads.counts.Total_Red_Leads) { %>
 		<td><%= user.integrations.nutshell.redLeads.counts.Total_Red_Leads %></td>
 	<% } else { %> <td></td> <% } %>
 	<td class="percentToGoal" name="<%= user.id %>"></td>
