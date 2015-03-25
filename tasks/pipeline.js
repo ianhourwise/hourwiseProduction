@@ -26,12 +26,64 @@ var jsFilesToInject = [
   // Load sails.io before everything else
   'js/dependencies/sails.io.js',
 
+  'js/jquery-2.1.1.js',
+
+  'js/dependencies/app.js',
+
+  'js/bootstrap.min.js',
+
+  'js/plugins/fullcalendar/moment.min.js',
+
+  'js/plugins/metisMenu/jquery.metisMenu.js',
+
+  'js/plugins/slimscroll/jquery.slimscroll.min.js',
+
+  'js/plugins/peity/jquery.peity.min.js',
+  
+  'js/inspinia.js',
+
+  'js/plugins/pace/pace.min.js',
+
+  'js/plugins/jquery-ui/jquery-ui.min.js',
+
+  'js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js',
+
+  'js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js',
+
+  'js/plugins/easypiechart/jquery.easypiechart.js',
+
+  'js/plugins/sparkline/jquery.sparkline.min.js',
+
+  'js/plugins/iCheck/icheck.min.js',
+
+  'js/plugins/fullcalendar/fullcalendar.min.js',
+
+  'js/plugins/chosen/chosen.jquery.js',
+
+  'js/plugins/jsKnob/jquery.knob.js',
+
+  'js/plugins/jasny/jasny-bootstrap.min.js',
+
+  'js/plugins/datapicker/bootstrap-datepicker.js',
+
+  'js/plugins/nouslider/jquery.nouislider.min.js',
+
+  'js/plugins/switchery/switchery.js',
+
+  'js/plugins/ionRangeSlider/ion.rangeSlider.min.js',
+
+  'js/plugins/metisMenu/jquery.metisMenu.js',
+
+  'js/plugins/colorpicker/bootstrap-colorpicker.min.js',
+
+  'js/plugins/cropper/cropper.min.js'
+
   // Dependencies like jQuery, or Angular are brought in here
-  'js/dependencies/**/*.js',
+  //'js/dependencies/**/*.js',
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
-  'js/**/*.js'
+  //'js/**/*.js'
 ];
 
 

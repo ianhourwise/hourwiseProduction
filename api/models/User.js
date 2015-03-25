@@ -62,7 +62,10 @@ var User = {
     //   console.log(this.name);
     //   this.save();
     // }.bind(this));
-      NutshellApi.getPerformanceReports(user, function(err, response){
+      NutshellApi.getPerformanceReports(user, function(err, response) {
+        if (err)
+          console.log('----------' + err);
+
         this.integrations.nutshell.performanceMetrics = response;
         // console.log(this.name);
         console.log('success performance');
@@ -72,7 +75,10 @@ var User = {
     },
 
     getRedLeadsNoCallback: function(user){
-      NutshellApi.getRedLeads(user, function(err, response){
+      NutshellApi.getRedLeads(user, function(err, response) {
+        if (err) 
+          console.log('----------' + err);
+        
         this.integrations.nutshell.redLeads = response;
         // console.log(this.name);
         console.log('success red leads');

@@ -1,0 +1,93 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle" src="/img/profile_small.jpg" />
+                             </span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
+                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a href="profile.html">Profile</a></li>
+                                <li><a href="/logout">Logout</a></li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">
+                            IN+
+                        </div>
+                    </li>
+                    <li class="special_link">
+                        <a data-toggle="modal" data-target="#myModal6"><i class="fa fa-plus-square-o" ></i> <span class="nav-label">Create New...</span></a>
+<!--                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal6">
+                                    Small Modal
+                                </button> -->
+                    </li>                    
+                    <li class="active">
+                        <a href="/user/dashboard/<%= req.session.User.id %>"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboard</span> </a>
+                    </li>
+                    <li>
+                        <a href="/job/index"><i class="fa fa-clipboard"></i> <span class="nav-label">Jobs</span></a>
+                    </li>
+                    <li>
+                        <a href="/user/index"><i class="fa fa-users"></i> <span class="nav-label">Users </span></a>
+
+                    </li>
+                    <li>
+                        <a href="/contact/index"><i class="fa fa-user"></i> <span class="nav-label">Contacts</span> </a>
+                    </li>
+                    <li>
+                        <a href="/group/index"><i class="fa fa-child"></i> <span class="nav-label">Groups</span> </a>
+                    </li>
+                    <li>
+                        <a href="/task/index"><i class="fa fa-calendar"></i> <span class="nav-label">Tasks</span></a>
+                    </li>
+                    <% if (req.session.User.role != 'user') { %>
+                        <li>
+                            <a href="/user/communications"><i class="fa fa-keyboard-o"></i> <span class="nav-label">Communications</span></a>
+                        </li>
+                    <% } else {}%>
+                    <!-- <li>
+                        <a href="#"><i class="fa fa-line-chart"></i> <span class="nav-label">Reports</span> </a>
+                    </li> -->
+                    <% if (req.session.User.role == 'superUser') { %>
+                        <li class="special_link">
+                            <a href="/user/admin"><i class="fa fa-bolt"></i> <span class="nav-label">Admin</span></a>
+                        </li> 
+                    <% } %>
+                    <li class="special_link">
+                        <a href="/user/profile"><i class="fa fa-smile-o"></i> <span class="nav-label">Profile</span></a>
+                    </li>     
+                    <li class="special_link">
+                        <a href="/company/profile"><i class="fa fa-bank"></i> <span class="nav-label">Company</span></a>
+                    </li>                                             
+                    <li class="special_link">
+                        <a href="package.html"><i class="fa fa-clock-o"></i> <span class="nav-label">About Hourwise</span></a>
+                    </li>                    
+                    <li class="special_link">
+                        <a href="/logout"><i class="fa fa-sign-out"></i> <span class="nav-label">Log Out</span></a>
+                    </li>
+                </ul>
+                <div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog"  aria-hidden="true">
+                  <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                              <h4 class="modal-title">Create New</h4>
+                          </div>
+                          <div class="modal-body">
+                            <a class="btn btn-primary btn-block" href="/job/new"><i class="fa fa-clipboard"></i> Job</a>
+                            <a class="btn btn-primary btn-block" href="/task/new"><i class="fa fa-calendar"></i> Task</a>
+                            <a class="btn btn-primary btn-block" href="#"><i class="fa fa-money"></i> Transaction</a>
+                            <a class="btn btn-primary btn-block" href="/contact/new"><i class="fa fa-user"></i> Contact</a>
+                            <a class="btn btn-primary btn-block" href="/group/new"><i class="fa fa-users"></i> Group</a>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                          </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </nav>

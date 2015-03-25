@@ -33,7 +33,7 @@ module.exports = {
 
 		    to:'+17578807276', // Any number Twilio can call
 		    from: '+18046812173', // A number you bought from Twilio and can use for outbound communication
-		    url: 'http://localhost:1337/assets/templates/twiml.xml' // A URL that produces an XML document (TwiML) which contains instructions for the call
+		    url: 'http://stage.hourwise.com/templates/twiml.xml' // A URL that produces an XML document (TwiML) which contains instructions for the call
 
 		}, function(err, responseData) {
 
