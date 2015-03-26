@@ -66,10 +66,10 @@ var User = {
         if (err)
           console.log('----------' + err);
 
-        this.integrations.nutshell.performanceMetrics = response;
+        user.integrations.nutshell.performanceMetrics = response;
         // console.log(this.name);
         console.log('success performance');
-        this.save();
+        user.save();
 
       }.bind(this));
     },
@@ -79,11 +79,11 @@ var User = {
         if (err) 
           console.log('----------' + err);
         
-        this.integrations.nutshell.redLeads = response;
+        user.integrations.nutshell.redLeads = response;
         // console.log(this.name);
         console.log('success red leads');
-        this.integrations.nutshell.lastSyncedOn.date = new Date();
-        this.save();
+        user.integrations.nutshell.lastSyncedOn.date = new Date();
+        user.save();
       }.bind(this));
     },
 

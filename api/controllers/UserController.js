@@ -372,7 +372,7 @@ module.exports = {
 		 		// 	});
 		 		//});
 		 		//console.log(user.integrations.nutshell.performanceMetrics);
-		 		if(user.integrations.nutshell.performanceMetrics ==={} || user.integrations.nutshell.redLead === {}){
+		 		if(user.integrations.nutshell.performanceMetrics === {} || user.integrations.nutshell.redLead === {}){
 		 			console.log('no PMs or Leads');
 		 			var salesData = {"summaryData" : {"won_lead_value": {"sum": 0}}};
 					var leadData = {"seriesData" : {"won_leads": []}};
@@ -382,7 +382,7 @@ module.exports = {
 		 
 				}
 
-				else{
+				else {
 					console.log('got the data');
 					var salesData = JSON.stringify(user.integrations.nutshell.performanceMetrics.sales);
 					var leadData = JSON.stringify(user.integrations.nutshell.performanceMetrics.leads);
