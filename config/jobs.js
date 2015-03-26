@@ -15,7 +15,7 @@ module.exports.jobs = {
   // for more details about configuration,
   // check https://github.com/rschmukler/agenda
   "db": { 
-    "address"    : "localhost:27017/jobs",
+    "address"    : process.env.DB_URL,
     "collection" : "agendaJobs" 
   },
   "name": "process name",
