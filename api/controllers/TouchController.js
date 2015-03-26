@@ -119,6 +119,13 @@ module.exports = {
 				if (err)
 					console.log(err);
 
+				var ticket = {
+					'subject': 'TXT from ' + touch.inbound + 'for Hourwise/Foundation',
+					'description': touch.body
+				};
+
+				Zendesk.createTicket(ticket);
+
 				User.find().exec( function (err, users) {
 	 				for (var i = 0; i < users.length; i++) {
 	 					var uuid = require('node-uuid');
@@ -139,7 +146,5 @@ module.exports = {
 			});
 		});
 
- 	},
-	
-};
+ 	}
 

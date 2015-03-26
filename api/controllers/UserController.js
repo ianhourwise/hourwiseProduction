@@ -582,6 +582,12 @@ module.exports = {
 				res.send('well alrightttt');
 			});
 		});
+	},
+
+	zendeskTickets: function (req, res) {
+		Zendesk.listTickets(function (tickets) {
+			console.log(tickets);
+		});
 	}
 	
 };
