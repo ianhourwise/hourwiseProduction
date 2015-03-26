@@ -355,7 +355,7 @@ module.exports = {
  				if(err) return next(err);
 		 		if(!user) return next();
 		 		user.getPerformanceMetrics(user);
-		 		user.getRedLeadsNoCallback(user)
+		 		user.getRedLeadsNoCallback(user);
 		 		// 	var uuid = require('node-uuid');
 
 					// var alertId = uuid.v4();

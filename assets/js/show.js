@@ -582,7 +582,7 @@ function updateMonthly(){
 
   	
 	$('#monthSalesGoal').html('$' + moneyMe(monthGoal));
-	$('#monthSales').html('$'+ moneyMe(sales));
+	$('#monthSales').html('$'+ moneyMe(monthSales));
 	$('#projMonthSales').html('$'+ moneyMe(projectedSales));
 	$('#pctToGoal').data('easyPieChart').update(pctToGoal);
 	$('#pctToGoalInner').html(pctToGoal.toFixed(0).toString());	
