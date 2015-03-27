@@ -101,7 +101,7 @@ module.exports = {
                   "stubResponses": false, "limit": 100}, function(err, res){
                       if(err) {console.log(err); throw err}
                       else{ 
-                        console.log(res);
+                        //console.log(res);
                         var red=0;
                         var green=0;
                         var userCounts={};

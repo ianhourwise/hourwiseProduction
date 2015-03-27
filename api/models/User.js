@@ -56,7 +56,7 @@ var User = {
   	nutshellId: 'integer',
     lastSyncedOn: 'date',
 
-    getPerformanceMetrics: function(user){
+    getPerformanceMetrics: function(user) {
     // NutshellApi.getSalesAnalytics(user, function(err, response){
     //   this.performanceMetrics = response;
     //   console.log(this.name);
@@ -66,10 +66,13 @@ var User = {
         if (err)
           console.log('----------' + err);
 
+        console.log(response);
         user.integrations.nutshell.performanceMetrics = response;
-        // console.log(this.name);
+        
         console.log('success performance');
-        user.save();
+        user.save(function (err, user) {
+          console.log(user.username);
+        });
 
       }.bind(this));
     },
@@ -83,7 +86,10 @@ var User = {
         // console.log(this.name);
         console.log('success red leads');
         user.integrations.nutshell.lastSyncedOn.date = new Date();
-        user.save();
+        user.save(function (err, user) {
+          console.log(user.username);
+        });
+
       }.bind(this));
     },
 
@@ -93,8 +99,7 @@ var User = {
         // console.log(this.name);
         console.log('success red leads');
         this.integrations.nutshell.lastSyncedOn.date = new Date();
-        this.save();
-        callback(this);  
+        this.save(callback);  
       }.bind(this));
     },
 
