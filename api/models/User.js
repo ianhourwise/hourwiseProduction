@@ -71,8 +71,7 @@ var User = {
         
         console.log('success performance');
         user.save(callback(user));
-        });
-
+        
       }.bind(this));
     },
 
