@@ -355,7 +355,7 @@ module.exports = {
  				if(err) return next(err);
 		 		if(!user) return next();
 		 		user.getPerformanceMetrics(user, function () {
-		 			user.getRedLeadsNoCallback(user, function() {
+		 			user.getRedLeads(user, function() {
 		 				if(user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.performanceMetrics == null && user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.redLead == null) {
 				 			console.log('no PMs or Leads');
 				 			var salesData = {"summaryData" : {"won_lead_value": {"sum": 0}}};
