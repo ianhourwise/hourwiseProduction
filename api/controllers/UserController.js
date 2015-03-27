@@ -354,8 +354,46 @@ module.exports = {
  			else {
  				if(err) return next(err);
 		 		if(!user) return next();
-		 		user.getPerformanceMetrics(user);
-		 		user.getRedLeadsNoCallback(user);
+		 		user.getPerformanceMetrics(user, function () {
+		 			user.getRedLeadsNoCallback(user, function() {
+		 				if(user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.performanceMetrics == null && user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.redLead == null) {
+				 			console.log('no PMs or Leads');
+				 			var salesData = {"summaryData" : {"won_lead_value": {"sum": 0}}};
+							var leadData = {"seriesData" : {"won_leads": []}};
+							var pipelineData = [];
+							var redMetrics = [];
+							var redLeads = [];
+				 
+						}
+
+						else {
+							console.log('got the data');
+							var salesData = JSON.stringify(user.integrations.nutshell.performanceMetrics.sales);
+							var leadData = JSON.stringify(user.integrations.nutshell.performanceMetrics.leads);
+							var pipelineData = JSON.stringify(user.integrations.nutshell.performanceMetrics.pipeline);
+							var redMetrics = user.integrations.nutshell.redLeads.counts;
+							var redLeads = user.integrations.nutshell.redLeads.leads;
+						}
+
+						var tasks = user.tasks;
+
+				 		res.locals.layout= 'layouts/dashboard_layout';
+					 		res.view({
+					 			user: user,
+					 			salesData: salesData,
+					 			leadData: leadData,
+					 			pipelineData: pipelineData,
+					 			// redMetrics: nsResponse.counts,
+					 			// redLeads: nsResponse.leads
+					 			// redMetrics: redMetrics,
+					 			// redLeads: redLeads
+					 			redMetrics: redMetrics,
+					 			redLeads: redLeads,
+					 			tasks: tasks
+					 		});
+		 			});	
+		 		});
+		 		
 		 		// 	var uuid = require('node-uuid');
 
 					// var alertId = uuid.v4();
@@ -372,41 +410,7 @@ module.exports = {
 		 		// 	});
 		 		//});
 		 		//console.log(user.integrations.nutshell.performanceMetrics);
-		 		if(user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.performanceMetrics == null && user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.redLead == null) {
-		 			console.log('no PMs or Leads');
-		 			var salesData = {"summaryData" : {"won_lead_value": {"sum": 0}}};
-					var leadData = {"seriesData" : {"won_leads": []}};
-					var pipelineData = [];
-					var redMetrics = [];
-					var redLeads = [];
-		 
-				}
-
-				else {
-					console.log('got the data');
-					var salesData = JSON.stringify(user.integrations.nutshell.performanceMetrics.sales);
-					var leadData = JSON.stringify(user.integrations.nutshell.performanceMetrics.leads);
-					var pipelineData = JSON.stringify(user.integrations.nutshell.performanceMetrics.pipeline);
-					var redMetrics = user.integrations.nutshell.redLeads.counts;
-					var redLeads = user.integrations.nutshell.redLeads.leads;
-				}
-
-				var tasks = user.tasks;
-
-		 		res.locals.layout= 'layouts/dashboard_layout';
-			 		res.view({
-			 			user: user,
-			 			salesData: salesData,
-			 			leadData: leadData,
-			 			pipelineData: pipelineData,
-			 			// redMetrics: nsResponse.counts,
-			 			// redLeads: nsResponse.leads
-			 			// redMetrics: redMetrics,
-			 			// redLeads: redLeads
-			 			redMetrics: redMetrics,
-			 			redLeads: redLeads,
-			 			tasks: tasks
-			 		});
+		 		
  			}
 	 		
 	 	});

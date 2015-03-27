@@ -56,7 +56,7 @@ var User = {
   	nutshellId: 'integer',
     lastSyncedOn: 'date',
 
-    getPerformanceMetrics: function(user) {
+    getPerformanceMetrics: function(user, callback) {
     // NutshellApi.getSalesAnalytics(user, function(err, response){
     //   this.performanceMetrics = response;
     //   console.log(this.name);
@@ -70,8 +70,7 @@ var User = {
         user.integrations.nutshell.performanceMetrics = response;
         
         console.log('success performance');
-        user.save(function (err, user) {
-          console.log(user.username);
+        user.save(callback);
         });
 
       }.bind(this));
