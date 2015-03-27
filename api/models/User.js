@@ -70,7 +70,7 @@ var User = {
         user.integrations.nutshell.performanceMetrics = response;
         
         console.log('success performance');
-        user.save(callback);
+        user.save(callback(user));
         });
 
       }.bind(this));
@@ -98,7 +98,7 @@ var User = {
         // console.log(this.name);
         console.log('success red leads');
         this.integrations.nutshell.lastSyncedOn.date = new Date();
-        this.save(callback);  
+        this.save(callback(this));  
       }.bind(this));
     },
 
