@@ -7,6 +7,33 @@ $(function() {
 			var d2 = [];
 			var d3 = [];
 
+			var barChartData = {
+				labels : [],
+				datasets : [
+					{
+						fillColor : "rgba(197,220,85,0.5)",
+						strokeColor : "rgba(220,220,220,0.8)",
+						highlightFill: "rgba(197,220,85,0.75)",
+						highlightStroke: "rgba(220,220,220,1)",
+						data : []
+					},
+					{
+						fillColor : "rgba(151,187,205,0.5)",
+						strokeColor : "rgba(151,187,205,0.8)",
+						highlightFill : "rgba(151,187,205,0.75)",
+						highlightStroke : "rgba(151,187,205,1)",
+						data : []
+					},
+					{
+						fillColor : "rgba(240,73,73,0.5)",
+						strokeColor : "rgba(240,73,73,0.8)",
+						highlightFill : "rgba(240,73,73,0.75)",
+						highlightStroke : "rgba(240,73,73,1)",
+						data : []
+					}
+				]
+			};
+
 
 			for (var z = 0; z < users.length; z++) {
 				if (users[z].integrations == undefined)
@@ -56,7 +83,7 @@ $(function() {
 					var	weight = MONTHLY_WEIGHTS[month][1];
 					var goal = users[z].salesGoal;
 					var salesTarget = goal*weight; 
-					var monthSales = d4[month][1];
+					var monthSales = d4[month][0];
 					var monthGoal = goal*MONTHLY_WEIGHTS[month][1];
 					var noLeadsWon = leadsWonByMonth[month][1];
 					var sales = salesByMonth[month][1];
@@ -74,12 +101,23 @@ $(function() {
 					var leadsNeeded = (monthGoal - projectedSales)/dollarPerLead+totalLeads;
 					//Sales Data
 				 	var sCurrent =[[0,sales]];
+				 	//console.log(sCurrent[[0,sales]]);
+				 	console.log(sales);
+				 	console.log(monthSales);
 				 	var sProjected=[[0,projectedSales]];
 				 	var sGoal = [[0,monthGoal]];
+				 	console.log(projectedSales);
 
-					d1.push([z, salesTarget, users[z].id, users[z].username]);
-					d2.push([z, projectedSales, users[z].id, users[z].username]);
-					d3.push([z, sales, users[z].id, users[z].username]);
+				 	barChartData.labels.push(users[z].username);
+					barChartData.datasets[0].data.push(projectedSales);
+					barChartData.datasets[1].data.push(monthGoal);
+					barChartData.datasets[2].data.push(sales);
+
+					console.log(barChartData);
+
+					d1.push([z, sales, users[z].id, users[z].username]);
+					d2.push([z, monthGoal, users[z].id, users[z].username]);
+					d3.push([z, projectedSales, users[z].id, users[z].username]);
 
 					$('.percentToGoal[name=' + users[z].id + ']').html(pctToGoal.toFixed(0).toString() + '%');
 					$('.actualSales[name=' + users[z].id + ']').html('$' + sales);
@@ -229,7 +267,7 @@ $(function() {
 
 					totalProjected = currentSales + projectedSales;
 
-					return totalProjected
+					return totalProjected;
 				}
 
 				function previousDaysTotal(noDays, data){
@@ -245,7 +283,7 @@ $(function() {
 						var dataDate= new Date(data[i][0]);
 						if(dataDate>=startDay){total+=parseFloat(data[i][1])}
 					}
-					return total
+					return total;
 
 				}
 
@@ -259,20 +297,29 @@ $(function() {
 				for (var i = 0; i < d2.length; i++)
 					ticksArray.push([d2[i][0], d2[i][3]]);
 
-				console.log('----' + ticksArray);
+				console.log('----' + newd1[0][1]);
+				console.log('----' + d2[0][1]);
+				console.log('----' + newd3[0][1]);
+
+				var ctx = $("#myChart").get(0).getContext("2d");
+				// This will get the first returned node in the jQuery collection.
+
+				var myNewChart = new Chart(ctx).StackedBar(barChartData, {
+					responsive : true
+				});
 
 
 				function plotWithOptions() {
-					$.plot("#placeholder", [ newd1, d2, newd3 ], {
+					$.plot("#placeholder", [ newd1, d2,  newd3 ], {
 						xaxis: {
         					ticks: ticksArray
     					},
     					yaxis: {
     						min: 0, 
-    						max: 50000 
+    						max: 350000
     					},
 						series: {
-							stack: stack,
+							stack: true,
 							lines: {
 								show: lines,
 								fill: true,

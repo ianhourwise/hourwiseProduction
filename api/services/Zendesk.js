@@ -49,31 +49,48 @@ module.exports = {
 		//   remoteUri: 'https://remote.zendesk.com/api/v2'
 		// });
 
-		client.users.list(function (err, req, result) {
-		  if (err) {
-		    console.log(err);
-		    return;
-		  }
-		  console.log(JSON.stringify(result.map(function (user) {return user.name;}), null, 2, true));//gets the first page
-		  console.log("Total Users: "+result.length);
-		});
-
-		// client.tickets.list(function (err, statusList, body, responseList, resultList) {
+		// client.users.list(function (err, req, result) {
 		//   if (err) {
 		//     console.log(err);
 		//     return;
 		//   }
-		//   var lastTicket = body[body.length -1];
-		//   console.log('Created at - ' + lastTicket.created_at + '\n' +
-		//   			   'Requester - ' + lastTicket.requester_id + '\n' + 
-		//   			   'Assignee - ' + lastTicket.assignee_id + '\n' + 
-		//   			   'Tier - ' + lastTicket.fields[0].value + '\n' + 
-		//   			   'Task - ' + lastTicket.description + '\n' +
-		//   			   'Ticket Num - ' + lastTicket.id + '\n' + 
-		//   			   'status - ' + lastTicket.status + '\n');
-		//   //console.log(JSON.stringify(body[body.length - 1], null, 2, true)); //will display all tickets
-		//   callback(null); //change to array of tickets after testing 
-		//});
+		//   console.log(JSON.stringify(result.map(function (user) {return user.name;}), null, 2, true));//gets the first page
+		//   console.log("Total Users: "+result.length);
+		// });
+
+		// client.tickets.listRecent(function (err, ticket, tickets) {
+		// 	console.log(tickets.length);
+		// });
+
+		client.tickets.list(function (err, statusList, body, responseList, resultList) {
+		  if (err) {
+		    console.log(err);
+		    return;
+		  }
+		  var lastTicket = body[body.length -1];
+
+		  var previousMonth = new Date();
+		  previousMonth.setMonth(previousMonth.getDate() - 30);
+
+		  var relevantTickets = [];
+		  var solved = 0;
+		  for (var i = 0; i < body.length; i++) {
+		  	var dateString = body[i].created_at;
+		  	var year = parseInt(dateString.substring(0, 4));
+		  	var month = parseInt(dateString.substring(5, 7));
+		  	var day = parseInt(dateString.substring(8, 11));
+
+		  	var createdAt = new Date(year, month - 1, day); //substracting one from month because months start at 0 for date objects
+
+		  	if (createdAt > previousMonth) 
+		  		relevantTickets.push(body[i]); 
+		  	
+		  		
+		  		
+		  		
+		  }
+		  callback(relevantTickets); //change to array of tickets after testing 
+		});
 	}
 
 };

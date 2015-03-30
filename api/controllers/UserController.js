@@ -590,7 +590,132 @@ module.exports = {
 
 	zendeskTickets: function (req, res) {
 		Zendesk.listTickets(function (tickets) {
-			console.log(tickets);
+			//console.log(tickets);
+
+			var totalTickets = tickets.length;
+
+			var daysOfWeek = {
+				'monday': 0,
+				'tuesday': 0,
+				'wendnesday': 0,
+				'thursday': 0,
+				'friday': 0,
+				'saturday': 0,
+				'sunday': 0
+			};
+
+			var cjSolved = {
+				total: 0,
+				tier1: 0,
+				tier2: 0,
+				tier3: 0,
+				tier4: 0,
+				tier5: 0
+			};
+			var cjId = 491576246;
+
+			var stefanySolved = {
+				total: 0,
+				tier1: 0,
+				tier2: 0,
+				tier3: 0,
+				tier4: 0,
+				tier5: 0
+			};
+			var stefanyId = 889077333;
+
+			var emilySolved = {
+				total: 0,
+				tier1: 0,
+				tier2: 0,
+				tier3: 0,
+				tier4: 0,
+				tier5: 0
+			};
+			var emilyId = 760940413;
+
+			console.log('++++++++++++++++++++' + totalTickets);
+			var solved = 0;
+
+			for (var i = 0; i < totalTickets; i++) {
+				var dateString = tickets[i].created_at;
+			  	var year = parseInt(dateString.substring(0, 4));
+			  	var month = parseInt(dateString.substring(5, 7));
+			  	var day = parseInt(dateString.substring(7, 9));
+
+		  		var createdAt = new Date(year, month, day); //using this to make it easier to handle dates 
+
+		  		if (createdAt.getDay() == 0)
+		  			daysOfWeek.sunday++;
+		  		else if (createdAt.getDay() == 1)
+		  			daysOfWeek.monday++;
+		  		else if (createdAt.getDay() == 2)
+		  			daysOfWeek.tuesday++;
+		  		else if (createdAt.getDay() == 3)
+		  			daysOfWeek.wendnesday++;
+		  		else if (createdAt.getDay() == 4)
+		  			daysOfWeek.thursday++;
+		  		else if (createdAt.getDay() == 5)
+		  			daysOfWeek.friday++;
+		  		else if (createdAt.getDay() == 6)
+		  			daysOfWeek.saturday++;
+
+		  		if (tickets[i].status == 'solved' || tickets[i].status == 'closed') {
+		  			solved++;
+		  			if (tickets[i].assignee_id == cjId) {
+		  				cjSolved.total = cjSolved.total + 1;
+
+		  				if (tickets[i].fields[0].value == 'tier_1')
+		  					cjSolved.tier1++;
+		  				else if (tickets[i].fields[0].value == 'tier_2')
+		  					cjSolved.tier2++;
+		  				else if (tickets[i].fields[0].value == 'tier_3')
+		  					cjSolved.tier3++;
+		  				else if (tickets[i].fields[0].value == 'tier_4')
+		  					cjSolved.tier4++;
+		  				else if (tickets[i].fields[0].value == 'tier_5')
+		  					cjSolved.tier5++;
+		  			}
+		  			else if (tickets[i].assignee_id == stefanyId) {
+		  				stefanySolved.total++;
+
+		  				if (tickets[i].fields[0].value == 'tier_1')
+		  					stefanySolved.tier1++;
+		  				else if (tickets[i].fields[0].value == 'tier_2')
+		  					stefanySolved.tier2++;
+		  				else if (tickets[i].fields[0].value == 'tier_3')
+		  					stefanySolved.tier3++;
+		  				else if (tickets[i].fields[0].value == 'tier_4')
+		  					stefanySolved.tier4++;
+		  				else if (tickets[i].fields[0].value == 'tier_5')
+		  					stefanySolved.tier5++;
+		  			}
+		  			else if (tickets[i].assignee_id == emilyId) {
+						emilySolved.total++;
+
+						if (tickets[i].fields[0].value == 'tier_1')
+		  					emilySolved.tier1++;
+		  				else if (tickets[i].fields[0].value == 'tier_2')
+		  					emilySolved.tier2++;
+		  				else if (tickets[i].fields[0].value == 'tier_3')
+		  					emilySolved.tier3++;
+		  				else if (tickets[i].fields[0].value == 'tier_4')
+		  					emilySolved.tier4++;
+		  				else if (tickets[i].fields[0].value == 'tier_5')
+		  					emilySolved.tier5++;
+					}
+		  		}
+
+			}
+
+			console.log('----------' + solved);
+			res.locals.layout = "layouts/zendeskGraphs"; 
+			res.view('user/zendeskAdmin', {
+				daysOfWeek: daysOfWeek,
+				cjSolved: cjSolved,
+				stefanySolved: stefanySolved,
+				emilySolved: emilySolved
+			});
 		});
 	}
 	

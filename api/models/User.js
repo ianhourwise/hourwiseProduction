@@ -63,14 +63,20 @@ var User = {
     //   this.save();
     // }.bind(this));
       NutshellApi.getPerformanceReports(user, function(err, response) {
-        if (err)
+        if (err) {
           console.log('----------' + err);
+          callback(user);
+        }
+        else {
+          console.log(response);
+          user.integrations.nutshell.performanceMetrics = response;
+          
+          console.log('success performance');
+          user.save(callback(user));
+        }  
 
-        console.log(response);
-        user.integrations.nutshell.performanceMetrics = response;
+
         
-        console.log('success performance');
-        user.save(callback(user));
         
       }.bind(this));
     },
@@ -93,11 +99,18 @@ var User = {
 
     getRedLeads: function(user, callback){
       NutshellApi.getRedLeads(user, function(err, response){
-        this.integrations.nutshell.redLeads = response;
-        // console.log(this.name);
-        console.log('success red leads');
-        this.integrations.nutshell.lastSyncedOn.date = new Date();
-        this.save(callback(this));  
+        if (err) {
+          console.log('---------' + err);
+          callback(user);
+        }
+        else {
+          this.integrations.nutshell.redLeads = response;
+          // console.log(this.name);
+          console.log('success red leads');
+          this.integrations.nutshell.lastSyncedOn.date = new Date();
+          this.save(callback(this));   
+        }
+         
       }.bind(this));
     },
 
