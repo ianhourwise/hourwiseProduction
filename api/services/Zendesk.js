@@ -83,11 +83,7 @@ module.exports = {
 		  	var createdAt = new Date(year, month - 1, day); //substracting one from month because months start at 0 for date objects
 
 		  	if (createdAt > previousMonth) 
-		  		relevantTickets.push(body[i]); 
-		  	
-		  		
-		  		
-		  		
+		  		relevantTickets.push(body[i]); 	
 		  }
 		  callback(relevantTickets); //change to array of tickets after testing 
 		});

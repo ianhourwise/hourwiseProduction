@@ -635,7 +635,7 @@ module.exports = {
 			var emilyId = 760940413;
 
 			console.log('++++++++++++++++++++' + totalTickets);
-			var solved = 0;
+			var solved = [];
 
 			for (var i = 0; i < totalTickets; i++) {
 				var dateString = tickets[i].created_at;
@@ -661,7 +661,7 @@ module.exports = {
 		  			daysOfWeek.saturday++;
 
 		  		if (tickets[i].status == 'solved' || tickets[i].status == 'closed') {
-		  			solved++;
+		  			solved.push(tickets[i]);
 		  			if (tickets[i].assignee_id == cjId) {
 		  				cjSolved.total = cjSolved.total + 1;
 
@@ -708,13 +708,34 @@ module.exports = {
 
 			}
 
-			console.log('----------' + solved);
+			var solvedTickets = {
+				tickets: solved
+			};
 			res.locals.layout = "layouts/zendeskGraphs"; 
 			res.view('user/zendeskAdmin', {
 				daysOfWeek: daysOfWeek,
 				cjSolved: cjSolved,
 				stefanySolved: stefanySolved,
-				emilySolved: emilySolved
+				emilySolved: emilySolved,
+				solvedTickets: solvedTickets
+			});
+		});
+	},
+
+	unassignedTickets: function(req, res) {
+		Zendesk.listTickets(function (tickets) {
+			var unassigned = [];
+
+			for (var i = 0; i < tickets.length; i++)
+				if (tickets[i].assignee_id == null)
+					unassigned.push(tickets[i]);
+
+			var unassignedTickets = {
+				tickets: unassigned
+			};
+
+			res.view('user/unassignedTickets', {
+				unassignedTickets: unassignedTickets
 			});
 		});
 	}
