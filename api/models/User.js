@@ -114,14 +114,14 @@ var User = {
       }.bind(this));
     },
 
-    addAlert: function(message, alertId) {
+    addAlert: function(message, alertId, communicationId) {
 
       var alerts = [];
 
       if (this.alerts != undefined)
         alerts = this.alerts;
 
-      alerts.push({id: alertId, message: message});
+      alerts.push({id: alertId, message: message, communicationId: communicationId});
 
       this.alerts = alerts;
 

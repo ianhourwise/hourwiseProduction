@@ -6,8 +6,8 @@
 	        <div class="panel-options">
 
 	            <ul class="nav nav-tabs">
-	                <li class=""><a data-toggle="tab" href="#tab-1" aria-expanded="false">Phone/SMS</a></li>
-	                <li class="active"><a data-toggle="tab" href="#tab-2" aria-expanded="true">Email</a></li>
+	                <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">Phone/SMS</a></li>
+	                <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">Email</a></li>
 	            </ul>
 	        </div>
 	    </div>
@@ -15,7 +15,7 @@
 	    <div class="panel-body">
 
 	        <div class="tab-content">
-	            <div id="tab-1" class="tab-pane">
+	            <div id="tab-1" class="tab-pane active">
 	                <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
@@ -28,22 +28,23 @@
                     </div>
 
                     <div class="ibox-content inspinia-timeline">
-                        <% _.each(touches, function(touch){ %>
+                        <% _.each(communications, function(communication){ %>
+                            <a href="/communication/<%= communication.id %>">
                             <div class="timeline-item">
                                 <div class="row">
                                     <div class="col-xs-3 date">
-                                        <% if (touch.inbound == null) { %>
+                                        <% if (communication.touches[communication.touches.length - 1].inbound == null) { %>
                                             <i class="fa fa-arrow-up"></i>
-                                            <%= touch.outbound %>
+                                            <%= communication.touches[communication.touches.length - 1].outbound %>
                                         <% } else { %>
                                             <i class="fa fa-arrow-down"></i>
-                                            <%= touch.inbound %>
+                                            <%= communication.touches[communication.touches.length - 1].inbound %>
                                         <% } %>
                                         <br>
-                                        <% if (touch.createdBy != null) { %>
-                                            <small class="text-navy">Created by:<br> <%= touch.createdBy.username %></small>
-                                        <% } else if (touch.contact != null) { %>
-                                            <small class="text-navy">Sent from:<br> <%= touch.contact.name %></small>
+                                        <% if (communication.touches[communication.touches.length - 1].createdBy != null) { %>
+                                            <small class="text-navy">Created by:<br> <%= communication.touches[communication.touches.length - 1].createdBy.username %></small>
+                                        <% } else if (communication.touches[communication.touches.length - 1].contact != null) { %>
+                                            <small class="text-navy">Sent from:<br> <%= communication.touches[communication.touches.length - 1].contact.name %></small>
                                         <% } else { %>
                                             <small class="text-navy">Sent from:<br> Unknown</small>
                                         <% } %>
@@ -51,13 +52,14 @@
                                     <div class="col-xs-7 content no-top-border">
                                         <p class="m-b-xs"><strong>Message</strong></p>
 
-                                        <% if (touch.mediaURL != null) { %>
+                                        <% if (communication.touches[communication.touches.length - 1].mediaURL != null) { %>
                                             <img src="<%= touch.mediaURL %>">
                                         <% } else {} %>
-                                        <p><%= touch.body %></p>
+                                        <p><%= communication.touches[communication.touches.length - 1].body %></p>
                                     </div>
                                 </div>
                             </div>
+                        </a>
                         <% }) %>
                     </div>
                     <%- partial ('../partials/sendSmsModal.ejs') %>
@@ -65,7 +67,7 @@
             </div>
 	            </div>
 
-	            <div id="tab-2" class="tab-pane active">
+	            <div id="tab-2" class="tab-pane">
 	                <div id="email-content">
                         <!-- Start #email-content -->
                         <div class="email-wrapper">

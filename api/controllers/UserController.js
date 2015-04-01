@@ -44,14 +44,14 @@ module.exports = {
  		if (req.session.User.role != 'user') {
  			User.find(function (err, users) {
 
- 				Touch.find({type: 'sms'}).populate('createdBy').populate('contact').exec(function (err, touches) {
+ 				Communication.find().populate('touches').exec(function (err, communications) { //.populate('createdBy').populate('contact')
  					if (err)
  						console.log(err);
 
  					res.view({
  						user: req.session.User,
 		 				users: users,
-		 				touches: touches
+		 				communications: communications
 	 				});
 		 				
  				});
@@ -636,6 +636,9 @@ module.exports = {
 
 			console.log('++++++++++++++++++++' + totalTickets);
 			var solved = [];
+			var unsolvedTickets = [];
+			var pendingTickets = [];
+			var recentlySolved = [];
 
 			for (var i = 0; i < totalTickets; i++) {
 				var dateString = tickets[i].created_at;
@@ -659,6 +662,15 @@ module.exports = {
 		  			daysOfWeek.friday++;
 		  		else if (createdAt.getDay() == 6)
 		  			daysOfWeek.saturday++;
+
+		  		if (tickets[i].status == 'solved')
+		  			recentlySolved.push(tickets[i]);
+
+		  		if (tickets[i].status == 'pending')
+		  			pendingTickets.push(tickets[i]);
+
+		  		if (tickets[i].status != 'solved' && tickets[i].status != 'closed')
+		  			unsolvedTickets.push(tickets[i]);
 
 		  		if (tickets[i].status == 'solved' || tickets[i].status == 'closed') {
 		  			solved.push(tickets[i]);
@@ -717,25 +729,31 @@ module.exports = {
 				cjSolved: cjSolved,
 				stefanySolved: stefanySolved,
 				emilySolved: emilySolved,
-				solvedTickets: solvedTickets
+				solvedTickets: solvedTickets,
+				unsolvedTickets: unsolvedTickets,
+				pendingTickets: pendingTickets,
+				recentlySolved: recentlySolved
 			});
 		});
 	},
 
-	unassignedTickets: function(req, res) {
+	conciergeZendesk: function(req, res) {
 		Zendesk.listTickets(function (tickets) {
 			var unassigned = [];
+			var unsolved = [];
 
-			for (var i = 0; i < tickets.length; i++)
+			//req.session.User.integrations.zendesk.id = 491576246;
+
+			for (var i = 0; i < tickets.length; i++) {
 				if (tickets[i].assignee_id == null)
 					unassigned.push(tickets[i]);
+				else if (tickets[i].assignee_id == 491576246 && tickets[i].status != 'solved' && tickets[i].status != 'closed')
+					unsolved.push(tickets[i]);
+			}	
 
-			var unassignedTickets = {
-				tickets: unassigned
-			};
-
-			res.view('user/unassignedTickets', {
-				unassignedTickets: unassignedTickets
+			res.view('user/conciergeZendesk', {
+				unassignedTickets: unassigned,
+				unsolvedTickets: unsolved
 			});
 		});
 	}

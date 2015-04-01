@@ -20,7 +20,8 @@ module.exports = {
   	contact: { model: 'contact' },
   	body: 'string',
   	createdBy: { model: 'user' },
-  	job: { model: 'job' }
+  	job: { model: 'job' },
+    owner: { model: 'communication'}
   }
 };
 

@@ -45,6 +45,8 @@ module.exports = {
  	},
 
  	outboundSMS: function(req, res) {
+ 		console.log(req.param('toNumber'));
+
  		Twilio.sendSMS({toNumber: req.param('toNumber'), smsContent: req.param('body')}, function (err) {
  			if (err) 
  				console.log(err);
@@ -58,16 +60,54 @@ module.exports = {
 	 					body: req.param('body'),
 	 					createdBy: req.session.User.id,
 	 					job: null, //change later
-	 					notes: null //change later
+	 					notes: null,
+	 					owner: null //change later
  					};
 
- 					Touch.create(touchData, function (err, touch) {
+ 			
+ 					formattedNumber = '+1' + req.param('toNumber');
+
+ 					console.log(formattedNumber);	
+
+ 					Communication.findOne({primaryNumber: formattedNumber}).exec(function (err, communication) {
+
  						if (err)
  							console.log(err);
 
- 						res.redirect('user/communications');
+ 						if (communication != null) {
+ 							touchData.owner = communication.id;
 
+	 						Touch.create(touchData, function (err, touch) {
+		 						if (err)
+		 							console.log(err);
+
+		 						if (req.param('fromPost'))
+		 							res.send('Nice! Got it!');
+		 						else
+		 							res.redirect('user/communications');
+
+		 					});
+ 						}
+ 						else {
+ 							Communication.create({primaryNumber: formattedNumber}, function (err, newCommunication) {
+ 								touchData.owner = newCommunication.id;
+
+		 						Touch.create(touchData, function (err, touch) {
+			 						if (err)
+			 							console.log(err);
+
+			 						if (req.param('fromPost'))
+		 								res.send('Nice! Got it!');
+		 							else
+			 							res.redirect('user/communications');
+
+			 					});
+ 							});
+ 						}
+ 						
  					});
+
+ 					
  			}
  		});
  	},
@@ -102,7 +142,8 @@ module.exports = {
 			createdBy: null,
 			job: null, //change later
 			notes: null, //change later
-			mediaURL: mediaURL
+			mediaURL: mediaURL,
+			owner: null
 		};
 
 		Contact.find(function (err, contacts) {
@@ -115,37 +156,202 @@ module.exports = {
 					touchData.contact = contacts[i].id;
 			}
 
-			Touch.create(touchData, function (err, touch) {
+			Communication.findOne({primaryNumber: formattedNumber}).exec(function (err, communication) {
+ 						
 				if (err)
 					console.log(err);
 
-				var ticket = {
-					'subject': 'TXT from ' + touch.inbound + 'for Hourwise/Foundation',
-					'description': touch.body
-				};
+				if (communication != null) {
+					touchData.owner = communication.id;
 
-				Zendesk.createTicket(ticket);
+					Touch.create(touchData, function (err, touch) {
+						if (err)
+							console.log(err);
 
-				User.find().exec( function (err, users) {
-	 				for (var i = 0; i < users.length; i++) {
-	 					var uuid = require('node-uuid');
+						var ticket = {
+							'subject': 'TXT from ' + touch.inbound + 'for Hourwise/Foundation',
+							'description': touch.body,
+						};
 
-						var alertId = uuid.v4();
+						Zendesk.createTicket(ticket);
 
-	 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-	 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId);
-	 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId });
-	 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
-	 					}
-	 					
-	 				}
+						User.find().exec( function (err, users) {
+			 				for (var i = 0; i < users.length; i++) {
+			 					var uuid = require('node-uuid');
 
-	 				res.send('<Response><Message>Your text has been received. One of our helpful concierges will respond to you as soon as possible!</Message></Response>'); 
-							
-	 			});
+								var alertId = uuid.v4();
+
+			 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+			 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId);
+			 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId });
+			 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+			 					}
+			 					
+			 				}
+
+			 				res.send('<Response></Response>'); 
+									
+			 			});
+					});
+				}
+				else {
+					Communication.create({primaryNumber: formattedNumber}, function (err, newCommunication) {
+						touchData.owner = newCommunication.id;
+
+						Touch.create(touchData, function (err, touch) {
+							if (err)
+								console.log(err);
+
+							var ticket = {
+								'subject': 'TXT from ' + touch.inbound + 'for Hourwise/Foundation',
+								'description': touch.body,
+							};
+
+							Zendesk.createTicket(ticket);
+
+							User.find().exec( function (err, users) {
+				 				for (var i = 0; i < users.length; i++) {
+				 					var uuid = require('node-uuid');
+
+									var alertId = uuid.v4();
+
+				 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+				 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId);
+				 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId });
+				 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+				 					}
+				 					
+				 				}
+
+				 				res.send('<Response></Response>'); 
+										
+				 			});
+						});
+					});
+				}
 			});
 		});
 
+ 	},
+
+ 	inboundSimulation: function(req, res) {
+ 		var mediaURL = null;
+
+		// if (req.param('MediaUrl0'))
+		// 	mediaURL = req.param('MediaUrl0');
+
+		var touchData = {
+			type: 'sms',
+			owner: null,
+			outbound: null,
+			inbound: '+17578807276',
+			contact: null,
+			body: 'Cool, got it!',
+			createdBy: null,
+			job: null, //change later
+			notes: null, //change later
+			mediaURL: mediaURL,
+			owner: null
+		};
+
+		Contact.find(function (err, contacts) {
+			// for (var i = 0; i < contacts.length; i++) {
+			// 	var phoneNumber = req.param('From');
+			// 	var phoneNumberTrim = phoneNumber.substring(2, phoneNumber.length); //trimming to remove +1 from phone number
+
+
+			// 	if (contacts[i].phoneNumber == phoneNumberTrim)
+			// 		touchData.contact = contacts[i].id;
+			// }
+
+			Communication.findOne({primaryNumber: touchData.inbound}).exec(function (err, communication) {
+ 						
+				if (err)
+					console.log(err);
+
+				if (communication != null) {
+					touchData.owner = communication.id;
+
+					Touch.create(touchData, function (err, touch) {
+						if (err)
+							console.log(err);
+
+						var ticket = {
+							'subject': 'TXT from ' + touch.inbound + 'for Hourwise/Foundation',
+							'description': touch.body,
+						};
+
+						//Zendesk.createTicket(ticket);
+
+						User.find().exec( function (err, users) {
+			 				for (var i = 0; i < users.length; i++) {
+			 					var uuid = require('node-uuid');
+
+								var alertId = uuid.v4();
+
+			 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+			 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId, communication.id);
+			 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: communication.id });
+			 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+			 					}
+			 					
+			 				}
+
+			 				//res.send('<Response></Response>'); 
+									
+			 			});
+					});
+				}
+				else {
+					Communication.create({primaryNumber: formattedNumber}, function (err, newCommunication) {
+						touchData.owner = newCommunication.id;
+
+						Touch.create(touchData, function (err, touch) {
+							if (err)
+								console.log(err);
+
+							var ticket = {
+								'subject': 'TXT from ' + touch.inbound + 'for Hourwise/Foundation',
+								'description': touch.body,
+							};
+
+							//Zendesk.createTicket(ticket);
+
+							User.find().exec( function (err, users) {
+				 				for (var i = 0; i < users.length; i++) {
+				 					var uuid = require('node-uuid');
+
+									var alertId = uuid.v4();
+
+				 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+				 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId, newCommunication.id);
+				 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: newCommunication.id });
+				 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+				 					}
+				 					
+				 				}
+
+				 				//res.send('<Response></Response>'); 
+										
+				 			});
+						});
+					});
+				}
+			});
+		});
+ 	// 	User.find().exec( function (err, users) {
+		// 	for (var i = 0; i < users.length; i++) {
+		// 		var uuid = require('node-uuid');
+
+		// 		var alertId = uuid.v4();
+
+		// 		if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+		// 			users[i].addAlert('+17578807276' + ' just sent in a text message.', alertId);
+		// 			User.publishUpdate(users[i].id, { message: '+17578807276' + ' just sent in a text message.', id: alertId });
+		// 			console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+		// 		}
+		// 	}
+		// });
  	}
  };
 
