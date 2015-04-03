@@ -29,13 +29,12 @@
 
                     <div class="ibox-content inspinia-timeline">
                         <% _.each(communications, function(communication){ %>
-                            <a href="/communication/<%= communication.id %>">
                             <div class="timeline-item">
                                 <div class="row">
                                     <div class="col-xs-3 date">
                                         <% if (communication.touches[communication.touches.length - 1].inbound == null) { %>
                                             <i class="fa fa-arrow-up"></i>
-                                            <%= communication.touches[communication.touches.length - 1].outbound %>
+                                            +1<%= communication.touches[communication.touches.length - 1].outbound %>
                                         <% } else { %>
                                             <i class="fa fa-arrow-down"></i>
                                             <%= communication.touches[communication.touches.length - 1].inbound %>
@@ -55,11 +54,10 @@
                                         <% if (communication.touches[communication.touches.length - 1].mediaURL != null) { %>
                                             <img src="<%= touch.mediaURL %>">
                                         <% } else {} %>
-                                        <p><%= communication.touches[communication.touches.length - 1].body %></p>
+                                         <a href="/communication/index/<%= communication.id %>"><p><%= communication.touches[communication.touches.length - 1].body %></p></a>
                                     </div>
                                 </div>
                             </div>
-                        </a>
                         <% }) %>
                     </div>
                     <%- partial ('../partials/sendSmsModal.ejs') %>

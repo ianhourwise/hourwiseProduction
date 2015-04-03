@@ -70,6 +70,7 @@ var User = {
         else {
           console.log(response);
           user.integrations.nutshell.performanceMetrics = response;
+          console.log(user.integrations.nutshell.performanceMetrics === response);
           
           console.log('success performance');
           user.save(callback(user));
@@ -107,6 +108,7 @@ var User = {
           this.integrations.nutshell.redLeads = response;
           // console.log(this.name);
           console.log('success red leads');
+          console.log(this.integrations.nutshell.redLeads === response);
           this.integrations.nutshell.lastSyncedOn.date = new Date();
           this.save(callback(this));   
         }
