@@ -69,6 +69,8 @@ module.exports = {
 		  }
 		  var lastTicket = body[body.length -1];
 
+		  console.log(lastTicket);
+
 		  var previousMonth = new Date();
 		  previousMonth.setMonth(previousMonth.getDate() - 30);
 

@@ -14,6 +14,13 @@
             <input type= "text" class = "form-control" placeholder = "No Company Set" disabled>
         <% } %>
         <hr>
+        <% if (user.zendeskId != null) { %>
+          <input type= "text" class = "form-control" placeholder = "<%= user.zendeskId %>" name="zendeskId">
+        <% } 
+           else { %>
+            <input type= "text" class = "form-control" placeholder = "Add Zendesk id" name="zendeskId">
+        <% } %>
+        <hr>
         <% if (isSuperUser) { %>
             <select name='role'>
               <% if (user.role == 'user') { %>

@@ -407,6 +407,7 @@ function getLeadsReport(user, callback){
   console.log('getting leads report...');
 
   // client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
+  console.log(user);
   var client = createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
   client.call('getAnalyticsReport', 
                 { "reportType": "NewLeads", 

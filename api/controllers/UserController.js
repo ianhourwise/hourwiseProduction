@@ -276,6 +276,19 @@ module.exports = {
 		});
 	},
 
+	addNumber: function(req, res) {
+		if (req.param('fromDash')) {
+			var formattedNumber = '+1' + req.param('primaryNumber');
+
+			User.update(req.param('id'), {primaryNumber: formattedNumber}, function (err, users) {
+				if (err)
+					res.send('error');
+
+				res.send(users[0]);
+			});
+		}
+	},
+
 	update: function(req, res, next) {
 		console.log("---------"+JSON.stringify(req.params.all())+ "----------");
 
@@ -326,6 +339,7 @@ module.exports = {
 			}
  			
  		});
+		
  	}, 	
 
 
@@ -377,20 +391,53 @@ module.exports = {
 
 						var tasks = user.tasks;
 
-				 		res.locals.layout= 'layouts/dashboard_layout';
-					 		res.view({
-					 			user: user,
-					 			salesData: salesData,
-					 			leadData: leadData,
-					 			pipelineData: pipelineData,
-					 			// redMetrics: nsResponse.counts,
-					 			// redLeads: nsResponse.leads
-					 			// redMetrics: redMetrics,
-					 			// redLeads: redLeads
-					 			redMetrics: redMetrics,
-					 			redLeads: redLeads,
-					 			tasks: tasks
-					 		});
+						Communication.findOne({primaryNumber: user.primaryNumber}).populate('touches').exec(function (err, communication) {
+							if (user.zendeskId != undefined) {
+								Zendesk.listTickets(function (tickets) {
+									var organizationTickets = [];
+
+									for (var i = 0; i < tickets.length; i++) {
+										if (tickets[i].requester_id == user.zendeskId && tickets[i].status != 'closed' && tickets[i].status != 'solved')
+											organizationTickets.push(tickets[i]);
+									}
+
+									res.locals.layout= 'layouts/dashboard_layout';
+							 		res.view('user/conciergeDash', {
+							 			user: user,
+							 			salesData: salesData,
+							 			leadData: leadData,
+							 			pipelineData: pipelineData,
+							 			// redMetrics: nsResponse.counts,
+							 			// redLeads: nsResponse.leads
+							 			// redMetrics: redMetrics,
+							 			// redLeads: redLeads
+							 			redMetrics: redMetrics,
+							 			redLeads: redLeads,
+							 			tasks: tasks,
+							 			communication: communication,
+							 			organizationTickets: organizationTickets
+							 		});
+								});
+							}
+							else {
+								res.locals.layout= 'layouts/dashboard_layout';
+						 		res.view('user/conciergeDash', {
+						 			user: user,
+						 			salesData: salesData,
+						 			leadData: leadData,
+						 			pipelineData: pipelineData,
+						 			// redMetrics: nsResponse.counts,
+						 			// redLeads: nsResponse.leads
+						 			// redMetrics: redMetrics,
+						 			// redLeads: redLeads
+						 			redMetrics: redMetrics,
+						 			redLeads: redLeads,
+						 			tasks: tasks,
+						 			communication: communication,
+						 			organizationTickets: null
+						 		});	
+							}
+						});
 		 			});	
 		 		});
 		 		
