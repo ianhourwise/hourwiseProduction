@@ -1,0 +1,48 @@
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>SMS History</h5>
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="ibox-content inspinia-timeline">
+        <input type= "text" class = "form-control" placeholder = "Add text..." maxlength="160" id="smsBody"><div class = "btn btn-lg btn-primary btn-block sendSMS" name="<%= communication.primaryNumber %>">Send</div>
+        <% communication.touches.reverse() %>
+        <div id="timeLine">
+        <% _.each(communication.touches, function(touch){ %>
+            <div class="timeline-item">
+                <div class="row">
+                    <div class="col-xs-3 date">
+                        <% if (touch.inbound == null) { %>
+                            <i class="fa fa-arrow-up"></i>
+                            +1<%= touch.outbound %>
+                        <% } else { %>
+                            <i class="fa fa-arrow-down"></i>
+                            <%= touch.inbound %>
+                        <% } %>
+                        <br>
+                        <% if (touch.createdBy != null) { %>
+                            <small class="text-navy">Created by:<br><%= touch.createdBy.username %></small>
+                        <% } else if (touch.contact != null) { %>
+                            <small class="text-navy">Sent from:<br> <%= touch.contact.name %></small>
+                        <% } else { %>
+                            <small class="text-navy">Sent from:<br> Unknown</small>
+                        <% } %>
+                    </div>
+                    <div class="col-xs-7 content no-top-border">
+                        <p class="m-b-xs"><strong>Message</strong></p>
+
+                        <% if (touch.mediaURL != null) { %>
+                            <img src="<%= touch.mediaURL %>">
+                        <% } else {} %>
+                        <p><%= touch.body %></p>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+    </div>
+</div>
