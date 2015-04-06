@@ -6,7 +6,7 @@ module.exports = {
 
 		client.sms.messages.create({
 		    to:'+1' + data.toNumber,
-		    from:'+18046812173', //change later? Not sure just found it in the account
+		    from:'+18042123825', //change later? Not sure just found it in the account
 		    body: data.smsContent
 		}, function(error, message) {
 		    if (!error) {
