@@ -183,7 +183,7 @@ module.exports = {
 
 			 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
 			 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId);
-			 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId });
+			 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: communication.id  });
 			 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 			 					}
 			 					
@@ -217,7 +217,7 @@ module.exports = {
 
 				 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
 				 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId);
-				 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId });
+				 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: communication.id  });
 				 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 				 					}
 				 					
