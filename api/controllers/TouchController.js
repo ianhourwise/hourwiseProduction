@@ -156,7 +156,7 @@ module.exports = {
 					touchData.contact = contacts[i].id;
 			}
 
-			Communication.findOne({primaryNumber: formattedNumber}).exec(function (err, communication) {
+			Communication.findOne({primaryNumber: req.param('From')}).exec(function (err, communication) {
  						
 				if (err)
 					console.log(err);
@@ -195,7 +195,7 @@ module.exports = {
 					});
 				}
 				else {
-					Communication.create({primaryNumber: formattedNumber}, function (err, newCommunication) {
+					Communication.create({primaryNumber: req.param('From')}, function (err, newCommunication) {
 						touchData.owner = newCommunication.id;
 
 						Touch.create(touchData, function (err, touch) {
