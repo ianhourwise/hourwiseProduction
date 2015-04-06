@@ -255,14 +255,14 @@ module.exports = {
 		};
 
 		Contact.find(function (err, contacts) {
-			// for (var i = 0; i < contacts.length; i++) {
-			// 	var phoneNumber = req.param('From');
-			// 	var phoneNumberTrim = phoneNumber.substring(2, phoneNumber.length); //trimming to remove +1 from phone number
+			for (var i = 0; i < contacts.length; i++) {
+				var phoneNumber = req.param('From');
+				var phoneNumberTrim = phoneNumber.substring(2, phoneNumber.length); //trimming to remove +1 from phone number
 
 
-			// 	if (contacts[i].phoneNumber == phoneNumberTrim)
-			// 		touchData.contact = contacts[i].id;
-			// }
+				if (contacts[i].phoneNumber == phoneNumberTrim)
+					touchData.contact = contacts[i].id;
+			}
 
 			Communication.findOne({primaryNumber: touchData.inbound}).exec(function (err, communication) {
  						
