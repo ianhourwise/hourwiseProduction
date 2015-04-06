@@ -15,7 +15,7 @@ module.exports.jobs = {
   // for more details about configuration,
   // check https://github.com/rschmukler/agenda
   "db": { 
-    "address"    : process.env.DB_URL, //localhost:27017/jobs process.env.DB_URL
+    "address"    : 'mongodb://admin:$tageHourW!$e@dogen.mongohq.com:10045/hourwise-staging', //localhost:27017/jobs process.env.DB_URL
     "collection" : "agendaJobs" 
   },
   "name": "process name",
