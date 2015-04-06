@@ -107,6 +107,11 @@ $(function() {
 				 	var sProjected=[[0,projectedSales]];
 				 	var sGoal = [[0,monthGoal]];
 				 	console.log(projectedSales);
+				 	if (projectedSales.isNaN())
+				 		projectedSales = 0;
+				 	if (sales.isNaN())
+				 		sales = 0;
+				 	
 
 				 	barChartData.labels.push(users[z].username);
 					barChartData.datasets[0].data.push(projectedSales);
