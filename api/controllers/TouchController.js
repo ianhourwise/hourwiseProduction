@@ -303,7 +303,9 @@ module.exports = {
 					});
 				}
 				else {
-					Communication.create({primaryNumber: formattedNumber}, function (err, newCommunication) {
+
+
+					Communication.create({primaryNumber: touchData.inbound}, function (err, newCommunication) {
 						touchData.owner = newCommunication.id;
 
 						Touch.create(touchData, function (err, touch) {
