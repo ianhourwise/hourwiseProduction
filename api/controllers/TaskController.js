@@ -82,7 +82,7 @@ module.exports = {
 				}
 				else {
 					console.log('updating ticket...');
-					Ticket.update({id: existingTicket.id}, {zendesk: ticket}, function (err) {
+					Task.update({id: existingTicket.id}, {zendesk: ticket}, function (err) {
 						if (err)
 							console.log(err);
 
@@ -137,7 +137,7 @@ module.exports = {
                         loop.next();
                     })
                     },
-                    
+
                     function() {console.log('cycle ended')}
                 );      
             });
