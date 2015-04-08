@@ -60,6 +60,27 @@ module.exports = {
 	zendeskTrigger: function(req, res) {
 		console.log('-------------ZENDESK TRIGGER-----------');
 		console.log(req.params.all());
+		var ticketId = req.param('payload');
+		ticketId = ticketId.id;
+		console.log(ticketId);
+
+		Task.findOne({zendesk: {id: ticketId}}, function (err, ticket) {
+			if (err)
+				console.log(err);
+
+			if (ticket == null) {
+				Task.create({zendesk: req.param('payload'), type: 'zendesk'}, function (err, newTicker) {
+					if (err)
+						console.log(err);
+
+					res.send(200);
+				});
+			}
+			else {
+				//Ticket.update({id: ticket.id}, {zendesk: })
+				res.send(200);
+			}
+		});
 	},
 
 	grabTickets: function(req, res) {
