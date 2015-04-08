@@ -65,7 +65,7 @@ module.exports = {
 		console.log(ticket.id);
 
 		Zendesk.findTicket(ticket.id, function (ticket) {
-			console.log('made it back ' + ticket);
+			console.log('made it back ' + JSON.stringify(ticket));
 
 			res.send(200);
 		});
