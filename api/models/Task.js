@@ -14,6 +14,7 @@ module.exports = {
   	description: 'string',
   	startDate: 'string',
   	endDate: 'string',
+  	zendesk: 'json',
   	owner: { model: 'user' }
   }
 };

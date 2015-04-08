@@ -176,7 +176,7 @@ var AuthController = {
         }
         else{
           if(user.reroute == 'wizard' || user.reroute == 'pending'){
-            res.redirect('/user/'+user.reroute)
+            res.redirect('/user/'+ user.reroute)
           }
           else{
             res.redirect('/user/index');  

@@ -43,6 +43,8 @@ module.exports.policies = {
 
   'user': {
     admin: 'isSuperUser',
+    welcome: true,
+    onboardDump: true
   },
 
   'company': {

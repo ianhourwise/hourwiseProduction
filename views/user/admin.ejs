@@ -7,6 +7,7 @@
             <ul class="nav nav-tabs">
                 <li class=""><a data-toggle="tab" href="#tab-1" aria-expanded="false">Companies</a></li>
                 <li class="active"><a data-toggle="tab" href="#tab-2" aria-expanded="true">Users</a></li>
+                <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">Zendesk</a></li>
             </ul>
         </div>
     </div>
@@ -143,56 +144,65 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div id="modal-form" class="modal fade in" aria-hidden="false" style="display: none;">
-                                        <div class="modal-backdrop fade in"></div>
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                    </div>                                        
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                      <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Add Employee</h3>
-                                                            <form action= "/user/create" role="form" method = "POST">
-                                                                <div class="form-group"><label>Name</label> 
-                                                                    <input type="text" name = "username" placeholder="Name" class="form-control"></div>
-                                                                <div class="form-group"><label>Email</label> 
-                                                                    <input type="email" name = "email" placeholder="Email" class="form-control"></div>
-                                                                <div class="form-group"><label>Password</label> 
-                                                                    <input type="password" name = "password" placeholder="tempPassword" class="form-control"></div>
-                                                                <div>
-                
-                                                                    <div class="form-group"><label>Role</label> 
-                                                                        <select class="form-control m-b" name="role">
-                                                                            <option value = "user" selected>User</option>
-                                                                            <option value = "concierge">Concierge</option>
-                                                                            <option value = "superUser">Super User</option>
-                                                                        </select>
-                                                                    </div> 
-                                                                                                                              
-                                                                    <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">
-                                                                        <strong>Create</strong>
-                                                                    </button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>    
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
+                </div>
+            </div>
+            <div id="tab-3" class="tab-pane">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="wrapper wrapper-content animated fadeInUp">
+                            <%- partial ('../partials/zendeskMetrics.ejs') %>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
 
+</div>
+<div id="modal-form" class="modal fade in" aria-hidden="false" style="display: none;">
+    <div class="modal-backdrop fade in"></div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>                                        
+            <div class="modal-body">
+                <div class="row">
+                  <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Add Employee</h3>
+                        <form action= "/user/create" role="form" method = "POST">
+                            <div class="form-group"><label>Name</label> 
+                                <input type="text" name = "username" placeholder="Name" class="form-control"></div>
+                            <div class="form-group"><label>Email</label> 
+                                <input type="email" name = "email" placeholder="Email" class="form-control"></div>
+                            <div class="form-group"><label>Password</label> 
+                                <input type="password" name = "password" placeholder="tempPassword" class="form-control"></div>
+                            <div>
+
+                                <div class="form-group"><label>Role</label> 
+                                    <select class="form-control m-b" name="role">
+                                        <option value = "user" selected>User</option>
+                                        <option value = "concierge">Concierge</option>
+                                        <option value = "superUser">Super User</option>
+                                    </select>
+                                </div> 
+                                                                                          
+                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">
+                                    <strong>Create</strong>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>    
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>    
+        </div>
+    </div>
 </div>
         
 <div class="footer">
@@ -202,5 +212,12 @@
     </div>
 
 </div>
+
+<script> 
+var cjSolved = <%- JSON.stringify(cjSolved) %> ;
+var stefanySolved = <%- JSON.stringify(stefanySolved) %> ;
+var emilySolved = <%- JSON.stringify(emilySolved) %> ;
+var solvedTickets = <%- JSON.stringify(solvedTickets) %> ;
+</script>
 
 

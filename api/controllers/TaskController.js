@@ -55,6 +55,59 @@ module.exports = {
 
 			res.redirect('/task/index');
 		});
+	},
+
+	zendeskTrigger: function(req, res) {
+		console.log(req.params.all());
+	},
+
+	grabTickets: function(req, res) {
+		 Zendesk.listTickets(function (tickets) {
+                function asyncLoop(iterations, func, callback) {
+                    var index = 0;
+                    var done = false;
+                    var loop = {
+                        next: function() {
+                            if (done) {
+                                return;
+                            }
+
+                            if (index < iterations) {
+                                index++;
+                                func(loop);
+
+                            } else {
+                                done = true;
+                                callback();
+                            }
+                        },
+
+                        iteration: function() {
+                            return index - 1;
+                        },
+
+                        break: function() {
+                            done = true;
+                            callback();
+                        }
+                    };
+                    loop.next();
+                    return loop;
+                }
+
+                var ticketIndex = 0;    
+
+                asyncLoop(tickets.length, function (loop) {
+                    Task.create({zendesk: tickets[ticketIndex], type: 'zendesk'}, function (err, ticket) {
+                        console.log('^.^');
+                        ticketIndex++;
+                        console.log(loop.iteration());
+                        loop.next();
+                    })
+                    },
+                    function() {console.log('cycle ended')}
+                );      
+            });
 	}
 
 };
