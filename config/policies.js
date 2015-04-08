@@ -47,6 +47,10 @@ module.exports.policies = {
     onboardDump: true
   },
 
+  'task': {
+    zendeskTrigger: true
+  },
+
   'company': {
     profile: 'isCompanyOwner'
   }
