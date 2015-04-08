@@ -148,7 +148,7 @@
                                     <td><%= ticket.requester_id %></td>
                                     <td><%= ticket.created_at %></td>
                                     <td><%= ticket.via.channel %></td>
-                                    <td><a href="<%= ticket.url %>">Go to ticket</a></td>
+                                    <td><% if (ticket.url != null ) { %><a href="<%= ticket.url %>">Go to ticket</a> <% } else {} %></td>
                                 </tr>
                             <% }) %>
                          </table>
