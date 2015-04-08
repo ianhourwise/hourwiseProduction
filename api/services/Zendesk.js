@@ -89,6 +89,18 @@ module.exports = {
 		  }
 		  callback(relevantTickets); //change to array of tickets after testing 
 		});
+	},
+
+	findTicket: function (id, callback) {
+		client.tickets.show(id, function (err, statusList, body, responseList, resultList) {
+			console.log('err - ' + err);
+			console.log('statusList' + statusList);
+			console.log('body' + body);
+			console.log('responseList' + responseList);
+			console.log('resultList' + resultList);
+
+			callback(null);
+		});
 	}
 
 };
