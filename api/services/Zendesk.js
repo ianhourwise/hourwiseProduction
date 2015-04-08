@@ -103,10 +103,11 @@ module.exports = {
 
 		client.tickets.show(id, function (err, statusList, body, responseList, resultList) {
 			console.log('err - ' + err);
-			console.log('statusList' + statusList[0].status);
+			console.log('statusList' + statusList);
+			console.log('body' + body.status);
 			console.log('body' + body[0].status);
-			console.log('responseList' + responseList[0].status);
-			console.log('resultList' + resultList[0].status);
+			console.log('responseList' + responseList);
+			console.log('resultList' + resultList);
 
 			callback(null);
 		});
