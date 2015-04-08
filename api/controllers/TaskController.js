@@ -59,12 +59,11 @@ module.exports = {
 
 	zendeskTrigger: function(req, res) {
 		console.log('-------------ZENDESK TRIGGER-----------');
-		console.log(req.params.all());
-		var ticketId = req.param('payload');
-		ticketId = ticketId.id;
-		console.log(ticketId);
+		console.log(req.param('payload'));
+		var ticket = req.param('payload');
+		console.log(ticket.id);
 
-		Task.findOne({zendesk: {id: ticketId}}, function (err, ticket) {
+		Task.findOne({zendesk: {id: ticket.id}}, function (err, ticket) {
 			if (err)
 				console.log(err);
 
