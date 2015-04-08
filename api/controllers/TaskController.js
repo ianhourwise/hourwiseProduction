@@ -67,26 +67,28 @@ module.exports = {
 		Zendesk.findTicket(ticket.id, function (ticket) {
 			console.log('made it back ' + JSON.stringify(ticket));
 
-			res.send(200);
+			Task.findOne({zendesk: {id: ticket.id}}, function (err, existingTicket) {
+				if (err)
+					console.log(err);
+
+				if (existingTicket == null) {
+					Task.create({zendesk: ticket, type: 'zendesk'}, function (err, newTicket) {
+						if (err)
+							console.log(err);
+
+						res.send(200);
+					});
+				}
+				else {
+					Ticket.update({id: ticket.id}, {zendesk: ticket}, function (err) {
+						if (err)
+							console.log(err);
+
+						res.send(200);
+					});
+				}
+			});
 		});
-
-		// Task.findOne({zendesk: {id: ticket.id}}, function (err, ticket) {
-		// 	if (err)
-		// 		console.log(err);
-
-		// 	if (ticket == null) {
-		// 		Task.create({zendesk: req.param('payload'), type: 'zendesk'}, function (err, newTicker) {
-		// 			if (err)
-		// 				console.log(err);
-
-		// 			res.send(200);
-		// 		});
-		// 	}
-		// 	else {
-		// 		//Ticket.update({id: ticket.id}, {zendesk: })
-		// 		res.send(200);
-		// 	}
-		// });
 	},
 
 	grabTickets: function(req, res) {
