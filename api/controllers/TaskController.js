@@ -58,6 +58,7 @@ module.exports = {
 	},
 
 	zendeskTrigger: function(req, res) {
+		console.log('-------------ZENDESK TRIGGER-----------');
 		console.log(req.params.all());
 	},
 
