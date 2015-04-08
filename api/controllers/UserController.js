@@ -393,12 +393,12 @@ module.exports = {
 
 						Communication.findOne({primaryNumber: user.primaryNumber}).populate('touches').exec(function (err, communication) {
 							if (user.zendeskId != undefined) {
-								Zendesk.listTickets(function (tickets) {
+								Task.find({type: 'zendesk'}).exec(function (err, tickets) {
 									var organizationTickets = [];
 
 									for (var i = 0; i < tickets.length; i++) {
-										if (tickets[i].requester_id == user.zendeskId && tickets[i].status != 'closed' && tickets[i].status != 'solved')
-											organizationTickets.push(tickets[i]);
+										if (tickets[i].zendesk.requester_id == user.zendeskId && tickets[i].zendesk.status != 'closed' && tickets[i].zendesk.status != 'solved')
+											organizationTickets.push(tickets[i].zendesk);
 									}
 
 									res.locals.layout= 'layouts/dashboard_layout';
@@ -786,7 +786,7 @@ module.exports = {
 	},
 
 	zendeskTickets: function (req, res) {
-		Zendesk.listTickets(function (tickets) {
+		Task.find({type: 'zendesk'}).exec(function (err, tickets) {
 			//console.log(tickets);
 
 			var totalTickets = tickets.length;
@@ -838,7 +838,7 @@ module.exports = {
 			var recentlySolved = [];
 
 			for (var i = 0; i < totalTickets; i++) {
-				var dateString = tickets[i].created_at;
+				var dateString = tickets[i].zendesk.created_at;
 			  	var year = parseInt(dateString.substring(0, 4));
 			  	var month = parseInt(dateString.substring(5, 7));
 			  	var day = parseInt(dateString.substring(7, 9));
@@ -860,57 +860,57 @@ module.exports = {
 		  		else if (createdAt.getDay() == 6)
 		  			daysOfWeek.saturday++;
 
-		  		if (tickets[i].status == 'solved')
+		  		if (tickets[i].zendesk.status == 'solved')
 		  			recentlySolved.push(tickets[i]);
 
-		  		if (tickets[i].status == 'pending')
+		  		if (tickets[i].zendesk.status == 'pending')
 		  			pendingTickets.push(tickets[i]);
 
-		  		if (tickets[i].status != 'solved' && tickets[i].status != 'closed')
+		  		if (tickets[i].zendesk.status != 'solved' && tickets[i].zendesk.status != 'closed')
 		  			unsolvedTickets.push(tickets[i]);
 
-		  		if (tickets[i].status == 'solved' || tickets[i].status == 'closed') {
-		  			solved.push(tickets[i]);
-		  			if (tickets[i].assignee_id == cjId) {
+		  		if (tickets[i].zendesk.status == 'solved' || tickets[i].zendesk.status == 'closed') {
+		  			solved.push(tickets[i].zendesk);
+		  			if (tickets[i].zendesk.assignee_id == cjId) {
 		  				cjSolved.total = cjSolved.total + 1;
 
-		  				if (tickets[i].fields[0].value == 'tier_1')
+		  				if (tickets[i].zendesk.fields[0].value == 'tier_1')
 		  					cjSolved.tier1++;
-		  				else if (tickets[i].fields[0].value == 'tier_2')
+		  				else if (tickets[i].zendesk.fields[0].value == 'tier_2')
 		  					cjSolved.tier2++;
-		  				else if (tickets[i].fields[0].value == 'tier_3')
+		  				else if (tickets[i].zendesk.fields[0].value == 'tier_3')
 		  					cjSolved.tier3++;
-		  				else if (tickets[i].fields[0].value == 'tier_4')
+		  				else if (tickets[i].zendesk.fields[0].value == 'tier_4')
 		  					cjSolved.tier4++;
-		  				else if (tickets[i].fields[0].value == 'tier_5')
+		  				else if (tickets[i].zendesk.fields[0].value == 'tier_5')
 		  					cjSolved.tier5++;
 		  			}
-		  			else if (tickets[i].assignee_id == stefanyId) {
+		  			else if (tickets[i].zendesk.assignee_id == stefanyId) {
 		  				stefanySolved.total++;
 
-		  				if (tickets[i].fields[0].value == 'tier_1')
+		  				if (tickets[i].zendesk.fields[0].value == 'tier_1')
 		  					stefanySolved.tier1++;
-		  				else if (tickets[i].fields[0].value == 'tier_2')
+		  				else if (tickets[i].zendesk.fields[0].value == 'tier_2')
 		  					stefanySolved.tier2++;
-		  				else if (tickets[i].fields[0].value == 'tier_3')
+		  				else if (tickets[i].zendesk.fields[0].value == 'tier_3')
 		  					stefanySolved.tier3++;
-		  				else if (tickets[i].fields[0].value == 'tier_4')
+		  				else if (tickets[i].zendesk.fields[0].value == 'tier_4')
 		  					stefanySolved.tier4++;
-		  				else if (tickets[i].fields[0].value == 'tier_5')
+		  				else if (tickets[i].zendesk.fields[0].value == 'tier_5')
 		  					stefanySolved.tier5++;
 		  			}
-		  			else if (tickets[i].assignee_id == emilyId) {
+		  			else if (tickets[i].zendesk.assignee_id == emilyId) {
 						emilySolved.total++;
 
-						if (tickets[i].fields[0].value == 'tier_1')
+						if (tickets[i].zendesk.fields[0].value == 'tier_1')
 		  					emilySolved.tier1++;
-		  				else if (tickets[i].fields[0].value == 'tier_2')
+		  				else if (tickets[i].zendesk.fields[0].value == 'tier_2')
 		  					emilySolved.tier2++;
-		  				else if (tickets[i].fields[0].value == 'tier_3')
+		  				else if (tickets[i].zendesk.fields[0].value == 'tier_3')
 		  					emilySolved.tier3++;
-		  				else if (tickets[i].fields[0].value == 'tier_4')
+		  				else if (tickets[i].zendesk.fields[0].value == 'tier_4')
 		  					emilySolved.tier4++;
-		  				else if (tickets[i].fields[0].value == 'tier_5')
+		  				else if (tickets[i].zendesk.fields[0].value == 'tier_5')
 		  					emilySolved.tier5++;
 					}
 		  		}
@@ -935,17 +935,17 @@ module.exports = {
 	},
 
 	conciergeZendesk: function(req, res) {
-		Zendesk.listTickets(function (tickets) {
+		Task.find({type: 'zendesk'}).exec(function (err, tickets) {
 			var unassigned = [];
 			var unsolved = [];
 
 			//req.session.User.integrations.zendesk.id = 491576246;
 
 			for (var i = 0; i < tickets.length; i++) {
-				if (tickets[i].assignee_id == null)
-					unassigned.push(tickets[i]);
-				else if (tickets[i].assignee_id == 491576246 && tickets[i].status != 'solved' && tickets[i].status != 'closed')
-					unsolved.push(tickets[i]);
+				if (tickets[i].zendesk.assignee_id == null)
+					unassigned.push(tickets[i].zendesk);
+				else if (tickets[i].zendesk.assignee_id == req.session.User.zendeskId && tickets[i].zendesk.status != 'solved' && tickets[i].zendesk.status != 'closed')
+					unsolved.push(tickets[i].zendesk);
 			}	
 
 			res.view('user/conciergeZendesk', {
