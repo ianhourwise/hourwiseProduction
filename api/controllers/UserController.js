@@ -527,7 +527,7 @@ module.exports = {
 						var recentlySolved = [];
 
 						for (var i = 0; i < totalTickets; i++) {
-							var dateString = tickets[i].zendesk.created_at;
+							var dateString = tickets[i].zendesk.updated_at;
 						  	var year = parseInt(dateString.substring(0, 4));
 						  	var month = parseInt(dateString.substring(5, 7));
 						  	var day = parseInt(dateString.substring(7, 9));
