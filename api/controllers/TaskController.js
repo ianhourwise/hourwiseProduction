@@ -137,6 +137,7 @@ module.exports = {
                         loop.next();
                     })
                     },
+                    
                     function() {console.log('cycle ended')}
                 );      
             });
