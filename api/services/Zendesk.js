@@ -92,6 +92,15 @@ module.exports = {
 	},
 
 	findTicket: function (id, callback) {
+		var zendesk = require('node-zendesk'),
+	    fs      = require('fs');
+
+	    var client = zendesk.createClient({
+		  username:  'jon@hourwise.com',
+		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
+		  remoteUri: 'https://foundation53.zendesk.com/api/v2',
+		});
+		
 		client.tickets.show(id, function (err, statusList, body, responseList, resultList) {
 			console.log('err - ' + err);
 			console.log('statusList' + statusList);
