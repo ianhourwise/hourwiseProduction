@@ -80,6 +80,7 @@ module.exports = {
 					});
 				}
 				else {
+					console.log('updating ticket...');
 					Ticket.update({id: ticket.id}, {zendesk: ticket}, function (err) {
 						if (err)
 							console.log(err);
