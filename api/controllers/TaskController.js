@@ -67,12 +67,13 @@ module.exports = {
 		Zendesk.findTicket(ticket.id, function (ticket) {
 			console.log('made it back ' + JSON.stringify(ticket));
 
-			Task.findOne({"zendesk": {"id": ticket.id}}, function (err, existingTicket) {
+			Task.findOne({zendeskId: ticket.id}, function (err, existingTicket) {
 				if (err)
 					console.log(err);
 
 				if (existingTicket == null) {
-					Task.create({zendesk: ticket, type: 'zendesk'}, function (err, newTicket) {
+					console.log('creating ticket...');
+					Task.create({zendesk: ticket, type: 'zendesk', zendeskId: ticket.id}, function (err, newTicket) {
 						if (err)
 							console.log(err);
 
@@ -81,7 +82,7 @@ module.exports = {
 				}
 				else {
 					console.log('updating ticket...');
-					Ticket.update({id: ticket.id}, {zendesk: ticket}, function (err) {
+					Ticket.update({id: existingTicket.id}, {zendesk: ticket}, function (err) {
 						if (err)
 							console.log(err);
 
@@ -129,7 +130,7 @@ module.exports = {
                 var ticketIndex = 0;    
 
                 asyncLoop(tickets.length, function (loop) {
-                    Task.create({zendesk: tickets[ticketIndex], type: 'zendesk'}, function (err, ticket) {
+                    Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id}, function (err, ticket) {
                         console.log('^.^');
                         ticketIndex++;
                         console.log(loop.iteration());
