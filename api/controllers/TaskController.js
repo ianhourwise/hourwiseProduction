@@ -87,7 +87,7 @@ module.exports = {
 								var alertId = uuid.v4();
 
 			 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-			 						users[i].addAlert('New ticket: ', newTicket.zendesk.raw_subject);
+			 						users[i].addAlert('New ticket: ' + newTicket.zendesk.raw_subject, alertId);
 			 						User.publishUpdate(users[i].id, { message: 'New ticket: ' + newTicket.zendesk.raw_subject, id: alertId, communicationId: newTicket.zendesk.url, fromTask: true  });
 			 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 			 					}
@@ -109,7 +109,7 @@ module.exports = {
 									var alertId = uuid.v4();
 
 				 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-				 						users[i].addAlert('Updated ticket: ', tickets[0].zendesk.raw_subject);
+				 						users[i].addAlert('Updated ticket: ' + tickets[0].zendesk.raw_subject, alertId);
 			 							User.publishUpdate(users[i].id, { message: 'Updated ticket: ' + tickets[0].zendesk.raw_subject, id: alertId, communicationId: tickets[0].zendesk.url, fromTask: true  });
 				 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 				 					}

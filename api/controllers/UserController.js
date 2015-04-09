@@ -470,7 +470,7 @@ module.exports = {
 			Company.find(function foundCompanies(err, companies){
 				if(err) return next(err);
 				if(!companies) return next(err);
-				console.log(companies);
+				//console.log(companies);
 				res.locals.layout = "layouts/layout";
 				User.find().populate('myCompany').populate('company').exec(function (err, users) {
 					Task.find({type: 'zendesk'}).exec(function (err, tickets) {
