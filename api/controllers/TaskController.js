@@ -77,46 +77,65 @@ module.exports = {
 
 					if (existingTicket == null) {
 						console.log('creating ticket...');
-						Task.create({zendesk: ticket, type: 'zendesk', zendeskId: ticket.id}, function (err, newTicket) {
-							if (err)
-								console.log(err);
+						User.findOne({zendeskId: ticket.requester_id}, function (err, user) {
+							var userId = null;
 
-							for (var i = 0; i < users.length; i++) {
-			 					var uuid = require('node-uuid');
+							if (user != null)
+								userId = user.id;
 
-								var alertId = uuid.v4();
+							Task.create({zendesk: ticket, type: 'zendesk', zendeskId: ticket.id, requester: userId}, function (err, newTicket) {
+								if (err)
+									console.log(err);
 
-			 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-			 						users[i].addAlert('New ticket: ' + newTicket.zendesk.raw_subject, alertId);
-			 						User.publishUpdate(users[i].id, { message: 'New ticket: ' + newTicket.zendesk.raw_subject, id: alertId, communicationId: newTicket.zendesk.url, fromTask: true  });
-			 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
-			 					}
-			 					
-			 				}
-
-							res.send(200);
-						});
-					}
-					else {
-						console.log('updating ticket...');
-						Task.update({id: existingTicket.id}, {zendesk: ticket}, function (err, tickets) {
-							if (err)
-								console.log(err);
-
-							for (var i = 0; i < users.length; i++) {
+								for (var i = 0; i < users.length; i++) {
 				 					var uuid = require('node-uuid');
 
 									var alertId = uuid.v4();
 
 				 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-				 						users[i].addAlert('Updated ticket: ' + tickets[0].zendesk.raw_subject, alertId);
-			 							User.publishUpdate(users[i].id, { message: 'Updated ticket: ' + tickets[0].zendesk.raw_subject, id: alertId, communicationId: tickets[0].zendesk.url, fromTask: true  });
+				 						users[i].addAlert('New ticket: ' + newTicket.zendesk.raw_subject, alertId);
+				 						User.publishUpdate(users[i].id, { message: 'New ticket: ' + newTicket.zendesk.raw_subject, id: alertId, communicationId: newTicket.zendesk.url, fromTask: true  });
 				 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 				 					}
 				 					
 				 				}
 
-							res.send(200);
+								res.send(200);
+							});
+						});
+					}
+					else {
+						console.log('updating ticket...');
+						var assigneeId = null;
+
+						if (ticket.assignee_id != null)
+							assigneeId = ticket.assignee_id;
+
+						User.findOne({zendeskId: assigneeId}, function (err, user) {
+							var userId = null;
+
+							if (user != null)
+								userId = user.id;
+
+							Task.update({id: existingTicket.id}, {zendesk: ticket, owner: userId}, function (err, tickets) {
+								if (err)
+									console.log(err);
+
+								for (var i = 0; i < users.length; i++) {
+					 					var uuid = require('node-uuid');
+
+										var alertId = uuid.v4();
+
+					 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+					 						users[i].addAlert('Updated ticket: ' + tickets[0].zendesk.raw_subject, alertId);
+				 							User.publishUpdate(users[i].id, { message: 'Updated ticket: ' + tickets[0].zendesk.raw_subject, id: alertId, communicationId: tickets[0].zendesk.url, fromTask: true  });
+					 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+					 					}
+					 					
+					 				}
+
+								res.send(200);
+							});
 						});
 					}
 				});

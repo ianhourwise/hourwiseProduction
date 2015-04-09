@@ -25,6 +25,8 @@ var User = {
 
     tasks: { collection: 'task', via: 'owner'},
 
+    tickets: { collection: 'task', via: 'requester'},
+
     //For company owner's
     myCompany : { model: 'company', defaultsTo: null},
 
