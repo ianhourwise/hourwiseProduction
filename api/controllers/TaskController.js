@@ -180,7 +180,7 @@ module.exports = {
                 var ticketIndex = 0;    
 
                 asyncLoop(tickets.length, function (loop) {
-                	if (tickets[ticketIndex].assignee_id != null);
+                	if (tickets[ticketIndex].assignee_id != null) {
                 		User.findOne({zendeskId: tickets[ticketIndex].assignee_id}, function (err, assignee) {
                 			var assigneeId = null;
 
@@ -200,6 +200,7 @@ module.exports = {
 			                    })
                 			});
                 		});
+                	}
                     else {
                     	User.findOne({zendeskId: tickets[ticketIndex].requester_id}, function (err, requester) {
                 				var requesterId = null;
