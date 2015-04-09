@@ -102,7 +102,7 @@ module.exports = {
 					console.log(users[i].username);
 					if (users[i].company && users[i].company.name == 'Hourwise' && users[i].email != 'peter@hourwise.com' && users[i].email != 'randy@hourwise.com')
 						users.splice(i, 1);
-					if (users[i].integrations != undefined) {
+					else if (users[i].integrations != undefined) {
 						totalSales += users[i].integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum;
 
 						var openLeadsByDay = users[i].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads;
@@ -285,7 +285,7 @@ module.exports = {
 					res.send('error');
 
 				res.send(users[0]);
-				
+
 			});
 		}
 	},
