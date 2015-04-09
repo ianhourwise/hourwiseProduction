@@ -169,7 +169,7 @@ module.exports = {
 							console.log(err);
 
 						var ticket = {
-							'subject': 'TXT from ' + touch.inbound + 'for Hourwise/Foundation',
+							'subject': 'TXT from ' + touch.inbound + ' for Hourwise/Foundation',
 							'description': touch.body,
 						};
 
