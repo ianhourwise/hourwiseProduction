@@ -359,13 +359,14 @@ module.exports = {
  	},
 
 	dashboard: function(req, res, next) {
-		User.findOne(req.param('id')).populate('tasks').populate('company').exec(function (err, user) {
+		User.findOne(req.param('id')).populate('tasks').populate('company').populate('tickets').exec(function (err, user) {
  			if (user.integrations == null) {
  				res.view('user/simpleDash', {
  					tasks: user.tasks
  				})
  			}
  			else {
+ 				console.log(tickets.length);
  				if(err) return next(err);
 		 		if(!user) return next();
 		 		user.getPerformanceMetrics(user, function () {
