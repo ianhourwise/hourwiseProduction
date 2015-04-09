@@ -180,12 +180,40 @@ module.exports = {
                 var ticketIndex = 0;    
 
                 asyncLoop(tickets.length, function (loop) {
-                    Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id}, function (err, ticket) {
-                        console.log('^.^');
-                        ticketIndex++;
-                        console.log(loop.iteration());
-                        loop.next();
-                    })
+                	if (tickets[ticketIndex].assignee_id != null);
+                		User.findOne({zendeskId: tickets[ticketIndex].assignee_id}, function (err, assignee) {
+                			var assigneeId = null;
+
+                			if (assignee != null)
+                				assigneeId = assignee.id;
+
+                			User.findOne({zendeskId: tickets[ticketIndex].requester_id}, function (err, requester) {
+                				var requesterId = null;
+
+                				if (requester != null)
+                					requesterId = requester.id;
+
+                				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, owner: assigneeId, requester: requesterId}, function (err, ticket) {
+			                        ticketIndex++;
+			                        console.log(loop.iteration());
+			                        loop.next();
+			                    })
+                			});
+                		});
+                    else {
+                    	User.findOne({zendeskId: tickets[ticketIndex].requester_id}, function (err, requester) {
+                				var requesterId = null;
+
+                				if (requester != null)
+                					requesterId = requester.id;
+
+                				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, owner: assigneeId, requester: requesterId}, function (err, ticket) {
+			                        ticketIndex++;
+			                        console.log(loop.iteration());
+			                        loop.next();
+			                    })
+                			});
+                    }
                     },
 
                     function() {console.log('cycle ended')}
