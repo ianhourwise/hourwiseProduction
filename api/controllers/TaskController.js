@@ -208,7 +208,7 @@ module.exports = {
                 				if (requester != null)
                 					requesterId = requester.id;
 
-                				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, owner: assigneeId, requester: requesterId}, function (err, ticket) {
+                				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, requester: requesterId}, function (err, ticket) {
 			                        ticketIndex++;
 			                        console.log(loop.iteration());
 			                        loop.next();
