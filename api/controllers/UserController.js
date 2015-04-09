@@ -366,7 +366,7 @@ module.exports = {
  				})
  			}
  			else {
- 				console.log(tickets.length);
+ 				console.log(user.tickets.length);
  				if(err) return next(err);
 		 		if(!user) return next();
 		 		user.getPerformanceMetrics(user, function () {
