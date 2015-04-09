@@ -366,7 +366,7 @@ module.exports = {
  				})
  			}
  			else {
- 				console.log('+++++++++' + user.tickets.length + '+++++++++');
+ 				//console.log('+++++++++' + user.tickets.length + '+++++++++');
  				if(err) return next(err);
 		 		if(!user) return next();
 		 		user.getPerformanceMetrics(user, function () {
@@ -394,11 +394,13 @@ module.exports = {
 
 						Communication.findOne({primaryNumber: user.primaryNumber}).populate('touches').exec(function (err, communication) {
 							if (user.zendeskId != undefined) {
-								Task.find({type: 'zendesk'}).exec(function (err, tickets) {
+								//Task.find({type: 'zendesk'}).exec(function (err, tickets) {
 									var organizationTickets = [];
 
-									for (var i = 0; i < tickets.length; i++) {
-										if (tickets[i].zendesk.requester_id == user.zendeskId && tickets[i].zendesk.status != 'closed' && tickets[i].zendesk.status != 'solved')
+									console.log('+++++++++' + user.tickets.length + '+++++++++');
+
+									for (var i = 0; i < user.tickets.length; i++) {
+										if (user.tickets[i].zendesk.status != 'closed' && user.tickets[i].zendesk.status != 'solved')
 											organizationTickets.push(tickets[i].zendesk);
 									}
 
@@ -418,7 +420,7 @@ module.exports = {
 							 			communication: communication,
 							 			organizationTickets: organizationTickets
 							 		});
-								});
+								//});
 							}
 							else {
 								res.locals.layout= 'layouts/dashboard_layout';
