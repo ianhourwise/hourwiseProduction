@@ -401,7 +401,7 @@ module.exports = {
 
 									for (var i = 0; i < user.tickets.length; i++) {
 										if (user.tickets[i].zendesk.status != 'closed' && user.tickets[i].zendesk.status != 'solved')
-											organizationTickets.push(tickets[i].zendesk);
+											organizationTickets.push(user.tickets[i].zendesk);
 									}
 
 									res.locals.layout= 'layouts/dashboard_layout';
