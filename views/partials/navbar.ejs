@@ -24,18 +24,34 @@
                     <ul class="dropdown-menu dropdown-alerts" id="alertsList">
                         <% if (req.session.User.alerts != undefined) { %>
                             <% _.each(req.session.User.alerts, function(alert) { %>
-                                <li name="<%= alert.id %>">
-                                    <div><i class="fa fa-bullhorn fa-fw"></i>  <%= alert.message %> 
-                                        <span class="pull-right text-muted small">
-                                            <% if (alert.communicationId) { %>
-                                                <div class="btn btn-sml">
-                                                    <a href="/communication/index/<%= alert.communicationId %>">Go</a>
-                                                </div>
-                                            <% } else {} %>
-                                            <div class="btn dismissAlert">Dismiss</div>
-                                            </span>
-                                    </div> 
-                                </li>
+                                <% if (aler.zendesk == null) { %>
+                                    <li name="<%= alert.id %>">
+                                        <div><i class="fa fa-bullhorn fa-fw"></i>  <%= alert.message %> 
+                                            <span class="pull-right text-muted small">
+                                                <% if (alert.communicationId) { %>
+                                                    <div class="btn btn-sml">
+                                                        <a href="/communication/index/<%= alert.communicationId %>">Go</a>
+                                                    </div>
+                                                <% } else {} %>
+                                                <div class="btn dismissAlert">Dismiss</div>
+                                                </span>
+                                        </div> 
+                                    </li>
+                                    
+                                <% } else { %>
+                                    <li name="<%= alert.id %>">
+                                        <div><i class="fa fa-bullhorn fa-fw"></i>  <%= alert.message %> 
+                                            <span class="pull-right text-muted small">
+                                                <% if (alert.communicationId) { %>
+                                                    <div class="btn btn-sml">
+                                                        <a href="<%= alert.communicationId %>">Go to ZD</a>
+                                                    </div>
+                                                <% } else {} %>
+                                                <div class="btn dismissAlert">Dismiss</div>
+                                                </span>
+                                        </div> 
+                                    </li>
+                                <% } %>
                                 <li class="divider"></li>
                             <% }) %>
                         <% } else {} %>
