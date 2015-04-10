@@ -100,9 +100,9 @@ module.exports = {
 
 				for (var i = 0; i < users.length; i++) {
 					console.log(users[i].username);
-					if (users[i].company && users[i].company.name == 'Hourwise' && users[i].email != 'peter@hourwise.com' && users[i].email != 'randy@hourwise.com')
-						users.splice(i, 1);
-					else if (users[i].integrations != undefined) {
+					// if (users[i].company && users[i].company.name == 'Hourwise' && users[i].email != 'peter@hourwise.com' && users[i].email != 'randy@hourwise.com')
+					// 	users.splice(i, 1);
+					if (users[i].integrations != undefined) {
 						totalSales += users[i].integrations.nutshell.performanceMetrics.sales.summaryData.won_lead_value.sum;
 
 						var openLeadsByDay = users[i].integrations.nutshell.performanceMetrics.pipeline.seriesData.open_leads;
