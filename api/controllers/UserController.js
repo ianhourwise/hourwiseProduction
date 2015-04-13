@@ -284,7 +284,15 @@ module.exports = {
 				if (err)
 					res.send('error');
 
-				res.send(users[0]);
+				
+				Communication.findOne({primaryNumber: formattedNumber}).populate('touches').exec(function (err, communication) {
+					if (err)
+						res.send('error');
+
+					res.send(communication);
+				});
+
+				//res.send(users[0]);
 
 			});
 		}

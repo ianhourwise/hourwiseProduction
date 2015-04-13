@@ -599,9 +599,39 @@ function updateMonthly(){
 
 	$(document).on('click', '.addNumber', function(e) {
 
-	    $.post('/user/addNumber?id=' + $(this).attr('name') + '&primaryNumber=' + $('#newNumber').val() + '&fromDash=true', function ( user ) {
-	      	if (user != 'error') {
-	      		console.log(user.primaryNumber);
+	    $.post('/user/addNumber?id=' + $(this).attr('name') + '&primaryNumber=' + $('#newNumber').val() + '&fromDash=true', function ( communication ) {
+	      	if (communication != 'error') {
+	      		console.log(communication);
+	      		if (communication == null) {
+	      			$('.removeAfterSubmit').remove();
+	      			$('#timeLine').prepend('<h2>Looks like there is no communication for this number yet... get one started!');
+	      		}
+	      			
+
+	      		else {
+	      			$('.removeAfterSubmit').remove();
+	      			for (var i = 0; i < communication.touches.length; i++) {
+	      				
+	      				var htmlString = '<div class="timeline-item"><div class="row"><div class="col-xs-3 date">';
+
+	      				if (communication.touches[i].inbound == null)
+	      					htmlString += '<i class="fa fa-arrow-up"></i>+1' + communication.touches[i].outbound;
+	      				else
+	      					htmlString += '<i class="fa fa-arrow-down"></i>' + communication.touches[i].inbound;
+
+	      				htmlString += '<br><small class="text-navy">Sent from:<br> Unknown</small></div><div class="col-xs-7 content no-top-border"><p class="m-b-xs"><strong>Message</strong></p>';
+
+	      				if (communication.touches[i].mediaURL != null)
+	      					htmlString += ' <img src="' + communication.touches[i].mediaURL + '">';
+
+
+			            htmlString += '<p>' + communication.touches[i].body + '</p></div></div></div>';  
+
+			            $('#timeLine').prepend(htmlString); 
+			             
+	      			}
+	      		}
+	
 	      	}	
 	   });
 	});
