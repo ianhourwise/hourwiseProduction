@@ -289,6 +289,9 @@ module.exports = {
 					if (err)
 						res.send('error');
 
+					if (communication == null)
+						res.send(null);
+
 					res.send(communication);
 				});
 

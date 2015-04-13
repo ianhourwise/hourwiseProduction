@@ -603,6 +603,7 @@ function updateMonthly(){
 	      	if (communication != 'error') {
 	      		console.log(communication);
 	      		if (communication == null) {
+	      			$('#timelineWrapper').append('<input type= "text" class = "form-control" placeholder = "Add text..." maxlength="160" id="smsBody"><div class = "btn btn-lg btn-primary btn-block sendSMS" name="+1' + $('#newNumber').val() +'">Send</div>');
 	      			$('.removeAfterSubmit').remove();
 	      			$('#timeLine').prepend('<h2>Looks like there is no communication for this number yet... get one started!');
 	      		}
@@ -610,9 +611,10 @@ function updateMonthly(){
 
 	      		else {
 	      			$('.removeAfterSubmit').remove();
+	      			var htmlString = '';
 	      			for (var i = 0; i < communication.touches.length; i++) {
 	      				
-	      				var htmlString = '<div class="timeline-item"><div class="row"><div class="col-xs-3 date">';
+	      				htmlString += '<div class="timeline-item"><div class="row"><div class="col-xs-3 date">';
 
 	      				if (communication.touches[i].inbound == null)
 	      					htmlString += '<i class="fa fa-arrow-up"></i>+1' + communication.touches[i].outbound;
@@ -626,10 +628,11 @@ function updateMonthly(){
 
 
 			            htmlString += '<p>' + communication.touches[i].body + '</p></div></div></div>';  
-
-			            $('#timeLine').prepend(htmlString); 
-			             
+     
 	      			}
+
+	      			$('#timeLine').prepend(htmlString);
+	      			$('#timelineWrapper').append('<input type= "text" class = "form-control" placeholder = "Add text..." maxlength="160" id="smsBody"><div class = "btn btn-lg btn-primary btn-block sendSMS" name="+1' + communication.primaryNumber +'">Send</div>'); 
 	      		}
 	
 	      	}	
