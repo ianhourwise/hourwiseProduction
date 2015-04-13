@@ -24,7 +24,7 @@
                     <ul class="dropdown-menu dropdown-alerts" id="alertsList">
                         <% if (req.session.User.alerts != undefined) { %>
                             <% _.each(req.session.User.alerts, function(alert) { %>
-                                <% if (alert.zendesk == null) { %>
+                                <% if (alert.communicationId[0] != 'h') { %>
                                     <li name="<%= alert.id %>">
                                         <div><i class="fa fa-bullhorn fa-fw"></i>  <%= alert.message %> 
                                             <span class="pull-right text-muted small">
