@@ -290,7 +290,7 @@ module.exports = {
 						res.send('error');
 
 					if (communication == null)
-						res.send(null);
+						res.send('not found');
 
 					res.send(communication);
 				});

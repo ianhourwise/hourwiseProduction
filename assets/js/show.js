@@ -602,7 +602,7 @@ function updateMonthly(){
 	    $.post('/user/addNumber?id=' + $(this).attr('name') + '&primaryNumber=' + $('#newNumber').val() + '&fromDash=true', function ( communication ) {
 	      	if (communication != 'error') {
 	      		console.log(communication);
-	      		if (communication == null) {
+	      		if (communication == 'not found') {
 	      			$('#timelineWrapper').append('<input type= "text" class = "form-control" placeholder = "Add text..." maxlength="160" id="smsBody"><div class = "btn btn-lg btn-primary btn-block sendSMS" name="+1' + $('#newNumber').val() +'">Send</div>');
 	      			$('.removeAfterSubmit').remove();
 	      			$('#timeLine').prepend('<h2>Looks like there is no communication for this number yet... get one started!');
