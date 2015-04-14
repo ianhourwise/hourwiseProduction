@@ -21,6 +21,7 @@
                             <i class="fa fa-bell"></i>  <span class="label label-primary" id="newAlert">0</span>
                         <% } %>
                     </a>
+                    
                     <ul class="dropdown-menu dropdown-alerts" id="alertsList">
                         <% if (req.session.User.alerts != undefined) { %>
                             <% _.each(req.session.User.alerts, function(alert) { %>
