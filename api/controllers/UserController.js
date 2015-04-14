@@ -776,8 +776,9 @@ module.exports = {
 	},
 
 	subscribeToAlerts: function (req, res) {
+		console.log(req.socket);
 		User.subscribe(req.socket, req.session.User);
-		console.log('subscribed to yourself?');
+		console.log('subscribed to yourself');
 	},
 
 	dismissAlert: function (req, res) {

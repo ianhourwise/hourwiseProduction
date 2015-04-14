@@ -105,8 +105,26 @@ module.exports = {
 			console.log('err - ' + err);
 			console.log('statusList' + statusList);
 			console.log('body' + body)
+			
+			callback(body);
+		});
+	},
+
+	listTicketsByUserId: function (id, callback) {
+		var zendesk = require('node-zendesk'),
+	    fs      = require('fs');
+
+	    var client = zendesk.createClient({
+		  username:  'jon@hourwise.com',
+		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
+		  remoteUri: 'https://foundation53.zendesk.com/api/v2',
+		});
+
+		client.tickets.listByUserRequested(id, function (err, statusList, body) {
+			console.log('err - ' + err);
+			console.log('body - ' + body);
+
 			callback(body);
 		});
 	}
-
 };

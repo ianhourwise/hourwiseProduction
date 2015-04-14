@@ -57,6 +57,23 @@ module.exports = {
 		});
 	},
 
+	getTicketsForUser: function(req, res) {
+		Zendesk.listTicketsByUserId(req.param(), function (tickets) {
+			console.log(tickets);
+		});
+	},
+
+	subscribeToTasks: function(req, res) {
+		if (req.param('fromMobile')) {
+			Task.subscribe(req.socket, req.param('userZendeskId'));
+			console.log('Mobile subscribed to task events');
+		}
+
+		else {
+			//console.log('Not from mobile... skipping...');
+		}
+	},
+
 	zendeskTrigger: function(req, res) {
 		console.log('-------------ZENDESK TRIGGER-----------');
 		console.log(req.param('payload'));
