@@ -25,7 +25,7 @@ $(document).ready(function() {
       if (data.fromTask == null)
         $('#alertsList').prepend('<li id=' + data.id + '><div><i class="fa fa-bullhorn fa-fw"></i> ' + data.message + '<span class="pull-right text-muted small"><div class="btn btn-sml"><a href="/communication/index/' + data.communicationId + '">Go</a></div><div class="btn btn-sml dismissAlert" id="req.session.User.id">Dismiss</div></span></div></li><li class="divider"></li>');
       else
-        $('#alertsList').prepend('<li id=' + data.id + '><div><i class="fa fa-ticket fa-fw"></i> ' + data.message + '<span class="pull-right text-muted small"><div class="btn btn-sml"><a href="' + data.communicationId + '">Go to ZD</a></div><div class="btn btn-sml dismissAlert" id="req.session.User.id">Dismiss</div></span></div></li><li class="divider"></li>');
+        $('#alertsList').prepend('<li id=' + data.id + '><div><i class="fa fa-ticket fa-fw"></i> ' + data.message + '<span class="pull-right text-muted small"><div class="btn btn-sml"><a href="https://foundation53.zendesk.com/agent/tickets/' + communicationId + '">Go to ZD</a></div><div class="btn btn-sml dismissAlert" id="req.session.User.id">Dismiss</div></span></div></li><li class="divider"></li>');
 
       console.log(data.message);
   });
