@@ -12,11 +12,20 @@ module.exports = {
   attributes: {
   	name: 'string',
   	description: 'string',
-  	startDate: 'string',
-  	endDate: 'string',
+    status: 'string',
+    category: 'string',
+  	startDate: 'datetime',
+  	dueDate: 'datetime',
+    reminderDate: 'datetime',
+    completedOn: 'datetime',
+    timeLog: 'array',
+    zendeskId: 'string',
   	zendesk: 'json',
   	owner: { model: 'user' },
-  	requester: { model: 'user' }
+  	requester: { model: 'user' },
+    type: 'string',
+    notes: 'json',
+    attachments: 'array'
   }
 };
 

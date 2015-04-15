@@ -118,14 +118,14 @@ var User = {
       }.bind(this));
     },
 
-    addAlert: function(message, alertId, communicationId) {
+    addAlert: function(message, alertId, communicationId, zendesk) {
 
       var alerts = [];
 
       if (this.alerts != undefined)
         alerts = this.alerts;
 
-      alerts.push({id: alertId, message: message, communicationId: communicationId});
+      alerts.push({id: alertId, message: message, communicationId: communicationId, fromZendesk: zendesk});
 
       this.alerts = alerts;
 
