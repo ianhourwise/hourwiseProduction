@@ -39,7 +39,9 @@ module.exports = {
   		defaultsTo: "New"
   	},
 	isOverdue: {type: 'boolean', defaultsTo: false},
-	pctOverdue: {type: 'float', defaultsTo: 0.00},  	 
+	pctOverdue: {type: 'float', defaultsTo: 0.00},
+  tasks: { collection: 'task', via: 'job'},
+  processes: 'json',  	 
 
 	//sync: {integration: "nutshell", integrationId: {field: "number", identifier: "1234"}, syncedOn: dateTime}
 	sync: 'json',

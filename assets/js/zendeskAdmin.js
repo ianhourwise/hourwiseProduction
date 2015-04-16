@@ -45,6 +45,7 @@ $(document).ready(function() {
 		]
 	};
 
+	$("#canvas-wrapper").html("").html('<canvas id="myChart"></canvas>');
 
 	var ctx = $("#myChart").get(0).getContext("2d");
 		// This will get the first returned node in the jQuery collection.
@@ -53,11 +54,67 @@ $(document).ready(function() {
 		responsive : true
 	});
 
+	function redrawGraph(barChartData) {
+
+		$("#canvas-wrapper").html("").html('<canvas id="myChart"></canvas>');
+
+		var ctx = $("#myChart").get(0).getContext("2d");
+		// This will get the first returned node in the jQuery collection.
+
+		var myNewChart = new Chart(ctx).StackedBar(barChartData, {
+			responsive : true
+		});	
+	}
+
+	function updateCJ(cjSolved) {
+
+		$('#cj1').html(cjSolved.tier1);
+		$('#cj2').html(cjSolved.tier2);
+		$('#cj3').html(cjSolved.tier3);
+		$('#cj4').html(cjSolved.tier4);
+		$('#cj5').html(cjSolved.tier5);
+
+		$('#cjTotal').html(cjSolved.total);
+	}
+
+	function updateEmily(emilySolved) {
+
+		$('#emily1').html(emilySolved.tier1);
+		$('#emily2').html(emilySolved.tier2);
+		$('#emily3').html(emilySolved.tier3);
+		$('#emily4').html(emilySolved.tier4);
+		$('#emily5').html(emilySolved.tier5);
+
+		$('#emilyTotal').html(emilySolved.total);
+	}
+
+	function updateStefany(stefanySolved) {
+
+		$('#stef1').html(stefanySolved.tier1);
+		$('#stef2').html(stefanySolved.tier2);
+		$('#stef3').html(stefanySolved.tier3);
+		$('#stef4').html(stefanySolved.tier4);
+		$('#stef5').html(stefanySolved.tier5);
+
+		$('#stefTotal').html(stefanySolved.total);
+	}
+
+	function updateTotals(oneTotal, twoTotal, threeTotal, fourTotal, fiveTotal, grandTotal) {
+
+		$('#oneTotal').html(oneTotal);
+		$('#twoTotal').html(twoTotal);
+		$('#threeTotal').html(threeTotal);
+		$('#fourTotal').html(fourTotal);
+		$('#fiveTotal').html(fiveTotal);
+		$('#grandTotal').html(grandTotal);
+	}
+
 	$('select').on('change', function (e) {
 	    var optionSelected = $("option:selected", this);
 	    var valueSelected = this.value;
 	    
 	    if (valueSelected == 'thisMonth') {
+
 	    	var barChartData = {
 				labels : ['CJ', 'Stefany', 'Emily'],
 				datasets : [
@@ -99,56 +156,15 @@ $(document).ready(function() {
 				]
 			};
 
-			$("#canvas-wrapper").html("").html('<canvas id="myChart"></canvas>');
+			redrawGraph(barChartData);
 
-			var ctx = $("#myChart").get(0).getContext("2d");
-		// This will get the first returned node in the jQuery collection.
+			updateCJ(cjSolved);
 
-			var myNewChart = new Chart(ctx).StackedBar(barChartData, {
-				responsive : true
-			});	
+			updateStefany(stefanySolved);
 
-			$('#cj1').html(cjSolved.tier1);
-			$('#cj2').html(cjSolved.tier2);
-			$('#cj3').html(cjSolved.tier3);
-			$('#cj4').html(cjSolved.tier4);
-			$('#cj5').html(cjSolved.tier5);
+			updateEmily(emilySolved);
 
-			$('#cjTotal').html(cjSolved.total);
-
-			$('#stef1').html(stefanySolved.tier1);
-			$('#stef2').html(stefanySolved.tier2);
-			$('#stef3').html(stefanySolved.tier3);
-			$('#stef4').html(stefanySolved.tier4);
-			$('#stef5').html(stefanySolved.tier5);
-
-			$('#stefTotal').html(stefanySolved.total);
-
-			$('#emily1').html(emilySolved.tier1);
-			$('#emily2').html(emilySolved.tier2);
-			$('#emily3').html(emilySolved.tier3);
-			$('#emily4').html(emilySolved.tier4);
-			$('#emily5').html(emilySolved.tier5);
-
-			$('#emilyTotal').html(emilySolved.total);
-
-			var oneTotal = cjSolved.tier1 + stefanySolved.tier1 + emilySolved.tier1;
-			$('#oneTotal').html(oneTotal);
-
-			var twoTotal = cjSolved.tier2 + stefanySolved.tier2 + emilySolved.tier2;
-			$('#twoTotal').html(twoTotal);
-
-			var threeTotal = cjSolved.tier3 + stefanySolved.tier3 + emilySolved.tier3;
-			$('#threeTotal').html(threeTotal);
-
-			var fourTotal = cjSolved.tier4 + stefanySolved.tier4 + emilySolved.tier4;
-			$('#fourTotal').html(fourTotal);
-
-			var fiveTotal = cjSolved.tier5 + stefanySolved.tier5 + emilySolved.tier5;
-			$('#fiveTotal').html(fiveTotal);
-
-			var grandTotal = cjSolved.total + stefanySolved.total + emilySolved.total;
-			$('#grandTotal').html(grandTotal);
+			updateTotals(cjSolved.tier1 + stefanySolved.tier1 + emilySolved.tier1, cjSolved.tier2 + stefanySolved.tier2 + emilySolved.tier2, cjSolved.tier3 + stefanySolved.tier3 + emilySolved.tier3, cjSolved.tier4 + stefanySolved.tier4 + emilySolved.tier4, cjSolved.tier5 + stefanySolved.tier5 + emilySolved.tier5, cjSolved.total + stefanySolved.total + emilySolved.total);			
 	    }
 
 	    else if (valueSelected == 'thisWeek') {
@@ -205,7 +221,7 @@ $(document).ready(function() {
 
 			  	var createdAt = new Date(year, month, day);
 
-			  	//console.log('startDate - ' + startDate + '\n createdAt - ' + createdAt + '\n currentDate - ' + currentDate);
+			  	console.log('startDate - ' + startDate + '\n createdAt - ' + createdAt + '\n currentDate - ' + currentDate);
 
 			  	if (createdAt >= startDate && createdAt <= currentDate) {
 			  		weekArray.push(solvedTickets.tickets[i]);
@@ -298,57 +314,15 @@ $(document).ready(function() {
 				]
 			};
 
-			$("#canvas-wrapper").html("").html('<canvas id="myChart"></canvas>');
-			 
+			redrawGraph(barChartDataWeek);
 
-			var ctx = $("#myChart").get(0).getContext("2d");
-		// This will get the first returned node in the jQuery collection.
+			updateCJ(weekCJ);
 
-			var myNewChart = new Chart(ctx).StackedBar(barChartDataWeek, {
-				responsive : true
-			});
+			updateStefany(weekStefany);
 
-			$('#cj1').html(weekCJ.tier1);
-			$('#cj2').html(weekCJ.tier2);
-			$('#cj3').html(weekCJ.tier3);
-			$('#cj4').html(weekCJ.tier4);
-			$('#cj5').html(weekCJ.tier5);
+			updateEmily(weekEmily);
 
-			$('#cjTotal').html(weekCJ.total);
-
-			$('#stef1').html(weekStefany.tier1);
-			$('#stef2').html(weekStefany.tier2);
-			$('#stef3').html(weekStefany.tier3);
-			$('#stef4').html(weekStefany.tier4);
-			$('#stef5').html(weekStefany.tier5);
-
-			$('#stefTotal').html(weekStefany.total);
-
-			$('#emily1').html(weekEmily.tier1);
-			$('#emily2').html(weekEmily.tier2);
-			$('#emily3').html(weekEmily.tier3);
-			$('#emily4').html(weekEmily.tier4);
-			$('#emily5').html(weekEmily.tier5);
-
-			$('#emilyTotal').html(weekEmily.total);
-
-			var oneTotal = weekCJ.tier1 + weekStefany.tier1 + weekEmily.tier1;
-			$('#oneTotal').html(oneTotal);
-
-			var twoTotal = weekCJ.tier2 + weekStefany.tier2 + weekEmily.tier2;
-			$('#twoTotal').html(twoTotal);
-
-			var threeTotal = weekCJ.tier3 + weekStefany.tier3 + weekEmily.tier3;
-			$('#threeTotal').html(threeTotal);
-
-			var fourTotal = weekCJ.tier4 + weekStefany.tier4 + weekEmily.tier4;
-			$('#fourTotal').html(fourTotal);
-
-			var fiveTotal = weekCJ.tier5 + weekStefany.tier5 + weekEmily.tier5;
-			$('#fiveTotal').html(fiveTotal);
-
-			var grandTotal = weekCJ.total + weekStefany.total + weekEmily.total;
-			$('#grandTotal').html(grandTotal);
+			updateTotals(weekCJ.tier1 + weekStefany.tier1 + weekEmily.tier1, weekCJ.tier2 + weekStefany.tier2 + weekEmily.tier2, weekCJ.tier3 + weekStefany.tier3 + weekEmily.tier3, weekCJ.tier4 + weekStefany.tier4 + weekEmily.tier4, weekCJ.tier5 + weekStefany.tier5 + weekEmily.tier5, weekCJ.total + weekStefany.total + weekEmily.total);
 	    }
 
 	    else if (valueSelected == 'lastWeek') {
@@ -394,7 +368,7 @@ $(document).ready(function() {
 
 			  	var createdAt = new Date(year, month, day);
 
-			  	//console.log('startDate - ' + startDate + '\n createdAt - ' + createdAt + '\n currentDate - ' + currentDate);
+			  	console.log('startDate - ' + startDate + '\n createdAt - ' + createdAt + '\n currentDate - ' + currentDate);
 
 			  	if (createdAt >= startDate && createdAt <= currentDate) {
 			  		weekArray.push(solvedTickets.tickets[i]);
@@ -488,57 +462,15 @@ $(document).ready(function() {
 				]
 			};
 
-			$("#canvas-wrapper").html("").html('<canvas id="myChart"></canvas>');
-			 
+			redrawGraph(barChartDataWeek);
 
-			var ctx = $("#myChart").get(0).getContext("2d");
-		// This will get the first returned node in the jQuery collection.
+			updateCJ(weekCJ);
 
-			var myNewChart = new Chart(ctx).StackedBar(barChartDataWeek, {
-				responsive : true
-			});
+			updateStefany(weekStefany);
 
-			$('#cj1').html(weekCJ.tier1);
-			$('#cj2').html(weekCJ.tier2);
-			$('#cj3').html(weekCJ.tier3);
-			$('#cj4').html(weekCJ.tier4);
-			$('#cj5').html(weekCJ.tier5);
+			updateEmily(weekEmily);
 
-			$('#cjTotal').html(weekCJ.total);
-
-			$('#stef1').html(weekStefany.tier1);
-			$('#stef2').html(weekStefany.tier2);
-			$('#stef3').html(weekStefany.tier3);
-			$('#stef4').html(weekStefany.tier4);
-			$('#stef5').html(weekStefany.tier5);
-
-			$('#stefTotal').html(weekStefany.total);
-
-			$('#emily1').html(weekEmily.tier1);
-			$('#emily2').html(weekEmily.tier2);
-			$('#emily3').html(weekEmily.tier3);
-			$('#emily4').html(weekEmily.tier4);
-			$('#emily5').html(weekEmily.tier5);
-
-			$('#emilyTotal').html(weekEmily.total);
-
-			var oneTotal = weekCJ.tier1 + weekStefany.tier1 + weekEmily.tier1;
-			$('#oneTotal').html(oneTotal);
-
-			var twoTotal = weekCJ.tier2 + weekStefany.tier2 + weekEmily.tier2;
-			$('#twoTotal').html(twoTotal);
-
-			var threeTotal = weekCJ.tier3 + weekStefany.tier3 + weekEmily.tier3;
-			$('#threeTotal').html(threeTotal);
-
-			var fourTotal = weekCJ.tier4 + weekStefany.tier4 + weekEmily.tier4;
-			$('#fourTotal').html(fourTotal);
-
-			var fiveTotal = weekCJ.tier5 + weekStefany.tier5 + weekEmily.tier5;
-			$('#fiveTotal').html(fiveTotal);
-
-			var grandTotal = weekCJ.total + weekStefany.total + weekEmily.total;
-			$('#grandTotal').html(grandTotal);
+			updateTotals(weekCJ.tier1 + weekStefany.tier1 + weekEmily.tier1, weekCJ.tier2 + weekStefany.tier2 + weekEmily.tier2, weekCJ.tier3 + weekStefany.tier3 + weekEmily.tier3, weekCJ.tier4 + weekStefany.tier4 + weekEmily.tier4, weekCJ.tier5 + weekStefany.tier5 + weekEmily.tier5, weekCJ.total + weekStefany.total + weekEmily.total);
 	    }
 
 	    else if (valueSelected == 'lastTwoWeeks') {
@@ -677,57 +609,15 @@ $(document).ready(function() {
 				]
 			};
 
-			$("#canvas-wrapper").html("").html('<canvas id="myChart"></canvas>');
-			 
+			redrawGraph(barChartDataWeek);
 
-			var ctx = $("#myChart").get(0).getContext("2d");
-		// This will get the first returned node in the jQuery collection.
+			updateCJ(weekCJ);
 
-			var myNewChart = new Chart(ctx).StackedBar(barChartDataWeek, {
-				responsive : true
-			});
+			updateStefany(weekStefany);
 
-			$('#cj1').html(weekCJ.tier1);
-			$('#cj2').html(weekCJ.tier2);
-			$('#cj3').html(weekCJ.tier3);
-			$('#cj4').html(weekCJ.tier4);
-			$('#cj5').html(weekCJ.tier5);
+			updateEmily(weekEmily);
 
-			$('#cjTotal').html(weekCJ.total);
-
-			$('#stef1').html(weekStefany.tier1);
-			$('#stef2').html(weekStefany.tier2);
-			$('#stef3').html(weekStefany.tier3);
-			$('#stef4').html(weekStefany.tier4);
-			$('#stef5').html(weekStefany.tier5);
-
-			$('#stefTotal').html(weekStefany.total);
-
-			$('#emily1').html(weekEmily.tier1);
-			$('#emily2').html(weekEmily.tier2);
-			$('#emily3').html(weekEmily.tier3);
-			$('#emily4').html(weekEmily.tier4);
-			$('#emily5').html(weekEmily.tier5);
-
-			$('#emilyTotal').html(weekEmily.total);
-
-			var oneTotal = weekCJ.tier1 + weekStefany.tier1 + weekEmily.tier1;
-			$('#oneTotal').html(oneTotal);
-
-			var twoTotal = weekCJ.tier2 + weekStefany.tier2 + weekEmily.tier2;
-			$('#twoTotal').html(twoTotal);
-
-			var threeTotal = weekCJ.tier3 + weekStefany.tier3 + weekEmily.tier3;
-			$('#threeTotal').html(threeTotal);
-
-			var fourTotal = weekCJ.tier4 + weekStefany.tier4 + weekEmily.tier4;
-			$('#fourTotal').html(fourTotal);
-
-			var fiveTotal = weekCJ.tier5 + weekStefany.tier5 + weekEmily.tier5;
-			$('#fiveTotal').html(fiveTotal);
-
-			var grandTotal = weekCJ.total + weekStefany.total + weekEmily.total;
-			$('#grandTotal').html(grandTotal);
+			updateTotals(weekCJ.tier1 + weekStefany.tier1 + weekEmily.tier1, weekCJ.tier2 + weekStefany.tier2 + weekEmily.tier2, weekCJ.tier3 + weekStefany.tier3 + weekEmily.tier3, weekCJ.tier4 + weekStefany.tier4 + weekEmily.tier4, weekCJ.tier5 + weekStefany.tier5 + weekEmily.tier5, weekCJ.total + weekStefany.total + weekEmily.total);
 	    }
 	});
 

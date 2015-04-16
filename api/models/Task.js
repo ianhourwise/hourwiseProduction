@@ -25,7 +25,8 @@ module.exports = {
   	requester: { model: 'user' },
     type: 'string',
     notes: 'json',
-    attachments: 'array'
+    attachments: 'array',
+    job: { model: 'job' }
   }
 };
 
