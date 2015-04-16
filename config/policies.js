@@ -41,6 +41,10 @@ module.exports.policies = {
     outboundSMS: 'isConcierge'
   },
 
+  'job': {
+    index: true
+  },
+
   'user': {
     admin: 'isSuperUser',
     welcome: true,
