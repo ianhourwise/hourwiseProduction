@@ -30,6 +30,10 @@ $(document).ready(function() {
       console.log(data.message);
   });
 
+  io.socket.on('task', function (obj) {
+    console.log(obj.data);
+  });
+
    $(document).on('click', '#alertDropdown', function(e) {
       $('#newAlert').html('0');
    });
