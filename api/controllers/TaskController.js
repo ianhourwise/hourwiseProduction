@@ -64,14 +64,11 @@ module.exports = {
 	},
 
 	subscribeToTasks: function(req, res) {
-		if (req.param('fromMobile')) {
-			Task.subscribe(req.socket, req.param('userZendeskId'));
+			var zendeskId = 12345;
+			Task.subscribe(req.socket, zendeskId);
+			User.publishUpdate(users[i].id, { message: user.username + ' just had their nutshell data synced!', id: alertId });
+			Task.publishUpdate(zendeskId, { message: 'Hope this works!!!'} )
 			console.log('Mobile subscribed to task events');
-		}
-
-		else {
-			//console.log('Not from mobile... skipping...');
-		}
 	},
 
 	zendeskTrigger: function(req, res) {
