@@ -44,3 +44,69 @@
 </div>
 </div>
 </div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>Users List</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-b-sm m-t-sm">
+                        <div class="col-md-1">
+                            <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
+                        </div>
+                        <div class="col-md-11">
+                            <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span></div>
+                            </div>
+                        </div>
+
+                        <div class="project-list">
+
+                            <table class="table table-hover">
+                                <tbody>
+                                	<tr>
+										<th>Company</th>
+										<th>User</th>
+										<th>#Open Leads</th>
+										<th>#Red Leads</th>
+										<th>%To Goal</th>
+										<th>$Actual</th>
+										<th>$Goal</th>
+										<th></th>
+										<th></th>
+									</tr>
+                                    <% _.each(users, function(user) { if(!user.company){user.company = {name: 'NoCo'}}%>
+										<tr data-id = "<% user.id %>" data-model = "user">
+											<td><%= user.company.name %></td>
+											<td><%= user.username %></td>
+											<% if (user.integrations) { %>
+												<td><%= user.numOpened %></td>
+											<% } else { %> <td></td> <% } %>
+											<% if (user.integrations && user.integrations.nutshell && user.integrations.nutshell.redLeads && user.integrations.nutshell.redLeads.counts && user.integrations.nutshell.redLeads.counts.Total_Red_Leads) { %>
+												<td><%= user.integrations.nutshell.redLeads.counts.Total_Red_Leads %></td>
+											<% } else { %> <td></td> <% } %>
+											<td class="percentToGoal" name="<%= user.id %>"></td>
+											<td class="actualSales" name="<%= user.id %>"></td>
+											<td class="salesGoal" name="<%= user.id %>"></td>
+											<% if (user.calls != undefined) { %>
+												<td><div class="talkedTo btn btn-sm btn-primary" name="<%= user.id %>">(<%= user.callsThisWeek %>) Talked to...</div></td>
+											<% } else {%>
+												<td><div class="talkedTo btn btn-sm btn-primary" name="<%= user.id %>">(0) Talked to...</div></td>
+											<% } %>
+											<td><a href= "/user/dashboard/<%= user.id %>" class= "btn btn-sm btn-primary" >Show</a> </td>
+											<td><a href= "/user/edit/<%= user.id %>" class= "btn btn-sm btn-warning" >Edit</a> </td>
+										</tr>
+
+									<% }) %>
+								</tbody>
+							</table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
