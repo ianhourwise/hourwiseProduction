@@ -52,7 +52,8 @@ module.exports.policies = {
   },
 
   'task': {
-    zendeskTrigger: true
+    zendeskTrigger: true,
+    subscribeToTasks: true
   },
 
   'company': {
