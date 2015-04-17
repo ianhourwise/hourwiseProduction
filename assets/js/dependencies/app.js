@@ -16,8 +16,6 @@ $(document).ready(function() {
 
   //io.socket.get('/user/subscribeToAlerts');
 
-  io.socket.get('/task/subscribeToTasks');
-
   io.socket.on('user', function (obj) {
       console.log(obj);
       var data = obj.data;
@@ -31,6 +29,7 @@ $(document).ready(function() {
   });
 
   io.socket.on('connect', function (obj) {
+    io.socket.get('/task/subscribeToTasks');
     console.log('++++++++++' + obj);
   });
 
