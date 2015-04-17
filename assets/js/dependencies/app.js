@@ -14,8 +14,6 @@
   //var socket = io.connect();
 $(document).ready(function() {
 
-  console.log('--------______--------HITTING THIS??????------_______-------')
-
   //io.socket.get('/user/subscribeToAlerts');
 
   io.socket.get('/task/subscribeToTasks');
@@ -31,6 +29,10 @@ $(document).ready(function() {
 
       console.log(data.message);
   });
+
+  io.socket.on('connect') {
+    res.send('Hey there!!');
+  }
 
   io.socket.on('task', function (obj) {
     console.log(obj.data);
