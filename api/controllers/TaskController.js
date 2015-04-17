@@ -64,14 +64,7 @@ module.exports = {
 	},
 
 	subscribe: function(req, res) {
-		var socket = req.socket;
-		console.log(req.socket);
-		//console.log(socket);
-    	var io = sails.io;
-		//var io = socket.io;
-		// io.socket.get('/task/subscribeToTasks');
-		socket.join('task');
-		socket.broadcast.to('task').emit('messageName', {thisIs: 'theMessage'}); 
+		sails.sockets.broadcast('artsAndEntertainment', 'task', { msg: 'Hi there!' });
 	},
 
 	subscribeToTasks: function(req, res) {
