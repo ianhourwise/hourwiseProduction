@@ -35,7 +35,7 @@ $(document).ready(function() {
   }
 
   io.socket.on('task', function (obj) {
-    console.log(obj.data);
+    console.log(obj);
   });
 
    $(document).on('click', '#alertDropdown', function(e) {
