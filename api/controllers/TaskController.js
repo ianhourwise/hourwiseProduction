@@ -64,8 +64,11 @@ module.exports = {
 	},
 
 	subscribe: function(req, res) {
-		 var io = socket.io;
-		 io.get('/task/subscribeToTasks'); 
+		var socket = req.socket;
+		console.log(socket);
+    	var io = sails.io;
+		var io = socket.io;
+		io.socket.get('/task/subscribeToTasks'); 
 	},
 
 	subscribeToTasks: function(req, res) {
