@@ -131,7 +131,7 @@ module.exports.sockets = {
     // By default: do nothing
     // This is a good place to subscribe a new socket to a room, inform other users that
     // someone new has come online, or any other custom socket.io logic
-    io.socket.get('/task/subscribeToTasks');
+    sails.sockets.join(socket, "task");
     sails.sockets.emit(socket, "task", {msg: 'hey there'});
     console.log("Got a connected client");
 
