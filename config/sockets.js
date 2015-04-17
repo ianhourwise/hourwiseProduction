@@ -134,7 +134,7 @@ module.exports.sockets = {
     socket.get('/task/subscribeToTasks');
     console.log("Got a connected client");
 
-
+  }
 
   // More configuration options for Sails+Socket.io:
   // http://sailsjs.org/#/documentation/reference/sails.config/sails.config.sockets.html
