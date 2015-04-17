@@ -16,7 +16,7 @@ $(document).ready(function() {
 
   console.log('--------______--------HITTING THIS??????------_______-------')
 
-  io.socket.get('/user/subscribeToAlerts');
+  //io.socket.get('/user/subscribeToAlerts');
 
   io.socket.get('/task/subscribeToTasks');
 
