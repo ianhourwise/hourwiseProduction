@@ -76,7 +76,7 @@ module.exports = {
 
 	subscribeToTasks: function(req, res) {
 			var socket = req.socket;
-
+			console.log('_+_+_+_+_+_+_+' + socket.sid + '_+_+_+_+_+_+_+_+_+_+_');
 			sails.sockets.emit(socket, 'task', {msg: "please work"});
 			console.log('--------______--------HITTING THIS??????------_______-------')
 			var zendeskId = 1234
