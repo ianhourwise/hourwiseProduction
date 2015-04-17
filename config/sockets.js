@@ -126,16 +126,6 @@ module.exports.sockets = {
   //   return cb();
   // },
 
-   onConnect: function(session, socket) {
-
-    // By default: do nothing
-    // This is a good place to subscribe a new socket to a room, inform other users that
-    // someone new has come online, or any other custom socket.io logic
-    //socket.get('/task/subscribeToTasks');
-    console.log("Got a connected client");
-
-  }
-
   // More configuration options for Sails+Socket.io:
   // http://sailsjs.org/#/documentation/reference/sails.config/sails.config.sockets.html
 
