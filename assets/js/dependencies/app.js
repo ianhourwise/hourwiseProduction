@@ -31,7 +31,7 @@ $(document).ready(function() {
   });
 
   io.socket.on('connect', function (obj) {
-    io.socket.emit('hey there');
+    sails.sockets.blast("data");
   });
 
   io.socket.on('task', function (obj) {
