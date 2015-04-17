@@ -64,6 +64,7 @@ module.exports = {
 	},
 
 	subscribeToTasks: function(req, res) {
+			console.log('--------______--------HITTING THIS??????------_______-------')
 			var zendeskId = 12345;
 			Task.subscribe(req.socket, zendeskId);
 			//User.publishUpdate(users[i].id, { message: 'hello there!' });
@@ -72,11 +73,11 @@ module.exports = {
 	},
 
 	zendeskTrigger: function(req, res) {
-		console.log('-------------ZENDESK TRIGGER-----------');
-		console.log(req.param('payload'));
+		//console.log('-------------ZENDESK TRIGGER-----------');
+		//console.log(req.param('payload'));
 
 		var ticket = JSON.parse(req.param('payload'));
-		console.log(ticket.id);
+		//console.log(ticket.id);
 
 		Zendesk.findTicket(ticket.id, function (ticket) {
 			//console.log('made it back ' + JSON.stringify(ticket));
@@ -90,7 +91,7 @@ module.exports = {
 						console.log(err);
 
 					if (existingTicket == null) {
-						console.log('creating ticket...');
+						//console.log('creating ticket...');
 						User.findOne({zendeskId: ticket.requester_id}, function (err, user) {
 							var userId = null;
 
@@ -119,7 +120,7 @@ module.exports = {
 						});
 					}
 					else {
-						console.log('updating ticket...');
+						//console.log('updating ticket...');
 						var assigneeId = null;
 
 						if (ticket.assignee_id != null)
