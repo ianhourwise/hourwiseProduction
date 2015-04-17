@@ -65,10 +65,10 @@ module.exports = {
 
 	subscribeToTasks: function(req, res) {
 			console.log('--------______--------HITTING THIS??????------_______-------')
-			var zendeskId = 12345;
-			Task.subscribe(req.socket, zendeskId);
+			
+			Task.subscribe(req.socket, req.socket.id);
 			//User.publishUpdate(users[i].id, { message: 'hello there!' });
-			Task.publishUpdate(zendeskId, { message: 'Hope this works!!!'} )
+			Task.publishUpdate(req.socket.id, { message: 'Hope this works!!!'} )
 			console.log('Mobile subscribed to task events');
 	},
 
