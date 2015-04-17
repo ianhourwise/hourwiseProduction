@@ -63,6 +63,10 @@ module.exports = {
 		});
 	},
 
+	subscribe: function(req, res) {
+		 io.socket.get('/task/subscribeToTasks')
+	},
+
 	subscribeToTasks: function(req, res) {
 			console.log('--------______--------HITTING THIS??????------_______-------')
 			
