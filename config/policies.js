@@ -55,6 +55,7 @@ module.exports.policies = {
     zendeskTrigger: true,
     subscribeToTasks: true,
     subscribe: true
+  },
 
   'company': {
     profile: 'isCompanyOwner'
