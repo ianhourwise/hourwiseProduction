@@ -133,6 +133,7 @@ module.exports.sockets = {
     // someone new has come online, or any other custom socket.io logic
     sails.sockets.join(socket, "mobileRoom");
     sails.sockets.emit(socket, "task", {msg: 'hey there'});
+    console.log(sails.sockets.subscribers('mobileRoom'));
     console.log("Got a connected client");
 
   }

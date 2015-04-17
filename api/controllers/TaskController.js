@@ -64,7 +64,7 @@ module.exports = {
 	},
 
 	subscribe: function(req, res) {
-		sails.sockets.broadcast('artsAndEntertainment', 'task', { msg: 'Hi there!' });
+		sails.sockets.broadcast('mobileRoom', 'task', { msg: 'Hi there!' });
 	},
 
 	subscribeToTasks: function(req, res) {
