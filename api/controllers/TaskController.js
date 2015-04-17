@@ -65,7 +65,8 @@ module.exports = {
 
 	subscribe: function(req, res) {
 		var socket = req.socket;
-		console.log(socket);
+		console.log(req.socket);
+		//console.log(socket);
     	var io = sails.io;
 		//var io = socket.io;
 		// io.socket.get('/task/subscribeToTasks');
@@ -76,9 +77,9 @@ module.exports = {
 	subscribeToTasks: function(req, res) {
 			console.log('--------______--------HITTING THIS??????------_______-------')
 			
-			Task.subscribe(req.socket, req.socket.id);
+			Task.subscribe(req.socket, 1234);
 			//User.publishUpdate(users[i].id, { message: 'hello there!' });
-			Task.publishUpdate(req.socket.id, { message: 'Hope this works!!!'} )
+			Task.publishUpdate(1234, { message: 'Hope this works!!!'} )
 			console.log('Mobile subscribed to task events');
 	},
 
