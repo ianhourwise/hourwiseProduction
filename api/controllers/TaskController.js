@@ -64,6 +64,7 @@ module.exports = {
 	},
 
 	subscribe: function(req, res) {
+		 var io = sails.io;
 		 io.socket.get('/task/subscribeToTasks')
 	},
 
