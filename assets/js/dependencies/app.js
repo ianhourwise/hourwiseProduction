@@ -31,7 +31,7 @@ $(document).ready(function() {
   });
 
   io.socket.on('connect', function (obj) {
-    res.send('Hey there!!');
+    io.socket.emit('hey there');
   });
 
   io.socket.on('task', function (obj) {
