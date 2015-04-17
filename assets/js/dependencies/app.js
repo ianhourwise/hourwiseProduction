@@ -30,9 +30,9 @@ $(document).ready(function() {
       console.log(data.message);
   });
 
-  io.socket.on('connect') {
+  io.socket.on('connect', function (obj) {
     res.send('Hey there!!');
-  }
+  });
 
   io.socket.on('task', function (obj) {
     console.log(obj);
