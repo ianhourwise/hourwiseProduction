@@ -64,7 +64,11 @@ module.exports = {
 	},
 
 	subscribe: function(req, res) {
-		sails.sockets.broadcast('mobileRoom', 'task', { msg: 'Hi there!' });
+		Zendesk.findTicket(3040, function (ticket) {
+
+			sails.sockets.broadcast('mobileRoom', 'task', { msg: 'Incoming ticket update', ticket: ticket });
+		});
+		
 	},
 
 	subscribeToTasks: function(req, res) {
