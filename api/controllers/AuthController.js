@@ -171,10 +171,7 @@ var AuthController = {
         if (req.param('fromMobile')) {
           console.log('CONNECTED FROM MOBILE');
 
-          if (user.zendeskId)
-            res.send(user.zendeskId);
-          else 
-            res.send(user);
+          res.send(user);
         }
         else {
           if(user.role === 'admin' || user.role === 'superUser'){
