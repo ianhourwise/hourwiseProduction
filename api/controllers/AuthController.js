@@ -168,23 +168,29 @@ var AuthController = {
         req.session.User = user;
 
         console.log(req.session.User.role);
-        if (req.param('fromMobile'))
+        if (req.param('fromMobile')) {
+          console.log('CONNECTED FROM MOBILE');
+
           res.send(user);
-        if(user.role === 'admin' || user.role === 'superUser'){
-          res.redirect('/user/admin');
         }
-        else if (user.role == 'concierge') {
-          res.redirect('/user/index');
-        }
-        else{
-          if(user.reroute == 'wizard' || user.reroute == 'pending'){
-            res.redirect('/user/'+ user.reroute)
+        else {
+          if(user.role === 'admin' || user.role === 'superUser'){
+            res.redirect('/user/admin');
+          }
+          else if (user.role == 'concierge') {
+            res.redirect('/user/index');
           }
           else{
-            res.redirect('/user/index');  
+            if(user.reroute == 'wizard' || user.reroute == 'pending'){
+              res.redirect('/user/'+ user.reroute)
+            }
+            else{
+              res.redirect('/user/index');  
+            }
+            
           }
-          
-        }
+        }  
+        
         
       });
     });
