@@ -64,9 +64,10 @@ module.exports = {
 	},
 
 	subscribe: function(req, res) {
-		Zendesk.findTicket(3040, function (ticket) {
+		Zendesk.findTicket(8034, function (ticket) {
+			var zendeskId = "12345"
 
-			sails.sockets.broadcast('mobileRoom', 'task', { msg: 'Incoming ticket update', ticket: ticket });
+			sails.sockets.broadcast(zendeskId, 'task', { msg: 'Incoming ticket update', ticket: ticket });
 		});
 		
 	},
