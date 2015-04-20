@@ -133,9 +133,9 @@ module.exports.sockets = {
     // someone new has come online, or any other custom socket.io logic
     //console.log(socket.handshake.query.fromMobile);
     if (socket.handshake.query.fromMobile) {
-      sails.sockets.join(socket, "mobileRoom");
+      sails.sockets.join(socket, socket.handshake.query.zendeskId); //change to their ZD id
       sails.sockets.emit(socket, "task", {msg: 'hey there'});
-      console.log(sails.sockets.subscribers('mobileRoom'));
+      console.log(sails.sockets.subscribers(socket.handshake.query.zendeskId));
       console.log("Got a connected mobile client!!!!!");
     }
     
