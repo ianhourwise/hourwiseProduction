@@ -149,6 +149,7 @@ module.exports = {
 										var alertId = uuid.v4();
 
 					 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+					 						sails.sockets.broadcast('mobileRoom', 'task', { msg: 'Incoming ticket update', ticket: tickets[0].zendesk });
 					 						users[i].addAlert('Updated ticket: ' + tickets[0].zendesk.raw_subject, alertId, tickets[0].zendesk.id, true);
 				 							User.publishUpdate(users[i].id, { message: 'Updated ticket: ' + tickets[0].zendesk.raw_subject, id: alertId, communicationId: tickets[0].zendesk.id, fromTask: true  });
 					 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
