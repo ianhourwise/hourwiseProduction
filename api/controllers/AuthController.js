@@ -168,6 +168,8 @@ var AuthController = {
         req.session.User = user;
 
         console.log(req.session.User.role);
+        if (req.param('fromMobile'))
+          res.send(user);
         if(user.role === 'admin' || user.role === 'superUser'){
           res.redirect('/user/admin');
         }
