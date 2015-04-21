@@ -103,7 +103,7 @@ module.exports = {
 						console.log(err);
 
 					if (existingTicket == null) {
-						//console.log('creating ticket...');
+						console.log('creating ticket...');
 						User.findOne({zendeskId: ticket.requester_id}, function (err, user) {
 							var userId = null;
 
@@ -126,6 +126,7 @@ module.exports = {
 				 					}
 				 					
 				 				}
+				 				sails.sockets.broadcast(newTicket.zendesk.requester_id, 'task', { msg: 'Incoming ticket update', ticket: newTicket.zendesk });
 
 								res.send(200);
 							});
