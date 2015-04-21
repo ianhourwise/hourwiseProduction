@@ -136,7 +136,7 @@ module.exports = {
 						var assigneeId = null;
 
 						if (ticket.assignee_id != null)
-							assigneeId = ticket.assignee_id;
+							assigneeId = ticket.assignee_id.toString();
 
 						User.findOne({zendeskId: assigneeId}, function (err, user) {
 							var userId = null;
@@ -156,7 +156,7 @@ module.exports = {
 					 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
 					 						users[i].addAlert('Updated ticket: ' + tickets[0].zendesk.raw_subject, alertId, tickets[0].zendesk.id, true);
 				 							User.publishUpdate(users[i].id, { message: 'Updated ticket: ' + tickets[0].zendesk.raw_subject, id: alertId, communicationId: tickets[0].zendesk.id, fromTask: true  });
-					 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+					 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 					 					}
 					 					
 					 				}
