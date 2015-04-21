@@ -126,7 +126,6 @@ module.exports = {
 				 					}
 				 					
 				 				}
-				 				sails.sockets.broadcast(newTicket.zendesk.requester_id, 'task', { msg: 'Incoming ticket update', ticket: newTicket.zendesk });
 
 								res.send(200);
 							});
