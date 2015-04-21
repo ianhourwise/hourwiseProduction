@@ -94,7 +94,7 @@ module.exports = {
 		Zendesk.findTicket(ticket.id, function (ticket) {
 			console.log('made it back ' + JSON.stringify(ticket));
 
-			Task.findOne({zendeskId: ticket.id}, function (err, existingTicket) {
+			Task.findOne({zendeskId: ticket.id.toString()}, function (err, existingTicket) {
 				if (err)
 					console.log(err);
 
@@ -104,7 +104,7 @@ module.exports = {
 
 					if (existingTicket == null) {
 						console.log('creating ticket...');
-						User.findOne({zendeskId: ticket.requester_id}, function (err, user) {
+						User.findOne({zendeskId: ticket.requester_id.toString()}, function (err, user) {
 							var userId = null;
 
 							if (user != null)
