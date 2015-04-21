@@ -132,7 +132,7 @@ module.exports = {
 						});
 					}
 					else {
-						//console.log('updating ticket...');
+						console.log('updating ticket...');
 						var assigneeId = null;
 
 						if (ticket.assignee_id != null)
@@ -154,13 +154,13 @@ module.exports = {
 										var alertId = uuid.v4();
 
 					 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-					 						sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', { msg: 'Incoming ticket update', ticket: tickets[0].zendesk });
 					 						users[i].addAlert('Updated ticket: ' + tickets[0].zendesk.raw_subject, alertId, tickets[0].zendesk.id, true);
 				 							User.publishUpdate(users[i].id, { message: 'Updated ticket: ' + tickets[0].zendesk.raw_subject, id: alertId, communicationId: tickets[0].zendesk.id, fromTask: true  });
-					 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+					 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 					 					}
 					 					
 					 				}
+					 			sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', { msg: 'Incoming ticket update', ticket: tickets[0].zendesk });
 
 								res.send(200);
 								
