@@ -11,7 +11,9 @@ module.exports.jobs = {
   //Where are jobs files
   "jobsDirectory": "api/jobs",
   "db": { 
-   "address" :  process.env.DB_URL, //localhost:27017/jobs process.env.DB_URL
+    //alternate address for dev and production!
+   "address" :  process.env.DB_URL,
+   // "address" :  "localhost:27017/jobs",
    "collection" : "agendaJobs" 
   },
   "name": "process name",
