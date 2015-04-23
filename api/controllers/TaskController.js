@@ -63,27 +63,6 @@ module.exports = {
 		});
 	},
 
-	subscribe: function(req, res) {
-		Zendesk.findTicket(8034, function (ticket) {
-			var zendeskId = "12345"
-
-			sails.sockets.broadcast(zendeskId, 'task', { msg: 'Incoming ticket update', ticket: ticket });
-		});
-		
-	},
-
-	subscribeToTasks: function(req, res) {
-			var socket = req.socket;
-			console.log('_+_+_+_+_+_+_+' + socket.sid + '_+_+_+_+_+_+_+_+_+_+_');
-			sails.sockets.emit(socket, "task", {msg: "please work"});
-			console.log('--------______--------HITTING THIS??????------_______-------')
-			var zendeskId = 1234
-			Task.subscribe(req.socket, zendeskId);
-			//User.publishUpdate(users[i].id, { message: 'hello there!' });
-			Task.publishUpdate(zendeskId, { message: 'Hope this works!!!'} )
-			console.log('Mobile subscribed to task events');
-	},
-
 	zendeskTrigger: function(req, res) {
 		//console.log('-------------ZENDESK TRIGGER-----------');
 		//console.log(req.param('payload'));

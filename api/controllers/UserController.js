@@ -764,17 +764,6 @@ module.exports = {
 	
 	},
 
-	subscribe: function (req, res) {
-		console.log(req.isSocket);
-		User.find({role: ['superUser', 'concierge']}).exec( function (err, users) {
-			if (err)
-				console.log(err);
-
-			User.subscribe(req.socket, users);
-			console.log('subscribed');
-		});
-	},
-
 	subscribeToAlerts: function (req, res) {
 		User.subscribe(req.socket, req.session.User);
 	},
