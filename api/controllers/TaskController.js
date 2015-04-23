@@ -70,7 +70,9 @@ module.exports = {
 		var ticket = JSON.parse(req.param('payload'));
 		//console.log(ticket.id);
 
-		Zendesk.findTicket(ticket.id, function (ticket) {
+		Zendesk.findTicket(ticket.id, function (ticket, comments) {
+			console.log(JSON.stringify(ticket));
+			console.log(JSON.stringify(comments));
 
 			Task.findOne({zendeskId: ticket.id.toString()}, function (err, existingTicket) {
 				if (err)
