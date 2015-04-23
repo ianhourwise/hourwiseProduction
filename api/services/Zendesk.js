@@ -105,8 +105,10 @@ module.exports = {
 			console.log('err - ' + err);
 			console.log('statusList' + statusList);
 			console.log('body' + body)
-			
-			callback(body);
+
+			client.tickets.getComments(id, function (err, statusList, body2, responseList, resultList) {
+				callback(body, body2);
+			});
 		});
 	},
 
