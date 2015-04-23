@@ -71,7 +71,7 @@ module.exports = {
 		//console.log(ticket.id);
 
 		Zendesk.findTicket(ticket.id, function (ticket, comments) {
-			console.log(JSON.stringify(ticket));
+			//console.log(JSON.stringify(ticket));
 			console.log(JSON.stringify(comments[0]));
 
 			var passComments = null
@@ -145,8 +145,14 @@ module.exports = {
 					 					}
 					 					
 					 				}
+					 			var commentArray = passComments.comments;
+					 			var passCommentArray = [];
+					 			
+					 			for (var i = 0; i < commentArray.length; i++) 
+					 				if (commentArray[i].attachments.length <= 0)
+					 					passCommentArray.push(commentArray[i].body)
 					 				
-					 			sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', {subject: tickets[0].zendesk.raw_subject, status: tickets[0].zendesk.status, comments: passComments });
+					 			sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', {subject: tickets[0].zendesk.raw_subject, status: tickets[0].zendesk.status, comments: passCommentArray });
 
 								res.send(200);
 								
