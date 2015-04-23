@@ -72,7 +72,12 @@ module.exports = {
 
 		Zendesk.findTicket(ticket.id, function (ticket, comments) {
 			console.log(JSON.stringify(ticket));
-			console.log(JSON.stringify(comments));
+			console.log(JSON.stringify(comments[0]));
+
+			var passComments = null
+
+			if (comments != null)
+				passComments = comments[0];
 
 			Task.findOne({zendeskId: ticket.id.toString()}, function (err, existingTicket) {
 				if (err)
@@ -141,7 +146,7 @@ module.exports = {
 					 					
 					 				}
 					 				
-					 			sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', {subject: tickets[0].zendesk.raw_subject, status: tickets[0].zendesk.status });
+					 			sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', {subject: tickets[0].zendesk.raw_subject, status: tickets[0].zendesk.status, comments: passComments });
 
 								res.send(200);
 								
