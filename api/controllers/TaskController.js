@@ -71,7 +71,6 @@ module.exports = {
 		//console.log(ticket.id);
 
 		Zendesk.findTicket(ticket.id, function (ticket) {
-			console.log('made it back ' + JSON.stringify(ticket));
 
 			Task.findOne({zendeskId: ticket.id.toString()}, function (err, existingTicket) {
 				if (err)
