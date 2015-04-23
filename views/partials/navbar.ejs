@@ -24,6 +24,7 @@
                     
                     <ul class="dropdown-menu dropdown-alerts" id="alertsList">
                         <% if (req.session.User.alerts != undefined) { %>
+                            <% req.session.User.alerts.reverse() %>
                             <% _.each(req.session.User.alerts, function(alert) { %>
                                 <% if (alert.communicationId != null && alert.fromZendesk == false) { %>
                                     <li name="<%= alert.id %>">

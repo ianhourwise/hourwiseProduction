@@ -41,6 +41,10 @@ module.exports.policies = {
     outboundSMS: 'isConcierge'
   },
 
+  'job': {
+    index: true
+  },
+
   'user': {
     admin: 'isSuperUser',
     welcome: true,
@@ -48,7 +52,9 @@ module.exports.policies = {
   },
 
   'task': {
-    zendeskTrigger: true
+    zendeskTrigger: true,
+    subscribeToTasks: true,
+    subscribe: true
   },
 
   'company': {

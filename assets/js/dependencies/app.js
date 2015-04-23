@@ -16,8 +16,6 @@ $(document).ready(function() {
 
   io.socket.get('/user/subscribeToAlerts');
 
-  io.socket.get('/task/subscribeToTasks');
-
   io.socket.on('user', function (obj) {
       console.log(obj);
       var data = obj.data;
@@ -28,6 +26,10 @@ $(document).ready(function() {
         $('#alertsList').prepend('<li id=' + data.id + '><div><i class="fa fa-ticket fa-fw"></i> ' + data.message + '<span class="pull-right text-muted small"><div class="btn btn-sml"><a href="https://foundation53.zendesk.com/agent/tickets/' + communicationId + '">Go to ZD</a></div><div class="btn btn-sml dismissAlert" id="req.session.User.id">Dismiss</div></span></div></li><li class="divider"></li>');
 
       console.log(data.message);
+  });
+
+  io.socket.on('task', function (obj) {
+    console.log(obj);
   });
 
    $(document).on('click', '#alertDropdown', function(e) {

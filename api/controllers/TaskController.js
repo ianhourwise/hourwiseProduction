@@ -63,28 +63,38 @@ module.exports = {
 		});
 	},
 
-	subscribeToTasks: function(req, res) {
-		if (req.param('fromMobile')) {
-			Task.subscribe(req.socket, req.param('userZendeskId'));
-			console.log('Mobile subscribed to task events');
-		}
+	subscribe: function(req, res) {
+		Zendesk.findTicket(8034, function (ticket) {
+			var zendeskId = "12345"
 
-		else {
-			//console.log('Not from mobile... skipping...');
-		}
+			sails.sockets.broadcast(zendeskId, 'task', { msg: 'Incoming ticket update', ticket: ticket });
+		});
+		
+	},
+
+	subscribeToTasks: function(req, res) {
+			var socket = req.socket;
+			console.log('_+_+_+_+_+_+_+' + socket.sid + '_+_+_+_+_+_+_+_+_+_+_');
+			sails.sockets.emit(socket, "task", {msg: "please work"});
+			console.log('--------______--------HITTING THIS??????------_______-------')
+			var zendeskId = 1234
+			Task.subscribe(req.socket, zendeskId);
+			//User.publishUpdate(users[i].id, { message: 'hello there!' });
+			Task.publishUpdate(zendeskId, { message: 'Hope this works!!!'} )
+			console.log('Mobile subscribed to task events');
 	},
 
 	zendeskTrigger: function(req, res) {
-		console.log('-------------ZENDESK TRIGGER-----------');
-		console.log(req.param('payload'));
+		//console.log('-------------ZENDESK TRIGGER-----------');
+		//console.log(req.param('payload'));
 
 		var ticket = JSON.parse(req.param('payload'));
-		console.log(ticket.id);
+		//console.log(ticket.id);
 
 		Zendesk.findTicket(ticket.id, function (ticket) {
-			//console.log('made it back ' + JSON.stringify(ticket));
+			console.log('made it back ' + JSON.stringify(ticket));
 
-			Task.findOne({zendeskId: ticket.id}, function (err, existingTicket) {
+			Task.findOne({zendeskId: ticket.id.toString()}, function (err, existingTicket) {
 				if (err)
 					console.log(err);
 
@@ -94,7 +104,7 @@ module.exports = {
 
 					if (existingTicket == null) {
 						console.log('creating ticket...');
-						User.findOne({zendeskId: ticket.requester_id}, function (err, user) {
+						User.findOne({zendeskId: ticket.requester_id.toString()}, function (err, user) {
 							var userId = null;
 
 							if (user != null)
@@ -126,7 +136,7 @@ module.exports = {
 						var assigneeId = null;
 
 						if (ticket.assignee_id != null)
-							assigneeId = ticket.assignee_id;
+							assigneeId = ticket.assignee_id.toString();
 
 						User.findOne({zendeskId: assigneeId}, function (err, user) {
 							var userId = null;
@@ -150,6 +160,8 @@ module.exports = {
 					 					}
 					 					
 					 				}
+					 				
+					 			sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', {subject: tickets[0].zendesk.raw_subject, status: tickets[0].zendesk.status });
 
 								res.send(200);
 								

@@ -65,7 +65,7 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-  // grant3rdPartyCookie: true,
+  grant3rdPartyCookie: true,
 
 
 
@@ -126,9 +126,21 @@ module.exports.sockets = {
   //   return cb();
   // },
 
+   onConnect: function(session, socket) {
 
+    // By default: do nothing
+    // This is a good place to subscribe a new socket to a room, inform other users that
+    // someone new has come online, or any other custom socket.io logic
+    //console.log(socket.handshake.query.fromMobile);
+    if (socket.handshake.query.fromMobile) {
+      sails.sockets.join(socket, socket.handshake.query.zendeskId); //change to their ZD id
+      //sails.sockets.emit(socket, "task", {msg: 'hey there'});
+      console.log(sails.sockets.subscribers(socket.handshake.query.zendeskId));
+      console.log("Got a connected mobile client!!!!!");
+    }
+    
 
-
+  }
 
   // More configuration options for Sails+Socket.io:
   // http://sailsjs.org/#/documentation/reference/sails.config/sails.config.sockets.html
