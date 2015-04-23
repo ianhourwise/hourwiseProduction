@@ -18,7 +18,7 @@ module.exports.jobs = {
   },
   "name": "process name",
   "processEvery": "10 seconds",
-  "maxConcurrency": 20,
+  "maxConcurrency": 15,
   "defaultConcurrency": 5,
   "defaultLockLifetime": 10000
 };

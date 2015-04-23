@@ -136,7 +136,6 @@ module.exports.sockets = {
       sails.sockets.join(socket, socket.handshake.query.zendeskId); //change to their ZD id
       //sails.sockets.emit(socket, "task", {msg: 'hey there'});
       console.log(sails.sockets.subscribers(socket.handshake.query.zendeskId));
-      console.log("Got a connected mobile client!!!!!");
     }
     
 

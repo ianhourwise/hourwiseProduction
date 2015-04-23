@@ -63,27 +63,6 @@ module.exports = {
 		});
 	},
 
-	subscribe: function(req, res) {
-		Zendesk.findTicket(8034, function (ticket) {
-			var zendeskId = "12345"
-
-			sails.sockets.broadcast(zendeskId, 'task', { msg: 'Incoming ticket update', ticket: ticket });
-		});
-		
-	},
-
-	subscribeToTasks: function(req, res) {
-			var socket = req.socket;
-			console.log('_+_+_+_+_+_+_+' + socket.sid + '_+_+_+_+_+_+_+_+_+_+_');
-			sails.sockets.emit(socket, "task", {msg: "please work"});
-			console.log('--------______--------HITTING THIS??????------_______-------')
-			var zendeskId = 1234
-			Task.subscribe(req.socket, zendeskId);
-			//User.publishUpdate(users[i].id, { message: 'hello there!' });
-			Task.publishUpdate(zendeskId, { message: 'Hope this works!!!'} )
-			console.log('Mobile subscribed to task events');
-	},
-
 	zendeskTrigger: function(req, res) {
 		//console.log('-------------ZENDESK TRIGGER-----------');
 		//console.log(req.param('payload'));
@@ -91,8 +70,14 @@ module.exports = {
 		var ticket = JSON.parse(req.param('payload'));
 		//console.log(ticket.id);
 
-		Zendesk.findTicket(ticket.id, function (ticket) {
-			console.log('made it back ' + JSON.stringify(ticket));
+		Zendesk.findTicket(ticket.id, function (ticket, comments) {
+			console.log(JSON.stringify(ticket));
+			console.log(JSON.stringify(comments[0]));
+
+			var passComments = null
+
+			if (comments != null)
+				passComments = comments[0];
 
 			Task.findOne({zendeskId: ticket.id.toString()}, function (err, existingTicket) {
 				if (err)
@@ -161,7 +146,7 @@ module.exports = {
 					 					
 					 				}
 					 				
-					 			sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', {subject: tickets[0].zendesk.raw_subject, status: tickets[0].zendesk.status });
+					 			sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', {subject: tickets[0].zendesk.raw_subject, status: tickets[0].zendesk.status, comments: passComments });
 
 								res.send(200);
 								
