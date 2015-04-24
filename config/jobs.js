@@ -13,7 +13,7 @@ module.exports.jobs = {
   "db": { 
     //alternate address for dev and production!
    "address" :  process.env.DB_URL,
-   // "address" :  "localhost:27017/jobs",
+    //"address" :  "localhost:27017/jobs",
    "collection" : "agendaJobs" 
   },
   "name": "process name",
