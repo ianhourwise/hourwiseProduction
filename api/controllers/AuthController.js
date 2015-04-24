@@ -155,23 +155,11 @@ var AuthController = {
 
     passport.callback(req, res, function (err, user) {
       if (err) {
-        if (req.param('fromMobile')) {
-          console.log('HITTING ERROR');
-
-          res.send("error");
-        }
-        else 
           return tryAgain();
       }
 
       req.login(user, function (err) {
         if (err) {
-          if (req.param('fromMobile')) {
-            console.log('HITTING ERROR');
-
-            res.send("error");
-          }
-          else
             return tryAgain();
         }
 
