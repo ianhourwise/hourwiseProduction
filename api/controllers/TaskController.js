@@ -72,7 +72,7 @@ module.exports = {
 
 		Zendesk.findTicket(ticket.id, function (ticket, comments) {
 			//console.log(JSON.stringify(ticket));
-			console.log(JSON.stringify(comments[0]));
+			//console.log(JSON.stringify(comments[0]));
 
 			var passComments = null
 
