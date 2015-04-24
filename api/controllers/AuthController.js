@@ -160,7 +160,13 @@ var AuthController = {
 
       req.login(user, function (err) {
         if (err) {
-          return tryAgain();
+          if (req.param('fromMobile')) {
+            //console.log('CONNECTED FROM MOBILE');
+
+            res.send("error");
+          }
+          else
+            return tryAgain();
         }
 
         // Upon successful login, send the user to the homepage were req.user
