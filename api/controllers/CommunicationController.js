@@ -12,10 +12,16 @@ module.exports = {
 			if (err)
 				console.log(err);
 
-			res.locals.layout = 'layouts/communicationIndex';
+			User.findOne({primaryNumber: communication.primaryNumber}).exec(function (err, user) {
+				if (err)
+					console.log(err);
 
-			res.view({
-				communication: communication
+				res.locals.layout = 'layouts/communicationIndex';
+
+				res.view({
+					communication: communication,
+					user: user
+				});
 			});
 		});
 	}
