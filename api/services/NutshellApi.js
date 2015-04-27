@@ -451,6 +451,29 @@ function createClient(username, api_key) {
     
     return client;
   }
+
+function newNote(nutshellId, organizationId, zendeskId) {
+
+  if (organizationId == '34898946') {
+    var client = createClient('jon@89paint.com', '3de55d809969c44d07e99f4ebd97e1b294a665e7');
+
+  }
+  else {
+    var client = createClient('jon@hourwise.com', '22b17e8532cef15c2dc2a4579caf94498c1d0324');
+
+  }
+
+  var noteString = 'ZD Ticket #' + zendeskId + ' solved + https://foundation53.zendesk.com/agent/tickets/' + zendeskId;
+
+  client.call('newNote', {"entity": {
+    "entityType": "Leads",
+    "id": nutshellId
+  },
+ "note": noteString}, function(err, res) {
+    if (err)
+      console.log(err);
+  });
+}
 // exports.nutshell = function(callback) {
    
 // //Could this be an issue with Asynchronous calls?
