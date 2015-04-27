@@ -34,6 +34,7 @@ module.exports.policies = {
   },
 
   '/': true,
+  'static': true,
   
   'touch': {
     inboundSMS: true,
