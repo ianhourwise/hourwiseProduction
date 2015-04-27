@@ -8,9 +8,9 @@ module.exports = {
 	    fs      = require('fs');
 
 	    var client = zendesk.createClient({
-		  username:  'jon@hourwise.com',
-		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
-		  remoteUri: 'https://foundation53.zendesk.com/api/v2',
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI,
 		});
 
 		var ticket = { //make a JSON object to pass to Zendesk's API, these will/can be overloaded by params passed to our service method
@@ -38,9 +38,9 @@ module.exports = {
 	    fs      = require('fs');
 
 	    var client = zendesk.createClient({
-		  username:  'jon@hourwise.com',
-		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
-		  remoteUri: 'https://foundation53.zendesk.com/api/v2',
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI,
 		});
 
 		// var client = zendesk.createClient({
@@ -96,9 +96,9 @@ module.exports = {
 	    fs      = require('fs');
 
 	    var client = zendesk.createClient({
-		  username:  'jon@hourwise.com',
-		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
-		  remoteUri: 'https://foundation53.zendesk.com/api/v2',
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI,
 		});
 
 		client.tickets.show(id, function (err, statusList, body, responseList, resultList) {
@@ -117,9 +117,9 @@ module.exports = {
 	    fs      = require('fs');
 
 	    var client = zendesk.createClient({
-		  username:  'jon@hourwise.com',
-		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
-		  remoteUri: 'https://foundation53.zendesk.com/api/v2',
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI,
 		});
 
 		client.tickets.listByUserRequested(id, function (err, statusList, body) {

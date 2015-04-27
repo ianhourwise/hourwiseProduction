@@ -71,8 +71,8 @@ module.exports = {
 		//console.log(ticket.id);
 
 		Zendesk.findTicket(ticket.id, function (ticket, comments) {
-			console.log(JSON.stringify(ticket));
-			console.log(JSON.stringify(comments[0]));
+			//console.log(JSON.stringify(ticket));
+			//console.log(JSON.stringify(comments[0]));
 
 			var passComments = null
 
@@ -105,6 +105,7 @@ module.exports = {
 									var alertId = uuid.v4();
 
 				 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+				 						
 				 						users[i].addAlert('New ticket: ' + newTicket.zendesk.raw_subject, alertId, newTicket.zendesk.id, true);
 				 						User.publishUpdate(users[i].id, { message: 'New ticket: ' + newTicket.zendesk.raw_subject, id: alertId, communicationId: newTicket.zendesk.id, fromTask: true  });
 				 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
@@ -116,6 +117,7 @@ module.exports = {
 							});
 						});
 					}
+
 					else {
 						console.log('updating ticket...');
 						var assigneeId = null;
@@ -145,8 +147,14 @@ module.exports = {
 					 					}
 					 					
 					 				}
+					 			var commentArray = passComments.comments;
+					 			var passCommentArray = [];
+					 			
+					 			for (var i = 0; i < commentArray.length; i++) 
+					 				if (commentArray[i].attachments.length <= 0)
+					 					passCommentArray.push(commentArray[i].body)
 					 				
-					 			sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', {subject: tickets[0].zendesk.raw_subject, status: tickets[0].zendesk.status, comments: passComments });
+					 			sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', {subject: tickets[0].zendesk.raw_subject, status: tickets[0].zendesk.status, comments: passCommentArray });
 
 								res.send(200);
 								

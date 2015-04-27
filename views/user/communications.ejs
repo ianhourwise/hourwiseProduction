@@ -28,25 +28,45 @@
                     </div>
 
                     <div class="ibox-content inspinia-timeline">
-                        <% _.each(communications, function(communication){ %>
+                        <% _.each(communications, function(communication) { %>
                             <div class="timeline-item">
                                 <div class="row">
                                     <div class="col-xs-3 date">
-                                        <% if (communication.touches[communication.touches.length - 1].inbound == null) { %>
-                                            <i class="fa fa-arrow-up"></i>
-                                            +1<%= communication.touches[communication.touches.length - 1].outbound %>
-                                        <% } else { %>
-                                            <i class="fa fa-arrow-down"></i>
-                                            <%= communication.touches[communication.touches.length - 1].inbound %>
-                                        <% } %>
-                                        <br>
-                                        <% if (communication.touches[communication.touches.length - 1].createdBy != null) { %>
-                                            <small class="text-navy">Created by:<br> <%= communication.touches[communication.touches.length - 1].createdBy.username %></small>
-                                        <% } else if (communication.touches[communication.touches.length - 1].contact != null) { %>
-                                            <small class="text-navy">Sent from:<br> <%= communication.touches[communication.touches.length - 1].contact.name %></small>
-                                        <% } else { %>
-                                            <small class="text-navy">Sent from:<br> Unknown</small>
-                                        <% } %>
+                                        <% var foundUser = false %>
+                                        <% _.each(users, function(user) { %>
+                                            <% if (communication.primaryNumber == user.primaryNumber) { %>
+                                            <% foundUser = true %>
+                                                <% if (communication.touches[communication.touches.length - 1].inbound == null) { %>
+                                                    <i class="fa fa-arrow-up"></i>
+                                                        <%= user.username %>
+                                                <% } else { %>
+                                                    <i class="fa fa-arrow-down"></i>
+                                                        <%= user.username %>
+                                                <% } %>
+                                                <br>
+                                                <% if (communication.touches[communication.touches.length - 1].createdBy != null) { %>
+                                                    <small class="text-navy">Created by:<br><%= communication.touches[communication.touches.length - 1].createdBy %></small>
+                                                <% } else { %>
+                                                    <small class="text-navy">Sent from:<br> <%= user.username %></small>
+                                                <% } %>
+                                            <% } else {} %>    
+                                        <% }) %>
+                                        <% if (foundUser == false) { %>
+                                            <% if (communication.touches[communication.touches.length - 1].inbound == null) { %>
+                                                    <i class="fa fa-arrow-up"></i>
+                                                        <%= communication.primaryNumber %>
+                                                <% } else { %>
+                                                    <i class="fa fa-arrow-down"></i>
+                                                        <%= communication.primaryNumber %>
+                                                <% } %>
+                                                <br>
+                                                <% if (communication.touches[communication.touches.length - 1].createdBy != null) { %>
+                                                    <small class="text-navy">Created by:<br><%= communication.touches[communication.touches.length - 1].createdBy %></small>
+                                                <% } else { %>
+                                                    <small class="text-navy">Sent from:<br> <%= communication.primaryNumber %></small>
+                                                <% } %>
+                                        <% } else {} %>          
+                                        <br>                                        
                                     </div>
                                     <div class="col-xs-7 content no-top-border">
                                         <p class="m-b-xs"><strong>Message</strong></p>

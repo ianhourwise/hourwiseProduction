@@ -2,11 +2,11 @@ module.exports = {
 	sendSMS: function(data, callback) {
 		var twilio = require('twilio');
 
-		var client = new twilio.RestClient('AC1a4872ecbf44901850cd912d7ad4095b', 'b2f8d9837c132f73281ce615ca933952');
+		var client = new twilio.RestClient(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 		client.sms.messages.create({
 		    to:'+1' + data.toNumber,
-		    from:'+18046812173', //change later? Not sure just found it in the account
+		    from: process.env.TWILIO_NUMBER, //change later? Not sure just found it in the account
 		    body: data.smsContent
 		}, function(error, message) {
 		    if (!error) {
@@ -27,8 +27,7 @@ module.exports = {
 	makeCall: function(data, callback) {
 		var twilio = require('twilio');
 
-		var client = new twilio.RestClient('AC1a4872ecbf44901850cd912d7ad4095b', 'b2f8d9837c132f73281ce615ca933952');
-
+		var client = new twilio.RestClient(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 		client.makeCall({
 
 		    to:'+17578807276', // Any number Twilio can call
