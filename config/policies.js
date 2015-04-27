@@ -27,13 +27,13 @@ module.exports.policies = {
   ***************************************************************************/
 
   // '*': true,
-  //layoutSelection policy is not working.
-  '*': ['passport', 'sessionAuth', 'flash', 'layoutSelection' ],
+  //layoutSelection policy is a potential strategy to handle smart asset loading...need to investigate
+  '*': ['passport', 'sessionAuth', 'flash'],
   'auth': {
     '*': ['passport']
   },
 
-  '/': 'layoutSelection',
+  '/': true,
   
   'touch': {
     inboundSMS: true,
