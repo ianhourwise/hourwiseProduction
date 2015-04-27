@@ -9,7 +9,7 @@ $(document).ready(function() {
           		var htmlString = '<div class="timeline-item"><div class="row"><div class="col-xs-3 date">';
 
           		
-                htmlString += '<i class="fa fa-arrow-up"></i>+1' + toNumber + '<br><small class="text-navy">Created by:<br>undefined</small>'; 
+                htmlString += '<i class="fa fa-arrow-up"></i>+1' + toNumber + '<br><small class="text-navy">Created by:<br>You</small>'; 
               
                 htmlString += '</div><div class="col-xs-7 content no-top-border"><p class="m-b-xs"><strong>Message</strong></p>';
 

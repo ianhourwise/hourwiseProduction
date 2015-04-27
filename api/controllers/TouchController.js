@@ -58,7 +58,7 @@ module.exports = {
 	 					inbound: null,
 	 					contact: null,
 	 					body: req.param('body'),
-	 					createdBy: req.session.User.id,
+	 					createdBy: req.session.User.username,
 	 					job: null, //change later
 	 					notes: null,
 	 					owner: null //change later

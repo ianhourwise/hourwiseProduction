@@ -22,9 +22,10 @@
                         <% } %>
                     </a>
                     
-                    <ul class="dropdown-menu dropdown-alerts" id="alertsList">
+                    <ul class="dropdown-menu dropdown-alerts" id="alertsList" style="overflow-y: auto; height: 450px;">
                         <% if (req.session.User.alerts != undefined) { %>
                             <% req.session.User.alerts.reverse() %>
+                            <li><div class="btn clearAll">Clear All</div></li>
                             <% _.each(req.session.User.alerts, function(alert) { %>
                                 <% if (alert.communicationId != null && alert.fromZendesk == false) { %>
                                     <li name="<%= alert.id %>">
@@ -57,7 +58,6 @@
                                 <li class="divider"></li>
                             <% }) %>
                         <% } else {} %>
-                        <li><div class="btn clearAll">Clear All</div></li>
                     </ul>
                 </li>
 
