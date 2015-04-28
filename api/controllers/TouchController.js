@@ -175,7 +175,10 @@ module.exports = {
 
 						Zendesk.createTicket(ticket);
 
-						User.find().exec( function (err, users) {
+						User.find().exec(function (err, users) {
+							if (err)
+								console.log(err)
+							
 			 				for (var i = 0; i < users.length; i++) {
 			 					var uuid = require('node-uuid');
 
