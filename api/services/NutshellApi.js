@@ -469,9 +469,11 @@ function newNote(nutshellId, organizationId, zendeskId) {
     "entityType": "Leads",
     "id": nutshellId
   },
- "note": noteString}, function(err, res) {
+  "note": noteString}, function(err, res) {
     if (err)
       console.log(err);
+    else 
+      console.log('Cool it worked B-)');
   });
 }
 // exports.nutshell = function(callback) {
