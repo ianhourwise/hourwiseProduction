@@ -57,7 +57,7 @@ module.exports.session = {
   host: process.env.REDIS_HOST,
   port: process.env.REDIS_PORT,
   ttl: 0,
-  db: 0,
+  db: 'eager-redis-68',
   pass: process.env.REDIS_PASS,
   prefix: 'sess:',
 
