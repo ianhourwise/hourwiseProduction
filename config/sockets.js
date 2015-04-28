@@ -48,7 +48,7 @@ module.exports.sockets = {
   host: process.env.REDIS_HOST,
   port: process.env.REDIS_PORT,
   //db: 'sails',
-  pass: process.env.REDIS_PASS
+  pass: process.env.REDIS_PASS,
 
 
 
