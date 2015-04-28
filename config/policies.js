@@ -28,7 +28,7 @@ module.exports.policies = {
 
   // '*': true,
   //layoutSelection policy is a potential strategy to handle smart asset loading...need to investigate
-  '*': ['passport', 'sessionAuth', 'flash'],
+  '*': ['passport', 'sessionAuth', 'flash', 'layoutSelection'],
   'auth': {
     '*': ['passport']
   },

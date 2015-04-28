@@ -18,18 +18,18 @@ module.exports = function(req, res, next) {
   // or if this is the last policy, the controller
  // try catch?
   // console.log('got into layoutselection from : ' + util.inspect(req, false, null));
-  console.log('************* ');
-  console.log('got into layoutselection from : ' + req.url);
-  console.log('*************' );
-  next();
-  // if(req.url != '/' || req.url != '/homepage' || req.url != '/landing'){
-  // 	res.locals.layout = "layouts/layout"; 
-  // 	return next();}
-  // // else if(req.url){
-  // // 	res.locals.layout = "layout";
-  // // 	return next();
-  // // }
-  // // else{res.local.layout = "staticLayout";}
+  // console.log('************* ');
+  // console.log('got into layoutselection from : ' + req.url);
+  // console.log('*************' );
+  // next();
+  if(req.url != '/' || req.url != '/homepage' || req.url != '/landing'){
+  	res.locals.layout = "layouts/layout"; 
+  	return next();}
+  // else if(req.url){
+  // 	res.locals.layout = "layout";
+  // 	return next();
+  // }
+  // else{res.local.layout = "staticLayout";}
 
-  // return next();
+  return next();
 };

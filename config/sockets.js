@@ -47,8 +47,9 @@ module.exports.sockets = {
   adapter: 'redis',
   host: process.env.REDIS_HOST,
   port: process.env.REDIS_PORT,
-  //db: 'eager-redis-68',
   pass: process.env.REDIS_PASS,
+
+  //db: 'eager-redis-68',
 
 
 

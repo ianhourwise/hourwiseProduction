@@ -53,13 +53,15 @@ module.exports.session = {
   ***************************************************************************/
 
 
-  // redis://x:NAVLCVHLGYLHDONP@aws-us-east-1-portal.4.dblayer.com:10009
+  
   host: process.env.REDIS_HOST,
   port: process.env.REDIS_PORT,
   ttl: 0,
-  //db: 'eager-redis-68',
   pass: process.env.REDIS_PASS
+  
+
   //prefix: 'sess:',
+  //db: 'eager-redis-68',
 
 
   /***************************************************************************
