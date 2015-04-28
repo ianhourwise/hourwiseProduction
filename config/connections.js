@@ -60,12 +60,12 @@ module.exports.connections = {
     adapter: 'sails-mongo',
     
     //Comment/Uncomment for Development
-    host: 'localhost',
-    port: 27017,
-    database: 'hourwise'
+    // host: 'localhost',
+    // port: 27017,
+    // database: 'hourwise'
 
     // //Comment/Uncomment for Production
-    //  url: process.env.DB_URL
+    url: process.env.DB_URL
 
 
    }
