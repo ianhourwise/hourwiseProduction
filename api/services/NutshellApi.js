@@ -35,7 +35,7 @@ module.exports = {
 
   newNote: function(nutshellId, organizationId, zendeskId) {
 
-    if (organizationId == '34898946') {
+    if (organizationId.toString() == '34898946') {
       var client = createClient('jon@89paint.com', '3de55d809969c44d07e99f4ebd97e1b294a665e7');
 
     }
@@ -44,17 +44,19 @@ module.exports = {
 
     }
 
+    var nutshellIdInt = parseInt(nutshellId);
+
     var noteString = 'ZD Ticket #' + zendeskId + ' solved + https://foundation53.zendesk.com/agent/tickets/' + zendeskId;
 
     client.call('newNote', {"entity": {
       "entityType": "Leads",
-      "id": nutshellId
+      "id": nutshellIdInt
     },
     "note": noteString}, function(err, res) {
       if (err)
         console.log(err);
       else 
-        console.log('Cool it worked B-)');
+        console.log('Cool it worked B-)' + res);
     });
   },
 // Valid reportType strings: [Effort, NewLeads, Pipeline, SalesCycle, SalesProcess, Success, ]
