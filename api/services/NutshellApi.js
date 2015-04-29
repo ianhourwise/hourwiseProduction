@@ -52,7 +52,7 @@ module.exports = {
         {"number": nutshellIdInt},
          "stubResponses": true, 
          "limit": 1}, function (err, res) {
-            var newNutshellId = res.result[0].id;
+            var newNutshellId = res[0].id;
 
             client.call('newNote', {"entity": {
               "entityType": "Leads",
