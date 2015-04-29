@@ -154,7 +154,7 @@ module.exports = {
 					 				if (commentArray[i].attachments.length <= 0)
 					 					passCommentArray.push(commentArray[i].body)
 
-					 			if (tickets[0].zendesk.status == 'closed' && tickets[0].zendesk.custom_fields[2].value != null && tickets[0].zendesk.organization_id != null) 
+					 			if (tickets[0].zendesk.status == 'closed' || tickets[0].zendesk.status == 'solved' && tickets[0].zendesk.custom_fields[2].value != null && tickets[0].zendesk.organization_id != null) 
 					 				NutshellApi.newNote(tickets[0].zendesk.custom_fields[2].value, tickets[0].zendesk.organization_id, tickets[0].zendeskId);
 					 				
 					 				
