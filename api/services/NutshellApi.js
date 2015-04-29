@@ -452,7 +452,7 @@ function createClient(username, api_key) {
     return client;
   }
 
-function newNote(nutshellId, organizationId, zendeskId) {
+  newNote: function(nutshellId, organizationId, zendeskId) {
 
   if (organizationId == '34898946') {
     var client = createClient('jon@89paint.com', '3de55d809969c44d07e99f4ebd97e1b294a665e7');
