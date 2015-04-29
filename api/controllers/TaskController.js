@@ -170,6 +170,10 @@ module.exports = {
 		});
 	},
 
+	testNutshellComment: function(req, res) {
+		NutshellApi.newNote('2773', 40631486, '9520');
+	},
+
 	grabTickets: function(req, res) {
 		 Zendesk.listTickets(function (tickets) {
                 function asyncLoop(iterations, func, callback) {
