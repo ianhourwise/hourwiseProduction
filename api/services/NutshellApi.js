@@ -52,19 +52,27 @@ module.exports = {
         {"number": nutshellIdInt},
          "stubResponses": true, 
          "limit": 1}, function (err, res) {
-            var newNutshellId = res[0].id;
-
-            client.call('newNote', {"entity": {
-              "entityType": "Leads",
-              "id": newNutshellId
-            },
-            "note": noteString
-          }, function (err, res) {
             if (err)
-              console.log(err);
-            else 
-              console.log('Cool it worked B-)' + JSON.stringify(res));
-          });
+              console.log(err)
+            else {
+
+                console.log(JSON.stringify(res));
+                //var newNutshellId = res[0].id;
+
+              //   client.call('newNote', {"entity": {
+              //     "entityType": "Leads",
+              //     "id": newNutshellId
+              //   },
+              //   "note": noteString
+              // }, function (err, res) {
+              //   if (err)
+              //     console.log(err);
+              //   else 
+              //     console.log('Cool it worked B-)' + JSON.stringify(res));
+              // });  
+            }
+
+            
          });
   },
 // Valid reportType strings: [Effort, NewLeads, Pipeline, SalesCycle, SalesProcess, Success, ]
