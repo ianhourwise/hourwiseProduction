@@ -71,102 +71,102 @@ module.exports = {
 		//console.log(ticket.id);
 
 		Zendesk.findTicket(ticket.id, function (ticket, comments) {
-			//console.log(JSON.stringify(ticket));
-			//console.log(JSON.stringify(comments[0]));
 
 			var passComments = null
 
 			if (comments != null)
 				passComments = comments[0];
 
-			Task.findOne({zendeskId: ticket.id.toString()}, function (err, existingTicket) {
-				if (err)
-					console.log(err);
-
-				User.find().exec(function (err, users) {
+			if (ticket != null) {
+				Task.findOne({zendeskId: ticket.id.toString()}, function (err, existingTicket) {
 					if (err)
 						console.log(err);
 
-					if (existingTicket == null) {
-						console.log('creating ticket...');
-						User.findOne({zendeskId: ticket.requester_id.toString()}, function (err, user) {
-							var userId = null;
+					User.find().exec(function (err, users) {
+						if (err)
+							console.log(err);
 
-							if (user != null)
-								userId = user.id;
+						if (existingTicket == null) {
+							console.log('creating ticket...');
+							User.findOne({zendeskId: ticket.requester_id.toString()}, function (err, user) {
+								var userId = null;
 
-							Task.create({zendesk: ticket, type: 'zendesk', zendeskId: ticket.id, requester: userId}, function (err, newTicket) {
-								if (err)
-									console.log(err);
+								if (user != null)
+									userId = user.id;
 
-								// for (var i = 0; i < users.length; i++) {
-				 			// 		var uuid = require('node-uuid');
+								Task.create({zendesk: ticket, type: 'zendesk', zendeskId: ticket.id, requester: userId}, function (err, newTicket) {
+									if (err)
+										console.log(err);
 
-								// 	var alertId = uuid.v4();
+									// for (var i = 0; i < users.length; i++) {
+					 			// 		var uuid = require('node-uuid');
 
-				 			// 		if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-				 						
-				 						//users[i].addAlert('New ticket: ' + newTicket.zendesk.raw_subject, alertId, newTicket.zendesk.id, true);
-				 						//User.publishUpdate(users[i].id, { message: 'New ticket: ' + newTicket.zendesk.raw_subject, id: alertId, communicationId: newTicket.zendesk.id, fromTask: true  });
-				 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
-				 				// 	}
-				 					
-				 				// }
+									// 	var alertId = uuid.v4();
 
-								res.send(200);
-							});
-						});
-					}
-
-					else {
-						console.log('updating ticket...');
-						var assigneeId = null;
-
-						if (ticket.assignee_id != null)
-							assigneeId = ticket.assignee_id.toString();
-
-						User.findOne({zendeskId: assigneeId}, function (err, user) {
-							var userId = null;
-
-							if (user != null)
-								userId = user.id;
-
-							Task.update({id: existingTicket.id}, {zendesk: ticket, owner: userId}, function (err, tickets) {
-								if (err)
-									console.log(err);
-
-								//for (var i = 0; i < users.length; i++) {
-					 					//var uuid = require('node-uuid');
-
-										//var alertId = uuid.v4();
-
-					 					//if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-					 						//users[i].addAlert('Updated ticket: ' + tickets[0].zendesk.raw_subject, alertId, tickets[0].zendesk.id, true);
-				 							//User.publishUpdate(users[i].id, { message: 'Updated ticket: ' + tickets[0].zendesk.raw_subject, id: alertId, communicationId: tickets[0].zendesk.id, fromTask: true  });
+					 			// 		if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+					 						
+					 						//users[i].addAlert('New ticket: ' + newTicket.zendesk.raw_subject, alertId, newTicket.zendesk.id, true);
+					 						//User.publishUpdate(users[i].id, { message: 'New ticket: ' + newTicket.zendesk.raw_subject, id: alertId, communicationId: newTicket.zendesk.id, fromTask: true  });
 					 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
-					 					//}
+					 				// 	}
 					 					
-					 				//}
-					 			var commentArray = passComments.comments;
-					 			var passCommentArray = [];
-					 			
-					 			for (var i = 0; i < commentArray.length; i++) 
-					 				if (commentArray[i].attachments.length <= 0)
-					 					passCommentArray.push(commentArray[i].body)
+					 				// }
 
-					 			if (tickets[0].zendesk.status == 'closed' && tickets[0].zendesk.custom_fields[2].value != null && tickets[0].zendesk.organization_id != null) 
-					 				NutshellApi.newNote(tickets[0].zendesk.custom_fields[2].value, tickets[0].zendesk.organization_id, tickets[0].zendeskId);
-					 				
-					 				
-					 			sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', {subject: tickets[0].zendesk.raw_subject, status: tickets[0].zendesk.status, comments: passCommentArray });
-
-								res.send(200);
-								
+									res.send(200);
+								});
 							});
-						});
-					}
+						}
+
+						else {
+							console.log('updating ticket...');
+							var assigneeId = null;
+
+							if (ticket.assignee_id != null)
+								assigneeId = ticket.assignee_id.toString();
+
+							User.findOne({zendeskId: assigneeId}, function (err, user) {
+								var userId = null;
+
+								if (user != null)
+									userId = user.id;
+
+								Task.update({id: existingTicket.id}, {zendesk: ticket, owner: userId}, function (err, tickets) {
+									if (err)
+										console.log(err);
+
+									//for (var i = 0; i < users.length; i++) {
+						 					//var uuid = require('node-uuid');
+
+											//var alertId = uuid.v4();
+
+						 					//if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+						 						//users[i].addAlert('Updated ticket: ' + tickets[0].zendesk.raw_subject, alertId, tickets[0].zendesk.id, true);
+					 							//User.publishUpdate(users[i].id, { message: 'Updated ticket: ' + tickets[0].zendesk.raw_subject, id: alertId, communicationId: tickets[0].zendesk.id, fromTask: true  });
+						 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+						 					//}
+						 					
+						 				//}
+						 			var commentArray = passComments.comments;
+						 			var passCommentArray = [];
+						 			
+						 			for (var i = 0; i < commentArray.length; i++) 
+						 				if (commentArray[i].attachments.length <= 0)
+						 					passCommentArray.push(commentArray[i].body)
+
+						 			if (tickets[0].zendesk.status == 'closed' && tickets[0].zendesk.custom_fields[2].value != null && tickets[0].zendesk.organization_id != null) 
+						 				NutshellApi.newNote(tickets[0].zendesk.custom_fields[2].value, tickets[0].zendesk.organization_id, tickets[0].zendeskId);
+						 				
+						 				
+						 			sails.sockets.broadcast(tickets[0].zendesk.requester_id, 'task', {subject: tickets[0].zendesk.raw_subject, status: tickets[0].zendesk.status, comments: passCommentArray });
+
+									res.send(200);
+									
+								});
+							});
+						}
+					});
 				});
-			});
+			}
 		});
 	},
 
