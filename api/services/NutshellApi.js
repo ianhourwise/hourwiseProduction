@@ -57,7 +57,7 @@ module.exports = {
             else {
 
                 console.log(JSON.stringify(res));
-                var newNutshellId = res.result[0].id;
+                var newNutshellId = res[0].id;
 
                 client.call('newNote', {"entity": {
                   "entityType": "Leads",
