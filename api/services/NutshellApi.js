@@ -56,7 +56,7 @@ module.exports = {
       if (err)
         console.log(err);
       else 
-        console.log('Cool it worked B-)' + res);
+        console.log('Cool it worked B-)' + JSON.stringify(res));
     });
   },
 // Valid reportType strings: [Effort, NewLeads, Pipeline, SalesCycle, SalesProcess, Success, ]
