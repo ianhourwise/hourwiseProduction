@@ -171,7 +171,7 @@ module.exports = {
 	},
 
 	testNutshellComment: function(req, res) {
-		NutshellApi.newNote('2773', 40631486, '9520');
+		NutshellApi.newNote('2994', 40631486, '9520');
 	},
 
 	grabTickets: function(req, res) {
