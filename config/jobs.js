@@ -17,8 +17,8 @@ module.exports.jobs = {
    "collection" : "agendaJobs" 
   },
   "name": "process name",
-  "processEvery": "10 seconds",
+  "processEvery": "3 seconds",
   "maxConcurrency": 15,
-  "defaultConcurrency": 5,
+  "defaultConcurrency": 10,
   "defaultLockLifetime": 10000
 };
