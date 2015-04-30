@@ -18,6 +18,11 @@
               <%  }) %>
             </select>
             <hr>
+            <select name="urgent">
+                <option value="false" selected>Not Urgent</option>
+                <option value="<%= user.id %>">Urgent</option>
+            </select>
+            <hr>
             <input type="hidden" class="form-control" value="<%= user.id %>" name="requester">
             <input type = "submit" class = "btn btn-lg btn-primary btn-block" value = "Create Task" />
             <input type= "hidden"  name = "_csrf" value = "<%= _csrf %>"/>
