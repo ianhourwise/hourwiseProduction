@@ -7,10 +7,11 @@
 
 module.exports = {
 	new: function(req, res) {
-		User.findOne(req.session.User.id).populate('company').exec(function (err, user) {
+		User.find().exec(function (err, users) {
 			res.locals.layout = "layouts/layout"; 
 			res.view({
-				user: user
+				users: users,
+				user: req.session.User
 			});
 		});
 	},
@@ -58,8 +59,9 @@ module.exports = {
 	},
 
 	getTicketsForUser: function(req, res) {
-		Zendesk.listTicketsByUserId(req.param(), function (tickets) {
+		Zendesk.listTicketsByUserId(req.param('zendeskId'), function (tickets) {
 			console.log(tickets);
+			res.send(tickets);
 		});
 	},
 

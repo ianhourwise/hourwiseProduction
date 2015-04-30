@@ -55,7 +55,8 @@ module.exports.policies = {
   'task': {
     zendeskTrigger: true,
     subscribeToTasks: true,
-    subscribe: true
+    subscribe: true,
+    getTicketsForUser: true
   },
 
   'company': {
