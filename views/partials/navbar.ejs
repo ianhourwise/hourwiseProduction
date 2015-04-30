@@ -12,6 +12,43 @@
             <li>
                 <span class="m-r-sm text-muted welcome-message">Welcome to Hourwise.</span>
             </li>
+
+            <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="false" id="taskDropdown">
+                        <% if (req.session.User.alerts != undefined) { %>
+                            <i class="fa fa-list"></i>  <span class="label label-primary" id="newTask"><%= req.session.User.tasks.length %></span>
+                        <% } else { %>
+                            <i class="fa fa-list"></i>  <span class="label label-primary" id="newTask">0</span>
+                        <% } %>
+                    </a>
+                    
+                    <ul class="dropdown-menu dropdown-alerts" id="taksList" style="overflow-y: auto; height: 450px;">
+                        <% if (req.session.User.tasks != undefined) { %>
+                            <!-- <li><div class="btn clearAll">Clear All</div></li> -->
+                            <% var currentDate = new Date(); %>
+                            <% _.each(req.session.User.tasks, function(task) { %>
+                                <% if (task.completedOn == null) {%>
+                                    <li name="<%= task.id %>">
+                                        <div><a href="/task/update/?id=<%= task.id %>&completedOn=true&fromDropdown=true"><i class="fa fa-square-o fa-fw"></i></a>  <%= task.name %> 
+                                            <span class="pull-right text-muted small">
+                                                <%= task.endDate %>
+                                            </span>
+                                        </div> 
+                                    </li>
+                                <% } else { %>
+                                    <li name="<%= task.id %>">
+                                        <div><a href="/task/update/?id=<%= task.id %>&completedOn=true&fromDropdown=true"><i class="fa fa-check-square fa-fw"></i></a>  <%= task.name %> 
+                                            <span class="pull-right text-muted small">
+                                                <%= task.completedOn %>
+                                            </span>
+                                        </div> 
+                                    </li>
+                                <% } %>
+                                <li class="divider"></li>
+                            <% }) %>
+                        <% } else {} %>
+                    </ul>
+                </li>
             
             <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="false" id="alertDropdown">

@@ -167,28 +167,34 @@ var AuthController = {
         // will available.
         req.session.User = user;
 
-        console.log(req.session.User.role);
+        console.log(req.session.User.id);
         if (req.param('fromMobile')) {
           console.log('CONNECTED FROM MOBILE');
 
           res.send(user);
         }
         else {
-          if(user.role === 'admin' || user.role === 'superUser'){
-            res.redirect('/user/admin');
-          }
-          else if (user.role == 'concierge') {
-            res.redirect('/user/index');
-          }
-          else{
-            if(user.reroute == 'wizard' || user.reroute == 'pending'){
-              res.redirect('/user/'+ user.reroute)
+          User.findOne({id: user.id}).populate('tasks').exec(function (err, user) {
+            req.session.User = user;
+
+            console.log(req.session.User.tasks);
+
+            if(user.role === 'admin' || user.role === 'superUser'){
+              res.redirect('/user/admin');
+            }
+            else if (user.role == 'concierge') {
+              res.redirect('/user/index');
             }
             else{
-              res.redirect('/user/index');  
+              if(user.reroute == 'wizard' || user.reroute == 'pending'){
+                res.redirect('/user/'+ user.reroute)
+              }
+              else{
+                res.redirect('/user/index');  
+              }
+              
             }
-            
-          }
+          });
         }  
         
         

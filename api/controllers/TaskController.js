@@ -41,12 +41,33 @@ module.exports = {
 	},
 
 	update: function(req, res) {
-		Task.update(req.param('id'), req.params.all(), function (err) {
-			if (err)
-				console.log('craparino daddy-o');
+		if (req.param('fromDropdown')) {
+			var date = new Date();
+			if (date.getMonth() < 9)
+				var dateString = date.getFullYear() + '-0' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate();
+			else
+				var dateString = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate();
 
-			res.redirect('/task/index');
-		});
+			Task.update(req.param('id'), {completedOn: dateString}, function (err, tasks) {
+				if (err)
+					console.log('craparino daddy-o');
+
+				User.findOne({id: tasks[0].owner}).populate('tasks').exec(function (err, user) {
+					req.session.User = user;
+
+					res.redirect('/task/index');
+				});
+			});
+		}
+		else {
+			Task.update(req.param('id'), req.params.all(), function (err) {
+				if (err)
+					console.log('craparino daddy-o');
+
+				res.redirect('/task/index');
+			});
+		}
+		
 	},
 
 	destroy: function(req, res) {

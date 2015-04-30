@@ -38,16 +38,16 @@ module.exports.sockets = {
   * via port 6379                                                            *
   *                                                                          *
   ***************************************************************************/
-  //adapter: 'memory',
+  adapter: 'memory',
 
   //
   // -OR-
   //
 
-  adapter: 'redis',
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-  pass: process.env.REDIS_PASS,
+  // adapter: 'redis',
+  // host: process.env.REDIS_HOST,
+  // port: process.env.REDIS_PORT,
+  // pass: process.env.REDIS_PASS,
 
   //db: 'eager-redis-68',
 
