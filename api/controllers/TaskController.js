@@ -151,7 +151,7 @@ module.exports = {
                 	console.log('Hopefully got all the comments for all the tickets...');
                 	console.log('After aysnc loop ------- ' + JSON.stringify(commentsArray[0]));
 
-                	res.send({"tickets": tickets, "comments": commentsArray});
+                	res.send({"tickets": iOSTickets, "comments": commentsArray});
                 }
             ); 
 		});
