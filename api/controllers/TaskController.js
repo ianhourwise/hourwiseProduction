@@ -81,8 +81,56 @@ module.exports = {
 
 	getTicketsForUser: function(req, res) {
 		Zendesk.listTicketsByUserId(req.param('zendeskId'), function (tickets) {
-			console.log(tickets);
-			res.send(tickets);
+			//console.log(tickets);
+			function asyncLoop(iterations, func, callback) {
+                var index = 0;
+                var done = false;
+                var loop = {
+                    next: function() {
+                        if (done) {
+                            return;
+                        }
+
+                        if (index < iterations) {
+                            index++;
+                            func(loop);
+
+                        } else {
+                            done = true;
+                            callback();
+                        }
+                    },
+
+                    iteration: function() {
+                        return index - 1;
+                    },
+
+                    break: function() {
+                        done = true;
+                        callback();
+                    }
+                };
+                loop.next();
+                return loop;
+            }
+
+            var commentsArray = [];
+
+            var commentIndex = 0;    
+
+            asyncLoop(tickets.length, function (loop) {
+            	Zendesk.getCommentsForTicket(tickets[commentIndex].id, function (err, comments) {
+            		commentsArray.push(comments);
+
+            		loop.next();
+            	});
+                },
+                function() {
+                	console.log('Hopefully got all the comments for all the tickets...');
+                	console.log(JSON.stringify(commentsArray[0]));
+                	res.send(tickets, commentsArray);
+                }
+            ); 
 		});
 	},
 

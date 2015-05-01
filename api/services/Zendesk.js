@@ -128,5 +128,23 @@ module.exports = {
 
 			callback(body);
 		});
+	},
+
+	getCommentsForTicket: function (id, callback) {
+		var zendesk = require('node-zendesk'),
+	    fs      = require('fs');
+
+	    var client = zendesk.createClient({
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI,
+		});
+
+		client.tickets.getComments(id, function (err, statusList, body, responseList, resultList) {
+			if (err)
+				callback(err);
+
+			callback(body);
+		});
 	}
 };
