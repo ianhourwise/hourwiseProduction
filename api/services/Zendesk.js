@@ -143,12 +143,12 @@ module.exports = {
 		client.tickets.getComments(id, function (err, statusList, body, responseList, resultList) {
 			if (err) {
 				console.log('ERROR IN GET COMMENTS -----');
-				callback(err);
+				callback(err, null);
 			}
 			
 			console.log('IN ZD SERVICE-------------' + body);	
 
-			callback(body);
+			callback(null, body);
 		});
 	}
 };
