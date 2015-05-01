@@ -81,7 +81,7 @@ module.exports = {
 
 	getTicketsForUser: function(req, res) {
 		Zendesk.listTicketsByUserId(req.param('zendeskId'), function (tickets) {
-			//console.log(tickets);
+			console.log(tickets);
 			function asyncLoop(iterations, func, callback) {
                 var index = 0;
                 var done = false;
@@ -116,12 +116,18 @@ module.exports = {
 
             var commentsArray = [];
 
-            var commentIndex = 0;    
+            var commentIndex = 0;
+
+            console.log('TICKETS LENGTH: ' + tickets.length);
+            console.log('TICKET ID: ' + tickets[0].id);    
 
             asyncLoop(tickets.length, function (loop) {
             	Zendesk.getCommentsForTicket(tickets[commentIndex].id, function (err, comments) {
             		console.log(JSON.stringify(comments));
+
             		commentsArray.push(comments);
+
+            		console.log('COMMENT INDEX: ' + commentIndex);
 
             		commentIndex++;
 

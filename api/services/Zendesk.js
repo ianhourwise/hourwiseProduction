@@ -141,8 +141,12 @@ module.exports = {
 		});
 
 		client.tickets.getComments(id, function (err, statusList, body, responseList, resultList) {
-			if (err)
+			if (err) {
+				console.log('ERROR IN GET COMMENTS -----');
 				callback(err);
+			}
+			
+			console.log('IN ZD SERVICE-------------' + body);	
 
 			callback(body);
 		});
