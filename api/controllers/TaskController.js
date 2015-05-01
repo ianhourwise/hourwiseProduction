@@ -120,6 +120,7 @@ module.exports = {
 
             asyncLoop(tickets.length, function (loop) {
             	Zendesk.getCommentsForTicket(tickets[commentIndex].id, function (err, comments) {
+            		console.log(JSON.stringify(comments));
             		commentsArray.push(comments);
 
             		commentIndex++;
@@ -129,9 +130,9 @@ module.exports = {
                 },
                 function() {
                 	console.log('Hopefully got all the comments for all the tickets...');
-                	console.log(JSON.stringify(commentsArray[0]));
+                	console.log('After aysnc loop ------- ' + JSON.stringify(commentsArray[0]));
 
-                	res.send(tickets, commentsArray);
+                	res.send({"tickets": tickets, "comments": commentsArray});
                 }
             ); 
 		});
