@@ -119,22 +119,28 @@ module.exports = {
             var commentIndex = 0;
 
             console.log('TICKETS LENGTH: ' + tickets.length);
-            console.log('TICKET ID: ' + tickets[0].id);    
+            console.log('TICKET ID: ' + tickets[0].id);
 
-            asyncLoop(tickets.length, function (loop) {
-            	Zendesk.getCommentsForTicket(tickets[commentIndex].id, function (err, comments) {
+            //limit tickets only tickets that are in iOS land 
+            var iOSTickets = [];
+
+            for (var i = 0; i < tickets.length; i++)
+            	if (tickets[i].raw_subject.indexOf('+') > -1 )
+            		iOSTickets.push(tickets[i]);
+
+            asyncLoop(iOSTickets.length, function (loop) {
+            	Zendesk.getCommentsForTicket(iOSTickets[commentIndex].id, function (err, comments) {
             		if (err != null) {
             			console.log(JSON.stringify(comments));
 
-	            		commentsArray.push({comments: comments, subjectId: tickets[i].raw_subject});
+	            		commentsArray.push({comments: comments, subjectId: iOSTickets[i].raw_subject});
 
 	            		console.log('COMMENT INDEX: ' + commentIndex);
 
 	            		commentIndex++;
 
 	            		loop.next();
-            		}
-            		
+            		}	
             	});
                 },
                 function() {
