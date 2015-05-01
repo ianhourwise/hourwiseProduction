@@ -122,12 +122,15 @@ module.exports = {
             	Zendesk.getCommentsForTicket(tickets[commentIndex].id, function (err, comments) {
             		commentsArray.push(comments);
 
+            		commentIndex++;
+
             		loop.next();
             	});
                 },
                 function() {
                 	console.log('Hopefully got all the comments for all the tickets...');
                 	console.log(JSON.stringify(commentsArray[0]));
+
                 	res.send(tickets, commentsArray);
                 }
             ); 
