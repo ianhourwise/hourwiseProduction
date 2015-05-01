@@ -123,15 +123,18 @@ module.exports = {
 
             asyncLoop(tickets.length, function (loop) {
             	Zendesk.getCommentsForTicket(tickets[commentIndex].id, function (err, comments) {
-            		console.log(JSON.stringify(comments));
+            		if (err != null) {
+            			console.log(JSON.stringify(comments));
 
-            		commentsArray.push(comments);
+	            		commentsArray.push({comments: comments, subjectId: tickets[i].raw_subject});
 
-            		console.log('COMMENT INDEX: ' + commentIndex);
+	            		console.log('COMMENT INDEX: ' + commentIndex);
 
-            		commentIndex++;
+	            		commentIndex++;
 
-            		loop.next();
+	            		loop.next();
+            		}
+            		
             	});
                 },
                 function() {
