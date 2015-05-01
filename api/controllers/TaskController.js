@@ -129,7 +129,7 @@ module.exports = {
 
             asyncLoop(iOSTickets.length, function (loop) {
             	Zendesk.getCommentsForTicket(iOSTickets[commentIndex].id, function (err, comments) {
-            		if (err != null) {
+            		if (err == null) {
             			console.log(JSON.stringify(comments));
 
 	            		commentsArray.push({comments: comments, subjectId: iOSTickets[i].raw_subject});
