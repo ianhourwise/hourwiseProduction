@@ -118,15 +118,14 @@ module.exports = {
 
             var commentIndex = 0;
 
-            console.log('TICKETS LENGTH: ' + tickets.length);
-            console.log('TICKET ID: ' + tickets[0].id);
-
             //limit tickets only tickets that are in iOS land 
             var iOSTickets = [];
 
             for (var i = 0; i < tickets.length; i++)
             	if (tickets[i].raw_subject.indexOf('+') > -1 )
             		iOSTickets.push(tickets[i]);
+
+            console.log('IOS TICKET LENGTH: ' + iOSTickets.length)
 
             asyncLoop(iOSTickets.length, function (loop) {
             	Zendesk.getCommentsForTicket(iOSTickets[commentIndex].id, function (err, comments) {
@@ -138,6 +137,11 @@ module.exports = {
 	            		console.log('COMMENT INDEX: ' + commentIndex);
 
 	            		commentIndex++;
+
+	            		loop.next();
+            		}
+            		else {
+            			commentIndex++;
 
 	            		loop.next();
             		}	
