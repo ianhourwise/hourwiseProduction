@@ -132,7 +132,7 @@ module.exports = {
             		if (err == null) {
             			console.log(JSON.stringify(comments));
 
-	            		commentsArray.push({comments: comments, subjectId: iOSTickets[i].raw_subject});
+	            		commentsArray.push({comments: comments, subjectId: iOSTickets[commentIndex].raw_subject});
 
 	            		console.log('COMMENT INDEX: ' + commentIndex);
 
