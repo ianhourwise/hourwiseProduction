@@ -84,7 +84,7 @@
                                             <span class="pull-right text-muted small">
                                                 <% if (alert.communicationId) { %>
                                                     <div class="btn btn-sml">
-                                                        <a href="https://foundation53.zendesk.com/agent/tickets/<%= alert.communicationId %>">Go to ZD</a>
+                                                        <a href="/task/<%= alert.communicationId %>">Go to task</a>
                                                     </div>
                                                 <% } else {} %>
                                                 <div class="btn dismissAlert">Dismiss</div>

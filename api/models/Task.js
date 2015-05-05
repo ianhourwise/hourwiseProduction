@@ -17,7 +17,7 @@ module.exports = {
   	startDate: 'date',
   	dueDate: 'date',
     reminderDate: 'date',
-    completedOn: 'string',
+    completedOn: 'date',
     timeLog: 'array',
     zendeskId: 'string',
     urgent: "boolean",

@@ -480,6 +480,8 @@ module.exports = {
 
 	admin: function(req, res, next) {
 		//console.log('GOT TO ADMIN');
+		
+		console.log('+++++++++++++++++' + process.env.DB_URL);
 		if(req.session.User.role == 'superUser') {
 			console.log('YOU ARE SUPER');
 			Company.find(function foundCompanies(err, companies){
