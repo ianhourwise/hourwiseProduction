@@ -15,14 +15,14 @@
 
             <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="false" id="taskDropdown">
-                        <% if (req.session.User.alerts != undefined) { %>
+                        <% if (req.session.User.tasks != undefined) { %>
                             <i class="fa fa-list"></i>  <span class="label label-primary" id="newTask"><%= req.session.User.tasks.length %></span>
                         <% } else { %>
                             <i class="fa fa-list"></i>  <span class="label label-primary" id="newTask">0</span>
                         <% } %>
                     </a>
                     
-                    <ul class="dropdown-menu dropdown-alerts" id="taksList" style="overflow-y: auto; height: 450px;">
+                    <ul class="dropdown-menu dropdown-alerts" id="taskList" style="overflow-y: auto; height: 450px;">
                         <% if (req.session.User.tasks != undefined) { %>
                             <!-- <li><div class="btn clearAll">Clear All</div></li> -->
                             <% var currentDate = new Date(); %>

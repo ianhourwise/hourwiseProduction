@@ -16,9 +16,6 @@ module.exports.bootstrap = function(cb) {
   sails.services.passport.loadStrategies();
   Jobs.schedule('everyday at 6:30am', 'Nutshell', {});
 
-  	var endDate = new Date();
-
-	endDate.setSeconds(endDate.getSeconds() + 180);
   	var drone = require('schedule-drone');
 
 	// drone.setConfig({

@@ -95,8 +95,8 @@ module.exports = {
 
   getSalesAnalytics: function(user, callback){
     // var client = NutshellApi.createClient("jon@hourwise.com","22b17e8532cef15c2dc2a4579caf94498c1d0324");
-    console.log(user.name);
-    console.log(user.integrations.nutshell.nutshellId);
+    //console.log(user.name);
+    //console.log(user.integrations.nutshell.nutshellId);
     var client = NutshellApi.createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
     client.call('getAnalyticsReport', 
                   { "reportType": "Success", 
@@ -112,15 +112,15 @@ module.exports = {
                   function(err, res){
                     if(err) {console.log(err); throw err}
                     else{                            
-                        console.log(res);
+                        //console.log(res);
                         callback(null, res);            
                     }
                   });
   }, 
 
   getPerformanceReports: function(user, callback){
-  console.log(pTasks + '____________________');
-  console.log(completedTasks + '_________________________');
+  //console.log(pTasks + '____________________');
+  //console.log(completedTasks + '_________________________');
   var task1= function(){ return getSalesReport(user, callback)};
   var task2= function(){ return getLeadsReport(user,callback)};
   var task3= function(){ return getPipelineReport(user,callback)};
@@ -138,7 +138,7 @@ module.exports = {
   completedTasks = 0;
   // console.log(user.nutshellAPI_Password);
   // callback(null, user, {'heck': 'yeah hector'});  
-  console.log('getting leads....');
+  //console.log('getting leads....');
   var client = NutshellApi.createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
   client.call('findLeads',{ "query" :{"status": 0, "assignee":[{"entityType": "Users", "id": user.integrations.nutshell.nutshellId}]},
                   "stubResponses": false, "limit": 100}, function(err, res){

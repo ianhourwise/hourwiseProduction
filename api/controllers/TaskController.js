@@ -17,7 +17,8 @@ module.exports = {
 	},
 
 	create: function(req, res) {
-		var endDate = new Date(req.param('endDate'));
+		var endDate = new Date();
+		endDate.setSeconds(endDate.getSeconds() + 25);
 
 		Task.create(req.params.all(), function (err, task) {
 			var drone = require('schedule-drone');
@@ -169,11 +170,11 @@ module.exports = {
             asyncLoop(iOSTickets.length, function (loop) {
             	Zendesk.getCommentsForTicket(iOSTickets[commentIndex].id, function (err, comments) {
             		if (err == null) {
-            			console.log(JSON.stringify(comments));
+            			//console.log(JSON.stringify(comments));
 
 	            		commentsArray.push({comments: comments, subjectId: iOSTickets[commentIndex].raw_subject});
 
-	            		console.log('COMMENT INDEX: ' + commentIndex);
+	            		//console.log('COMMENT INDEX: ' + commentIndex);
 
 	            		commentIndex++;
 
@@ -188,9 +189,9 @@ module.exports = {
                 },
                 function() {
                 	console.log('Hopefully got all the comments for all the tickets...');
-                	console.log('After aysnc loop ------- ' + JSON.stringify(commentsArray[0]));
+                	//console.log('After aysnc loop ------- ' + JSON.stringify(commentsArray[0]));
 
-                	res.send(iOSTickets, commentsArray);
+                	res.send({"tickets": iOSTickets, "comments": commentsArray});
                 }
             ); 
 		});
