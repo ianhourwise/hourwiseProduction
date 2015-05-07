@@ -37,7 +37,6 @@
     "sails-generate-auth": "^0.2.0",
     "sails-hook-jobs": "^0.1.3",
     "sails-mongo": "^0.10.5",
-    "schedule-drone": "^0.1.0",
     "scoped-http-client": "^0.10.3",
     "socket.io-redis": "^0.1.4",
     "twilio": "^1.11.1",
