@@ -146,7 +146,7 @@ module.exports = {
 				callback(err, null);
 			}
 			
-			console.log('IN ZD SERVICE-------------' + body);	
+			//console.log('IN ZD SERVICE-------------' + body);	
 
 			callback(null, body);
 		});

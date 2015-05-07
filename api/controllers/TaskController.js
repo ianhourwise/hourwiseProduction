@@ -17,46 +17,17 @@ module.exports = {
 	},
 
 	create: function(req, res) {
-		var endDate = new Date();
-		endDate.setSeconds(endDate.getSeconds() + 25);
+		//var endDate = new Date();
+		//endDate.setSeconds(endDate.getSeconds() + 10);
 
 		Task.create(req.params.all(), function (err, task) {
-			var drone = require('schedule-drone');
 
-			//comment/uncomment for dev/prod
-
-			// drone.setConfig({
-			//     persistence:{
-			//         type: 'mongodb',
-			//         connectionString: 'mongodb://localhost:27017/scheduled-events'}});
-
-			drone.setConfig({
-			    persistence:{
-			        type: 'mongodb',
-			        connectionString: 'mongodb://admin:$tageHourW!$e@dogen.mongohq.com:10045/hourwise-staging/scheduled-events'}});
-			 
-			scheduler = drone.daemon();
-
-			scheduler.schedule(endDate, 'taskDueTrigger', task);
+			//scheduler.schedule(endDate, 'taskDueTrigger', task);
 
 			//schedule and store incase server goes down
-			scheduler.scheduleAndStore(endDate, 'taskDueTrigger', task, function(err) {
+			//scheduler.scheduleAndStore(endDate, 'taskDueTrigger', task, function(err) {
 
 			});
-
-			scheduler.on('taskDueTrigger', function(task) {
-				console.log('HIT TRIGGER!!!');
-
-				User.findOne({id: task.owner}, function (err, user) {
-					var uuid = require('node-uuid');
-
-					var alertId = uuid.v4();
-
-					user.addAlert('Task ' + task.name + ' is due today!', alertId, task.id, true);
-					User.publishUpdate(task.owner, { message: 'Task ' + task.name + ' is due today!', id: alertId, communicationId: task.id, fromTask: true  });
-				});
-			});
-
 
 			res.redirect('/task/index');
 		});	
