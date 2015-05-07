@@ -27,7 +27,7 @@ module.exports = {
 			//schedule and store incase server goes down
 			//scheduler.scheduleAndStore(endDate, 'taskDueTrigger', task, function(err) {
 
-			});
+			//});
 
 			res.redirect('/task/index');
 		});	
