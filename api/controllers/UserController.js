@@ -481,7 +481,7 @@ module.exports = {
 	admin: function(req, res, next) {
 		//console.log('GOT TO ADMIN');
 		
-		if(req.session.User.role == 'superUser') {
+		if (req.session.User.role == 'superUser') {
 			console.log('YOU ARE SUPER');
 			Company.find(function foundCompanies(err, companies){
 				if(err) return next(err);
@@ -489,7 +489,7 @@ module.exports = {
 				//console.log(companies);
 				res.locals.layout = "layouts/layout";
 				User.find().populate('myCompany').populate('company').exec(function (err, users) {
-					Task.find({type: 'zendesk'}).exec(function (err, tickets) {
+					Task.find({ where: {type: 'zendesk'}, limit: 3000, skip: 6000 }).exec(function (err, tickets) {
 			//console.log(tickets);
 
 						var totalTickets = tickets.length;
