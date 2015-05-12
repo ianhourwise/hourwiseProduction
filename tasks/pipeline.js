@@ -16,6 +16,7 @@
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
   "/css/bootstrap.min.css",
+  "/styles/sprflat-theme/*.css",
   "/css/font-awesome/css/font-awesome.css",
   "/css/plugins/morris/morris-0.4.3.min.css",
   "/js/plugins/gritter/jquery.gritter.css",
@@ -34,7 +35,6 @@ var cssFilesToInject = [
   "/css/animate.css",
   "/css/style.css",
   "/assets/**/*.css",
-  "/styles/sprflat-theme/*.css",
   "/styles/*.css"
 
 ];
