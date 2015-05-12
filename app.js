@@ -57,7 +57,7 @@ process.chdir(__dirname);
   }
 
 //Recommended for performance from http://micheljansen.org/blog/entry/1698
-  if (NODE_ENV == 'production') {
+  if (process.env.NODE_ENV == 'production') {
     console.log('process.env.NODE_ENV is valid');
     var nullfun = function () {};
     console.log = nullfun;
