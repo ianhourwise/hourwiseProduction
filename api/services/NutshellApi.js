@@ -24,7 +24,7 @@ module.exports = {
   getNutshellId: function(username, api_key, name, cb){
     var client = NutshellApi.createClient(username, api_key);
     var users = getActiveUsers(client); 
-    console.log(users); 
+    //console.log(users); 
     nutshellId= 'pre-loop';
     for(var i in users){
       if(users[i].name == name) { nutshellId = users[i].id; cb(nutshellId);}
@@ -56,7 +56,7 @@ module.exports = {
               console.log(err)
             else {
 
-                console.log(JSON.stringify(res));
+                //console.log(JSON.stringify(res));
                 var newNutshellId = res[0].id;
 
                 client.call('newNote', {"entity": {
@@ -305,7 +305,7 @@ function getActiveUsers(client, cb){
           cb(null, test);
           return test
         }
-    // console.log(users);
+    // /.log(users);
     return "This is a test inside the unssuccessful callback"
     // next(null,users); 
    });

@@ -23,7 +23,7 @@ module.exports = {
 
 		client.tickets.create(ticket,  function(err, req, result) {
 		  if (err) return handleError(err);
-		  console.log(JSON.stringify(result, null, 2, true));
+		  //console.log(JSON.stringify(result, null, 2, true));
 		});
 
 		function handleError(err) {
@@ -69,7 +69,7 @@ module.exports = {
 		  }
 		  var lastTicket = body[body.length -1];
 
-		  console.log(lastTicket);
+		  //console.log(lastTicket);
 
 		  var previousMonth = new Date();
 		  previousMonth.setMonth(previousMonth.getDate() - 30);
@@ -102,9 +102,9 @@ module.exports = {
 		});
 
 		client.tickets.show(id, function (err, statusList, body, responseList, resultList) {
-			console.log('err - ' + err);
-			console.log('statusList' + statusList);
-			console.log('body' + body)
+			// console.log('err - ' + err);
+			// console.log('statusList' + statusList);
+			// console.log('body' + body)
 
 			client.tickets.getComments(id, function (err, statusList, body2, responseList, resultList) {
 				callback(body, body2);
@@ -123,8 +123,8 @@ module.exports = {
 		});
 
 		client.tickets.listByUserRequested(id, function (err, statusList, body) {
-			console.log('err - ' + err);
-			console.log('body - ' + body);
+			// console.log('err - ' + err);
+			// console.log('body - ' + body);
 
 			callback(body);
 		});
@@ -142,7 +142,7 @@ module.exports = {
 
 		client.tickets.getComments(id, function (err, statusList, body, responseList, resultList) {
 			if (err) {
-				console.log('ERROR IN GET COMMENTS -----');
+				//console.log('ERROR IN GET COMMENTS -----');
 				callback(err, null);
 			}
 			

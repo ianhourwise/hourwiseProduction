@@ -92,7 +92,7 @@ module.exports = {
 
 	getTicketsForUser: function(req, res) {
 		Zendesk.listTicketsByUserId(req.param('zendeskId'), function (tickets) {
-			console.log(tickets);
+			//console.log(tickets);
 			function asyncLoop(iterations, func, callback) {
                 var index = 0;
                 var done = false;
@@ -136,7 +136,7 @@ module.exports = {
             	if (tickets[i].raw_subject.indexOf('+') > -1 )
             		iOSTickets.push(tickets[i]);
 
-            console.log('IOS TICKET LENGTH: ' + iOSTickets.length)
+            //console.log('IOS TICKET LENGTH: ' + iOSTickets.length)
 
             asyncLoop(iOSTickets.length, function (loop) {
             	Zendesk.getCommentsForTicket(iOSTickets[commentIndex].id, function (err, comments) {
@@ -159,7 +159,7 @@ module.exports = {
             	});
                 },
                 function() {
-                	console.log('Hopefully got all the comments for all the tickets...');
+                	//console.log('Hopefully got all the comments for all the tickets...');
                 	//console.log('After aysnc loop ------- ' + JSON.stringify(commentsArray[0]));
 
                 	res.send({"tickets": iOSTickets, "comments": commentsArray});
@@ -192,7 +192,7 @@ module.exports = {
 							console.log(err);
 
 						if (existingTicket == null) {
-							console.log('creating ticket...');
+							//console.log('creating ticket...');
 							User.findOne({zendeskId: ticket.requester_id.toString()}, function (err, user) {
 								var userId = null;
 
@@ -223,7 +223,7 @@ module.exports = {
 						}
 
 						else {
-							console.log('updating ticket...');
+							//console.log('updating ticket...');
 							var assigneeId = null;
 
 							if (ticket.assignee_id != null)
@@ -273,10 +273,6 @@ module.exports = {
 				});
 			}
 		});
-	},
-
-	testNutshellComment: function(req, res) {
-		NutshellApi.newNote('2994', 40631486, '9520');
 	},
 
 	grabTickets: function(req, res) {
@@ -331,7 +327,7 @@ module.exports = {
 
                 				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, owner: assigneeId, requester: requesterId}, function (err, ticket) {
 			                        ticketIndex++;
-			                        console.log(loop.iteration());
+			                        //console.log(loop.iteration());
 			                        loop.next();
 			                    })
                 			});
@@ -346,14 +342,14 @@ module.exports = {
 
                 				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, requester: requesterId}, function (err, ticket) {
 			                        ticketIndex++;
-			                        console.log(loop.iteration());
+			                        //console.log(loop.iteration());
 			                        loop.next();
 			                    })
                 			});
                     }
                     },
 
-                    function() {console.log('cycle ended')}
+                    function() {//console.log('cycle ended')}
                 );      
             });
 	}
