@@ -15,25 +15,7 @@
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
-  'css/bootstrap.min.css',
-  'css/font-awesome/css/font-awesome.css',
-  'css/plugins/morris/morris-0.4.3.min.css',
-  'js/plugins/gritter/jquery.gritter.css',
-  'css/plugins/iCheck/custom.css',
-  'css/plugins/fullcalendar/fullcalendar.css',
-  'css/plugins/fullcalendar/fullcalendar.print.css',
-  'css/plugins/chosen/chosen.css',
-  'css/plugins/colorpicker/bootstrap-colorpicker.min.css',
-  'css/plugins/cropper/cropper.min.css',
-  'css/plugins/switchery/switchery.css',
-  'css/plugins/jasny/jasny-bootstrap.min.css',
-  'css/plugins/nouslider/jquery.nouislider.css',
-  'css/plugins/datapicker/datepicker3.css',
-  'css/plugins/ionRangeSlider/ion.rangeSlider.css',
-  'css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css',
-  'css/animate.css',
-  'css/style.css'
-
+  'styles/**/*.css'
 ];
 
 
