@@ -24,6 +24,9 @@ process.chdir(__dirname);
 
 // Ensure a "sails" can be located:
 (function() {
+  
+  var newrelic = require('newrelic');
+  
   var sails;
   try {
     sails = require('sails');
@@ -53,7 +56,18 @@ process.chdir(__dirname);
     }
   }
 
+//Recommended for performance from http://micheljansen.org/blog/entry/1698
+  // if (process.env.NODE_ENV === ‘production’) {
+  // var nullfun = function () {};
+  // console.log = nullfun;
+  // console.info = nullfun;
+  // console.error = nullfun;
+  // console.warn = nullfun;
+  // }
+
 
   // Start server
   sails.lift(rc('sails'));
 })();
+
+
