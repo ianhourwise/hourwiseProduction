@@ -349,7 +349,8 @@ module.exports = {
                     }
                     },
 
-                    function() {//console.log('cycle ended')}
+                    function() {//console.log('cycle ended')
+                				}
                 );      
             });
 	}
