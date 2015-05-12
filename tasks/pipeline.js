@@ -32,7 +32,11 @@ var cssFilesToInject = [
   "/css/plugins/ionRangeSlider/ion.rangeSlider.css",
   "/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css",
   "/css/animate.css",
-  "/css/style.css"   
+  "/css/style.css",
+  "/assets/**/*.css",
+  "/styles/**/*.css",
+  "/styles/*.css"
+
 ];
 
 
