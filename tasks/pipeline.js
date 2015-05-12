@@ -34,7 +34,7 @@ var cssFilesToInject = [
   "/css/animate.css",
   "/css/style.css",
   "/assets/**/*.css",
-  "/styles/**/*.css",
+  "/styles/sprflat-theme/*.css",
   "/styles/*.css"
 
 ];
