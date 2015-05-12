@@ -17,7 +17,7 @@ module.exports = {
 					console.log(err);
 
 				if (user == null) 
-					user.username = 'Unknown';
+					var user = {'username': 'Unkown'};
 
 				res.locals.layout = 'layouts/communicationIndex';
 
