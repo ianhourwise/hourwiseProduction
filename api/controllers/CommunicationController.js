@@ -16,6 +16,9 @@ module.exports = {
 				if (err)
 					console.log(err);
 
+				if (user == null) 
+					var user = {'username': 'Unkown'};
+
 				res.locals.layout = 'layouts/communicationIndex';
 
 				res.view({

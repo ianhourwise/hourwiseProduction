@@ -12,9 +12,11 @@
 
 module.exports.sockets = {
    
-   transports: [
-    'websocket'
-   ],
+   // transports: [
+   //  'websocket',
+   //  'htmlfile',
+   //  'xhr-polling',
+   // ],
 
 
   /***************************************************************************
