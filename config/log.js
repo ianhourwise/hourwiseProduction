@@ -26,5 +26,6 @@ module.exports.log = {
 
   // level: 'info'
   // level: 'warn'
+  level: 'silent'
 
 };
