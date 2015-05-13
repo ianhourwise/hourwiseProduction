@@ -51,6 +51,10 @@ module.exports = {
               var alertId = uuid.v4();
               user.addAlert(taskName, alertId, task.id, true);
               User.publishUpdate(taskOwner, { message: taskName, id: alertId, communicationId: task.id, fromTask: true  });
+
+              Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': req.param('email'), 'subject': taskName, 'body': taskDescription}, function (err) {
+                res.send(200);
+              });
           });
         }
         else 
