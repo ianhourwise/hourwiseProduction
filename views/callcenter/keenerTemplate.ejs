@@ -74,7 +74,7 @@
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="row">
                         <div class="col-lg-5">
-
+                            <form action = "/task/create/" class="form-horizontal m-t-md" method = "GET" >
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <h5>Direct To...</h5>
@@ -88,25 +88,26 @@
                                     <div class="form-group">
                                         <label class="font-noraml">Company Reps</label>
                                         <div class="input-group">
-                                            <select data-placeholder="Choose a Rep..." class="chosen-select" style="width:350px;" tabindex="2">
-                                                <option value="">Unspecified</option>
-                                                <option value="Ronnie Evans">Ronnie Evans</option>
-                                                <option value="Steve McAdams">Steve McAdams</option>
-                                                <option value="Shelley Jump">Shelley Jump</option>
-                                                <option value="Justin Taylor">Justin Taylor</option>
-                                                <option value="Jason Kent">Jason Kent</option>
+                                            <select data-placeholder="Choose a Rep..." class="chosen-select" style="width:350px;" tabindex="2" name="companyRep">
+                                                <option value="null">Unspecified</option>
+                                                <option value="55086b6a6eb19e030076b990">Ronnie Evans</option>
+                                                <option value="55086bea6eb19e030076b994">Steve McAdams</option>
+                                                <option value="55086b8b6eb19e030076b992">Shelley Jump</option>
+                                                <option value="55086b3a6eb19e030076b98a">Justin Taylor</option>
+                                                <option value="55086b596eb19e030076b98e">Jason Kent</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="font-noraml">Hourwise Reps</label>
                                         <div class="input-group">
-                                            <select data-placeholder="Choose a Rep..." class="chosen-select" style="width:350px;" tabindex="2">
-                                                <option value="">Unspecified</option>
-                                                <option value="CJ">CJ Rosati</option>
-                                                <option value="Emily">Emily Martin</option>
-                                                <option value="Stefany">Stefany Selinas</option>
-                                                <option value="Matt">Matt Timko</option>
+                                            <select data-placeholder="Choose a Rep..." class="chosen-select" style="width:350px;" tabindex="2" name="hourwiseRep">
+                                                <option value="null">Unspecified</option>
+                                                <option value="550880f959f44d03004a6067">CJ Rosati</option>
+                                                <option value="5509b7c113b234030094844c">Emily Martin</option>
+                                                <option value="5509b7d313b234030094844e">Stefany Selinas</option>
+                                                <option value="552fb6a489f2260300fd23bc">Matt Timko</option>
+                                                <option value="555388f4f72a838a02614bfb">Me</option>
                                             </select>
                                         </div>
                                     </div>                                    
@@ -148,7 +149,6 @@
                                     <h5>Message Information</small></h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <form class="form-horizontal m-t-md" action="#">
                                         <div class="form-group"><label class="col-sm-2 control-label">Urgency</label>
                                                 <div class="radio-inline i-checks"><label> <input type="radio" value="urgent" name="urgent"> <i></i> Urgent </label></div>
                                                 <div class="radio-inline i-checks"><label> <input type="radio" checked="" value="notUrgent" name="urgent"> <i></i> Not Urgent </label></div>
@@ -157,23 +157,23 @@
                                         <div class="hr-line-dashed"></div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Name</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control"></div>
+                                            <div class="col-sm-10"><input type="text" class="form-control" name="name"></div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Phone #</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control"></div>
+                                            <div class="col-sm-10"><input type="text" class="form-control" name="phoneNumber"></div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Email</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control"></div>
+                                            <div class="col-sm-10"><input type="text" class="form-control" name="email"></div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Address</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control"></div>
+                                            <div class="col-sm-10"><input type="text" class="form-control" name="address"></div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Message</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control"></div>
+                                            <div class="col-sm-10"><input type="text" class="form-control" name="message"></div>
                                         </div>                                                                                                                                                                
 <!--                                         <div class="form-group" id="data_1">
                                             <label class="col-sm-2 control-label">Date</label>
@@ -188,7 +188,7 @@
                                             <div class="form-group"><label class="col-sm-2 control-label">Message Type</label>
 
                                                 <div class="col-sm-10">
-                                                    <select class="form-control m-b" id = "msgType" name="msgType" >
+                                                    <select class="form-control m-b" id = "msgType" name="messageType" >
                                                         <option value = "fu" >Follow Up</option>
                                                         <option value = "appt">Appt Request</option>
                                                         <option value = "complaint">Complaint</option>
@@ -197,9 +197,10 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                       
+                                            
                                         
                                                 <div class="hr-line-dashed"></div>
+
                                                 <div class="form-group">
                                                     <div class="col-sm-4 col-sm-offset-2">
                                                         <button class="btn btn-primary" type="submit">Submit</button>
