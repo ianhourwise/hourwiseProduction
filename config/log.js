@@ -26,6 +26,6 @@ module.exports.log = {
 
   level: 'silent'
   // level: 'warn'
-  level: 'silent'
+
 
 };
