@@ -22,7 +22,7 @@ module.exports = {
    */
   keener: function (req, res) {
     res.locals.layout = false;
-    Company.findOne({id: req.param('id')}).populate('employees').exec( function (err, company) {
+    Company.findOne({id: req.param('id')}).populate('employees').populate('owner').exec( function (err, company) {
       if (err)
         throw(err);
 

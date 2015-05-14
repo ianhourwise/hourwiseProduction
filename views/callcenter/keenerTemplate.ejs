@@ -49,8 +49,8 @@
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> 
                                 <span class="block m-t-xs"> <strong class="font-bold">Problems?Questions?</strong></span> 
-                                <span class="text-muted text-xs block">Contact Jon Hill</span>
-                                <span class="text-muted text-xs block">support@hourwise.com</span>
+                                <span class="text-muted text-xs block">Contact <%= company.owner.username %></span>
+                                <span class="text-muted text-xs block"><%= company.owner.email %></span>
                             </span>
                         </a>
 
@@ -65,16 +65,17 @@
                 </div>
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
-                        <h2>Keener Form Example</h2>
+                        <h2>Keener Form for <%= company.name %></h2>
                     </div>
                     <div class="col-lg-2">
 
                     </div>
                 </div>
+                <form action = "/task/create/" class="form-horizontal m-t-md" method = "GET" >
+
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="row">
                         <div class="col-lg-5">
-                            <form action = "/task/create/" class="form-horizontal m-t-md" method = "GET" >
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <h5>Direct To...</h5>
@@ -125,14 +126,14 @@
                                     <h4> <%= company.primaryIndustry %> </h4> 
                                     <p> <%= company.contactInfo.Address.street1 %> </br>
                                      <%= company.contactInfo.Address.city %>, <%= company.contactInfo.Address.state %> <%= company.contactInfo.Address.zip %></br>
-                                     Phone: 804-897-2468</p>
+                                     Phone: <%= company.contactInfo.PhoneNumber %></p>
 
                                     <h3>Hours</h3>
-                                    <p>8am-5pm, M-F </p>
+                                    <p><%= company.hours %> </p>
 
                                     <h3>Notes</h3>
                                     <p> 
-                                        89 Paint is a residential and commercial paint contractor that can service most painting needs
+                                       <%= company.notes %>
                                     </p>
 
                                 </div>
@@ -202,14 +203,12 @@
                                                         <button class="btn btn-primary" type="submit">Submit</button>
                                                     </div>
                                                 </div>                            
-
-                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        </form>
 
                         <div class="footer">
                             <div class="pull-right">
