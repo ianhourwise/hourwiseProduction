@@ -99,7 +99,7 @@ module.exports = {
 		 		res.locals.layout = "layouts/userIndexWithGraph"; 
 
 				for (var i = 0; i < users.length; i++) {
-					console.log(users[i].username);
+					//console.log(users[i].username);
 					// if (users[i].company && users[i].company.name == 'Hourwise' && users[i].email != 'peter@hourwise.com' && users[i].email != 'randy@hourwise.com')
 					// 	users.splice(i, 1);
 					if (users[i].integrations != undefined) {
@@ -149,7 +149,7 @@ module.exports = {
 		 		res.locals.layout = "layouts/userIndexWithGraph"; 
 
 				for (var i = 0; i < users.length; i++) {
-					console.log(users[i].username);
+					//console.log(users[i].username);
 					// if (users[i].company && users[i].company.name == 'Hourwise' && users[i].email != 'peter@hourwise.com' && users[i].email != 'randy@hourwise.com')
 					// 	users.splice(i, 1);
 					if (users[i].integrations != undefined){
@@ -225,7 +225,7 @@ module.exports = {
 	},
 
 	addNutshellCredentials: function(req, res) {
-		console.log(req.params.all());
+		//console.log(req.params.all());
 		var performanceMetrics = {};
 		var redLeads = {};
 
@@ -240,7 +240,7 @@ module.exports = {
  				}
 				performanceMetrics = response;
 
-				console.log('Now we should be calling getRedLeads but it never gets invoked it seems....'); 
+				//console.log('Now we should be calling getRedLeads but it never gets invoked it seems....'); 
 
 				NutshellApi.getRedLeads( { 'integrations': { 'nutshell': { 'nutshellAPI_Password': req.param('nutshellAPI_Password'), 'nutshellAPI_Key': req.param('nutshellAPI_Key'), 'nutshellId': req.param('nutshellId') } } }, function (err, response1) {
 					if(err) {
@@ -302,7 +302,7 @@ module.exports = {
 	},
 
 	update: function(req, res, next) {
-		console.log("---------"+JSON.stringify(req.params.all())+ "----------");
+		//console.log("---------"+JSON.stringify(req.params.all())+ "----------");
 
 		User.update(req.param('id'), req.params.all(), function userUpdated (err){
  			if(err) {
@@ -325,7 +325,7 @@ module.exports = {
 			        res.redirect('/user/companysettings/' +req.param('id'));
 			        break;
 			    case 'user/wizard':
-			    	console.log('in switch statement');
+			    	//console.log('in switch statement');
 			    	var wizardInfo = req.param('wizardInfo');
 			    	
 			    	Company.create({"company": wizardInfo.company, "industry": wizardInfo.industry, "sales": wizardInfo.sales ,"salesGoal": wizardInfo.salesGoal, "name": wizardInfo.company, "owner": req.param('id'), "primaryIndustry": wizardInfo.industry}, function (err, company) {
@@ -335,7 +335,7 @@ module.exports = {
 			    		User.update(req.param('id'), {'myCompany': company.id, 'company': company.id}, function(err) {
 				 			if (err) 
 				 				console.log(err);
-				 			console.log('should be updating the user...');
+				 			//console.log('should be updating the user...');
 
 				 			res.redirect('/user/pending') 
 				 		});
@@ -384,7 +384,7 @@ module.exports = {
 		 		user.getPerformanceMetrics(user, function () {
 		 			user.getRedLeads(user, function() {
 		 				if(user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.performanceMetrics == null && user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.redLead == null) {
-				 			console.log('no PMs or Leads');
+				 			//console.log('no PMs or Leads');
 				 			var salesData = {"summaryData" : {"won_lead_value": {"sum": 0}}};
 							var leadData = {"seriesData" : {"won_leads": []}};
 							var pipelineData = [];
@@ -394,7 +394,7 @@ module.exports = {
 						}
 
 						else {
-							console.log('got the data');
+							//console.log('got the data');
 							var salesData = JSON.stringify(user.integrations.nutshell.performanceMetrics.sales);
 							var leadData = JSON.stringify(user.integrations.nutshell.performanceMetrics.leads);
 							var pipelineData = JSON.stringify(user.integrations.nutshell.performanceMetrics.pipeline);
@@ -409,7 +409,7 @@ module.exports = {
 								//Task.find({type: 'zendesk'}).exec(function (err, tickets) {
 									var organizationTickets = [];
 
-									console.log('+++++++++' + user.tickets.length + '+++++++++');
+									//console.log('+++++++++' + user.tickets.length + '+++++++++');
 
 									for (var i = 0; i < user.tickets.length; i++) {
 										if (user.tickets[i].zendesk.status != 'closed' && user.tickets[i].zendesk.status != 'solved')
@@ -480,20 +480,21 @@ module.exports = {
 
 	admin: function(req, res, next) {
 		//console.log('GOT TO ADMIN');
-		if(req.session.User.role == 'superUser') {
-			console.log('YOU ARE SUPER');
+		
+		if (req.session.User.role == 'superUser') {
+			//console.log('YOU ARE SUPER');
 			Company.find(function foundCompanies(err, companies){
 				if(err) return next(err);
 				if(!companies) return next(err);
 				//console.log(companies);
 				res.locals.layout = "layouts/layout";
 				User.find().populate('myCompany').populate('company').exec(function (err, users) {
-					Task.find({type: 'zendesk'}).exec(function (err, tickets) {
+					Task.find({ where: {type: 'zendesk'}, limit: 3000, skip: 6000 }).exec(function (err, tickets) {
 			//console.log(tickets);
 
 						var totalTickets = tickets.length;
 
-						console.log('----------TICKET LENGTH--------' + totalTickets);
+						//console.log('----------TICKET LENGTH--------' + totalTickets);
 
 						var daysOfWeek = {
 							'monday': 0,
@@ -535,7 +536,7 @@ module.exports = {
 						};
 						var emilyId = 760940413;
 
-						console.log('++++++++++++++++++++' + totalTickets);
+						//console.log('++++++++++++++++++++' + totalTickets);
 						var solved = [];
 						var unsolvedTickets = [];
 						var pendingTickets = [];
@@ -834,7 +835,7 @@ module.exports = {
 			};
 			var emilyId = 760940413;
 
-			console.log('++++++++++++++++++++' + totalTickets);
+			//console.log('++++++++++++++++++++' + totalTickets);
 			var solved = [];
 			var unsolvedTickets = [];
 			var pendingTickets = [];
@@ -968,7 +969,7 @@ module.exports = {
 	},
 
 	onboardDump: function(req, res) {
-		console.log(req.params.all());
+		//console.log(req.params.all());
 		var newClient = req.param('newClient');
 		User.update({id: req.param('id')}, {newClientData: newClient}, function (err, user) {
 			res.view('user/thanks');

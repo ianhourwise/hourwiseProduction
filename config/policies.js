@@ -27,13 +27,14 @@ module.exports.policies = {
   ***************************************************************************/
 
   // '*': true,
-  //layoutSelection policy is not working.
-  '*': ['passport', 'sessionAuth', 'flash', 'layoutSelection' ],
+  //layoutSelection policy is a potential strategy to handle smart asset loading...need to investigate
+  '*': ['passport', 'sessionAuth', 'flash', 'layoutSelection'],
   'auth': {
     '*': ['passport']
   },
 
-  '/': 'layoutSelection',
+  '/': true,
+  'static': true,
   
   'touch': {
     inboundSMS: true,
@@ -54,7 +55,8 @@ module.exports.policies = {
   'task': {
     zendeskTrigger: true,
     subscribeToTasks: true,
-    subscribe: true
+    subscribe: true,
+    getTicketsForUser: true
   },
 
   'company': {

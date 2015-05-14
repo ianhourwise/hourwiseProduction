@@ -24,13 +24,56 @@ module.exports = {
   getNutshellId: function(username, api_key, name, cb){
     var client = NutshellApi.createClient(username, api_key);
     var users = getActiveUsers(client); 
-    console.log(users); 
+    //console.log(users); 
     nutshellId= 'pre-loop';
     for(var i in users){
       if(users[i].name == name) { nutshellId = users[i].id; cb(nutshellId);}
       else {nutshellId = 'none'};
     }
     
+  },
+
+  newNote: function(nutshellId, organizationId, zendeskId) {
+
+    if (organizationId.toString() == '34898946') {
+      var client = createClient('jon@89paint.com', '3de55d809969c44d07e99f4ebd97e1b294a665e7');
+
+    }
+    else {
+      var client = createClient('jon@hourwise.com', '22b17e8532cef15c2dc2a4579caf94498c1d0324');
+
+    }
+
+    var nutshellIdInt = parseInt(nutshellId);
+
+    var noteString = 'ZD Ticket #' + zendeskId + ' solved + https://foundation53.zendesk.com/agent/tickets/' + zendeskId;
+
+    client.call('findLeads', { "query" :
+        {"number": nutshellIdInt},
+         "stubResponses": true, 
+         "limit": 1}, function (err, res) {
+            if (err)
+              console.log(err)
+            else {
+
+                //console.log(JSON.stringify(res));
+                var newNutshellId = res[0].id;
+
+                client.call('newNote', {"entity": {
+                  "entityType": "Leads",
+                  "id": newNutshellId
+                },
+                "note": noteString
+              }, function (err, res) {
+                if (err)
+                  console.log(err);
+                else 
+                  console.log('Cool it worked B-)' + JSON.stringify(res));
+              });  
+            }
+
+            
+         });
   },
 // Valid reportType strings: [Effort, NewLeads, Pipeline, SalesCycle, SalesProcess, Success, ]
 // Effort (Activities + activities on won leads)
@@ -52,8 +95,8 @@ module.exports = {
 
   getSalesAnalytics: function(user, callback){
     // var client = NutshellApi.createClient("jon@hourwise.com","22b17e8532cef15c2dc2a4579caf94498c1d0324");
-    console.log(user.name);
-    console.log(user.integrations.nutshell.nutshellId);
+    //console.log(user.name);
+    //console.log(user.integrations.nutshell.nutshellId);
     var client = NutshellApi.createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
     client.call('getAnalyticsReport', 
                   { "reportType": "Success", 
@@ -69,15 +112,15 @@ module.exports = {
                   function(err, res){
                     if(err) {console.log(err); throw err}
                     else{                            
-                        console.log(res);
+                        //console.log(res);
                         callback(null, res);            
                     }
                   });
   }, 
 
   getPerformanceReports: function(user, callback){
-  console.log(pTasks + '____________________');
-  console.log(completedTasks + '_________________________');
+  //console.log(pTasks + '____________________');
+  //console.log(completedTasks + '_________________________');
   var task1= function(){ return getSalesReport(user, callback)};
   var task2= function(){ return getLeadsReport(user,callback)};
   var task3= function(){ return getPipelineReport(user,callback)};
@@ -95,7 +138,7 @@ module.exports = {
   completedTasks = 0;
   // console.log(user.nutshellAPI_Password);
   // callback(null, user, {'heck': 'yeah hector'});  
-  console.log('getting leads....');
+  //console.log('getting leads....');
   var client = NutshellApi.createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
   client.call('findLeads',{ "query" :{"status": 0, "assignee":[{"entityType": "Users", "id": user.integrations.nutshell.nutshellId}]},
                   "stubResponses": false, "limit": 100}, function(err, res){
@@ -262,7 +305,7 @@ function getActiveUsers(client, cb){
           cb(null, test);
           return test
         }
-    // console.log(users);
+    // /.log(users);
     return "This is a test inside the unssuccessful callback"
     // next(null,users); 
    });
@@ -452,6 +495,7 @@ function createClient(username, api_key) {
     return client;
   }
 
+
 function newNote(nutshellId, organizationId, zendeskId) {
 
   if (organizationId == '34898946') {
@@ -474,6 +518,7 @@ function newNote(nutshellId, organizationId, zendeskId) {
       console.log(err);
   });
 }
+
 // exports.nutshell = function(callback) {
    
 // //Could this be an issue with Asynchronous calls?

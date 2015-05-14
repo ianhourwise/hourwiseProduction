@@ -138,10 +138,8 @@ var AuthController = {
       // login, register or disconnect action initiator view.
       // These views should take care of rendering the error messages.
       var action = req.param('action');
-      console.log('got to action call');
       switch (action) {
         case 'register':
-          console.log('register case achieved');
           // req.register(req, res);
           res.redirect('/register');
           break;
@@ -155,40 +153,43 @@ var AuthController = {
 
     passport.callback(req, res, function (err, user) {
       if (err) {
-        return tryAgain();
+          return tryAgain();
       }
 
       req.login(user, function (err) {
         if (err) {
-          return tryAgain();
+            return tryAgain();
         }
 
         // Upon successful login, send the user to the homepage were req.user
         // will available.
         req.session.User = user;
 
-        console.log(req.session.User.role);
         if (req.param('fromMobile')) {
-          console.log('CONNECTED FROM MOBILE');
 
           res.send(user);
         }
         else {
-          if(user.role === 'admin' || user.role === 'superUser'){
-            res.redirect('/user/admin');
-          }
-          else if (user.role == 'concierge') {
-            res.redirect('/user/index');
-          }
-          else{
-            if(user.reroute == 'wizard' || user.reroute == 'pending'){
-              res.redirect('/user/'+ user.reroute)
+          User.findOne({id: user.id}).populate('tasks').exec(function (err, user) {
+            req.session.User = user;
+
+
+            if(user.role === 'admin' || user.role === 'superUser'){
+              res.redirect('/user/admin');
+            }
+            else if (user.role == 'concierge') {
+              res.redirect('/user/index');
             }
             else{
-              res.redirect('/user/index');  
+              if(user.reroute == 'wizard' || user.reroute == 'pending'){
+                res.redirect('/user/'+ user.reroute)
+              }
+              else{
+                res.redirect('/user/index');  
+              }
+              
             }
-            
-          }
+          });
         }  
         
         

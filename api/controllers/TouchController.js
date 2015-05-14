@@ -16,7 +16,7 @@ module.exports = {
  					if (err)
  						console.log(err);
 
- 					console.log(req.params.all());
+ 					//console.log(req.params.all());
  					var touchData = {
 	 					type: 'email',
 	 					owner: user.id,
@@ -45,7 +45,7 @@ module.exports = {
  	},
 
  	outboundSMS: function(req, res) {
- 		console.log(req.param('toNumber'));
+ 		//console.log(req.param('toNumber'));
 
  		Twilio.sendSMS({toNumber: req.param('toNumber'), smsContent: req.param('body')}, function (err) {
  			if (err) 
@@ -67,7 +67,7 @@ module.exports = {
  			
  					formattedNumber = '+1' + req.param('toNumber');
 
- 					console.log(formattedNumber);	
+ 					//console.log(formattedNumber);	
 
  					Communication.findOne({primaryNumber: formattedNumber}).exec(function (err, communication) {
 
@@ -114,17 +114,17 @@ module.exports = {
 
  	testCall: function (req, res) {
  		Twilio.makeCall({}, function(err) {
- 			console.log('--call was made');
+ 			//console.log('--call was made');
  			res.redirect('user/communications');
  		});
  	},
 
  	inboundSMS: function(req, res) {
- 		console.log('-------HIT INBOUND SMS ENDPOINT------');
+ 		//console.log('-------HIT INBOUND SMS ENDPOINT------');
 
  		var twilio = require('twilio');
 
-		console.log(req.params.all());
+		//console.log(req.params.all());
 		res.header('Content-Type', 'text/xml');
 
 		var mediaURL = null;
@@ -175,7 +175,10 @@ module.exports = {
 
 						Zendesk.createTicket(ticket);
 
-						User.find().exec( function (err, users) {
+						User.find().exec(function (err, users) {
+							if (err)
+								console.log(err)
+							
 			 				for (var i = 0; i < users.length; i++) {
 			 					var uuid = require('node-uuid');
 
@@ -184,7 +187,7 @@ module.exports = {
 			 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
 			 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId, communication.id, false);
 			 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: communication.id  });
-			 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+			 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 			 					}
 			 					
 			 				}
@@ -218,7 +221,7 @@ module.exports = {
 				 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
 				 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId, communication.id, false);
 				 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: communication.id  });
-				 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+				 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 				 					}
 				 					
 				 				}
@@ -292,7 +295,7 @@ module.exports = {
 			 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
 			 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId, communication.id);
 			 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: communication.id });
-			 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+			 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 			 					}
 			 					
 			 				}
@@ -328,7 +331,7 @@ module.exports = {
 				 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
 				 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId, newCommunication.id);
 				 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: newCommunication.id });
-				 						console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+				 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 				 					}
 				 					
 				 				}

@@ -65,9 +65,9 @@ module.exports = function(agenda) {
                 asyncLoop(usersToUpdate.length, function (loop) {
                     usersToUpdate[userIndex].getPerformanceMetrics(usersToUpdate[userIndex], function (user) {
                         usersToUpdate[userIndex].getRedLeads(usersToUpdate[userIndex], function (user) {
-                            console.log('++++++UPDATED+++++++ ' + usersToUpdate[userIndex].username);
+                            //console.log('++++++UPDATED+++++++ ' + usersToUpdate[userIndex].username);
                             userIndex++;
-                            console.log(loop.iteration());
+                            //console.log(loop.iteration());
                             loop.next();
                         })
                     })

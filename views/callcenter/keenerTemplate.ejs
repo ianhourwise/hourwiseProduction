@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hourwise | Call Center Form</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
+
+    <link href="/css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+    <link href="/css/plugins/cropper/cropper.min.css" rel="stylesheet">
+
+    <link href="/css/plugins/switchery/switchery.css" rel="stylesheet">
+
+    <link href="/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+
+    <link href="/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+
+    <link href="/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element"> <span>
+                            <img alt="image" class=" " src="/img/HWIcon.png" />
+                        </span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> 
+                                <span class="block m-t-xs"> <strong class="font-bold">Problems?Questions?</strong></span> 
+                                <span class="text-muted text-xs block">Contact <%= company.owner.username %></span>
+                                <span class="text-muted text-xs block"><%= company.owner.email %></span>
+                            </span>
+                        </a>
+
+                        </div>
+
+                    </li>
+                </div>
+            </nav>
+
+            <div id="page-wrapper" class="gray-bg">
+                <div class="row border-bottom">
+                </div>
+                <div class="row wrapper border-bottom white-bg page-heading">
+                    <div class="col-lg-10">
+                        <h2>Keener Form for <%= company.name %></h2>
+                    </div>
+                    <div class="col-lg-2">
+
+                    </div>
+                </div>
+                <form action = "/task/create/" class="form-horizontal m-t-md" method = "GET" >
+
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Direct To...</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="form-group">
+                                        <label class="font-noraml">Company Reps</label>
+                                        <div class="input-group">
+                                            <select data-placeholder="Choose a Rep..." class="chosen-select" style="width:350px;" tabindex="2" name="companyRep">
+                                                <option value="null">Unspecified</option>
+                                                <% _.each(company.employees, function(employee) { %>
+                                                    <option value="<%= employee.id %>"><%= employee.username %></option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="font-noraml">Hourwise Reps</label>
+                                        <div class="input-group">
+                                            <select data-placeholder="Choose a Rep..." class="chosen-select" style="width:350px;" tabindex="2" name="hourwiseRep">
+                                                <option value="null">Unspecified</option>
+                                                <% _.each(users, function(user) { %>
+                                                    <option value="<%= user.id %>"><%= user.username %></option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                    </div>                                    
+
+                                </div>
+                            </div>
+
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Company Information</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <h2> <%= company.name %> </h2>
+                                    <h4> <%= company.primaryIndustry %> </h4> 
+                                    <p> <%= company.contactInfo.Address.street1 %> </br>
+                                     <%= company.contactInfo.Address.city %>, <%= company.contactInfo.Address.state %> <%= company.contactInfo.Address.zip %></br>
+                                     Phone: <%= company.contactInfo.PhoneNumber %></p>
+
+                                    <h3>Hours</h3>
+                                    <p><%= company.hours %> </p>
+
+                                    <h3>Notes</h3>
+                                    <p> 
+                                       <%= company.notes %>
+                                    </p>
+
+                                </div>
+                            </div>                            
+
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Message Information</small></h5>
+                                </div>
+                                <div class="ibox-content">
+                                        <div class="form-group"><label class="col-sm-2 control-label">Urgency</label>
+                                                <div class="radio-inline i-checks"><label> <input type="radio" value="urgent" name="urgent"> <i></i> Urgent </label></div>
+                                                <div class="radio-inline i-checks"><label> <input type="radio" checked="" value="notUrgent" name="urgent"> <i></i> Not Urgent </label></div>
+                                        </div>
+
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Name</label>
+                                            <div class="col-sm-10"><input type="text" class="form-control" name="name"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Phone #</label>
+                                            <div class="col-sm-10"><input type="text" class="form-control" name="phoneNumber"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Email</label>
+                                            <div class="col-sm-10"><input type="text" class="form-control" name="email"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Address</label>
+                                            <div class="col-sm-10"><input type="text" class="form-control" name="address"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Message</label>
+                                            <div class="col-sm-10"><input type="text" class="form-control" name="message"></div>
+                                        </div>                                                                                                                                                                
+<!--                                         <div class="form-group" id="data_1">
+                                            <label class="col-sm-2 control-label">Date</label>
+                                            <div class="col-sm-10 input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="4/01/2015">
+                                            </div>
+                                        </div> -->
+
+                                        <div class="hr-line-dashed"></div>
+
+
+                                            <div class="form-group"><label class="col-sm-2 control-label">Message Type</label>
+
+                                                <div class="col-sm-10">
+                                                    <select class="form-control m-b" id = "msgType" name="messageType" >
+                                                        <option value = "fu" >Follow Up</option>
+                                                        <option value = "appt">Appt Request</option>
+                                                        <option value = "complaint">Complaint</option>
+                                                        <option value = "personal">Personal</option>
+                                                        <option value = "other">Other...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                        
+                                                <div class="hr-line-dashed"></div>
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-4 col-sm-offset-2">
+                                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                                    </div>
+                                                </div>                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+
+                        <div class="footer">
+                            <div class="pull-right">
+                                Created by <strong>Hourwise</strong> .
+                            </div>
+                            <div>
+                                <strong>Copyright</strong> Hourwise &copy; 2012-2015
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+<!-- Mainly scripts -->
+<script src="/js/jquery-2.1.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="/js/inspinia.js"></script>
+<script src="/js/plugins/pace/pace.min.js"></script>
+<script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Chosen -->
+<script src="/js/plugins/chosen/chosen.jquery.js"></script>
+
+<!-- Input Mask-->
+<script src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+<!-- Data picker -->
+<script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+<!-- iCheck -->
+<script src="/js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- MENU -->
+<script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+
+<script>
+$(document).ready(function(){
+
+    $('#data_1 .input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true
+    });
+
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
+
+
+
+
+});
+var config = {
+    '.chosen-select'           : {},
+    '.chosen-select-deselect'  : {allow_single_deselect:true},
+    '.chosen-select-no-single' : {disable_search_threshold:10},
+    '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+    '.chosen-select-width'     : {width:"95%"}
+}
+for (var selector in config) {
+    $(selector).chosen(config[selector]);
+}
+
+
+
+</script>
+</body>
+
+</html>

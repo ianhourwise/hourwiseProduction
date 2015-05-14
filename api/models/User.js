@@ -70,11 +70,11 @@ var User = {
           callback(user);
         }
         else {
-          console.log(response);
+          //console.log(response);
           user.integrations.nutshell.performanceMetrics = response;
-          console.log(user.integrations.nutshell.performanceMetrics === response);
+          //console.log(user.integrations.nutshell.performanceMetrics === response);
           
-          console.log('success performance');
+          //console.log('success performance');
           user.save(callback(user));
         }  
 
@@ -91,10 +91,10 @@ var User = {
         
         user.integrations.nutshell.redLeads = response;
         // console.log(this.name);
-        console.log('success red leads');
+        //console.log('success red leads');
         user.integrations.nutshell.lastSyncedOn.date = new Date();
         user.save(function (err, user) {
-          console.log(user.username);
+          //console.log(user.username);
         });
 
       }.bind(this));
@@ -109,8 +109,8 @@ var User = {
         else {
           this.integrations.nutshell.redLeads = response;
           // console.log(this.name);
-          console.log('success red leads');
-          console.log(this.integrations.nutshell.redLeads === response);
+          //console.log('success red leads');
+          //console.log(this.integrations.nutshell.redLeads === response);
           this.integrations.nutshell.lastSyncedOn.date = new Date();
           this.save(callback(this));   
         }

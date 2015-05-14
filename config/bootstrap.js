@@ -14,6 +14,33 @@ module.exports.bootstrap = function(cb) {
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
   sails.services.passport.loadStrategies();
-  Jobs.schedule('everyday at 6:30am', 'Nutshell', {});
+  //Jobs.schedule('everyday at 6:30am', 'Nutshell', {});
+
+ //  	var drone = require('schedule-drone');
+
+	// drone.setConfig({
+	//     persistence:{
+	//         type: 'mongodb',
+	//         connectionString: 'mongodb://localhost:27017/scheduled-events'}});
+
+	// drone.setConfig({
+	// 	    persistence:{
+	// 	        type: 'mongodb',
+	// 	        connectionString: 'mongodb://admin:$tageHourW!$e@dogen.mongohq.com:10045/hourwise-staging/scheduled-events'}});
+	 
+	//scheduler = drone.daemon();
+
+	// scheduler.on('taskDueTrigger', function(task) {
+	// 	console.log('hitting that trigger ' + task);
+
+	// 	User.findOne({id: task.owner}, function (err, user) {
+	// 		var uuid = require('node-uuid');
+
+	// 		var alertId = uuid.v4();
+
+	// 		user.addAlert('Task ' + task.name + ' is due today!', alertId, task.id, true);
+	// 		User.publishUpdate(task.owner, { message: 'Task ' + task.name + ' is due today!', id: alertId, communicationId: task.id, fromTask: true  });
+	// 	});
+	// });
   cb();
 };

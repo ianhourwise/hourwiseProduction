@@ -8,9 +8,9 @@ module.exports = {
 	    fs      = require('fs');
 
 	    var client = zendesk.createClient({
-		  username:  'jon@hourwise.com',
-		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
-		  remoteUri: 'https://foundation53.zendesk.com/api/v2',
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI,
 		});
 
 		var ticket = { //make a JSON object to pass to Zendesk's API, these will/can be overloaded by params passed to our service method
@@ -23,7 +23,7 @@ module.exports = {
 
 		client.tickets.create(ticket,  function(err, req, result) {
 		  if (err) return handleError(err);
-		  console.log(JSON.stringify(result, null, 2, true));
+		  //console.log(JSON.stringify(result, null, 2, true));
 		});
 
 		function handleError(err) {
@@ -38,9 +38,9 @@ module.exports = {
 	    fs      = require('fs');
 
 	    var client = zendesk.createClient({
-		  username:  'jon@hourwise.com',
-		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
-		  remoteUri: 'https://foundation53.zendesk.com/api/v2',
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI,
 		});
 
 		// var client = zendesk.createClient({
@@ -69,7 +69,7 @@ module.exports = {
 		  }
 		  var lastTicket = body[body.length -1];
 
-		  console.log(lastTicket);
+		  //console.log(lastTicket);
 
 		  var previousMonth = new Date();
 		  previousMonth.setMonth(previousMonth.getDate() - 30);
@@ -96,15 +96,15 @@ module.exports = {
 	    fs      = require('fs');
 
 	    var client = zendesk.createClient({
-		  username:  'jon@hourwise.com',
-		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
-		  remoteUri: 'https://foundation53.zendesk.com/api/v2',
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI,
 		});
 
 		client.tickets.show(id, function (err, statusList, body, responseList, resultList) {
-			console.log('err - ' + err);
-			console.log('statusList' + statusList);
-			console.log('body' + body)
+			// console.log('err - ' + err);
+			// console.log('statusList' + statusList);
+			// console.log('body' + body)
 
 			client.tickets.getComments(id, function (err, statusList, body2, responseList, resultList) {
 				callback(body, body2);
@@ -117,16 +117,38 @@ module.exports = {
 	    fs      = require('fs');
 
 	    var client = zendesk.createClient({
-		  username:  'jon@hourwise.com',
-		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
-		  remoteUri: 'https://foundation53.zendesk.com/api/v2',
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI,
 		});
 
 		client.tickets.listByUserRequested(id, function (err, statusList, body) {
-			console.log('err - ' + err);
-			console.log('body - ' + body);
+			// console.log('err - ' + err);
+			// console.log('body - ' + body);
 
 			callback(body);
+		});
+	},
+
+	getCommentsForTicket: function (id, callback) {
+		var zendesk = require('node-zendesk'),
+	    fs      = require('fs');
+
+	    var client = zendesk.createClient({
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI,
+		});
+
+		client.tickets.getComments(id, function (err, statusList, body, responseList, resultList) {
+			if (err) {
+				//console.log('ERROR IN GET COMMENTS -----');
+				callback(err, null);
+			}
+			
+			//console.log('IN ZD SERVICE-------------' + body);	
+
+			callback(null, body);
 		});
 	}
 };

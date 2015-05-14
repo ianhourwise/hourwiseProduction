@@ -36,6 +36,9 @@ module.exports.routes = {
     view: 'homepage'
   },
 
+  'get /keener/demo': 'StaticController.keener',
+
+
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',
   'get /register': 'AuthController.register',

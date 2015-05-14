@@ -51,7 +51,7 @@ JsonrpcClient = (function() {
         decodedResponse = JSON.parse(body);
       } catch (_error) {
         decodeError = _error;
-        console.log(body)
+        //console.log(body)
         callback('Could not decode JSON response', body);
         return;
       }

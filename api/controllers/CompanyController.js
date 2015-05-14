@@ -9,7 +9,7 @@ module.exports = {
 	new: function(req, res) {
 		//Should look for users without any company associations, but will fix that later.
 		User.find({myCompany: null}).exec(function foundUsers(err, users) {
-			console.log('---Users----'+ users )
+			//console.log('---Users----'+ users )
 			res.locals.layout = "layouts/layout"; 
 			res.view({
 				availableUsers: users
@@ -33,7 +33,7 @@ module.exports = {
 
 	profile: function(req, res, next) {
 		
-		console.log(req.user);
+		//console.log(req.user);
 		if (req.session.User.myCompany == undefined) {
 			res.locals.layout = 'layouts/layout';
 			res.forbidden( 'You do not have permission to view this part of the site' );
@@ -42,7 +42,7 @@ module.exports = {
 		Company.findOne({ id: req.session.User.myCompany}).populate('owner').populate('employees').exec(function foundCompany(err, company) {
 			if(err) return next(err);
 				if(!company) return next();
-			console.log(company);
+			//console.log(company);
 			res.locals.layout = "layouts/layout";
 
 			res.view('company/profile', 
@@ -55,7 +55,7 @@ module.exports = {
 
 	create: function(req, res, next) {
 		//console.log('-----ABOUT TO CREATE COMPANY-----');
-		console.log(req.params.all());
+		//console.log(req.params.all());
 	 	Company.create(req.params.all(), function companyCreated(err, company) {
 	 		if(err) {
 	 			console.log(err);
@@ -70,7 +70,7 @@ module.exports = {
 	 		User.update(req.param('owner'), {'myCompany': company.id, 'company': company.id}, function(err) {
 	 			if (err) 
 	 				console.log(err);
-	 			console.log('should be updating the user...');
+	 			//console.log('should be updating the user...');
 
 	 			res.redirect('/company/show/'+company.id); //send back true instead of reroute
 	 		});

@@ -39,7 +39,13 @@ module.exports = {
     contactInfo: {
         type: 'json',
         defaultsTo: {}
-    }
+    },
+
+    skills: 'string',
+
+    hours: 'string',
+
+    notes: 'string'
 
 
     // employeeRelationships : {
