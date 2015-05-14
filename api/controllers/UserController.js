@@ -89,10 +89,10 @@ module.exports = {
 	index: function(req, res) {
 
 		if (req.session.User.role == 'superUser') {
-			User.find().populate('company').exec(function foundUsers(err, users){
+			User.find({where: {role: "user"}, sort: 'company ASC'}).populate('company').exec(function foundUsers(err, users){
 		 		if(err) return next(err);
 
-		 		var showGraph = true;
+		 		var showGraph = false;
 
 		 		var totalSales = 0.00;
 
@@ -139,10 +139,10 @@ module.exports = {
 		}
 
 		else if (req.session.User.role == 'concierge') {
-			User.find().populate('company').exec(function foundUsers(err, users){
+			User.find({where: {role: "user"}, sort: 'company ASC'}).populate('company').exec(function foundUsers(err, users){
 		 		if(err) return next(err);
 
-		 		var showGraph = true;
+		 		var showGraph = false;
 
 		 		var totalSales = 0.00;
 
