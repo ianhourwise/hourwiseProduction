@@ -7,6 +7,9 @@
 
 module.exports = {
 
+  connection: ['someMongodbServer'],   
+
+
   attributes: {
   	company:{model: 'company'},
 
