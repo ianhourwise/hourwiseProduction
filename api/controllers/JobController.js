@@ -82,6 +82,14 @@ module.exports = {
 
 	},
 
+	pandaDoc: function(req, res) {
+		res.view();
+	},
+
+	pandaDocAuth: function(req, res) {
+		
+	}
+
 	
 };
 
