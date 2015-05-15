@@ -88,6 +88,7 @@ module.exports = {
 
 	pandaDocRedirect: function(req, res) {
 		console.log(req.params.all());
+		res.redirect('/user/dashboard');
 	}
 
 	
