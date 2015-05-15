@@ -86,8 +86,8 @@ module.exports = {
 		res.view();
 	},
 
-	pandaDocAuth: function(req, res) {
-		
+	pandaDocRedirect: function(req, res) {
+		console.log(req.params.all());
 	}
 
 	
