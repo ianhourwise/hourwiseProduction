@@ -162,11 +162,11 @@ module.exports = {
 			"client_secret": "70768e34804aee96b11bce7fe143d4945c9abc68",
 			"code": req.param('code'),
 			"scope": "read+write",
-			"redirect_uri": "tage.hourwise.com/job/pandaDocSimulation"
+			"redirect_uri": "stage.hourwise.com/job/pandaDocSimulation"
 		};
 		var request = require('request');
 
-		request.post({url: 'https://api.pandadoc.com/oauth/access_token', form: data}, function (err, httpResponse, body) {
+		request.post({url: 'https://app.pandadoc.com/oauth2/access_token', form: data}, function (err, httpResponse, body) {
 			console.log('err --- ' + err);
 			console.log('http --- ' + JSON.stringify(httpResponse));
 			console.log('body --- ' + body);
