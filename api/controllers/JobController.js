@@ -164,6 +164,7 @@ module.exports = {
 			"scope": "read+write",
 			"redirect_uri": "tage.hourwise.com/job/pandaDocSimulation"
 		};
+		var request = require('request');
 
 		request.post({url: 'https://api.pandadoc.com/oauth/access_token', form: data});
 		
