@@ -146,6 +146,8 @@ module.exports = {
 		PandaDoc.sendDocument(data, function (err) {
 			if (!err)
 				console.log('Cool, got it!');
+
+			res.redirect('/user/dashboard');
 		});
 	},
 
