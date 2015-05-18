@@ -43,7 +43,8 @@ module.exports.policies = {
   },
 
   'job': {
-    index: true
+    index: true,
+    documentUpdate: true
   },
 
   'user': {
