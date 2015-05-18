@@ -227,6 +227,8 @@ module.exports = {
 				]
 			};
 
+			console.log('body.access_token --- ' + body.access_token);
+
 			PandaDoc.sendDocument(body.access_token, data, function (err) {
 				if (!err)
 					console.log('Cool, got it!');

@@ -1,6 +1,8 @@
 
 module.exports = {
 	sendDocument: function (token, data, callback) {
+		console.log('token --- ' + token);
+
 		var request = require('request');
 
 		request({
