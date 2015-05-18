@@ -20,13 +20,13 @@ module.exports = {
 			console.log('http --- ' + JSON.stringify(httpResponse));
 			console.log('body --- ' + body);
 
-			var info = JSON.parse(body);
+			// var info = JSON.parse(body);
 
-			var id = info.uuid;
+			// var id = info.uuid;
 
-			var gui = require('nw.gui');
+			// var gui = require('nw.gui');
 
-			gui.Shell.openExternal('https://app.pandadoc.com/a/#/documents/' + uuid + '/timeline');
+			// gui.Shell.openExternal('https://app.pandadoc.com/a/#/documents/' + uuid + '/timeline');
 
 			callback(null);
 		});
