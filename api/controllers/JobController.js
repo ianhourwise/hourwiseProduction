@@ -172,8 +172,8 @@ module.exports = {
 			console.log('body --- ' + body);
 
 			var data = {
-				"name": "Test Invoice",
-				"template_uuid": "nfk8SdZ9JnTqZN2Tv3Gsb6",
+				"name": "Test Document Tokens",
+				"template_uuid": "HXUGguJ3uMnwiwEgounAEn",
 				"recipients": [
 					{
 						"email": "ian@hourwise.com",
@@ -189,41 +189,41 @@ module.exports = {
 				],
 				"tokens": [
 					{
-						"name": "Client.Company",
-						"value": "Company 123"
+						"name": "tokens",
+						"value": "T0KENZ"
 					},
 					{
-						"name": "Client.StreetAddress",
-						"value": "123 Main St."
-					},
-					{
-						"name": "Client.City",
-						"value": "Richmond"
-					},
-					{
-						"name": "Client.State",
-						"value": "VA"
-					},
-					{
-						"name": "Client.Zip",
-						"value": "23220"
-					},
-					{
-						"name": "Client.Url",
-						"value": "www.hourwise.com"
-					},
-					{
-						"name": "Client.Name",
-						"value": "Ian Kidd"
-					},
-					{
-						"name": "Client.Email",
-						"value": "ian@hourwise.com"
-					},
-					{
-						"name": "Client.URL",
-						"value": "www.hourwise.com"
+						"name": "sometoken",
+						"value": "testing out tokens hopefully this works... I think I might have to pass a Client json object with kvps"
 					}
+					// {
+					// 	"name": "Client.City",
+					// 	"value": "Richmond"
+					// },
+					// {
+					// 	"name": "Client.State",
+					// 	"value": "VA"
+					// },
+					// {
+					// 	"name": "Client.Zip",
+					// 	"value": "23220"
+					// },
+					// {
+					// 	"name": "Client.Url",
+					// 	"value": "www.hourwise.com"
+					// },
+					// {
+					// 	"name": "Client.Name",
+					// 	"value": "Ian Kidd"
+					// },
+					// {
+					// 	"name": "Client.Email",
+					// 	"value": "ian@hourwise.com"
+					// },
+					// {
+					// 	"name": "Client.URL",
+					// 	"value": "www.hourwise.com"
+					// }
 				]
 			};
 
