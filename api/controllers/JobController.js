@@ -227,9 +227,11 @@ module.exports = {
 				]
 			};
 
-			console.log('body.access_token --- ' + body[0].access_token);
+			var info = JSON.parse(body);
 
-			PandaDoc.sendDocument(body[0].access_token, data, function (err) {
+			console.log('info.access_token --- ' + info.access_token);
+
+			PandaDoc.sendDocument(info.access_token, data, function (err) {
 				if (!err)
 					console.log('Cool, got it!');
 
