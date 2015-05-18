@@ -239,6 +239,12 @@ module.exports = {
 			});
 		});
 		
+	},
+
+	documentUpdate: function(req, res) {
+		console.log(req.params.all());
+
+		res.send(200);
 	}
 
 	
