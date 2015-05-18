@@ -179,12 +179,7 @@ module.exports = {
 						"email": "ian@hourwise.com",
 						"first_name": "Ian",
 						"last_name": "Kidd",
-						"role": "recipient"
-					},
-					{
-						"email": "support@hourwise.com",
-						"first_name": "Support",
-						"last_name": "Hourwise"
+						"role": "Client"
 					}
 				],
 				"tokens": [
