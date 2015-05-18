@@ -8,7 +8,8 @@ module.exports = {
 		request({
 			url: 'https://api.pandadoc.com/public/v1/documents',
 			method: "POST",
-			form: data,
+			body: data,
+			json: true,
 			headers: {
 				'Content-Type': 'application/json;charset=UTF-8',
 				'Authorization': 'Bearer ' + token
