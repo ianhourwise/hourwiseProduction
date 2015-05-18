@@ -20,6 +20,12 @@ module.exports = {
 			console.log('http --- ' + JSON.stringify(httpResponse));
 			console.log('body --- ' + body);
 
+			var info = JSON.parse(body);
+
+			var id = info.uuid;
+
+			window.open('https://app.pandadoc.com/a/#/documents/' + uuid + '/timeline');
+
 			callback(null);
 		});
 
