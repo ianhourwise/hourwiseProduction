@@ -179,7 +179,7 @@ module.exports = {
 						"email": "ian@hourwise.com",
 						"first_name": "Ian",
 						"last_name": "Kidd",
-						"role": "Client"
+						"role": "recipient"
 					},
 					{
 						"email": "support@hourwise.com",
@@ -238,11 +238,16 @@ module.exports = {
 				res.redirect('/user/dashboard');
 			});
 		});
-		
 	},
 
 	documentUpdate: function(req, res) {
 		console.log(req.params.all());
+
+		var payload = req.param('0');
+		var data = payload.data;
+		var recipients = JSON.parse(data.recipients);
+
+		console.log(recipients);
 
 		res.send(200);
 	}
