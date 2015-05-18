@@ -172,53 +172,58 @@ module.exports = {
 			console.log('body --- ' + body);
 
 			var data = {
-				"name": "Test Document Tokens",
-				"template_uuid": "HXUGguJ3uMnwiwEgounAEn",
+				"name": "Test Invoice",
+				"template_uuid": "nfk8SdZ9JnTqZN2Tv3Gsb6",
 				"recipients": [
 					{
 						"email": "ian@hourwise.com",
 						"first_name": "Ian",
 						"last_name": "Kidd",
 						"role": "Client"
+					},
+					{
+						"email": "support@hourwise.com",
+						"first_name": "Support",
+						"last_name": "Hourwise"
 					}
 				],
 				"tokens": [
 					{
-						"name": "tokens",
-						"value": "T0KENZ"
+						"name": "Client.Company",
+						"value": "Company 123"
 					},
 					{
-						"name": "sometoken",
-						"value": "testing out tokens hopefully this works... I think I might have to pass a Client json object with kvps"
+						"name": "Client.StreetAddress",
+						"value": "123 Main St."
+					},
+					{
+						"name": "Client.City",
+						"value": "Richmond"
+					},
+					{
+						"name": "Client.State",
+						"value": "VA"
+					},
+					{
+						"name": "Client.Zip",
+						"value": "23220"
+					},
+					{
+						"name": "Client.Url",
+						"value": "www.hourwise.com"
+					},
+					{
+						"name": "Client.Name",
+						"value": "Ian Kidd"
+					},
+					{
+						"name": "Client.Email",
+						"value": "ian@hourwise.com"
+					},
+					{
+						"name": "Client.URL",
+						"value": "www.hourwise.com"
 					}
-					// {
-					// 	"name": "Client.City",
-					// 	"value": "Richmond"
-					// },
-					// {
-					// 	"name": "Client.State",
-					// 	"value": "VA"
-					// },
-					// {
-					// 	"name": "Client.Zip",
-					// 	"value": "23220"
-					// },
-					// {
-					// 	"name": "Client.Url",
-					// 	"value": "www.hourwise.com"
-					// },
-					// {
-					// 	"name": "Client.Name",
-					// 	"value": "Ian Kidd"
-					// },
-					// {
-					// 	"name": "Client.Email",
-					// 	"value": "ian@hourwise.com"
-					// },
-					// {
-					// 	"name": "Client.URL",
-					// 	"value": "www.hourwise.com"
-					// }
 				]
 			};
 
