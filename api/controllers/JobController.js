@@ -173,7 +173,7 @@ module.exports = {
 
 			var data = {
 				"name": "Test Document",
-				"template_uuid": "ibxvJootsfauJCQ6VsfuDH",
+				"template_uuid": "nfk8SdZ9JnTqZN2Tv3Gsb6",
 				"recipients": [
 					{
 						"email": "ian@hourwise.com",
