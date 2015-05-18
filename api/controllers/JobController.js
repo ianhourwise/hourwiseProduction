@@ -189,39 +189,39 @@ module.exports = {
 				],
 				"tokens": [
 					{
-						"name": "Company",
+						"name": "[Client.Company]",
 						"value": "Company 123"
 					},
 					{
-						"name": "StreetAddress",
+						"name": "[Client.StreetAddress]",
 						"value": "123 Main St."
 					},
 					{
-						"name": "City",
+						"name": "[Client.City]",
 						"value": "Richmond"
 					},
 					{
-						"name": "State",
+						"name": "[Client.State]",
 						"value": "VA"
 					},
 					{
-						"name": "Zip",
+						"name": "[Client.Zip]",
 						"value": "23220"
 					},
 					{
-						"name": "Url",
+						"name": "[Client.Url]",
 						"value": "www.hourwise.com"
 					},
 					{
-						"name": "Name",
+						"name": "[Client.Name]",
 						"value": "Ian Kidd"
 					},
 					{
-						"name": "Email",
+						"name": "[Client.Email]",
 						"value": "ian@hourwise.com"
 					},
 					{
-						"name": "URL",
+						"name": "[Client.URL]",
 						"value": "www.hourwise.com"
 					}
 				]
