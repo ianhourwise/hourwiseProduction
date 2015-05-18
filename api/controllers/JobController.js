@@ -172,7 +172,7 @@ module.exports = {
 			console.log('body --- ' + body);
 
 			var data = {
-				"name": "Test Document",
+				"name": "Test Invoice",
 				"template_uuid": "nfk8SdZ9JnTqZN2Tv3Gsb6",
 				"recipients": [
 					{
@@ -189,39 +189,39 @@ module.exports = {
 				],
 				"tokens": [
 					{
-						"name": "[Client.Company]",
+						"name": "Client.Company",
 						"value": "Company 123"
 					},
 					{
-						"name": "[Client.StreetAddress]",
+						"name": "Client.StreetAddress",
 						"value": "123 Main St."
 					},
 					{
-						"name": "[Client.City]",
+						"name": "Client.City",
 						"value": "Richmond"
 					},
 					{
-						"name": "[Client.State]",
+						"name": "Client.State",
 						"value": "VA"
 					},
 					{
-						"name": "[Client.Zip]",
+						"name": "Client.Zip",
 						"value": "23220"
 					},
 					{
-						"name": "[Client.Url]",
+						"name": "Client.Url",
 						"value": "www.hourwise.com"
 					},
 					{
-						"name": "[Client.Name]",
+						"name": "Client.Name",
 						"value": "Ian Kidd"
 					},
 					{
-						"name": "[Client.Email]",
+						"name": "Client.Email",
 						"value": "ian@hourwise.com"
 					},
 					{
-						"name": "[Client.URL]",
+						"name": "Client.URL",
 						"value": "www.hourwise.com"
 					}
 				]
