@@ -1,15 +1,33 @@
 
 module.exports = {
-	sendDocument: function (data, callback) {
+	sendDocument: function (token, data, callback) {
 		var request = require('request');
 
-		request.post({url: 'https://api.pandadoc.com/public/v1/documents', form: data}, function (err, httpResponse, body) {
+		request({
+			url: 'https://api.pandadoc.com/public/v1/documents',
+			method: "POST",
+			form: data,
+			headers: {
+				'Content-Type': 'application/json;charset=UTF-8',
+				'Authorization': 'Bearer ' + token
+			}
+		}, function (err, httpResponse, body) {
 			//PD Response
+
 			console.log('err --- ' + err);
 			console.log('http --- ' + JSON.stringify(httpResponse));
 			console.log('body --- ' + body);
 
 			callback(null);
 		});
+
+		// request.post({url: 'https://api.pandadoc.com/public/v1/documents', form: data}, function (err, httpResponse, body) {
+		// 	//PD Response
+		// 	console.log('err --- ' + err);
+		// 	console.log('http --- ' + JSON.stringify(httpResponse));
+		// 	console.log('body --- ' + body);
+
+		// 	callback(null);
+		// });
 	}
 };
