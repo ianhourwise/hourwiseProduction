@@ -245,9 +245,9 @@ module.exports = {
 
 		var payload = req.param('0');
 		var data = payload.data;
-		var recipients = JSON.parse(data.recipients);
+		var recipients = data.recipients;
 
-		console.log(recipients);
+		console.log(JSON.stringify(recipients));
 
 		res.send(200);
 	}
