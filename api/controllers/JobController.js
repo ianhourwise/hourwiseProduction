@@ -155,7 +155,18 @@ module.exports = {
 
 	pandaDocRedirect: function(req, res) {
 		console.log(req.params.all());
-		res.redirect('/user/dashboard');
+
+		var data = {
+			"grant_type": req.param('code'),
+			"client_id": "6b73487a706d423325fe",
+			"client_secret": "70768e34804aee96b11bce7fe143d4945c9abc68",
+			"code": req.param('code'),
+			"scope": "read+write",
+			"redirect_uri": "tage.hourwise.com/job/pandaDocSimulation"
+		};
+
+		request.post({url: 'https://api.pandadoc.com/oauth/access_token', form: data});
+		
 	}
 
 	
