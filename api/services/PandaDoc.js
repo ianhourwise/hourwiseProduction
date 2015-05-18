@@ -24,7 +24,9 @@ module.exports = {
 
 			var id = info.uuid;
 
-			window.open('https://app.pandadoc.com/a/#/documents/' + uuid + '/timeline');
+			var gui = require('nw.gui');
+
+			gui.Shell.openExternal('https://app.pandadoc.com/a/#/documents/' + uuid + '/timeline');
 
 			callback(null);
 		});
