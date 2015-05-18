@@ -87,6 +87,8 @@ module.exports = {
 	},
 
 	pandaDocSimulation: function(req, res) {
+		console.log('I don\'t think we\'re getting logs...');
+
 		var data = {
 			"name": "Test Document",
 			"template_uuid": "ibxvJootsfauJCQ6VsfuDH",
