@@ -166,7 +166,13 @@ module.exports = {
 		};
 		var request = require('request');
 
-		request.post({url: 'https://api.pandadoc.com/oauth/access_token', form: data});
+		request.post({url: 'https://api.pandadoc.com/oauth/access_token', form: data}), function (err, httpResponse, body) {
+			console.log('err --- ' + err);
+			console.log('http --- ' + JSON.stringify(httpResponse));
+			console.log('body --- ' + body);
+
+			res.redirect('user/dashboard');
+		});
 		
 	}
 
