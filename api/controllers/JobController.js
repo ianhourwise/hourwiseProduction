@@ -157,7 +157,7 @@ module.exports = {
 		console.log(req.params.all());
 
 		var data = {
-			"grant_type": req.param('code'),
+			"grant_type": "authorization_code",
 			"client_id": "6b73487a706d423325fe",
 			"client_secret": "70768e34804aee96b11bce7fe143d4945c9abc68",
 			"code": req.param('code'),
