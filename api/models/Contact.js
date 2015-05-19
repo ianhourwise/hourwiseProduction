@@ -17,7 +17,8 @@ module.exports = {
   		user: { model: 'user'},
   		groups: { collection: 'group', via: 'contacts'},
   		company: { model: 'company'},
-  		createdBy: { model: 'user'}
+  		createdBy: { model: 'user'},
+      job: {model: 'job', defaultsTo: null}
 
   	}
 };

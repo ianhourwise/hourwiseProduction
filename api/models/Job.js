@@ -60,7 +60,6 @@ module.exports = {
   	source:  {
   		type: 'string',
   		defaultsTo: '',
-  		required: true
   	},
 
     expectation: {
@@ -75,6 +74,11 @@ module.exports = {
 
     documents: {
       collection: 'document',
+      via: 'job'
+    },
+
+    recipients: {
+      collection: 'contact',
       via: 'job'
     },
 	// address: {

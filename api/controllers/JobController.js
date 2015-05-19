@@ -8,8 +8,16 @@
 module.exports = {
 
 	new: function(req, res) {
-		res.locals.layout = "layouts/layout"; 
-		res.view();
+		res.locals.layout = "layouts/layout";
+		Contact.find().exec(function (err, contacts) {
+			if (err)
+				console.log(err);
+
+			res.view({
+				user: req.session.User,
+				contacts: contacts
+			});
+		}); 
 	},
 
 	index: function(req, res) {
@@ -23,40 +31,50 @@ module.exports = {
 	},
 
 	create: function(req, res, next){
-	  Job.create(
-	    req.params.all()
-	  , function (err, job) {
-	    if (err) {
-	      if (err.code === 'E_VALIDATION') {
-	        if (err.invalidAttributes.email) {
-	          req.flash('error', 'Error.Passport.Email.Exists');
-	        } else {
-	          req.flash('error', 'Error.Passport.User.Exists');
-	        }
-	      }
+
+		console.log(req.params.all());
+
+		Job.create(req.params.all(), function (err, job) {
+			if (err)
+				console.log(err);
+
+			 res.redirect('/job/show');
+		});
+
+	  // Job.create(
+	  //   req.params.all()
+	  // , function (err, job) {
+	  //   if (err) {
+	  //     if (err.code === 'E_VALIDATION') {
+	  //       if (err.invalidAttributes.email) {
+	  //         req.flash('error', 'Error.Passport.Email.Exists');
+	  //       } else {
+	  //         req.flash('error', 'Error.Passport.User.Exists');
+	  //       }
+	  //     }
 	
-	      return next(err);
-	    }
+	  //     return next(err);
+	  //   }
 	
-	    Passport.create({
-	      protocol : 'local'
-	    , password : password
-	    , user     : user.id
-	    }, function (err, passport) {
-	      if (err) {
-	        if (err.code === 'E_VALIDATION') {
-	          req.flash('error', 'Error.Passport.Password.Invalid');
-	        }
+	  //   Passport.create({
+	  //     protocol : 'local'
+	  //   , password : password
+	  //   , user     : user.id
+	  //   }, function (err, passport) {
+	  //     if (err) {
+	  //       if (err.code === 'E_VALIDATION') {
+	  //         req.flash('error', 'Error.Passport.Password.Invalid');
+	  //       }
 	
-	        return user.destroy(function (destroyErr) {
-	          next(destroyErr || err);
-	        });
-	      }
+	  //       return user.destroy(function (destroyErr) {
+	  //         next(destroyErr || err);
+	  //       });
+	  //     }
 	
-	      // next(null, user);
-	      res.redirect('/job/show');
-	    });
-	  });		
+	  //     // next(null, user);
+	  //     res.redirect('/job/show');
+	  //   });
+	  // });		
 	
 	
 	
