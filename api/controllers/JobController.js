@@ -8,7 +8,7 @@
 module.exports = {
 
 	new: function(req, res) {
-		res.locals.layout = "layouts/layout";
+		//res.locals.layout = "layouts/layout";
 		Contact.find().exec(function (err, contacts) {
 			if (err)
 				console.log(err);
@@ -21,7 +21,7 @@ module.exports = {
 	},
 
 	index: function(req, res) {
-		res.locals.layout = "layouts/layout"; 
+		//res.locals.layout = "layouts/layout"; 
 		return res.view();
 	},
 

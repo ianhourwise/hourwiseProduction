@@ -13,6 +13,14 @@ $(document).ready(function() {
 		$('#contactContainer').append('<div class="col-lg-4 removeContact" style="height: 215px;"><div class="contact-box"><div class="col-sm-8"><h3><strong>' + contact.name + '</strong></h3><h4>' + contact.emails.email1 + '</h4><address>' + contact.addresses.address1 + '<br><abbr title="Phone">P:</abbr>' + contact.phoneNumbers.phoneNumber1 + '</address></div><div class="clearfix"></div></div></div>');
 	});
 
+	$("#contactContainer").on('mouseover', '.contact-box', function(){
+	    $(this).css("border", "3px solid red");
+	});
+
+	$("#contactContainer").on('mouseout', '.contact-box', function(){
+	    $(this).css("border", "1px solid #e7eaec");
+	});
+
 	$('#contactContainer').on('click', '.removeContact', function() {
 		console.log('clickity clack');
 		$(this).remove();
