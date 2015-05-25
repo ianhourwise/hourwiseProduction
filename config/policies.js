@@ -26,42 +26,42 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  '*': true,
+  //'*': true,
   //layoutSelection policy is a potential strategy to handle smart asset loading...need to investigate
-  // '*': ['passport', 'sessionAuth', 'flash', 'layoutSelection'],
-  // 'auth': {
-  //   '*': ['passport']
-  // },
+  '*': ['passport', 'sessionAuth', 'flash', 'layoutSelection'],
+  'auth': {
+    '*': ['passport']
+  },
 
-  // '/': true,
-  // 'static': true,
+  '/': true,
+  'static': true,
   
-  // 'touch': {
-  //   inboundSMS: true,
-  //   sendEmail: 'isConcierge',
-  //   outboundSMS: 'isConcierge'
-  // },
+  'touch': {
+    inboundSMS: true,
+    sendEmail: 'isConcierge',
+    outboundSMS: 'isConcierge'
+  },
 
-  // 'job': {
-  //   index: true,
-  //   documentUpdate: true
-  // },
+  'job': {
+    index: true,
+    documentUpdate: true
+  },
 
-  // 'user': {
-  //   admin: 'isSuperUser',
-  //   welcome: true,
-  //   onboardDump: true
-  // },
+  'user': {
+    admin: 'isSuperUser',
+    welcome: true,
+    onboardDump: true
+  },
 
-  // 'task': {
-  //   zendeskTrigger: true,
-  //   subscribeToTasks: true,
-  //   subscribe: true,
-  //   getTicketsForUser: true
-  // },
+  'task': {
+    zendeskTrigger: true,
+    subscribeToTasks: true,
+    subscribe: true,
+    getTicketsForUser: true
+  },
 
-  // 'company': {
-  //   profile: 'isCompanyOwner'
-  // }
+  'company': {
+    profile: 'isCompanyOwner'
+  }
   
 };

@@ -7,7 +7,7 @@ before(function(done) {
   }, function(err, server) {
     sails = server;
     if (err) return done(err);
-
+    
     done(err, sails);
   });
 });
