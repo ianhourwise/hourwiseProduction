@@ -81,8 +81,8 @@ module.exports = {
       via: 'job'
     },
 
-    communications: {
-      collection: 'communication',
+    touches: {
+      collection: 'touch',
       via: 'job'
     },
 	// address: {

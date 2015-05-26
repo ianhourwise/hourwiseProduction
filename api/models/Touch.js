@@ -14,12 +14,11 @@ module.exports = {
   		type: 'string',
   		enum: ['sms', 'chat', 'email', 'call']
   	},
-  	owner: { model: 'user' },
   	outbound: 'string',
   	inbound: 'string',
   	contact: { model: 'contact' },
   	body: 'string',
-  	createdBy: { model: 'user' },
+  	createdBy: 'string',
   	job: { model: 'job' },
     owner: { model: 'communication'}
   }

@@ -11,11 +11,7 @@ module.exports = {
 
   attributes: {
   	primaryNumber: 'string',
-  	touches: { collection: 'touch', via: 'owner'},
-  	job: {
-  		collection: 'job',
-  		via: 'communications'
-  	}
+  	touches: { collection: 'touch', via: 'owner'}
   }
 };
 

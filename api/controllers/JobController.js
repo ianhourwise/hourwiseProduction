@@ -33,8 +33,8 @@ module.exports = {
 	},
 
 	show: function(req, res) {
-		res.locals.layout = "layouts/layout";
-		Job.findOne({id: req.param('id')}).populate('recipients').populate('tasks').populate('owner').exec(function (err, job) {
+		res.locals.layout = "layouts/jobShowLayout";
+		Job.findOne({id: req.param('id')}).populate('recipients').populate('tasks').populate('owner').populate('touches').exec(function (err, job) {
 			res.view({
 				job: job
 			});

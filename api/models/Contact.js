@@ -14,6 +14,7 @@ module.exports = {
   		addresses: 'json',
   		phoneNumbers: 'json',
   		emails: 'json',
+      avatarURL: 'string',
   		user: { model: 'user'},
   		groups: { collection: 'group', via: 'contacts'},
   		company: { model: 'company'},

@@ -57,6 +57,7 @@ var User = {
 	//Nutshell UserId
   	nutshellId: 'integer',
     lastSyncedOn: 'date',
+    avatarURL: 'string',
 
     getPerformanceMetrics: function(user, callback) {
     // NutshellApi.getSalesAnalytics(user, function(err, response){
