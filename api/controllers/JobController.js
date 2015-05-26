@@ -33,8 +33,12 @@ module.exports = {
 	},
 
 	show: function(req, res) {
-		res.locals.layout = "layouts/layout"; 
-		return res.view();
+		res.locals.layout = "layouts/layout";
+		Job.findOne({id: req.param('id')}).populate('recipients').populate('tasks').populate('owner').exec(function (err, job) {
+			res.view({
+				job: job
+			});
+		}); 
 	},
 
 	create: function(req, res, next){
@@ -45,7 +49,7 @@ module.exports = {
 			if (err)
 				console.log(err);
 
-			 res.redirect('/job/show');
+			 res.redirect('/job/show/' + job.id);
 		});
 
 	  // Job.create(

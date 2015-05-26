@@ -28,6 +28,7 @@ $(document).ready(function() {
 
 	$('#submitJob').on('click', function() {
 		var jobName = $('#jobName').val();
+		var jobDescription = $('#description').val();
 		var owner = $('#owner').attr('name');
 		var recipients = contactsArray;
 		var jobNumber = $('#jobNumber').val();
@@ -41,7 +42,7 @@ $(document).ready(function() {
 
 		var address = street1 + ', ' + city + ', ' + state + ' ' + zipCode;
 
-		$.post('/job/create?name=' + jobName + '&owner=' + owner + '&recipients=' + recipients + '&numer=' + jobNumber + '&amount=' + revenue + '&desiredMargin=' + desiredMargin + '&address=' + address);
+		$.post('/job/create?name=' + jobName + '&description=' + jobDescription + '&owner=' + owner + '&recipients=' + recipients + '&jobNumer=' + jobNumber + '&amount=' + revenue + '&desiredMargin=' + desiredMargin + '&address=' + address);
 	});
 
 });
