@@ -766,7 +766,7 @@ module.exports = {
 	},
 
 	subscribeToAlerts: function (req, res) {
-		User.subscribe(req.socket, req.session.User);
+		User.subscribe(req.socket, req.session.User.id);
 	},
 
 	dismissAlert: function (req, res) {
