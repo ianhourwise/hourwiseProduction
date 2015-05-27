@@ -12,9 +12,9 @@
 
 module.exports.sockets = {
 
-  transports: [
-    'websocket'
-  ],
+  // transports: [
+  //   'websocket'
+  // ],
    
    // transports: [
    //  'websocket',
