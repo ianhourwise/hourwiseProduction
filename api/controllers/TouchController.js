@@ -128,9 +128,13 @@ module.exports = {
 		res.header('Content-Type', 'text/xml');
 
 		var mediaURL = null;
+		var body = 'No body provided';
 
 		if (req.param('MediaUrl0'))
 			mediaURL = req.param('MediaUrl0');
+
+		if (req.param('Body'))
+			body = req.param('Body');
 
 		var touchData = {
 			type: 'sms',
@@ -138,7 +142,7 @@ module.exports = {
 			outbound: null,
 			inbound: req.param('From'),
 			contact: null,
-			body: req.param('Body'),
+			body: body,
 			createdBy: null,
 			job: null, //change later
 			notes: null, //change later
