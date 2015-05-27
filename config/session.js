@@ -56,7 +56,7 @@ module.exports.session = {
   
   host: process.env.REDIS_HOST,
   port: process.env.REDIS_PORT,
-  ttl: 0,
+  //ttl: 0,
   pass: process.env.REDIS_PASS
   
 
