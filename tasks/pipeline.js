@@ -26,8 +26,6 @@ var jsFilesToInject = [
   // Load sails.io before everything else
   'js/dependencies/sails.io.js',
 
-  "io.sails.transports=['websocket']",
-
   'js/jquery-2.1.1.js',
 
   'js/dependencies/app.js',
