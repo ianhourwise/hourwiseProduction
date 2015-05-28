@@ -91,7 +91,7 @@
                                                 <div class="ibox-title">
                                                     <h5>Communication History</h5>
                                                     <div class="ibox-tools">
-                                                        <span class="label label-warning-light">STATIC Messages</span>
+                                                        <span class="label label-warning-light"><%= job.touches.length %> Messages</span>
                                                        </div>
                                                 </div>
                                                 <div class="ibox-content">
@@ -102,9 +102,7 @@
                                                             <% if (job.touches.length != 0) { %>
                                                                 <% _.each(job.touches, function(touch) { %>
                                                                     <div class="feed-element">
-                                                                        <a href="#" class="pull-left">
-                                                                            <img alt="image" class="img-circle" src="/images/default-avatar.png">
-                                                                        </a>
+                                                                        <img alt="image" class="img-circle" src="/images/default-avatar.png">
                                                                         <div class="media-body">
                                                                             <small class="pull-right">2h ago</small>
                                                                             <strong>Kim Smith</strong><br>
@@ -116,27 +114,26 @@
                                                                         </div>
                                                                     </div>
                                                                 <% }) %>
-                                                            <% } else { %>
-                                                                <div class="feed-element">
-                                                                    <a href="#" class="pull-left">
-                                                                        <img alt="image" class="img-circle" src="/images/default-avatar.png">
-                                                                    </a>
-                                                                    <div class="media-body">
-                                                                        <strong>
-                                                                            <select id="touchRecipient" class="col-xs-11 chosen-select" tabindex="2">
-                                                                                <option value="">Select</option>
-                                                                                <% _.each(job.recipients, function(contact) { %>
-                                                                                    <option value="<%= contact.id %>"><%= contact.name %></option>
-                                                                                <% }) %>
-                                                                            </select>
-                                                                        </strong><br><br>
-                                                                        
-                                                                        <textarea id="touchBody" class="col-xs-11 form-control tinymce" rows="12" maxlength="160" placeholder="Add text..."></textarea>
+                                                            <% } else { }%>
+                                                            <div class="feed-element">
+                                                                <a href="#" class="pull-left">
+                                                                    <img alt="image" class="img-circle" src="/images/default-avatar.png">
+                                                                </a>
+                                                                <div class="media-body">
+                                                                    <strong>
+                                                                        <select id="touchRecipient" class="col-xs-11 chosen-select" tabindex="2">
+                                                                            <option value="">Select</option>
+                                                                            <% _.each(job.recipients, function(contact) { %>
+                                                                                <option value="<%= contact.phoneNumbers.phoneNumber1 %>"><%= contact.name %></option>
+                                                                            <% }) %>
+                                                                        </select>
+                                                                    </strong><br><br>
+                                                                    
+                                                                    <textarea id="touchBody" class="col-xs-11 form-control tinymce" rows="12" maxlength="160" placeholder="Add text..."></textarea>
 
-                                                                    </div>
                                                                 </div>
-                                                                <br>
-                                                            <% } %>
+                                                            </div>
+                                                            <br>
                                                             
                                                         </div>
                                                         <br><br><br>
