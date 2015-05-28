@@ -23,7 +23,7 @@ exports.config = {
     //Suggestiosn from https://discuss.newrelic.com/t/using-newrelic-with-sails-js/3338
     level : 'info',
     rules: {
-      ignore: ['^/socket.io/*/polling']
+      ignore: ['^/socket.io/*/xhr-polling']
     }
   }
 }
