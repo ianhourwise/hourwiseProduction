@@ -36,7 +36,8 @@ module.exports = {
 		res.locals.layout = "layouts/jobShowLayout";
 		Job.findOne({id: req.param('id')}).populate('recipients').populate('tasks').populate('owner').populate('touches').exec(function (err, job) {
 			res.view({
-				job: job
+				job: job,
+				currentUser: req.session.User.email
 			});
 		}); 
 	},

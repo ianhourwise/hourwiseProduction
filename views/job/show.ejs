@@ -102,14 +102,18 @@
                                                             <% if (job.touches.length != 0) { %>
                                                                 <% _.each(job.touches, function(touch) { %>
                                                                     <div class="feed-element">
-                                                                        <img alt="image" class="img-circle" src="/images/default-avatar.png">
-                                                                        <div class="media-body">
-                                                                            <small class="pull-right">2h ago</small>
-                                                                            <strong>Kim Smith</strong><br>
-                                                                            <small class="text-muted">Yesterday 5:20 pm - 12.06.2014</small>
+                                                                        <% if (touch.createdBy != null) { %>
+                                                                            <img alt="image" class="img-circle" src="/images/default-avatar.png">
+                                                                            <div class="media-body">
+                                                                                <strong><%= touch.createdBy %></strong><br>
+                                                                        <% } else { %>
+                                                                            <img alt="image" class="img-circle" src="/images/default-avatar.png">
+                                                                            <div class="media-body">
+                                                                                <strong><%= touch.createdBy %></strong><br>
+                                                                        <% } %>
+                                                                            <small class="text-muted"><%= touch.createdAt %></small>
                                                                             <div class="well">
-                                                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                                                                                Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                                                                                <%= touch.body %>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -124,7 +128,7 @@
                                                                         <select id="touchRecipient" class="col-xs-11 chosen-select" tabindex="2">
                                                                             <option value="">Select</option>
                                                                             <% _.each(job.recipients, function(contact) { %>
-                                                                                <option value="<%= contact.phoneNumbers.phoneNumber1 %>"><%= contact.name %></option>
+                                                                                <option value="<%= contact.phoneNumbers.phoneNumber1 %>" name="<%= contact.email %>"><%= contact.name %></option>
                                                                             <% }) %>
                                                                         </select>
                                                                     </strong><br><br>
@@ -214,3 +218,7 @@
                 <strong>Copyright</strong> Example Company &copy; 2014-2015
             </div>
         </div> -->
+<script>
+    var fromEmail = "<%= currentUser %>";
+    var jobName = "<%= job.name %>";
+</script>

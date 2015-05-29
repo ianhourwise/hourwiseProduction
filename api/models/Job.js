@@ -88,7 +88,7 @@ module.exports = {
 	// address: {
  //      type: 'string',
  //      defaultsTo: ''
- //    },
+ //    }, 
  //  	address2: {
  //      type: 'string',
  //      defaultsTo: ''

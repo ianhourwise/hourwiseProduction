@@ -48,6 +48,9 @@ module.exports = {
 	 						if (err)
 	 							console.log(err);
 
+	 						if (req.param('jobId'))
+	 							res.send('Got it!');
+
 	 						res.redirect('user/communications');
 
 	 					});
