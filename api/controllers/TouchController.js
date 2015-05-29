@@ -128,9 +128,13 @@ module.exports = {
 		res.header('Content-Type', 'text/xml');
 
 		var mediaURL = null;
+		var body = 'No body provided';
 
 		if (req.param('MediaUrl0'))
 			mediaURL = req.param('MediaUrl0');
+
+		if (req.param('Body'))
+			body = req.param('Body');
 
 		var touchData = {
 			type: 'sms',
@@ -138,7 +142,7 @@ module.exports = {
 			outbound: null,
 			inbound: req.param('From'),
 			contact: null,
-			body: req.param('Body'),
+			body: body,
 			createdBy: null,
 			job: null, //change later
 			notes: null, //change later
@@ -219,7 +223,7 @@ module.exports = {
 									var alertId = uuid.v4();
 
 				 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-				 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId, communication.id, false);
+				 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId, newCommunication.id, false);
 				 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: communication.id  });
 				 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 				 					}
