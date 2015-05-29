@@ -88,8 +88,9 @@ $(function() {
 					var noLeadsWon = leadsWonByMonth[month][1];
 					var sales = salesByMonth[month][1];
 					var projectedSales = projectedMonthsSales(month);
-					console.log('PROJECTED SALES: ' + projectedSales);
-					var pctToGoal = projectedSales/monthGoal*100;
+					// console.log('PROJECTED SALES: ' + projectedSales);
+					var pctToGoalProjected = (isNaN(projectedSales)) ? 0 : projectedSales/monthGoal*100;
+					var pctToGoal = sales/monthGoal*100;
 					if (isNaN(pctToGoal)) pctToGoal = 0;	
 					var winRate = (isThisMonthMOI(month)) ? Won2Close*100 : leadsWonByMonth[month][1]/leadsClosedByMonth[month][1]*100;
 					var avgSale = (isThisMonthMOI(month)) ? avgSaleOfInterest : salesByMonth[month][1]/leadsWonByMonth[month][1] ; 
@@ -102,11 +103,11 @@ $(function() {
 					//Sales Data
 				 	var sCurrent =[[0,sales]];
 				 	//console.log(sCurrent[[0,sales]]);
-				 	console.log(sales);
-				 	console.log(monthSales);
+				 	// console.log(sales);
+				 	// console.log(monthSales);
 				 	var sProjected=[[0,projectedSales]];
 				 	var sGoal = [[0,monthGoal]];
-				 	console.log(projectedSales);
+				 	// console.log(projectedSales);
 				 	if (isNaN(projectedSales))
 				 		projectedSales = 0;
 				 	if (isNaN(sales))
@@ -118,13 +119,14 @@ $(function() {
 					barChartData.datasets[1].data.push(monthGoal);
 					barChartData.datasets[2].data.push(sales);
 
-					console.log(barChartData);
+					// console.log(barChartData);
 
 					d1.push([z, sales, users[z].id, users[z].username]);
 					d2.push([z, monthGoal, users[z].id, users[z].username]);
 					d3.push([z, projectedSales, users[z].id, users[z].username]);
 
 					$('.percentToGoal[name=' + users[z].id + ']').html(pctToGoal.toFixed(0).toString() + '%');
+					$('.percentToGoalProjected[name=' + users[z].id + ']').html(pctToGoalProjected.toFixed(0).toString() + '%');
 					$('.actualSales[name=' + users[z].id + ']').html('$' + sales);
 					$('.salesGoal[name=' + users[z].id + ']').html('$' + monthGoal);
 
@@ -149,9 +151,9 @@ $(function() {
 					}
 				}
 
-				console.log(d2);
-				console.log(newd1);
-				console.log(newd3);
+				// console.log(d2);
+				// console.log(newd1);
+				// console.log(newd3);
 
 				if (d2.length > 5) {
 					d2.slice(5, d2.length - 1);
@@ -302,16 +304,16 @@ $(function() {
 				for (var i = 0; i < d2.length; i++)
 					ticksArray.push([d2[i][0], d2[i][3]]);
 
-				console.log('----' + newd1[0][1]);
-				console.log('----' + d2[0][1]);
-				console.log('----' + newd3[0][1]);
+				// console.log('----' + newd1[0][1]);
+				// console.log('----' + d2[0][1]);
+				// console.log('----' + newd3[0][1]);
 
-				var ctx = $("#myChart").get(0).getContext("2d");
+				// var ctx = $("#myChart").get(0).getContext("2d");
 				// This will get the first returned node in the jQuery collection.
 
-				var myNewChart = new Chart(ctx).StackedBar(barChartData, {
-					responsive : true
-				});
+				// var myNewChart = new Chart(ctx).StackedBar(barChartData, {
+				// 	responsive : true
+				// });
 
 
 				function plotWithOptions() {
@@ -338,9 +340,9 @@ $(function() {
 					});
 				}
 
-				console.log('++++' + ticksArray);
+				// console.log('++++' + ticksArray);
 
-				plotWithOptions();		
+				// plotWithOptions();		
 
 			
 		});
