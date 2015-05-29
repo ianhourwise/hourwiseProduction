@@ -50,8 +50,8 @@ module.exports = {
 
 	 						if (req.param('jobId'))
 	 							res.send('Got it!');
-
-	 						res.redirect('user/communications');
+	 						else
+								res.redirect('user/communications');
 
 	 					});
  					});
