@@ -12,7 +12,7 @@
             <input type= "text" class = "form-control" placeholder = "Email" name="emails[email1]">
             <hr>
             <input type="hidden" class="form-control" value="<%= user.id %>" name="createdBy">
-            <input type="hidden" class="form-control" value="<%= user.myCompany.id %>" name="company">
+            <input type="hidden" class="form-control" value="<%= user.company.id %>" name="company">
             <input type = "submit" class = "btn btn-lg btn-primary btn-block" value = "Create Contact" />
             <input type= "hidden"  name = "_csrf" value = "<%= _csrf %>"/>
 
