@@ -3,14 +3,20 @@ $(document).ready(function() {
 	var contactsArray = [];
 
 	$('.chosen-select').on('change', function() {
-		for (var i = 0; i < contacts.length; i++)
-			if ($(this).val() == contacts[i].id) {
-				var contact = contacts[i];
-				contactsArray.push(contacts[i].id);
-			}
+		if ($(this).val() == 'addNew') {
+			$('#newContactForm').show();
+	  
+	      }
+      else {
+  		for (var i = 0; i < contacts.length; i++)
+				if ($(this).val() == contacts[i].id) {
+					var contact = contacts[i];
+					contactsArray.push(contacts[i].id);
+				}
 				
 
 		$('#contactContainer').append('<div class="col-lg-4 removeContact" style="height: 215px;"><div class="contact-box"><div class="col-sm-8"><h3><strong>' + contact.name + '</strong></h3><h4>' + contact.emails.email1 + '</h4><address>' + contact.addresses.address1 + '<br><abbr title="Phone">P:</abbr>' + contact.phoneNumbers.phoneNumber1 + '</address></div><div class="clearfix"></div></div></div>');
+      }
 	});
 
 	$("#contactContainer").on('mouseover', '.contact-box', function(){
@@ -43,6 +49,16 @@ $(document).ready(function() {
 		var address = street1 + ', ' + city + ', ' + state + ' ' + zipCode;
 
 		$.post('/job/create?name=' + jobName + '&description=' + jobDescription + '&owner=' + owner + '&recipients=' + recipients + '&jobNumer=' + jobNumber + '&amount=' + revenue + '&desiredMargin=' + desiredMargin + '&address=' + address);
+	});
+
+	$('#contactContainer').on('click', '#newContact', function() {
+		var values = $('#newContactForm').serializeArray();
+
+		console.log(values);
+
+		$.post('/contact/create/' + $('#newContactForm').serialize(), function() {
+
+		});
 	});
 
 });

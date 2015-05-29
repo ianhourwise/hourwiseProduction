@@ -44,8 +44,18 @@ module.exports = {
 	},
 
 	create: function(req, res) {
+		console.log('hitting controller');
+		console.log(req.params.all());
 		Contact.create(req.params.all(), function (err, contact) {
-			res.redirect('/contact/index');
+			if (req.param('fromJobCreate')) {
+				console.log('should send contact');
+				res.send(contact);
+			}	
+			else {
+				console.log('why are you hitting this');
+				res.redirect('/contact/index');
+			}
+				
 		});	
 	},
 

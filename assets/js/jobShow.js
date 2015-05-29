@@ -22,5 +22,4 @@ $(document).ready(function() {
           $('.feed-activity-list').prepend(htmlString);
      });
   });
-
 });

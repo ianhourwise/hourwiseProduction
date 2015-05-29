@@ -28,6 +28,7 @@
                     					<div class="col-sm-10 ">
                             					<select data-placeholder="Assign to..." class="col-xs-12 chosen-select" tabindex="2">
                                                     <option value="">Select</option>
+                                                    <option value="addNew">Add New</option>
                                                     <% _.each(contacts, function(contact) { %>
                                 						<option value="<%= contact.id %>"><%= contact.name %></option>
                                                     <% }) %>
@@ -35,6 +36,23 @@
                                                 <br><br>
                                                 <div class="row" id="contactContainer">
                                                     <!-- contact cards -->
+                                                    <!-- <form action = "/contact/create/" method = "GET" class= "form-signin" style="display: none;" id="newContactForm">
+                                                        <h2 class= "form-signin-heading">Add Conact...</h2>
+
+                                                            <input type= "text" class = "form-control" placeholder = "Name" name="name">
+                                                            <hr>
+                                                            <input type= "text" class = "form-control" placeholder = "Address" name="addresses[address1]">
+                                                            <hr>
+                                                            <input type= "text" class = "form-control" placeholder = "Phone Number" name="phoneNumbers[phoneNumber1]">
+                                                            <hr>
+                                                            <input type= "text" class = "form-control" placeholder = "Email" name="emails[email1]">
+                                                            <hr>
+                                                            <input type="hidden" class="form-control" value="<%= user.id %>" name="createdBy">
+                                                            <input type="hidden" class="form-control" value="<%= user.company.id %>" name="company">
+                                                            <input type = "submit" class = "btn btn-lg btn-primary btn-block" value = "Create Contact" />
+                                                            <input type= "hidden"  name = "_csrf" value = "<%= _csrf %>"/>
+
+                                                    </form> -->
                                                 </div>
                     					</div>
                 				</div>	   
