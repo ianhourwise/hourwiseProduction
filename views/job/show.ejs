@@ -128,7 +128,7 @@
                                                                         <select id="touchRecipient" class="col-xs-11 chosen-select" tabindex="2">
                                                                             <option value="">Select</option>
                                                                             <% _.each(job.recipients, function(contact) { %>
-                                                                                <option value="<%= contact.phoneNumbers.phoneNumber1 %>" name="<%= contact.email %>"><%= contact.name %></option>
+                                                                                <option value="<%= contact.phoneNumbers.phoneNumber1 %>" name="<%= contact.emails.email1 %>"><%= contact.name %></option>
                                                                             <% }) %>
                                                                         </select>
                                                                     </strong><br><br>
