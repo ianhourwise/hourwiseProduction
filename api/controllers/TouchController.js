@@ -7,6 +7,7 @@
 
 module.exports = {
 	sendEmail: function(req, res) {
+		console.log(req.params.all());
  		
  		Mandrill.sendEmail(req.params.all(), function (err) {
  			if (err) 
