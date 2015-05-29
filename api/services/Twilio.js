@@ -2,7 +2,7 @@ module.exports = {
 	sendSMS: function(data, callback) {
 		var twilio = require('twilio');
 
-		var client = new twilio.RestClient(AC1a4872ecbf44901850cd912d7ad4095b, process.env.TWILIO_AUTH_TOKEN);
+		var client = new twilio.RestClient(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 		client.sms.messages.create({
 		    to:'+1' + data.toNumber,
