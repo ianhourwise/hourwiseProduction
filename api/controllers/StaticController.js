@@ -33,6 +33,7 @@ module.exports = {
         res.view('callcenter/keenerTemplate', {
           company: company,
           users: users,
+
         });
       });
 
@@ -70,6 +71,7 @@ module.exports = {
               
               Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': req.param('email'), 'subject': taskName, 'body': taskDescription}, function (err) {
                 res.send(200);
+               
               });
           });
         }
