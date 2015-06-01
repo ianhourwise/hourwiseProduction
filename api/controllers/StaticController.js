@@ -67,7 +67,6 @@ module.exports = {
               var uuid = require('node-uuid');
 
               var alertId = uuid.v4();
-<<<<<<< HEAD
 
               user.addAlert(taskName, alertId, task.id, true);
               User.publishUpdate(taskOwner, { message: taskName, id: alertId, communicationId: task.id, fromTask: true  });
@@ -77,17 +76,7 @@ module.exports = {
               });
 
               res.send(200);
-=======
-              if (user != null) {
-                user.addAlert(taskName, alertId, task.id, true);
-                User.publishUpdate(taskOwner, { message: taskName, id: alertId, communicationId: task.id, fromTask: true  });
-              }
-              
-              Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': req.param('email'), 'subject': taskName, 'body': taskDescription}, function (err) {
-                res.send(200);
-               
-              });
->>>>>>> keener
+
           });
         }
         else 
