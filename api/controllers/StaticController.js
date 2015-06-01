@@ -21,13 +21,26 @@ module.exports = {
    * `StaticController.keener()`
    */
   keener: function (req, res) {
-    res.locals.layout = false; 
-    return res.view('callcenter/keenerTemplate');
+    res.locals.layout = false;
+    Company.findOne({id: req.param('id')}).populate('employees').populate('owner').exec( function (err, company) {
+      if (err)
+        throw(err);
+
+      User.find({role: 'concierge'}, function (err, users) {
+        if (err)
+          throw(err);
+
+        res.view('callcenter/keenerTemplate', {
+          company: company,
+          users: users,
+
+        });
+      });
+
+    }); 
   },
 
   keenerTask: function (req, res) {
-    //console.log(req.params.all());
-
     var taskName = req.param('messageType') + ' from ' + req.param('name');
 
     var taskDescription = 'Name: ' + req.param('name') + '\n Address: ' + req.param('address') + '\n Phone Number: ' + req.param('phoneNumber') + '\n Email: ' + req.param('email') + '\n \n \n Message: ' + req.param('message');
@@ -54,6 +67,7 @@ module.exports = {
               var uuid = require('node-uuid');
 
               var alertId = uuid.v4();
+<<<<<<< HEAD
 
               user.addAlert(taskName, alertId, task.id, true);
               User.publishUpdate(taskOwner, { message: taskName, id: alertId, communicationId: task.id, fromTask: true  });
@@ -63,6 +77,17 @@ module.exports = {
               });
 
               res.send(200);
+=======
+              if (user != null) {
+                user.addAlert(taskName, alertId, task.id, true);
+                User.publishUpdate(taskOwner, { message: taskName, id: alertId, communicationId: task.id, fromTask: true  });
+              }
+              
+              Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': req.param('email'), 'subject': taskName, 'body': taskDescription}, function (err) {
+                res.send(200);
+               
+              });
+>>>>>>> keener
           });
         }
         else 
