@@ -32,7 +32,7 @@ module.exports = {
 
         res.view('callcenter/keenerTemplate', {
           company: company,
-          users: users
+          users: users,
         });
       });
 

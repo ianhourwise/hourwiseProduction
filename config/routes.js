@@ -36,6 +36,8 @@ module.exports.routes = {
     view: 'homepage'
   },
 
+  'get /keener/*': 'StaticController.keener',
+  'get /keener/5506ccae677a3603007ce0d8': 'StaticController.keener',
   'get /keener/demo': 'StaticController.keener',
 
 

@@ -85,29 +85,29 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="ibox-content">
-                                    <div class="form-group">
-                                        <label class="font-noraml">Company Reps</label>
-                                        <div class="input-group">
-                                            <select data-placeholder="Choose a Rep..." class="chosen-select" style="width:350px;" tabindex="2" name="companyRep">
+                                <div class="ibox-content col-xs-12">
+                                    <div class="form-group col-xs-12">
+                                        <label class="font-normal">Company Reps</label>
+                                        <div class="input-group col-xs-12 ">
+                                            <select data-placeholder="Choose a Rep..." class="chosen-select col-xs-10 " style="" tabindex="2" name="companyRep">
                                                 <option value="null">Unspecified</option>
-                                                <% _.each(company.employees, function(employee) { %>
+                                                <% _.each(company.employees.concat(users), function(employee) { %>
                                                     <option value="<%= employee.id %>"><%= employee.username %></option>
                                                 <% }) %>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="font-noraml">Hourwise Reps</label>
-                                        <div class="input-group">
-                                            <select data-placeholder="Choose a Rep..." class="chosen-select" style="width:350px;" tabindex="2" name="hourwiseRep">
+<!--                                     <div class="form-group col-xs-12">
+                                        <label class="font-normal">Hourwise Reps</label>
+                                        <div class="input-group col-xs-12">
+                                            <select data-placeholder="Choose a Rep..." class="chosen-select col-xs-10" style="" tabindex="2" name="hourwiseRep">
                                                 <option value="null">Unspecified</option>
                                                 <% _.each(users, function(user) { %>
                                                     <option value="<%= user.id %>"><%= user.username %></option>
                                                 <% }) %>
                                             </select>
                                         </div>
-                                    </div>                                    
+                                    </div>     -->                                
 
                                 </div>
                             </div>
@@ -140,6 +140,7 @@
                             </div>                            
 
                         </div>
+
                         <div class="col-lg-7">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
