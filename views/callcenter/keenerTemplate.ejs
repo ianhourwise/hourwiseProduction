@@ -49,8 +49,8 @@
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> 
                                 <span class="block m-t-xs"> <strong class="font-bold">Problems?Questions?</strong></span> 
-                                <span class="text-muted text-xs block">Contact Jon Hill</span>
-                                <span class="text-muted text-xs block">support@hourwise.com</span>
+                                <span class="text-muted text-xs block">Contact <%= company.owner.username %></span>
+                                <span class="text-muted text-xs block"><%= company.owner.email %></span>
                             </span>
                         </a>
 
@@ -65,16 +65,17 @@
                 </div>
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
-                        <h2>Keener Form Example</h2>
+                        <h2>Keener Form for <%= company.name %></h2>
                     </div>
                     <div class="col-lg-2">
 
                     </div>
                 </div>
+                <form action = "/task/create/" class="form-horizontal m-t-md" method = "GET" >
+
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="row">
                         <div class="col-lg-5">
-                            <form action = "/task/create/" class="form-horizontal m-t-md" method = "GET" >
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <h5>Direct To...</h5>
@@ -90,11 +91,9 @@
                                         <div class="input-group">
                                             <select data-placeholder="Choose a Rep..." class="chosen-select" style="width:350px;" tabindex="2" name="companyRep">
                                                 <option value="null">Unspecified</option>
-                                                <option value="55086b6a6eb19e030076b990">Ronnie Evans</option>
-                                                <option value="55086bea6eb19e030076b994">Steve McAdams</option>
-                                                <option value="55086b8b6eb19e030076b992">Shelley Jump</option>
-                                                <option value="55086b3a6eb19e030076b98a">Justin Taylor</option>
-                                                <option value="55086b596eb19e030076b98e">Jason Kent</option>
+                                                <% _.each(company.employees, function(employee) { %>
+                                                    <option value="<%= employee.id %>"><%= employee.username %></option>
+                                                <% }) %>
                                             </select>
                                         </div>
                                     </div>
@@ -103,11 +102,9 @@
                                         <div class="input-group">
                                             <select data-placeholder="Choose a Rep..." class="chosen-select" style="width:350px;" tabindex="2" name="hourwiseRep">
                                                 <option value="null">Unspecified</option>
-                                                <option value="550880f959f44d03004a6067">CJ Rosati</option>
-                                                <option value="5509b7c113b234030094844c">Emily Martin</option>
-                                                <option value="5509b7d313b234030094844e">Stefany Selinas</option>
-                                                <option value="552fb6a489f2260300fd23bc">Matt Timko</option>
-                                                <option value="555388f4f72a838a02614bfb">Me</option>
+                                                <% _.each(users, function(user) { %>
+                                                    <option value="<%= user.id %>"><%= user.username %></option>
+                                                <% }) %>
                                             </select>
                                         </div>
                                     </div>                                    
@@ -125,18 +122,18 @@
                                     </div>
                                 </div>
                                 <div class="ibox-content">
-                                    <h2> 89 Paint </h2>
-                                    <h4> Residential and Commercial paint contractor </h4> 
-                                    <p>PO Box 323</br>
-                                     Richmond, VA 23221</br>
-                                     Phone: 804-897-2468</p>
+                                    <h2> <%= company.name %> </h2>
+                                    <h4> <%= company.primaryIndustry %> </h4> 
+                                    <p> <%= company.contactInfo.Address.street1 %> </br>
+                                     <%= company.contactInfo.Address.city %>, <%= company.contactInfo.Address.state %> <%= company.contactInfo.Address.zip %></br>
+                                     Phone: <%= company.contactInfo.PhoneNumber %></p>
 
                                     <h3>Hours</h3>
-                                    <p>8am-5pm, M-F </p>
+                                    <p><%= company.hours %> </p>
 
                                     <h3>Notes</h3>
                                     <p> 
-                                        89 Paint is a residential and commercial paint contractor that can service most painting needs
+                                       <%= company.notes %>
                                     </p>
 
                                 </div>
@@ -206,14 +203,12 @@
                                                         <button class="btn btn-primary" type="submit">Submit</button>
                                                     </div>
                                                 </div>                            
-
-                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        </form>
 
                         <div class="footer">
                             <div class="pull-right">

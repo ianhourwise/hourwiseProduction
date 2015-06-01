@@ -21,8 +21,22 @@ module.exports = {
    * `StaticController.keener()`
    */
   keener: function (req, res) {
-    res.locals.layout = false; 
-    return res.view('callcenter/keenerTemplate');
+    res.locals.layout = false;
+    Company.findOne({id: req.param('id')}).populate('employees').populate('owner').exec( function (err, company) {
+      if (err)
+        throw(err);
+
+      User.find({role: 'concierge'}, function (err, users) {
+        if (err)
+          throw(err);
+
+        res.view('callcenter/keenerTemplate', {
+          company: company,
+          users: users
+        });
+      });
+
+    }); 
   },
 
   keenerTask: function (req, res) {
