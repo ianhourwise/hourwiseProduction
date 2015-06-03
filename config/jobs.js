@@ -12,8 +12,8 @@ module.exports.jobs = {
   "jobsDirectory": "api/jobs",
   "db": { 
     //alternate address for dev and production!
-   //"address" :  "mongodb://admin:4foundat!on@c778.candidate.11.mongolayer.com:10778",
-   "address" :  "localhost:27017/jobs",
+   "address" : process.env.DB_URL,
+   //"address" :  "localhost:27017/jobs",
    "collection" : "agendaJobs" 
   },
   "name": "process name",
