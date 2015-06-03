@@ -60,9 +60,9 @@ var User = {
 
     getPerformanceMetrics: function(user, callback) {
     // NutshellApi.getSalesAnalytics(user, function(err, response){
-    //   this.performanceMetrics = response;
+    //   this.nutshell.performanceMetrics = response;
     //   console.log(this.name);
-    //   this.save();
+    //   this.save(callback(this));
     // }.bind(this));
       NutshellApi.getPerformanceReports(user, function(err, response) {
         if (err) {
