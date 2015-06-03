@@ -75,7 +75,9 @@ var User = {
           //console.log(user.integrations.nutshell.performanceMetrics === response);
           
           //console.log('success performance');
-          user.save(callback(user));
+          user.save(function (err) {
+            callback(user);
+          });
         }  
 
 

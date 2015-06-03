@@ -371,7 +371,7 @@ module.exports = {
  	},
 
 	dashboard: function(req, res, next) {
-		User.findOne(req.param('id')).populate('tasks').populate('company').populate('tickets').exec(function (err, user) {
+		User.findOne(req.param('id')).exec(function (err, user) {
  			if (user.integrations == null) {
  				res.view('user/simpleDash', {
  					tasks: user.tasks
@@ -402,20 +402,41 @@ module.exports = {
 							var redLeads = user.integrations.nutshell.redLeads.leads;
 						}
 
-						var tasks = user.tasks;
+						User.findOne(req.param('id')).populate('tasks').populate('company').populate('tickets').exec(function (err, user) {
 
-						Communication.findOne({primaryNumber: user.primaryNumber}).populate('touches').exec(function (err, communication) {
-							if (user.zendeskId != undefined) {
-								//Task.find({type: 'zendesk'}).exec(function (err, tickets) {
-									var organizationTickets = [];
+							var tasks = user.tasks;
 
-									//console.log('+++++++++' + user.tickets.length + '+++++++++');
+							Communication.findOne({primaryNumber: user.primaryNumber}).populate('touches').exec(function (err, communication) {
+								if (user.zendeskId != undefined) {
+									//Task.find({type: 'zendesk'}).exec(function (err, tickets) {
+										var organizationTickets = [];
 
-									for (var i = 0; i < user.tickets.length; i++) {
-										if (user.tickets[i].zendesk.status != 'closed' && user.tickets[i].zendesk.status != 'solved')
-											organizationTickets.push(user.tickets[i].zendesk);
-									}
+										//console.log('+++++++++' + user.tickets.length + '+++++++++');
 
+										for (var i = 0; i < user.tickets.length; i++) {
+											if (user.tickets[i].zendesk.status != 'closed' && user.tickets[i].zendesk.status != 'solved')
+												organizationTickets.push(user.tickets[i].zendesk);
+										}
+
+										res.locals.layout= 'layouts/dashboard_layout';
+								 		res.view('user/conciergeDash', {
+								 			user: user,
+								 			salesData: salesData,
+								 			leadData: leadData,
+								 			pipelineData: pipelineData,
+								 			// redMetrics: nsResponse.counts,
+								 			// redLeads: nsResponse.leads
+								 			// redMetrics: redMetrics,
+								 			// redLeads: redLeads
+								 			redMetrics: redMetrics,
+								 			redLeads: redLeads,
+								 			tasks: tasks,
+								 			communication: communication,
+								 			organizationTickets: organizationTickets
+								 		});
+									//});
+								}
+								else {
 									res.locals.layout= 'layouts/dashboard_layout';
 							 		res.view('user/conciergeDash', {
 							 			user: user,
@@ -430,28 +451,10 @@ module.exports = {
 							 			redLeads: redLeads,
 							 			tasks: tasks,
 							 			communication: communication,
-							 			organizationTickets: organizationTickets
-							 		});
-								//});
-							}
-							else {
-								res.locals.layout= 'layouts/dashboard_layout';
-						 		res.view('user/conciergeDash', {
-						 			user: user,
-						 			salesData: salesData,
-						 			leadData: leadData,
-						 			pipelineData: pipelineData,
-						 			// redMetrics: nsResponse.counts,
-						 			// redLeads: nsResponse.leads
-						 			// redMetrics: redMetrics,
-						 			// redLeads: redLeads
-						 			redMetrics: redMetrics,
-						 			redLeads: redLeads,
-						 			tasks: tasks,
-						 			communication: communication,
-						 			organizationTickets: null
-						 		});	
-							}
+							 			organizationTickets: null
+							 		});	
+								}
+							});	
 						});
 		 			});	
 		 		});
