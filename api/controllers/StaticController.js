@@ -41,9 +41,19 @@ module.exports = {
   },
 
   keenerTask: function (req, res) {
-    var taskName = req.param('messageType') + ' from ' + req.param('name') + ' - ' + req.param('urgent');
+    var urgency = 'Not Urgent';
 
-    var taskDescription = 'Name: ' + req.param('name') + '\n Address: ' + req.param('address') + '\n Phone Number: ' + req.param('phoneNumber') + '\n Email: ' + req.param('email') + '\n \n \n Message: ' + req.param('message');
+    if (req.param('urgent') == 'urgent')
+      urgency = 'Urgent';
+
+    var taskName = req.param('messageType') + ' from ' + req.param('name') + ' - ' + urgency;
+
+    var taskOwner = 'Unspecified';
+
+    if (req.param('companyRep') != 'null')
+        taskOwner = req.param('companyRep');
+
+    var taskDescription = 'From: ' + req.param('name') + '\n To: ' + taskOwner + '\n Address: ' + req.param('address') + '\n Phone Number: ' + req.param('phoneNumber') + '\n Email: ' + req.param('email') + '\n \n \n Message: ' + req.param('message');
 
     var taskCategory = req.param('messageType');
 
