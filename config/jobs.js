@@ -6,7 +6,7 @@
  * https://github.com/vbuzzano/sails-hook-jobs
  */
 
-module.exports.jobs = {
+//module.exports.jobs = {
 
   //Where are jobs files
   // "jobsDirectory": "api/jobs",
@@ -21,4 +21,4 @@ module.exports.jobs = {
   // "maxConcurrency": 15,
   // "defaultConcurrency": 10,
   // "defaultLockLifetime": 10000
-};
+//};
