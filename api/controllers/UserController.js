@@ -769,13 +769,9 @@ module.exports = {
 	},
 
 	subscribeToAlerts: function (req, res) {
-<<<<<<< HEAD
 		if (req.session.User.role == 'superUser' || req.session.User.role == 'concierge') {
 			User.subscribe(req.socket, req.session.User);
 		}
-=======
-		User.subscribe(req.socket, req.session.User.id);
->>>>>>> pandadoc
 	},
 
 	dismissAlert: function (req, res) {
