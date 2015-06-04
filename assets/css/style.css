@@ -3862,7 +3862,7 @@ a.compose-mail {
 }
 .feed-element,
 .media-body {
-  overflow: hidden;
+  overflow: visible;
 }
 .feed-element > .pull-left {
   margin-right: 10px;

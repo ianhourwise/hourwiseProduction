@@ -33,17 +33,20 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.2",
     "rc": "~0.5.0",
+    "request": "^2.55.0",
     "sails": "~0.11.0-rc5",
     "sails-generate-auth": "^0.2.0",
     "sails-mongo": "^0.10.5",
     "scoped-http-client": "^0.10.3",
+    "skipper-s3": "^0.5.5",
     "socket.io-redis": "^0.1.4",
     "twilio": "^1.11.1",
     "validator": "^3.27.0"
   },
   "scripts": {
     "start": "node app.js",
-    "debug": "node debug app.js"
+    "debug": "node debug app.js",
+    "test": "mocha test/bootstrap.test.js test/controllers/user.spec.js"
   },
   "main": "app.js",
   "repository": {

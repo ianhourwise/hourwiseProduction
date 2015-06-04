@@ -769,9 +769,13 @@ module.exports = {
 	},
 
 	subscribeToAlerts: function (req, res) {
+<<<<<<< HEAD
 		if (req.session.User.role == 'superUser' || req.session.User.role == 'concierge') {
 			User.subscribe(req.socket, req.session.User);
 		}
+=======
+		User.subscribe(req.socket, req.session.User.id);
+>>>>>>> pandadoc
 	},
 
 	dismissAlert: function (req, res) {
@@ -979,6 +983,33 @@ module.exports = {
 		User.update({id: req.param('id')}, {newClientData: newClient}, function (err, user) {
 			res.view('user/thanks');
 		});
+	},
+
+	uploadAvatar: function(req, res) {
+		req.file('avatar').upload({
+		  adapter: require('skipper-s3'),
+		  key: 'AKIAJMGKEQ53X5FJMEUQ',
+		  secret: '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',
+		  bucket: 'docflow-dev',
+		  region: 'us-west-2'
+		}, function (err, files) {
+	      if (err)
+	        return res.serverError(err);
+
+	      //return res.send('<img src="' + files[0].extras.Location + '">');
+
+	      console.log(JSON.stringify(files) + '------' + JSON.stringify(files[0]));
+
+	      User.update(req.param('id'), {avatar: files[0].extra.Location}, function (err, users) {
+	      	res.redirect('user/profile');
+	      });
+
+	      // File.create(files[0], function(err, file) {
+	      // 	Company.update(req.session.User.ownerCompany, {companyLogo: file}, function(err) {
+		     //  return res.send();	
+	      // 	});
+	    // });
+	  });
 	}	
 	
 };

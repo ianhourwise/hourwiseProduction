@@ -60,7 +60,14 @@
                                         <input type= "hidden"  name = "_csrf" value = "<%= _csrf %>"/>
 
                                 </form>
-                                
+                                <% if (user.avatar) { %>
+                                        <img alt="image" class="img-circle" src="<%= user.avatar %>" style="width: 100px;">
+                                <% } else { %>
+                                    <form action="/user/uploadAvatar?id=<%= user.id %>" enctype="multipart/form-data" method="post">
+                                        <input type="file" name="avatar"><br>
+                                        <input type= "submit" class = "btn btn-lg btn-primary btn-block" value = "Upload Profile Picture" />
+                                    </form>
+                                <% } %>
                             </div>
                     </div>
                 </div>

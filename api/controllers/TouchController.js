@@ -7,6 +7,7 @@
 
 module.exports = {
 	sendEmail: function(req, res) {
+		console.log(req.params.all());
  		
  		Mandrill.sendEmail(req.params.all(), function (err) {
  			if (err) 
@@ -17,26 +18,44 @@ module.exports = {
  						console.log(err);
 
  					//console.log(req.params.all());
- 					var touchData = {
-	 					type: 'email',
-	 					owner: user.id,
-	 					outbound: req.param('toEmail'),
-	 					inbound: null,
-	 					contact: null,
-	 					body: req.param('body'),
-	 					createdBy: req.session.User.id,
-	 					job: null, //change later
-	 					notes: null //change later
- 					};
-
- 					Touch.create(touchData, function (err, touch) {
+ 					var contact = null;
+ 					Contact.find().exec(function (err, contacts) {
  						if (err)
  							console.log(err);
 
- 						res.redirect('user/communications');
+ 						for (var i = 0; i < contacts.length; i++)
+ 							if (contacts[i].email && req.param('toEmail') == contacts[i].email) {
+ 								contact = contacts[i].id;
+ 								break;
+ 							}
 
+ 						var job = null;
+ 						if (req.param('jobId'))
+							job = req.param('jobId');	
+
+ 						var touchData = {
+		 					type: 'email',
+		 					owner: user.id,
+		 					outbound: req.param('toEmail'),
+		 					inbound: null,
+		 					contact: null,
+		 					body: req.param('body'),
+		 					createdBy: req.session.User.id,
+		 					job: job, //change later
+		 					notes: null //change later
+	 					};
+
+	 					Touch.create(touchData, function (err, touch) {
+	 						if (err)
+	 							console.log(err);
+
+	 						if (req.param('jobId'))
+	 							res.send('Got it!');
+	 						else
+								res.redirect('user/communications');
+
+	 					});
  					});
-
  				});
 
  				
@@ -108,6 +127,42 @@ module.exports = {
  					});
 
  					
+ 			}
+ 		});
+ 	},
+
+ 	outboundJobSMS: function(req, res) {
+ 		Twilio.sendSMS({toNumber: req.param('toNumber'), smsContent: req.param('body')}, function (err) {
+ 			if (err) 
+ 				console.log(err);
+ 			else {
+
+ 				var touchData = {
+					type: 'sms',
+					owner: null,
+					outbound: req.param('toNumber'),
+					inbound: null,
+					contact: req.param('contactId'),
+					body: req.param('body'),
+					createdBy: req.session.User.username,
+					job: req.param('jobId'), 
+					notes: null,
+					owner: null //change later
+				};
+
+		
+				formattedNumber = '+1' + req.param('toNumber');
+				
+				Touch.create(touchData, function (err, touch) {
+					if (err)
+						console.log(err);
+
+					if (req.param('fromPost'))
+						res.send('Nice! Got it!');
+					else
+						res.redirect('user/communications');
+
+				});
  			}
  		});
  	},

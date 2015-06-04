@@ -24,8 +24,12 @@ module.exports.log = {
   *                                                                          *
   ***************************************************************************/
 
+<<<<<<< HEAD
   // level: 'verbose'
   level: 'silent'
+=======
+  level: 'info'
+>>>>>>> pandadoc
   // level: 'warn'
 
 

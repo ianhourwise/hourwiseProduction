@@ -45,8 +45,29 @@ module.exports = {
 
 	create: function(req, res) {
 		Contact.create(req.params.all(), function (err, contact) {
-			res.redirect('/contact/index');
+			if (req.param('fromJobCreate')) {
+				console.log('should send contact');
+				res.send(contact);
+			}	
+			else {
+				console.log('why are you hitting this');
+				res.redirect('/contact/index');
+			}
+				
 		});	
+	},
+
+	newContact: function(req, res) {
+		console.log(req.params.all());
+		
+		Contact.create({name: req.param('name'), addresses: {address1: req.param('address')}, phoneNumbers: {phoneNumber1: req.param('phoneNumber')}, emails: {email1: req.param('email')}, createdBy: req.param('createdBy')}, function (err, contact) {
+			if (err)
+				console.log(err);
+
+			console.log(contact);
+
+			res.send(contact);
+		});
 	},
 
 	destroy: function(req, res) {
