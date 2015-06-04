@@ -44,8 +44,6 @@ module.exports = {
 	},
 
 	create: function(req, res) {
-		console.log('hitting controller');
-		console.log(req.params.all());
 		Contact.create(req.params.all(), function (err, contact) {
 			if (req.param('fromJobCreate')) {
 				console.log('should send contact');
@@ -57,6 +55,19 @@ module.exports = {
 			}
 				
 		});	
+	},
+
+	newContact: function(req, res) {
+		console.log(req.params.all());
+		
+		Contact.create({name: req.param('name'), addresses: {address1: req.param('address')}, phoneNumbers: {phoneNumber1: req.param('phoneNumber')}, emails: {email1: req.param('email')}, createdBy: req.param('createdBy')}, function (err, contact) {
+			if (err)
+				console.log(err);
+
+			console.log(contact);
+
+			res.send(contact);
+		});
 	},
 
 	destroy: function(req, res) {

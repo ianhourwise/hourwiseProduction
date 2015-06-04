@@ -4,8 +4,7 @@ $(document).ready(function() {
 
 	$('.chosen-select').on('change', function() {
 		if ($(this).val() == 'addNew') {
-			$('#newContactForm').show();
-	  
+			$('#contactContainer').append('<form id="newContactForm"><input type= "text" class = "form-control" placeholder = "Name" name="name" id="newName"><hr><input type= "text" class = "form-control" placeholder = "Address" name="address" id="newAddress"><hr><input type= "text" class = "form-control" placeholder = "Phone Number" name="phoneNumber" id="newPhoneNumber"><hr><input type= "text" class = "form-control" placeholder = "Email" name="email" id="newEmail"><hr><input type="hidden" class="form-control" value="<%= user.id %>" name="createdBy"><input type="hidden" class="form-control" value="<%= user.company.id %>" name="company"><input class = "btn btn-lg btn-primary btn-block" id="newContact" value = "Create Contact" /></form>');
 	      }
       else {
   		for (var i = 0; i < contacts.length; i++)
@@ -52,12 +51,15 @@ $(document).ready(function() {
 	});
 
 	$('#contactContainer').on('click', '#newContact', function() {
-		var values = $('#newContactForm').serializeArray();
 
-		console.log(values);
+		$.post('/contact/newContact/?createdBy=' + user.id + '&name=' + $('#newName').val() + '&address=' + $('#newAddress').val() + '&phoneNumber=' + $('#newPhoneNumber').val() + '&email=' + $('#newEmail').val(), function(contact) {
+			if (contact == null)
+				console.log(err);
 
-		$.post('/contact/create/' + $('#newContactForm').serialize(), function() {
-
+			else {
+				$('#newContact').remove();
+				$('#contactContainer').append('<div class="col-lg-4 removeContact" style="height: 215px;"><div class="contact-box"><div class="col-sm-8"><h3><strong>' + contact.name + '</strong></h3><h4>' + contact.emails.email1 + '</h4><address>' + contact.addresses.address1 + '<br><abbr title="Phone">P:</abbr>' + contact.phoneNumbers.phoneNumber1 + '</address></div><div class="clearfix"></div></div></div>');
+			}
 		});
 	});
 

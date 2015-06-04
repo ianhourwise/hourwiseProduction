@@ -280,6 +280,42 @@ module.exports = {
 		console.log(JSON.stringify(recipients));
 
 		res.send(200);
+	},
+
+	documentUpload: function(req, res) {
+		req.file('document[]').upload({
+		  adapter: require('skipper-s3'),
+		  key: 'AKIAJMGKEQ53X5FJMEUQ',
+		  secret: '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',
+		  bucket: 'docflow-dev',
+		  region: 'us-west-2'
+		}, function (err, files) {
+	      if (err)
+	        return res.serverError(err);
+
+	      //return res.send('<img src="' + files[0].extras.Location + '">');
+
+	      console.log(JSON.stringify(files) + '------' + JSON.stringify(files[0]));
+
+	      Job.findOne(req.param('id')).exec(function (err, job) {
+	      	if (err)
+	      		console.log(err);
+
+	      	var documents = [];
+	      	if (job.documents != null)
+	      		documents = documents.concat(job.documents);
+
+	      	for (var i = 0; i < files.length; i++)
+	      		documents.push(files[i].extra.Location);
+
+	      	Job.update(req.param('id'), {documents: documents}, function (err, jobs) {
+	      		if (err)
+	      			res.send('Something bad happened: ' + err);
+
+	      		res.send(jobs[0]);
+	      	});
+	      });
+	  });
 	}
 
 	

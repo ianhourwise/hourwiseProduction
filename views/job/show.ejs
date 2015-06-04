@@ -32,7 +32,7 @@
                                     <dl class="dl-horizontal">
 
                                         <dt>Created by:</dt> <dd> <%= job.owner.username %></dd>
-                                        <dt>Messages:</dt> <dd> STATIC FOR NOW</dd>
+                                        <dt>Messages:</dt> <dd> <%= job.touches.length %></dd>
                                         <dt>Client:</dt> <dd><a href="#" class="text-navy"> UNKNOWN FOR NOW</a> </dd>
                                         <dt>Address:</dt> <dd>  <%= job.address %> </dd>
                                     </dl>
@@ -151,8 +151,10 @@
                                         </div>
                                         <div class="tab-pane" id="tab-2">
 
-                                            <h2>DOCUMENTS SOON TO COME</h2>
-
+                                                <form action="/job/documentUpload?id=<%= job.id %>" enctype="multipart/form-data" method="post">
+                                                    <input type="file" name="document[]" multiple><br>
+                                                    <input type= "submit" class = "btn btn-lg btn-primary btn-block" value = "Upload File(s)" />
+                                                </form>
                                         </div>
                                         <div class="tab-pane" id="tab-3">
 

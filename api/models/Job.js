@@ -71,10 +71,7 @@ module.exports = {
     //touches: {lastTouch: date, counts: {email: 1, phone: 5, sms: 10}, history: {{type: "email", date: 1/1/15, who: 'user'}, {type: "sms", date: 1/2/15}}
     address: 'json',
 
-    documents: {
-      collection: 'document',
-      via: 'job'
-    },
+    documents: 'array',
 
     recipients: {
       collection: 'contact',
