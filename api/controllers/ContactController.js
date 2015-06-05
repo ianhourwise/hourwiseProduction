@@ -16,12 +16,6 @@ module.exports = {
 		});
 	},
 
-	//t4 test
-
-	//
-	//
-	//
-
 	index: function(req, res) {
 		Contact.find( function (err, contacts) {
 			res.locals.layout = "layouts/layout";
@@ -63,13 +57,6 @@ module.exports = {
 		});	
 	},
 
-	//T1 Test
-
-	//Adding some more lines
-	//
-	//
-	//
-
 	newContact: function(req, res) {
 		console.log(req.params.all());
 		
@@ -79,11 +66,6 @@ module.exports = {
 
 			console.log(contact);
 
-			//t2 test
-
-			//
-			//
-			//
 
 			res.send(contact);
 		});
@@ -97,13 +79,6 @@ module.exports = {
 			res.redirect('/contact/index');
 		});
 	}
-
-	//T3 Test
-
-	//
-	//
-	//
-	//
 	
 };
 
