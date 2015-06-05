@@ -16,6 +16,12 @@ module.exports = {
 		});
 	},
 
+	//t4 test
+
+	//
+	//
+	//
+
 	index: function(req, res) {
 		Contact.find( function (err, contacts) {
 			res.locals.layout = "layouts/layout";
