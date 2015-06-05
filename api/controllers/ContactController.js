@@ -73,6 +73,12 @@ module.exports = {
 
 			console.log(contact);
 
+			//Merge conflict
+
+			//
+			//
+			//
+
 			res.send(contact);
 		});
 	},
