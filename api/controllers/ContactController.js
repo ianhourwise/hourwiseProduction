@@ -63,6 +63,13 @@ module.exports = {
 		});	
 	},
 
+	//T1 Test
+
+	//Adding some more lines
+	//
+	//
+	//
+
 	newContact: function(req, res) {
 		console.log(req.params.all());
 		
@@ -90,5 +97,13 @@ module.exports = {
 			res.redirect('/contact/index');
 		});
 	}
+
+	//T3 Test
+
+	//
+	//
+	//
+	//
+	
 };
 
