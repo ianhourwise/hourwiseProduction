@@ -22,4 +22,18 @@ $(document).ready(function() {
           $('.feed-activity-list').prepend(htmlString);
      });
   });
+
+  //if (userRole == 'concierge' || userRole == 'superUser') {
+    //Allow editing 
+
+    $(document).on('click', '#status', function(e) {
+      $('#statusModal').modal('show');  
+    });
+
+    $(document).on('click', ".statusOption", function(e) {
+      console.log($(this).attr('name'));
+
+      $('#statusModal').modal('hide');
+    });
+  //}
 });

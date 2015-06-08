@@ -19,10 +19,9 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="m-b-md">
-                                        <a href="/job/edit/<%= job.id %>" class="btn btn-white btn-xs pull-right">Edit project</a>
                                         <h2><%= job.name %></h2>
                                     </div>
-                                    <dl class="dl-horizontal">
+                                    <dl class="dl-horizontal" id="status">
                                         <dt>Status:</dt> <dd><span class="label label-primary"><%= job.status %></span></dd>
                                     </dl>
                                 </div>
@@ -33,7 +32,7 @@
 
                                         <dt>Created by:</dt> <dd> <%= job.owner.username %></dd>
                                         <dt>Messages:</dt> <dd> <%= job.touches.length %></dd>
-                                        <dt>Client:</dt> <dd><a href="#" class="text-navy"> UNKNOWN FOR NOW</a> </dd>
+                                        <dt>Client:</dt> <dd><a href="/contact/show/<%= job.client.id %>" class="text-navy"> <%= job.client.name %> </a> </dd>
                                         <dt>Address:</dt> <dd>  <%= job.address %> </dd>
                                     </dl>
                                 </div>
@@ -151,10 +150,18 @@
                                         </div>
                                         <div class="tab-pane" id="tab-2">
 
-                                                <form action="/job/documentUpload?id=<%= job.id %>" enctype="multipart/form-data" method="post">
-                                                    <input type="file" name="document[]" multiple><br>
-                                                    <input type= "submit" class = "btn btn-lg btn-primary btn-block" value = "Upload File(s)" />
-                                                </form>
+                                            <% if (job.documents != null) { %>
+                                                <% for (var i = 0; i < job.documents.length; i++) { %>
+                                                    <a href="<%= job.documents[i] %>" download> Document <%= i + 1 %>     </a><br>
+                                                <% } %>
+                                            <% } %>
+
+                                            <br><br>
+
+                                            <form action="/job/documentUpload?id=<%= job.id %>" enctype="multipart/form-data" method="post">
+                                                <input type="file" name="document[]" multiple><br>
+                                                <input type= "submit" class = "btn btn-lg btn-primary btn-block" value = "Upload File(s)" />
+                                            </form>
                                         </div>
                                         <div class="tab-pane" id="tab-3">
 
@@ -212,6 +219,28 @@
                 </div>
             </div>
         </div>
+        <div class="modal inmodal fade" id="statusModal" tabindex="-1" role="dialog"  aria-hidden="true">
+                  <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                              <h4 class="modal-title">Change Status</h4>
+                          </div> 
+                          <div class="modal-body">
+                            <a class="btn btn-primary btn-block statusOption" name="open"> Open</a>
+                            <a class="btn btn-primary btn-block statusOption" name="won"> Won</a>
+                            <a class="btn btn-primary btn-block statusOption" name="lost"> Lost</a>
+                            <a class="btn btn-primary btn-block statusOption" name="canceled"> Canceled</a>
+                            <a class="btn btn-primary btn-block statusOption" name="deleted"> Deleted</a>
+                            <a class="btn btn-primary btn-block statusOption" name="pending"> Pending</a>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                          </div>
+                      </div>
+                  </div>
+                </div>
         <!-- <div class="footer">
             <div class="pull-right">
                 10GB of <strong>250GB</strong> Free.
@@ -221,6 +250,7 @@
             </div>
         </div> -->
 <script>
-    var fromEmail = "<%= currentUser %>";
+    var fromEmail = "<%= currentUser.email %>";
+    var userRole = "<%= currentUser.role %>"
     var jobName = "<%= job.name %>";
 </script>

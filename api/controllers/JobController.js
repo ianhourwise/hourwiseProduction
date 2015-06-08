@@ -34,7 +34,7 @@ module.exports = {
 
 	show: function(req, res) {
 		res.locals.layout = "layouts/jobShowLayout";
-		Job.findOne({id: req.param('id')}).populate('recipients').populate('tasks').populate('owner').populate('touches').exec(function (err, job) {
+		Job.findOne({id: req.param('id')}).populate('recipients').populate('tasks').populate('client').populate('owner').populate('touches').exec(function (err, job) {
 			res.view({
 				job: job,
 				currentUser: req.session.User.email
@@ -312,7 +312,7 @@ module.exports = {
 	      		if (err)
 	      			res.send('Something bad happened: ' + err);
 
-	      		res.send(jobs[0]);
+	      		res.redirect('/job/show/' + job.id);
 	      	});
 	      });
 	  });

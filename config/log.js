@@ -26,8 +26,8 @@ module.exports.log = {
 
 
   // level: 'verbose'
-  level: 'silent'
-  // level: 'warn'
+  // level: 'silent'
+  level: 'warn'
 
 
 };

@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 	var contactsArray = [];
 
-	$('.chosen-select').on('change', function() {
+	$('.recipients').on('change', function() {
 		if ($(this).val() == 'addNew') {
 			$('#contactContainer').append('<form id="newContactForm"><input type= "text" class = "form-control" placeholder = "Name" name="name" id="newName"><hr><input type= "text" class = "form-control" placeholder = "Address" name="address" id="newAddress"><hr><input type= "text" class = "form-control" placeholder = "Phone Number" name="phoneNumber" id="newPhoneNumber"><hr><input type= "text" class = "form-control" placeholder = "Email" name="email" id="newEmail"><hr><input type="hidden" class="form-control" value="<%= user.id %>" name="createdBy"><input type="hidden" class="form-control" value="<%= user.company.id %>" name="company"><input class = "btn btn-lg btn-primary btn-block" id="newContact" value = "Create Contact" /></form>');
 	      }
@@ -36,6 +36,7 @@ $(document).ready(function() {
 		var jobDescription = $('#description').val();
 		var owner = $('#owner').attr('name');
 		var recipients = contactsArray;
+		var client = $('#client').val();
 		var jobNumber = $('#jobNumber').val();
 		var revenue = $('#revenue').val();
 		var desiredMargin = $('#desiredMargin').val();
@@ -47,7 +48,7 @@ $(document).ready(function() {
 
 		var address = street1 + ', ' + city + ', ' + state + ' ' + zipCode;
 
-		$.post('/job/create?name=' + jobName + '&description=' + jobDescription + '&owner=' + owner + '&recipients=' + recipients + '&jobNumer=' + jobNumber + '&amount=' + revenue + '&desiredMargin=' + desiredMargin + '&address=' + address);
+		$.post('/job/create?name=' + jobName + '&description=' + jobDescription + '&owner=' + owner + '&recipients=' + recipients + '&jobNumer=' + jobNumber + '&amount=' + revenue + '&desiredMargin=' + desiredMargin + '&address=' + address + '&client=' + client);
 	});
 
 	$('#contactContainer').on('click', '#newContact', function() {

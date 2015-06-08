@@ -11,6 +11,7 @@ module.exports = {
   	company:{model: 'company'},
   	creator: {model: 'user'},
     owner:{model: 'user'},
+    client:{model: 'contact'},
 
   	name: 'string',
   	number: {type: 'string', defaultsTo:''},
