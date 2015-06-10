@@ -51,7 +51,6 @@ Getting Up and Running
    ***************************************************************************/
 
   // port: process.env.PORT || 1337,
-  connections: {
 
     someMongodbServer: {
     
@@ -65,8 +64,6 @@ Getting Up and Running
       //Comment/Uncomment for Production
        //url: "mongodb://stageadmin:$tageHourW!$e@dogen.mongohq.com:10045/hourwise-staging"
        //url: process.env.DB_URL
-
-    }
 
   },
 
