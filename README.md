@@ -61,9 +61,6 @@ Getting Up and Running
       host: 'localhost',
       port: 27017,
       database: 'hourwise'  
-      //Comment/Uncomment for Production
-       //url: "mongodb://stageadmin:$tageHourW!$e@dogen.mongohq.com:10045/hourwise-staging"
-       //url: process.env.DB_URL
 
   },
 
