@@ -33,7 +33,13 @@ $(document).ready(function() {
     $(document).on('click', ".statusOption", function(e) {
       console.log($(this).attr('name'));
 
-      $('#statusModal').modal('hide');
+
+      $.post('/job/updateStatus/?id=' + jobId + '&status=' + $(this).attr('name'), function(status) {
+        
+        $('#statusModal').modal('hide');
+        $('#statusText').html(status);
+
+      });
     });
   //}
 });

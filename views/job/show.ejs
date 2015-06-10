@@ -22,7 +22,7 @@
                                         <h2><%= job.name %></h2>
                                     </div>
                                     <dl class="dl-horizontal" id="status">
-                                        <dt>Status:</dt> <dd><span class="label label-primary"><%= job.status %></span></dd>
+                                        <dt>Status:</dt> <dd><span class="label label-primary" id="statusText"><%= job.status %></span></dd>
                                     </dl>
                                 </div>
                             </div>
@@ -32,7 +32,11 @@
 
                                         <dt>Created by:</dt> <dd> <%= job.owner.username %></dd>
                                         <dt>Messages:</dt> <dd> <%= job.touches.length %></dd>
-                                        <dt>Client:</dt> <dd><a href="/contact/show/<%= job.client.id %>" class="text-navy"> <%= job.client.name %> </a> </dd>
+                                        <% if (job.client != null) { %>
+                                            <dt>Client:</dt> <dd><a href="/contact/show/<%= job.client.id %>" class="text-navy"> <%= job.client.name %> </a> </dd>
+                                        <% } else { %>
+                                            <dt>Client:</dt> <dd><a href="" class="text-navy"> No Client </a> </dd>
+                                        <% } %>
                                         <dt>Address:</dt> <dd>  <%= job.address %> </dd>
                                     </dl>
                                 </div>
@@ -251,6 +255,7 @@
         </div> -->
 <script>
     var fromEmail = "<%= currentUser.email %>";
-    var userRole = "<%= currentUser.role %>"
+    var userRole = "<%= currentUser.role %>";
     var jobName = "<%= job.name %>";
+    var jobId = "<%= job.id %>";
 </script>

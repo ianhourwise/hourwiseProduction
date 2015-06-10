@@ -183,6 +183,15 @@ module.exports = {
 		});
 	},
 
+	updateStatus: function (req, res) {
+		Job.update(req.param('id'), {status: req.param('status')}, function (err, jobs) {
+			if (err)
+				console.log(err)
+
+			res.send(jobs[0].status);
+		});
+	},
+
 	pandaDocRedirect: function(req, res) {
 		console.log(req.params.all());
 
