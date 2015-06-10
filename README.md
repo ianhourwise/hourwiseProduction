@@ -107,6 +107,11 @@ Getting Up and Running
 
 11. Navigate your browser to 'localhost:1337' and you should see the hourwise homepage. Everything is up and running now and you have a working local instance of the project. 
 
+12. Create an account via 'localhost:1337/register'
+
+13. To test permissions you'll need to chage the user role via a database tool like genghisapp.
+
+
 Ref.
 
 Sails.js - http://sailsjs.org/
@@ -115,4 +120,4 @@ MongoDB - http://docs.mongodb.org/
 
 NPM - https://www.npmjs.com/
 
-
+Genghisapp - http://genghisapp.com/
