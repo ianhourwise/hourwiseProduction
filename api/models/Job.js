@@ -83,6 +83,13 @@ module.exports = {
       collection: 'touch',
       via: 'job'
     },
+
+    groups: {
+      collection: 'group',
+      via: 'job'
+    },
+
+    productsAndServices: {type: 'array', defaultsTo: null},
 	// address: {
  //      type: 'string',
  //      defaultsTo: ''

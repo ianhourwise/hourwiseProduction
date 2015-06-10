@@ -9,15 +9,27 @@ module.exports = {
 
 	new: function(req, res) {
 		res.locals.layout = "layouts/layout";
-		Contact.find().exec(function (err, contacts) {
+		Company.findOne(req.session.User.company).populate('groups').populate('contacts').exec(function (err, company) {
 			if (err)
 				console.log(err);
 
 			res.view({
 				user: req.session.User,
-				contacts: contacts
+				contacts: company.contacts,
+				groups: company.groups,
+				company: company,
+				productsAndServices: company.productsAndServices
 			});
-		}); 
+		});
+		// Contact.find().exec(function (err, contacts) {
+		// 	if (err)
+		// 		console.log(err);
+
+		// 	res.view({
+		// 		user: req.session.User,
+		// 		contacts: contacts
+		// 	});
+		// }); 
 	},
 
 	index: function(req, res) {

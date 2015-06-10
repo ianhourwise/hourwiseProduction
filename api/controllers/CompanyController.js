@@ -77,6 +77,30 @@ module.exports = {
 	 	});
 	 
 
+	 },
+
+	 newProduct: function(req, res) {
+	 	Company.findOne(req.param('company'), function (err, company) {
+	 		var productsArray = [];
+
+	 		if (company.productsAndServices != null)
+	 			productsArray = company.productsAndServices;
+
+	 		var uuid = require('node-uuid');
+
+			var productId = uuid.v4();
+
+			var newProduct = JSON.parse('{"id":"' + productId + '", "name":"' + req.param('name') + '", "description":"' + req.param('description') + '"}');
+
+			productsArray.push(newProduct);
+
+			Company.update(company.id, {productsAndServices: productsArray}, function (err, companies) {
+				if (err)
+					console.log(err);
+
+				res.send(newProduct);
+			});
+	 	});
 	 }
 
 };
