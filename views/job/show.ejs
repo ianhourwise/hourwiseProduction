@@ -64,10 +64,10 @@
                                     <dl class="dl-horizontal">
                                         <dt>Completed:</dt>
                                         <dd>
-                                            <div class="progress progress-striped active m-b-sm">
-                                                <div style="width: 60%;" class="progress-bar"></div>
+                                            <div class="progress progress-striped m-b-sm">
+                                                <div style="width: <%= (1 - (tasksLeftToComplete/(job.tasks.length + 1))) * 100 %>%;" class="progress-bar"></div>
                                             </div>
-                                            <small>Project completed in <strong>60%</strong>. BUILD OUT TASKS AND MILESTONES FOR THIS</small>
+                                            <small>Task left to complete <strong><%= tasksLeftToComplete %></strong>. </small>
                                         </dd>
                                     </dl>
                                 </div>
@@ -88,12 +88,24 @@
                                                 </div>
                                             </div>
                                             <div class="ibox-content">
-                                                <ul class="todo-list m-t">
+                                                <ul class="todo-list m-t" id="tasksList">
+                                                    <% _.each(job.tasks, function(task) { %>
+                                                    <% if (task.completed != true) { %> 
                                                     <li>
                                                         <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
-                                                        <span class="m-l-xs">Do Something<br>  Due: 1/2/3 %></span>
+                                                        <span class="m-l-xs"><%= task.description %><br>  Due: <%= task.endDate %></span>
                                                     </li>
+                                                    <% } else { %>
+                                                        <li>
+                                                        <a href="#" class="check-link "><i class="fa fa-check-square"></i> </a>
+                                                        <span class="m-l-xs todo-completed"><%= task.description %><br>  Due: <%= task.endDate %></span>
+                                                    </li>
+                                                    <% } %>
+                                                    <% }) %>
                                                 </ul>
+                                                <div id="newTaskForm">
+
+                                                </div>
                                             </div>
                                         </div>
                                     </dl>

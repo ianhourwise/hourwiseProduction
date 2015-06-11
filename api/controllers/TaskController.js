@@ -28,8 +28,10 @@ module.exports = {
 			//scheduler.scheduleAndStore(endDate, 'taskDueTrigger', task, function(err) {
 
 			//});
-
-			res.redirect('/task/index');
+			if (req.param('fromJobShow'))
+				res.send(task);
+			else
+				res.redirect('/task/index');
 		});	
 	},
 

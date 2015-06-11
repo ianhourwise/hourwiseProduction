@@ -47,9 +47,18 @@ module.exports = {
 	show: function(req, res) {
 		res.locals.layout = "layouts/jobShowLayout";
 		Job.findOne({id: req.param('id')}).populate('recipients').populate('tasks').populate('client').populate('owner').populate('touches').exec(function (err, job) {
+			if (err)
+				console.log(err);
+
+			var tasksLeftToComplete = 0;
+			for (var i = 0; i < job.tasks.length; i++)
+				if (job.tasks[0].completed != true)
+					tasksLeftToComplete++;
+
 			res.view({
 				job: job,
-				currentUser: req.session.User.email
+				currentUser: req.session.User.email,
+				tasksLeftToComplete: tasksLeftToComplete
 			});
 		}); 
 	},

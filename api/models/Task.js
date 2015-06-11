@@ -24,6 +24,7 @@ module.exports = {
   	zendesk: 'json',
   	owner: { model: 'user' },
   	requester: { model: 'user' },
+    job: { model: 'job', defaultsTo: null},
     type: 'string',
     notes: 'json',
     attachments: 'array',

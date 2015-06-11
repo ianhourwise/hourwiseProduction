@@ -89,6 +89,11 @@ module.exports = {
       via: 'job'
     },
 
+    tasks: {
+      collection: 'task',
+      via: 'job'
+    },
+
     productsAndServices: {type: 'array', defaultsTo: null},
 	// address: {
  //      type: 'string',
