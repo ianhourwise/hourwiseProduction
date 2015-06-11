@@ -57,7 +57,9 @@ module.exports = {
 
     var taskCategory = req.param('messageType');
 
-    Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': 'callcenter@hourwise.com', 'subject': taskName, 'body': taskDescription}, function (err) {
+    var fromEmail = 'ccs_' + req.param('id') + '@hourwise.com';
+
+    Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': fromEmail, 'subject': taskName, 'body': taskDescription}, function (err) {
 
               });
     res.send(200);

@@ -29,7 +29,6 @@ $(document).ready(function() {
 	});
 
 	$('#contactContainer').on('click', '.removeContact', function() {
-		console.log('clickity clack');
 		$(this).remove();
 	});
 
@@ -55,7 +54,7 @@ $(document).ready(function() {
 	  		for (var i = 0; i < productsAndServices.length; i++)
 				if ($(this).val() == productsAndServices[i].id) {
 					var product = productsAndServices[i];
-					productsAndServicesArray.push(productsAndServices[i];
+					productsAndServicesArray.push(productsAndServices[i]);
 				}
 					
 
@@ -64,16 +63,16 @@ $(document).ready(function() {
 		}
 	});
 
-	$("#productsAndServicesContainer").on('mouseover', '.contact-box', function(){
+	$("#productsAndServicesContainer").on('mouseover', '.contact-box', function() {
 	    $(this).css("border", "3px solid red");
+	    console.log($('#estCloseDate').val());
 	});
 
-	$("#productsAndServicesContainer").on('mouseout', '.contact-box', function(){
+	$("#productsAndServicesContainer").on('mouseout', '.contact-box', function() {
 	    $(this).css("border", "1px solid #e7eaec");
 	});
 
 	$('#productsAndServicesContainer').on('click', '.removeProduct', function() {
-		console.log('clickity clack');
 		$(this).remove();
 	});
 
@@ -92,10 +91,12 @@ $(document).ready(function() {
 		var state = $('#state').val();
 		var zipCode = $('#zipCode').val();
 		var source = $('#source').val();
+		var endDate = $('#estCloseDate').val();
+		var hotness = $('#hotness').val();
 
 		var address = street1 + ', ' + city + ', ' + state + ' ' + zipCode;
 
-		$.post('/job/create?name=' + jobName + '&description=' + jobDescription + '&owner=' + owner + '&recipients=' + recipients + '&jobNumer=' + jobNumber + '&amount=' + revenue + '&desiredMargin=' + desiredMargin + '&address=' + address + '&client=' + client + '&source=' + source + '&groups=' + groupsArray + '&productsAndServices=' + productsAndServicesArray);
+		$.post('/job/create?name=' + jobName + '&description=' + jobDescription + '&owner=' + owner + '&recipients=' + recipients + '&jobNumer=' + jobNumber + '&amount=' + revenue + '&desiredMargin=' + desiredMargin + '&address=' + address + '&client=' + client + '&source=' + source + '&groups=' + groupsArray + '&productsAndServices=' + productsAndServicesArray + '&endDate=' + endDate + '&hotness=' + hotness);
 	});
 
 	$('#contactContainer').on('click', '#newContact', function() {

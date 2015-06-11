@@ -34,7 +34,7 @@ module.exports = {
 
 	index: function(req, res) {
 		res.locals.layout = "layouts/layout";
-		Job.find().populate('recipients').populate('tasks').populate('owner').exec(function (err, jobs) {
+		Job.find().populate('recipients').populate('tasks').populate('owner').populate('client').exec(function (err, jobs) {
 			if (err)
 				console.log(err)
 
@@ -55,8 +55,6 @@ module.exports = {
 	},
 
 	create: function(req, res, next){
-
-		console.log(req.params.all());
 
 		Job.create(req.params.all(), function (err, job) {
 			if (err)

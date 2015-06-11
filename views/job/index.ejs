@@ -12,11 +12,11 @@
 			<th></th>
 		</tr>
 
-		<% _.each(jobs, function(job) { if(!job.recipients[0]){job.recipients[0] = {name: 'No Recipients', id: '#'}}%>
+		<% _.each(jobs, function(job) { if(!job.client){job.client = {name: 'No Client', id: '#'}}%>
 			<tr data-id = "<% job.id %>" data-model = "job">
 				<td><%= job.name %></td>
 				<td><%= job.owner.username %></td>
-				<td><a href="/contact/edit/<%= job.recipients[0].id %>"> <%= job.recipients[0].name %> </a></td>
+				<td><a href="/contact/edit/<%= job.client.id %>"> <%= job.client.name %> </a></td>
 				<td><a href= "/job/show/<%= job.id %>" class= "btn btn-sm btn-primary" >Show</a> </td>
 				<td><a href= "/job/edit/<%= job.id %>" class= "btn btn-sm btn-warning" >Edit</a> </td>
 			</tr>
