@@ -54,9 +54,21 @@ $(document).ready(function() {
       var endDate = $('#newTaskEndDate').val();
 
       $.post('/task/create?name=' + name + '&description=' + description + '&startDate=' + startDate + '&endDate=' + endDate + '&job=' + jobId + '&fromJobShow=true&completed=false', function(task) {
-        $('newTaskForm').html('');
-        $('#tasksList').append('<li> <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a><span class="m-l-xs">' + task.description + '<br>  Due: ' + task.endDate + '</span></li>');
+        $('#newTaskForm').html('');
+        $('#tasksList').append('<li> <a href="#" class="check-link completeTask"><i class="fa fa-square-o"></i> </a><span class="m-l-xs">' + task.description + '<br>  Due: ' + task.endDate + '</span></li>');
       }); 
     });
+
+    // $(document).on('click', '.completeTask', function(e) {
+    //   console.log('clickity clack');
+    //   console.log($(this).attr('name'));
+    // });
+
+    $('.completeTask').click(function() {
+      console.log($(this).attr('name'));
+
+      $.post('/task/completeTask?id=' + $(this).attr('name'));
+    });
+
   //}
 });

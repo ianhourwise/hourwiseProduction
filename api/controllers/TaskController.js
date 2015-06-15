@@ -92,6 +92,15 @@ module.exports = {
 		});
 	},
 
+	completeTask: function(req, res) {
+		Task.update(req.param('id'), {completed: true}, function (err, tasks) {
+			if (err)
+				console.log(err);
+
+			res.send('updated');
+		});
+	},
+
 	getTicketsForUser: function(req, res) {
 		Zendesk.listTicketsByUserId(req.param('zendeskId'), function (tickets) {
 			//console.log(tickets);

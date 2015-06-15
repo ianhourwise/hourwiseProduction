@@ -74,6 +74,7 @@ module.exports = {
 
 	 			res.redirect('/company/show/'+company.id); //send back true instead of reroute
 	 		});
+
 	 	});
 	 
 
