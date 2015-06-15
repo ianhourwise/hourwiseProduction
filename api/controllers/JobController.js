@@ -52,7 +52,7 @@ module.exports = {
 
 			var tasksLeftToComplete = 0;
 			for (var i = 0; i < job.tasks.length; i++)
-				if (job.tasks[0].completed != true)
+				if (job.tasks[i].completed != true)
 					tasksLeftToComplete++;
 
 			res.view({
