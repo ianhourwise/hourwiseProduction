@@ -42,5 +42,5 @@
 
 </div>
 <script>
-	var users = "<%- users %>" ;
+	var users = JSON.parse('<%- JSON.stringify(users) %>') ;
 </script>
