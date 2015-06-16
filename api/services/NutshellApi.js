@@ -376,7 +376,7 @@ function getAllOpenLeads(users){
 }
 
 function logResponse(response){
-    console.log(response);    
+    //console.log(response);    
 }       
 
 //Force serial Flow
@@ -409,7 +409,7 @@ function checkIfComplete2(callback){
 
 
 function getSalesReport(user, callback){
-  console.log('getting sales reports...');
+  //console.log('getting sales reports...');
   // client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
   var client = createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
   // var client = createClient(username,api_key);
@@ -436,21 +436,21 @@ function getSalesReport(user, callback){
                       // console.log(res);
                       data["sales"] = res;
                       // console.log(data);
-                      console.log("nutshell id:" + user.integrations.nutshell.nutshellId);
+                      //console.log("nutshell id:" + user.integrations.nutshell.nutshellId);
                       //console.log("nutshell name:" + user.name);
-                      console.log("nutshell u/n:" + user.integrations.nutshell.nutshellAPI_Key);
-                      console.log("nutshell p/w:" + user.integrations.nutshell.nutshellAPI_Password);
-                      console.log(res.summaryData.won_lead_value.sum);
+                      //console.log("nutshell u/n:" + user.integrations.nutshell.nutshellAPI_Key);
+                      //console.log("nutshell p/w:" + user.integrations.nutshell.nutshellAPI_Password);
+                      //console.log(res.summaryData.won_lead_value.sum);
                       checkIfComplete2(callback);            
                   }
                 });
 }
 
 function getLeadsReport(user, callback){ 
-  console.log('getting leads report...');
+  //console.log('getting leads report...');
 
   // client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
-  console.log(user);
+ // console.log(user);
   var client = createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
   client.call('getAnalyticsReport', 
                 { "reportType": "NewLeads", 
@@ -462,14 +462,14 @@ function getLeadsReport(user, callback){
                   else{                            
                       // console.log(res);
                       data["leads"] = res;
-                      console.log('got leads reports');
+                      //console.log('got leads reports');
                       checkIfComplete2(callback);           
                   }
                 });
 }
 
 function getPipelineReport(user, callback){
-  console.log('getting pipeline report...');
+  //console.log('getting pipeline report...');
   // client = NutshellApi.createClient(user.nutshellAPI_Key,user.nutshellAPI_Password);
   var client = createClient(user.integrations.nutshell.nutshellAPI_Key,user.integrations.nutshell.nutshellAPI_Password);
   client.call('getAnalyticsReport', 
@@ -482,7 +482,7 @@ function getPipelineReport(user, callback){
                   else{                            
                       // console.log(res);
                       data["pipeline"] = res;
-                      console.log('got pipeline report');
+                      //console.log('got pipeline report');
                       checkIfComplete2(callback);           
                   }
                 });
