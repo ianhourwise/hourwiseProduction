@@ -211,6 +211,34 @@ module.exports = {
 		});
 	},
 
+	addNote: function (req, res) {
+		Job.findOne(req.param('id')).exec(function (err, job) {
+			if (err)
+				res.send('error');
+			else {
+				var notesArray = [];
+
+				if (job.notes != null)
+					notesArray = job.notes;
+
+				var uuid = require('node-uuid');
+
+				var noteId = uuid.v4();
+
+				var newNote = JSON.parse('{"id":"' + noteId + '", "note":"' + req.param('note') + '", "createdAt":"' + req.param('createdAt') + '"}');
+
+				notesArray.push(newNote);
+
+				Job.update(job.id, {notes: notesArray}, function (err, jobs) {
+					if (err)
+						console.log(err);
+
+					res.send('success');
+				});
+			}
+		});
+	},
+
 	pandaDocRedirect: function(req, res) {
 		console.log(req.params.all());
 

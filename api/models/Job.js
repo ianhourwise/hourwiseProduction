@@ -48,7 +48,7 @@ module.exports = {
 	sync: 'json',
 
 	//notes: {{author: 'username', date: 'date/written', note: 'detail', edit:{by: 'jon', delta:'old', date:''}},{}}
-	notes: 'json',
+	notes: 'array',
 
     from: {	model: 'User' },
   	to: {model: 'User'},

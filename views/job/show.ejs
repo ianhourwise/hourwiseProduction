@@ -111,6 +111,37 @@
                                     </dl>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <dl class="dl-horizontal">
+                                        <div class="ibox float-e-margins">
+                                            <div class="ibox-title">
+                                                <h5>Notes</h5>
+                                                <div class="ibox-tools">
+                                                    <a class="collapse-link">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                    <a class="add-note">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="ibox-content">
+                                                <ul class="todo-list m-t" id="notesList">
+                                                    <% _.each(job.notes, function(note) { %>
+                                                        <li>
+                                                            <span class="m-l-xs">Note: <%= note.note %><br>  Created At: <%= note.createdAt %></span>
+                                                        </li>
+                                                    <% }) %>
+                                                </ul>
+                                                <div id="newNoteForm">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </dl>
+                                </div>
+                            </div>
                             <div class="row m-t-sm">
                                 <div class="col-lg-12">
                                 <div class="panel blank-panel">

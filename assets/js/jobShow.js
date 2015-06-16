@@ -47,6 +47,21 @@ $(document).ready(function() {
       $('#newTaskForm').append('<br><br><form class= "form-signin"><h2 class= "form-signin-heading">Add Task...</h2><input type= "text" class = "form-control" placeholder = "Name" name="name" id="newTaskName"><hr><input type= "text" class = "form-control" placeholder = "Description" name="description" id="newTaskDescription"><hr><input type="date" class = "form-control" placeholder = "Start Date" name="startDate" id="newTaskStartDate"><hr><input type="date" class = "form-control" placeholder = "End Date" name="endDate" id="newTaskEndDate"><hr><hr><select name="urgent" id="newTaskUrgency"><option value="false" selected>Not Urgent</option><option value="true">Urgent</option></select><hr><input class = "btn btn-lg btn-primary btn-block" value = "Create Task" id="createNewTask"/> </form>');
     });
 
+    $(document).on('click', '.add-note', function(e) {
+      $('#newNoteForm').html('');
+      $('#newNoteForm').append('<br><br><form class= "form-signin"><h2 class= "form-signin-heading">Add Note...</h2><input type= "text" class = "form-control" placeholder = "Note" name="note" id="newNote"><hr><input class = "btn btn-lg btn-primary btn-block" value = "Create Note" id="createNewNote"/> </form>');
+    });
+
+    $(document).on('click', '#createNewNote', function(e) {
+      var note = $('#newNote').val();
+      var createdAt = new Date();
+
+      $.post('/job/addNote?id=' + jobId + '&note=' + note + '&createdAt=' + createdAt, function(err) {
+        $('#newNoteForm').html('');
+        $('#notesList').append('<li> </a><span class="m-l-xs">Note: ' + note + '<br>  Created At: ' + createdAt + '</span></li>');
+      });
+    });
+
     $(document).on('click', '#createNewTask', function(e) {
       var name = $('#newTaskName').val();
       var description = $('#newTaskDescription').val();
