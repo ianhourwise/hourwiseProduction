@@ -101,6 +101,25 @@ module.exports = {
 		});
 	},
 
+	reporting: function(res, res) {
+		var date = new Date();
+		date.setDate(date.getDate() - date.getDate());
+
+		var ticketQuery = Task.find();
+		ticketQuery.where({type: 'zendesk', createdAt: {'>=': date}});
+
+		ticketQuery.exec(function (err, tickets) {
+			if (err)
+				console.log(err);
+
+			res.locals.layout = "layouts/reportingLayout"; 
+
+			res.view({
+				tickets: tickets
+			});
+		});
+	},
+
 	getTicketsForUser: function(req, res) {
 		Zendesk.listTicketsByUserId(req.param('zendeskId'), function (tickets) {
 			//console.log(tickets);
