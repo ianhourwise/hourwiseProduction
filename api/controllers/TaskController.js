@@ -103,7 +103,7 @@ module.exports = {
 
 	reporting: function(res, res) {
 		var date = new Date();
-		date.setDate(date.getDate() - date.getDate());
+		date.setDate(date.getDate() - (date.getDate() - 1));
 
 		var ticketQuery = Task.find();
 		ticketQuery.where({type: 'zendesk', createdAt: {'>=': date}});
