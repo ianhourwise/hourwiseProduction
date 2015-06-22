@@ -28,7 +28,8 @@ module.exports = {
     type: 'string',
     notes: 'json',
     attachments: 'array',
-    job: { model: 'job' }
+    job: { model: 'job' },
+    createdAtOriginal: 'date'
   }
 };
 

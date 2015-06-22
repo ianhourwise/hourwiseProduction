@@ -120,6 +120,25 @@ module.exports = {
 		});
 	},
 
+	getTicketsSinceLast: function (req, res) {
+		var ticketQuery = Task.find();
+		ticketQuery.where({type: 'zendesk'});
+
+		ticketQuery.exec(function (err, tickets) {
+			if (err)
+				throw (err);
+
+			var dateInSeconds = new Date(tickets[tickets.length - 1].createdAt) / 1000;
+
+			Zendesk.exportTicketsSince(dateInSeconds, function(tickets) {
+				console.log(tickets.results.length);
+				console.log(tickets.results[tickets.results.length -1]);
+
+				res.send(200);
+			});
+		});
+	},
+
 	getTicketsForUser: function(req, res) {
 		Zendesk.listTicketsByUserId(req.param('zendeskId'), function (tickets) {
 			//console.log(tickets);
@@ -308,7 +327,7 @@ module.exports = {
 	},
 
 	grabTickets: function(req, res) {
-		 Zendesk.listTickets(function (tickets) {
+		 Zendesk.listAllTickets(function (tickets) {
                 function asyncLoop(iterations, func, callback) {
                     var index = 0;
                     var done = false;
@@ -357,9 +376,9 @@ module.exports = {
                 				if (requester != null)
                 					requesterId = requester.id;
 
-                				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, owner: assigneeId, requester: requesterId}, function (err, ticket) {
+                				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, owner: assigneeId, requester: requesterId, createdAtOriginal: new Date(tickets[ticketIndex].created_at)}, function (err, ticket) {
 			                        ticketIndex++;
-			                        //console.log(loop.iteration());
+			                        console.log(loop.iteration());
 			                        loop.next();
 			                    })
                 			});
@@ -372,16 +391,16 @@ module.exports = {
                 				if (requester != null)
                 					requesterId = requester.id;
 
-                				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, requester: requesterId}, function (err, ticket) {
+                				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, requester: requesterId, createdAtOriginal: new Date(tickets[ticketIndex].created_at)}, function (err, ticket) {
 			                        ticketIndex++;
-			                        //console.log(loop.iteration());
+			                        console.log(loop.iteration());
 			                        loop.next();
 			                    })
                 			});
                     }
                     },
 
-                    function() {//console.log('cycle ended')
+                    function() {console.log('cycle ended')
                 				}
                 );      
             });
