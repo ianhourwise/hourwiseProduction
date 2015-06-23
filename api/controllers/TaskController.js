@@ -128,14 +128,23 @@ module.exports = {
 			if (err)
 				throw (err);
 
+			console.log(new Date(tickets[tickets.length - 1].createdAt));
+			console.log(new Date(tickets[tickets.length - 1].createdAt) / 1000);
+
 			var dateInSeconds = new Date(tickets[tickets.length - 1].createdAt) / 1000;
 
 			Zendesk.exportTicketsSince(dateInSeconds, function(tickets) {
 				console.log(tickets.results.length);
-				console.log(tickets.results[tickets.results.length -1]);
+				console.log(tickets.results[tickets.results.length - 2]);
 
 				res.send(200);
 			});
+		});
+	},
+
+	getTicketById: function (req, res) {
+		Zendesk.findTicket(15594, function(ticket) {
+			console.log(ticket);
 		});
 	},
 
