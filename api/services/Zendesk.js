@@ -91,7 +91,7 @@ module.exports = {
 		});
 	},
 
-	findTicket: function (id, callback) {
+	findTicket: function (ids, callback) {
 		var zendesk = require('node-zendesk'),
 	    fs      = require('fs');
 
@@ -101,7 +101,7 @@ module.exports = {
 		  remoteUri: process.env.ZENDESK_URI,
 		});
 
-		client.tickets.show(id, function (err, statusList, body, responseList, resultList) {
+		client.tickets.showMany(ids, function (err, statusList, body, responseList, resultList) {
 			// console.log('err - ' + err);
 			// console.log('statusList' + statusList);
 			// console.log('body' + body)
