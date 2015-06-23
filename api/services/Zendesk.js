@@ -36,17 +36,17 @@ module.exports = {
 		var zendesk = require('node-zendesk'),
 	    fs      = require('fs');
 
-	 //    var client = zendesk.createClient({
-		//   username:  process.env.ZENDESK_USERNAME,
-		//   token:     process.env.ZENDESK_TOKEN,
-		//   remoteUri: process.env.ZENDESK_URI
-		// });
-
-		var client = zendesk.createClient({
-		  username:  'jon@hourwise.com',
-		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
-		  remoteUri: 'https://foundation53.zendesk.com/api/v2'
+	    var client = zendesk.createClient({
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI
 		});
+
+		// var client = zendesk.createClient({
+		//   username:  'jon@hourwise.com',
+		//   token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
+		//   remoteUri: 'https://foundation53.zendesk.com/api/v2'
+		// });
 
 		client.tickets.list(function (err, statusList, body, responseList, resultList) {
 		  if (err) {
@@ -61,17 +61,17 @@ module.exports = {
 		var zendesk = require('node-zendesk'),
 	    fs      = require('fs');
 
-	 //    var client = zendesk.createClient({
-		//   username:  process.env.ZENDESK_USERNAME,
-		//   token:     process.env.ZENDESK_TOKEN,
-		//   remoteUri: process.env.ZENDESK_URI
-		// });
-
-		var client = zendesk.createClient({
-		  username:  'jon@hourwise.com',
-		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
-		  remoteUri: 'https://foundation53.zendesk.com/api/v2'
+	    var client = zendesk.createClient({
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI
 		});
+
+		// var client = zendesk.createClient({
+		//   username:  'jon@hourwise.com',
+		//   token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
+		//   remoteUri: 'https://foundation53.zendesk.com/api/v2'
+		// });
 
 		client.tickets.export(startTime, function (err, statusList, body, responseList, resultList) {
 			if (err)
@@ -89,17 +89,17 @@ module.exports = {
 		var zendesk = require('node-zendesk'),
 	    fs      = require('fs');
 
-	 //    var client = zendesk.createClient({
-		//   username:  process.env.ZENDESK_USERNAME,
-		//   token:     process.env.ZENDESK_TOKEN,
-		//   remoteUri: process.env.ZENDESK_URI
-		// });
-
-		var client = zendesk.createClient({
-		  username:  'jon@hourwise.com',
-		  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
-		  remoteUri: 'https://remote.zendesk.com/api/v2'
+	    var client = zendesk.createClient({
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI
 		});
+
+		// var client = zendesk.createClient({
+		//   username:  'jon@hourwise.com',
+		//   token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
+		//   remoteUri: 'https://remote.zendesk.com/api/v2'
+		// });
 
 		// client.users.list(function (err, req, result) {
 		//   if (err) {
@@ -147,16 +147,16 @@ module.exports = {
 		var zendesk = require('node-zendesk'),
 	    fs      = require('fs');
 
-	 //    var client = zendesk.createClient({
-		//   username:  process.env.ZENDESK_USERNAME,
-		//   token:     process.env.ZENDESK_TOKEN,
-		//   remoteUri: process.env.ZENDESK_URI,
-		// });
-		var client = zendesk.createClient({
-			  username:  'jon@hourwise.com',
-			  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
-			  remoteUri: 'https://foundation53.zendesk.com/api/v2'
-			});
+	    var client = zendesk.createClient({
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI,
+		});
+		// var client = zendesk.createClient({
+		// 	  username:  'jon@hourwise.com',
+		// 	  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
+		// 	  remoteUri: 'https://foundation53.zendesk.com/api/v2'
+		// 	});
 		
 
 		client.tickets.showMany(ids, function (err, statusList, body, responseList, resultList) {
