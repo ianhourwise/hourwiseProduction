@@ -9,20 +9,32 @@ module.exports = {
 
 	new: function(req, res) {
 		res.locals.layout = "layouts/layout";
-		Contact.find().exec(function (err, contacts) {
+		Company.findOne(req.session.User.company).populate('groups').populate('contacts').exec(function (err, company) {
 			if (err)
 				console.log(err);
 
 			res.view({
 				user: req.session.User,
-				contacts: contacts
+				contacts: company.contacts,
+				groups: company.groups,
+				company: company,
+				productsAndServices: company.productsAndServices
 			});
-		}); 
+		});
+		// Contact.find().exec(function (err, contacts) {
+		// 	if (err)
+		// 		console.log(err);
+
+		// 	res.view({
+		// 		user: req.session.User,
+		// 		contacts: contacts
+		// 	});
+		// }); 
 	},
 
 	index: function(req, res) {
 		res.locals.layout = "layouts/layout";
-		Job.find().populate('recipients').populate('tasks').populate('owner').exec(function (err, jobs) {
+		Job.find().populate('recipients').populate('tasks').populate('owner').populate('client').exec(function (err, jobs) {
 			if (err)
 				console.log(err)
 
@@ -34,17 +46,24 @@ module.exports = {
 
 	show: function(req, res) {
 		res.locals.layout = "layouts/jobShowLayout";
-		Job.findOne({id: req.param('id')}).populate('recipients').populate('tasks').populate('owner').populate('touches').exec(function (err, job) {
+		Job.findOne({id: req.param('id')}).populate('recipients').populate('tasks').populate('client').populate('owner').populate('touches').exec(function (err, job) {
+			if (err)
+				console.log(err);
+
+			var tasksLeftToComplete = 0;
+			for (var i = 0; i < job.tasks.length; i++)
+				if (job.tasks[i].completed != true)
+					tasksLeftToComplete++;
+
 			res.view({
 				job: job,
-				currentUser: req.session.User.email
+				currentUser: req.session.User.email,
+				tasksLeftToComplete: tasksLeftToComplete
 			});
 		}); 
 	},
 
 	create: function(req, res, next){
-
-		console.log(req.params.all());
 
 		Job.create(req.params.all(), function (err, job) {
 			if (err)
@@ -183,6 +202,43 @@ module.exports = {
 		});
 	},
 
+	updateStatus: function (req, res) {
+		Job.update(req.param('id'), {status: req.param('status')}, function (err, jobs) {
+			if (err)
+				console.log(err)
+
+			res.send(jobs[0].status);
+		});
+	},
+
+	addNote: function (req, res) {
+		Job.findOne(req.param('id')).exec(function (err, job) {
+			if (err)
+				res.send('error');
+			else {
+				var notesArray = [];
+
+				if (job.notes != null)
+					notesArray = job.notes;
+
+				var uuid = require('node-uuid');
+
+				var noteId = uuid.v4();
+
+				var newNote = JSON.parse('{"id":"' + noteId + '", "note":"' + req.param('note') + '", "createdAt":"' + req.param('createdAt') + '"}');
+
+				notesArray.push(newNote);
+
+				Job.update(job.id, {notes: notesArray}, function (err, jobs) {
+					if (err)
+						console.log(err);
+
+					res.send('success');
+				});
+			}
+		});
+	},
+
 	pandaDocRedirect: function(req, res) {
 		console.log(req.params.all());
 
@@ -312,7 +368,7 @@ module.exports = {
 	      		if (err)
 	      			res.send('Something bad happened: ' + err);
 
-	      		res.send(jobs[0]);
+	      		res.redirect('/job/show/' + job.id);
 	      	});
 	      });
 	  });

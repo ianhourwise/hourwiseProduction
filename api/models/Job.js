@@ -11,6 +11,7 @@ module.exports = {
   	company:{model: 'company'},
   	creator: {model: 'user'},
     owner:{model: 'user'},
+    client:{model: 'contact'},
 
   	name: 'string',
   	number: {type: 'string', defaultsTo:''},
@@ -47,7 +48,7 @@ module.exports = {
 	sync: 'json',
 
 	//notes: {{author: 'username', date: 'date/written', note: 'detail', edit:{by: 'jon', delta:'old', date:''}},{}}
-	notes: 'json',
+	notes: 'array',
 
     from: {	model: 'User' },
   	to: {model: 'User'},
@@ -82,6 +83,18 @@ module.exports = {
       collection: 'touch',
       via: 'job'
     },
+
+    groups: {
+      collection: 'group',
+      via: 'job'
+    },
+
+    tasks: {
+      collection: 'task',
+      via: 'job'
+    },
+
+    productsAndServices: {type: 'array', defaultsTo: null},
 	// address: {
  //      type: 'string',
  //      defaultsTo: ''

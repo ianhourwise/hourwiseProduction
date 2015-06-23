@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Hourwise</title>
-
+    
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/font-awesome/css/font-awesome.css" rel="stylesheet">
 
@@ -58,15 +58,17 @@
 <body>
 
     <div id="wrapper">
-        <%- partial ('../partials/sideMenu.ejs') %>   
+        <%- partial ('../partials/sideMenu.ejs') %> 
   <div id="page-wrapper" class="gray-bg">
     <%- partial ('../partials/navbar.ejs') %>
 
+
   <%- body %>
   </div>  
-</div>
+    </div>
 
     <!-- Mainly scripts -->
+
     <!--SCRIPTS-->
     <script src="/js/dependencies/sails.io.js"></script>
     <script src="/js/jquery-2.1.1.js"></script>
@@ -95,11 +97,21 @@
     <script src="/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
     <script src="/js/plugins/cropper/cropper.min.js"></script>
     <!--SCRIPTS END-->
-
     
-
-    <script src="/js/jobCreate.js"></script>
-
+    <script src="/js/plugins/charts/flot/jquery.flot.js"></script>
+    <script src="/js/plugins/charts/flot/jquery.flot.pie.js"></script>
+    <script src="/js/plugins/charts/flot/jquery.flot.resize.js"></script>
+    <script src="/js/plugins/charts/flot/jquery.flot.time.js"></script>
+    <script src="/js/plugins/charts/flot/jquery.flot.growraf.js"></script>
+    <script src="/js/plugins/charts/flot/jquery.flot.categories.js"></script>
+    <script src="/js/plugins/charts/flot/jquery.flot.stack.js"></script>
+    <script src="/js/plugins/charts/flot/jquery.flot.orderBars.js"></script>
+    <script src="/js/plugins/charts/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="/js/plugins/charts/flot/date.js"></script>
+    <script src="/js/Chart.min.js"></script>
+    <script src="/js/Chart.StackedBar.js"></script>
+    <script src="/js/reporting.js"></script>
+    
 
     <script>
         $(document).ready(function() {
@@ -576,5 +588,3 @@
     </script>
 </body>
 </html>
-
-

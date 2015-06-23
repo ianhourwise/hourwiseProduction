@@ -45,7 +45,19 @@ module.exports = {
 
     hours: 'string',
 
-    notes: 'string'
+    notes: 'string',
+
+    groups: {
+        collection: 'group',
+        via: 'company'
+    },
+
+    contacts: {
+        collection: 'contact',
+        via: 'company'
+    },
+
+    productsAndServices: {type: 'array', defaultsTo: []}
 
 
     // employeeRelationships : {

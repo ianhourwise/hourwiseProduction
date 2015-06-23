@@ -12,7 +12,9 @@ module.exports = {
 	attributes: {
 		name: 'string',
 		address: 'string',
-		contacts: { collection: 'contact', via: 'groups'}
+		contacts: { collection: 'contact', via: 'groups'},
+		company: {model: 'company', defaultsTo: null},
+		job: {model: 'job', defaultsTo: null}
 	}
 };
 

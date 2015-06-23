@@ -22,4 +22,68 @@ $(document).ready(function() {
           $('.feed-activity-list').prepend(htmlString);
      });
   });
+
+  //if (userRole == 'concierge' || userRole == 'superUser') {
+    //Allow editing 
+
+    $(document).on('click', '#status', function(e) {
+      $('#statusModal').modal('show');  
+    });
+
+    $(document).on('click', ".statusOption", function(e) {
+      console.log($(this).attr('name'));
+
+
+      $.post('/job/updateStatus/?id=' + jobId + '&status=' + $(this).attr('name'), function(status) {
+        
+        $('#statusModal').modal('hide');
+        $('#statusText').html(status);
+
+      });
+    });
+
+    $(document).on('click', '.add-task', function(e) {
+      $('#newTaskForm').html('');
+      $('#newTaskForm').append('<br><br><form class= "form-signin"><h2 class= "form-signin-heading">Add Task...</h2><input type= "text" class = "form-control" placeholder = "Name" name="name" id="newTaskName"><hr><input type= "text" class = "form-control" placeholder = "Description" name="description" id="newTaskDescription"><hr><input type="date" class = "form-control" placeholder = "Start Date" name="startDate" id="newTaskStartDate"><hr><input type="date" class = "form-control" placeholder = "End Date" name="endDate" id="newTaskEndDate"><hr><hr><select name="urgent" id="newTaskUrgency"><option value="false" selected>Not Urgent</option><option value="true">Urgent</option></select><hr><input class = "btn btn-lg btn-primary btn-block" value = "Create Task" id="createNewTask"/> </form>');
+    });
+
+    $(document).on('click', '.add-note', function(e) {
+      $('#newNoteForm').html('');
+      $('#newNoteForm').append('<br><br><form class= "form-signin"><h2 class= "form-signin-heading">Add Note...</h2><input type= "text" class = "form-control" placeholder = "Note" name="note" id="newNote"><hr><input class = "btn btn-lg btn-primary btn-block" value = "Create Note" id="createNewNote"/> </form>');
+    });
+
+    $(document).on('click', '#createNewNote', function(e) {
+      var note = $('#newNote').val();
+      var createdAt = new Date();
+
+      $.post('/job/addNote?id=' + jobId + '&note=' + note + '&createdAt=' + createdAt, function(err) {
+        $('#newNoteForm').html('');
+        $('#notesList').append('<li> </a><span class="m-l-xs">Note: ' + note + '<br>  Created At: ' + createdAt + '</span></li>');
+      });
+    });
+
+    $(document).on('click', '#createNewTask', function(e) {
+      var name = $('#newTaskName').val();
+      var description = $('#newTaskDescription').val();
+      var startDate = $('#newTaskStartDate').val();
+      var endDate = $('#newTaskEndDate').val();
+
+      $.post('/task/create?name=' + name + '&description=' + description + '&startDate=' + startDate + '&endDate=' + endDate + '&job=' + jobId + '&fromJobShow=true&completed=false', function(task) {
+        $('#newTaskForm').html('');
+        $('#tasksList').append('<li> <a href="#" class="check-link completeTask"><i class="fa fa-square-o"></i> </a><span class="m-l-xs">' + task.description + '<br>  Due: ' + task.endDate + '</span></li>');
+      }); 
+    });
+
+    // $(document).on('click', '.completeTask', function(e) {
+    //   console.log('clickity clack');
+    //   console.log($(this).attr('name'));
+    // });
+
+    $('.completeTask').click(function() {
+      console.log($(this).attr('name'));
+
+      $.post('/task/completeTask?id=' + $(this).attr('name'));
+    });
+
+  //}
 });

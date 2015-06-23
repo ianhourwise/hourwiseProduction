@@ -87,6 +87,34 @@ var User = {
       }.bind(this));
     },
 
+    getPerformanceMetricsNoCallback: function(user) {
+    // NutshellApi.getSalesAnalytics(user, function(err, response){
+    //   this.nutshell.performanceMetrics = response;
+    //   console.log(this.name);
+    //   this.save(callback(this));
+    // }.bind(this));
+      NutshellApi.getPerformanceReports(user, function(err, response) {
+        if (err) {
+          console.log('----------' + err);
+          //callback(user);
+        }
+        else {
+          //console.log(response);
+          user.integrations.nutshell.performanceMetrics = response;
+          //console.log(user.integrations.nutshell.performanceMetrics === response);
+          
+          //console.log('success performance');
+          user.save(function (err) {
+            //callback(user);
+          });
+        }  
+
+
+        
+        
+      }.bind(this));
+    },
+
     getRedLeadsNoCallback: function(user){
       NutshellApi.getRedLeads(user, function(err, response) {
         if (err) 

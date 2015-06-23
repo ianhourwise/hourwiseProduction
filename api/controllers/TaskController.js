@@ -28,8 +28,10 @@ module.exports = {
 			//scheduler.scheduleAndStore(endDate, 'taskDueTrigger', task, function(err) {
 
 			//});
-
-			res.redirect('/task/index');
+			if (req.param('fromJobShow'))
+				res.send(task);
+			else
+				res.redirect('/task/index');
 		});	
 	},
 
@@ -89,6 +91,164 @@ module.exports = {
 			res.redirect('/task/index');
 		});
 	},
+
+	completeTask: function(req, res) {
+		Task.update(req.param('id'), {completed: true}, function (err, tasks) {
+			if (err)
+				console.log(err);
+
+			res.send('updated');
+		});
+	},
+
+	reporting: function(res, res) {
+		var date = new Date();
+		date.setDate(date.getDate() - (date.getDate() - 1));
+
+		var ticketQuery = Task.find();
+		ticketQuery.where({type: 'zendesk', createdAt: {'>=': date}});
+
+		ticketQuery.exec(function (err, tickets) {
+			if (err)
+				console.log(err);
+
+			res.locals.layout = "layouts/reportingLayout"; 
+
+			res.view({
+				tickets: tickets
+			});
+		});
+	},
+
+	getTicketsSinceLast: function (req, res) {
+		var ticketQuery = Task.find();
+		ticketQuery.where({type: 'zendesk'});
+
+		ticketQuery.exec(function (err, tickets) {
+			if (err)
+				throw (err);
+
+			console.log(new Date(tickets[tickets.length - 1].createdAt));
+			console.log(new Date(tickets[tickets.length - 1].createdAt) / 1000);
+
+			var dateInSeconds = new Date(tickets[tickets.length - 1].createdAt) / 1000;
+
+			Zendesk.exportTicketsSince(dateInSeconds, function(tickets1) {
+				console.log(tickets1.results.length);
+				console.log(tickets1.results[tickets1.results.length - 2]);
+
+				var ticketIds = [];
+
+				for (var i = 0; i < tickets1.results.length; i++)
+					if ((new Date(tickets1.results[i].created_at)) > (new Date(tickets[tickets.length - 1].createdAt)))
+						ticketIds.push(tickets1.results[i].id);
+
+				console.log('ticket ids - ' + ticketIds.length);
+
+
+				
+				Zendesk.findTicket(ticketIds, function(newTickets) {
+					console.log(newTickets[0].id);
+					console.log(newTickets.length);
+
+	                function asyncLoop(iterations, func, callback) {
+	                    var index = 0;
+	                    var done = false;
+	                    var loop = {
+	                        next: function() {
+	                            if (done) {
+	                                return;
+	                            }
+
+	                            if (index < iterations) {
+	                                index++;
+	                                func(loop);
+
+	                            } else {
+	                                done = true;
+	                                callback();
+	                            }
+	                        },
+
+	                        iteration: function() {
+	                            return index - 1;
+	                        },
+
+	                        break: function() {
+	                            done = true;
+	                            callback();
+	                        }
+	                    };
+	                    loop.next();
+	                    return loop;
+	                }
+
+	                var ticketIndex = 0;    
+
+	                asyncLoop(newTickets.length, function (loop) {
+
+
+	                	console.log((new Date(newTickets[ticketIndex].created_at)) + '------' + (new Date(tickets[tickets.length - 1].createdAt)));			
+
+	                	if ((new Date(newTickets[ticketIndex].created_at)) > (new Date(tickets[tickets.length - 1].createdAt))) {
+	                		if (newTickets[ticketIndex].assignee_id != null) {
+		                		User.findOne({zendeskId: newTickets[ticketIndex].assignee_id.toString()}, function (err, assignee) {
+		                			var assigneeId = null;
+
+		                			if (assignee != null)
+		                				assigneeId = assignee.id;
+
+		                			User.findOne({zendeskId: newTickets[ticketIndex].requester_id.toString()}, function (err, requester) {
+		                				var requesterId = null;
+
+		                				if (requester != null)
+		                					requesterId = requester.id;
+
+		                				Task.create({zendesk: newTickets[ticketIndex], type: 'zendesk', zendeskId: newTickets[ticketIndex].id, owner: assigneeId, requester: requesterId, createdAtOriginal: new Date(newTickets[ticketIndex].created_at)}, function (err, ticket) {
+					                        ticketIndex++;
+					                        console.log(loop.iteration());
+					                        loop.next();
+					                    })
+		                			});
+		                		});
+		                	}
+		                    else {
+		                    	User.findOne({zendeskId: newTickets[ticketIndex].requester_id.toString()}, function (err, requester) {
+		                				var requesterId = null;
+
+		                				if (requester != null)
+		                					requesterId = requester.id;
+
+		                				Task.create({zendesk: newTickets[ticketIndex], type: 'zendesk', zendeskId: newTickets[ticketIndex].id, requester: requesterId, createdAtOriginal: new Date(newTickets[ticketIndex].created_at)}, function (err, ticket) {
+					                        ticketIndex++;
+					                        console.log(loop.iteration());
+					                        loop.next();
+					                    })
+		                			});
+		                    }
+	                    }
+	                    else {
+	                    	console.log('old - loop iteration = ' + loop.iteration());
+	                    	loop.next();
+	                    }
+	                    	
+
+	                    },
+
+	                    function() {
+	                    	console.log('cycle ended')
+	                    	res.send(200);
+        				}
+	                );      
+	            
+					
+				});
+			});
+		});
+	},
+
+	getTicketById: function (req, res) {
+			},
 
 	getTicketsForUser: function(req, res) {
 		Zendesk.listTicketsByUserId(req.param('zendeskId'), function (tickets) {
@@ -278,7 +438,7 @@ module.exports = {
 	},
 
 	grabTickets: function(req, res) {
-		 Zendesk.listTickets(function (tickets) {
+		 Zendesk.listAllTickets(function (tickets) {
                 function asyncLoop(iterations, func, callback) {
                     var index = 0;
                     var done = false;
@@ -327,9 +487,9 @@ module.exports = {
                 				if (requester != null)
                 					requesterId = requester.id;
 
-                				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, owner: assigneeId, requester: requesterId}, function (err, ticket) {
+                				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, owner: assigneeId, requester: requesterId, createdAtOriginal: new Date(tickets[ticketIndex].created_at)}, function (err, ticket) {
 			                        ticketIndex++;
-			                        //console.log(loop.iteration());
+			                        console.log(loop.iteration());
 			                        loop.next();
 			                    })
                 			});
@@ -342,16 +502,16 @@ module.exports = {
                 				if (requester != null)
                 					requesterId = requester.id;
 
-                				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, requester: requesterId}, function (err, ticket) {
+                				Task.create({zendesk: tickets[ticketIndex], type: 'zendesk', zendeskId: tickets[ticketIndex].id, requester: requesterId, createdAtOriginal: new Date(tickets[ticketIndex].created_at)}, function (err, ticket) {
 			                        ticketIndex++;
-			                        //console.log(loop.iteration());
+			                        console.log(loop.iteration());
 			                        loop.next();
 			                    })
                 			});
                     }
                     },
 
-                    function() {//console.log('cycle ended')
+                    function() {console.log('cycle ended')
                 				}
                 );      
             });

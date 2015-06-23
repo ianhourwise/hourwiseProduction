@@ -40,6 +40,17 @@ module.exports = {
     }); 
   },
 
+  referral: function (req, res) {
+    User.findOne({id: req.param('id')}).populate('company').exec( function (err, user) {
+      if (err)
+        throw (err);
+
+      res.view('referral/referral', {
+        user: user
+      });
+    });
+  },
+
   keenerTask: function (req, res) {
     var urgency = 'Not Urgent';
 

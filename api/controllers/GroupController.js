@@ -97,7 +97,7 @@ module.exports = {
 			contacts = req.param('addUser');
 
 
-		Group.create({'name': req.param('name'), 'address': req.param('address'), 'contacts': contacts}, function (err, group) {
+		Group.create({'name': req.param('name'), 'address': req.param('address'), 'contacts': contacts, 'company': req.session.User.company}, function (err, group) {
 
 			if (req.param('addUser') != 0) {
 				Contact.findOne(req.param('addUser'), function (err, contact) {

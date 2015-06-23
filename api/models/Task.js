@@ -24,10 +24,12 @@ module.exports = {
   	zendesk: 'json',
   	owner: { model: 'user' },
   	requester: { model: 'user' },
+    job: { model: 'job', defaultsTo: null},
     type: 'string',
     notes: 'json',
     attachments: 'array',
-    job: { model: 'job' }
+    job: { model: 'job' },
+    createdAtOriginal: 'date'
   }
 };
 
