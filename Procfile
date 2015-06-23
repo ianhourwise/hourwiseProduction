@@ -1,2 +1,2 @@
-web: NODE_ENV=production sails lift
+web: NODE_ENV=development sails lift
 
