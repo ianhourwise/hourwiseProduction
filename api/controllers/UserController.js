@@ -381,9 +381,10 @@ module.exports = {
  				//console.log('+++++++++' + user.tickets.length + '+++++++++');
  				if(err) return next(err);
 		 		if(!user) return next();
-		 		user.getPerformanceMetrics(user, function () {
-		 			user.getRedLeads(user, function() {
-		 				if(user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.performanceMetrics == null && user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.redLead == null) {
+		 		user.getPerformanceMetricsNoCallback(user);
+	 			user.getRedLeadsNoCallback(user);
+
+	 			if(user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.performanceMetrics == null && user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.redLead == null) {
 				 			//console.log('no PMs or Leads');
 				 			var salesData = {"summaryData" : {"won_lead_value": {"sum": 0}}};
 							var leadData = {"seriesData" : {"won_leads": []}};
@@ -456,8 +457,81 @@ module.exports = {
 								}
 							});	
 						});
-		 			});	
-		 		});
+		 			// 	if(user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.performanceMetrics == null && user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.redLead == null) {
+				 	// 		//console.log('no PMs or Leads');
+				 	// 		var salesData = {"summaryData" : {"won_lead_value": {"sum": 0}}};
+						// 	var leadData = {"seriesData" : {"won_leads": []}};
+						// 	var pipelineData = [];
+						// 	var redMetrics = [];
+						// 	var redLeads = [];
+				 
+						// }
+
+						// else {
+						// 	//console.log('got the data');
+						// 	var salesData = JSON.stringify(user.integrations.nutshell.performanceMetrics.sales);
+						// 	var leadData = JSON.stringify(user.integrations.nutshell.performanceMetrics.leads);
+						// 	var pipelineData = JSON.stringify(user.integrations.nutshell.performanceMetrics.pipeline);
+						// 	var redMetrics = user.integrations.nutshell.redLeads.counts;
+						// 	var redLeads = user.integrations.nutshell.redLeads.leads;
+						// }
+
+						// User.findOne(req.param('id')).populate('tasks').populate('company').populate('tickets').exec(function (err, user) {
+
+						// 	var tasks = user.tasks;
+
+						// 	Communication.findOne({primaryNumber: user.primaryNumber}).populate('touches').exec(function (err, communication) {
+						// 		if (user.zendeskId != undefined) {
+						// 			//Task.find({type: 'zendesk'}).exec(function (err, tickets) {
+						// 				var organizationTickets = [];
+
+						// 				//console.log('+++++++++' + user.tickets.length + '+++++++++');
+
+						// 				for (var i = 0; i < user.tickets.length; i++) {
+						// 					if (user.tickets[i].zendesk.status != 'closed' && user.tickets[i].zendesk.status != 'solved')
+						// 						organizationTickets.push(user.tickets[i].zendesk);
+						// 				}
+
+						// 				res.locals.layout= 'layouts/dashboard_layout';
+						// 		 		res.view('user/conciergeDash', {
+						// 		 			user: user,
+						// 		 			salesData: salesData,
+						// 		 			leadData: leadData,
+						// 		 			pipelineData: pipelineData,
+						// 		 			// redMetrics: nsResponse.counts,
+						// 		 			// redLeads: nsResponse.leads
+						// 		 			// redMetrics: redMetrics,
+						// 		 			// redLeads: redLeads
+						// 		 			redMetrics: redMetrics,
+						// 		 			redLeads: redLeads,
+						// 		 			tasks: tasks,
+						// 		 			communication: communication,
+						// 		 			organizationTickets: organizationTickets
+						// 		 		});
+						// 			//});
+						// 		}
+						// 		else {
+						// 			res.locals.layout= 'layouts/dashboard_layout';
+						// 	 		res.view('user/conciergeDash', {
+						// 	 			user: user,
+						// 	 			salesData: salesData,
+						// 	 			leadData: leadData,
+						// 	 			pipelineData: pipelineData,
+						// 	 			// redMetrics: nsResponse.counts,
+						// 	 			// redLeads: nsResponse.leads
+						// 	 			// redMetrics: redMetrics,
+						// 	 			// redLeads: redLeads
+						// 	 			redMetrics: redMetrics,
+						// 	 			redLeads: redLeads,
+						// 	 			tasks: tasks,
+						// 	 			communication: communication,
+						// 	 			organizationTickets: null
+						// 	 		});	
+						// 		}
+						// 	});	
+						// });
+		 		// 	});	
+		 		// });
 		 		
 		 		// 	var uuid = require('node-uuid');
 
