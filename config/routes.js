@@ -52,6 +52,8 @@ module.exports.routes = {
   'get /auth/:provider/callback': 'AuthController.callback',
   'get /auth/:provider/:action': 'AuthController.callback',
 
+  '/referral/:email': 'StaticController.referral'
+
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

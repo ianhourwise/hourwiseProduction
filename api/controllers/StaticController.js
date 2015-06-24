@@ -41,9 +41,11 @@ module.exports = {
   },
 
   referral: function (req, res) {
-    User.findOne({id: req.param('id')}).populate('company').exec( function (err, user) {
+    User.findOne({email: req.param('email')}).populate('company').exec( function (err, user) {
       if (err)
         throw (err);
+
+      console.log(user);
 
       res.view('referral/referral', {
         user: user
