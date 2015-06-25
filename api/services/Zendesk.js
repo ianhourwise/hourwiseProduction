@@ -143,7 +143,28 @@ module.exports = {
 		});
 	},
 
-	findTicket: function (ids, callback) {
+	findTicket: function (id, callback) {
+		var zendesk = require('node-zendesk'),
+	    fs      = require('fs');
+
+	    var client = zendesk.createClient({
+		  username:  process.env.ZENDESK_USERNAME,
+		  token:     process.env.ZENDESK_TOKEN,
+		  remoteUri: process.env.ZENDESK_URI,
+		});
+
+		client.tickets.show(id, function (err, statusList, body, responseList, resultList) {
+			// console.log('err - ' + err);
+			// console.log('statusList' + statusList);
+			// console.log('body' + body)
+
+			client.tickets.getComments(id, function (err, statusList, body2, responseList, resultList) {
+				callback(body, body2);
+			});
+		});
+	},
+
+	findTickets: function (ids, callback) {
 		var zendesk = require('node-zendesk'),
 	    fs      = require('fs');
 

@@ -147,7 +147,7 @@ module.exports = {
 
 
 				
-				Zendesk.findTicket(ticketIds, function(newTickets) {
+				Zendesk.findTickets(ticketIds, function(newTickets) {
 					console.log(newTickets[0].id);
 					console.log(newTickets.length);
 
