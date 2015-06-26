@@ -1084,6 +1084,34 @@ module.exports = {
 	      // 	});
 	    // });
 	  });
+	},
+
+	addReferral: function(req, res) {
+		console.log('got here');
+		User.findOne({id: req.param('id')}, function (err, user) {
+			if (err)
+				console.log(err);
+
+			var referralsArray = [];
+
+			if (user.referrals != null)
+				referralsArray = user.referrals;
+
+			var uuid = require('node-uuid');
+
+			var referralId = uuid.v4();
+
+			var newReferral = JSON.parse('{"id":"' + referralId + '", "name":"' + req.param('name') + '", "email":"' + req.param('email') + '", "phoneNumber":"' + req.param('phoneNumber') + '", "createdAt":"' + new Date() + '"}');
+
+			referralsArray.push(newReferral);
+
+			User.update(user.id, {referrals: referralsArray}, function (err, users) {
+				if (err)
+					console.log(err);
+
+				res.send(200);
+			});
+		});
 	}	
 	
 };

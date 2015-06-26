@@ -45,7 +45,7 @@ module.exports = {
       if (err)
         throw (err);
 
-      console.log(user);
+      res.locals.layout = 'layouts/referralLayout';
 
       res.view('referral/referral', {
         user: user

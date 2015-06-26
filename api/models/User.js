@@ -59,6 +59,8 @@ var User = {
     lastSyncedOn: 'date',
     avatarURL: 'string',
 
+    referrals: 'array',
+
     getPerformanceMetrics: function(user, callback) {
     // NutshellApi.getSalesAnalytics(user, function(err, response){
     //   this.nutshell.performanceMetrics = response;

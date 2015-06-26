@@ -50,7 +50,8 @@ module.exports.policies = {
   'user': {
     admin: 'isSuperUser',
     welcome: true,
-    onboardDump: true
+    onboardDump: true,
+    addReferral: true
   },
 
   'task': {

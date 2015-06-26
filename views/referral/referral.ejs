@@ -262,6 +262,64 @@
 <!-- =========================
    ABOUT US SECTION   
 ============================== -->
+<!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modal-form" id="click">
+</button> -->
+
+<div id="getInfoModal" class="modal" aria-hidden="true" style="display: block;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="closeModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="false">&times;</span></button>
+        <h4 class="modal-title">Thanks, for showing interest!</h4>
+      </div>
+      <div class="modal-body">
+         <div class="row">
+                        <div class="col-sm-12 b-r">
+
+                            <p>If we could just get a couple quick things then at the bottom of the page you can fill out an email form to get in touch with us, or book an appointment!</p>
+
+                            <form role="form">
+                                <div class="form-group"><label>Name</label> <input type="name" placeholder="Name..." id="modalName" class="form-control" /></div>
+                                <div class="form-group"><label>Email</label> <input type="email" placeholder="Email..." id="modalEmail" class="form-control" /></div>
+                                <div class="form-group"><label>Phone Number</label> <input type="text" placeholder="Phone..." id="modalPhone" class="form-control" /></div>
+                                <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" id="modalSubmit">Submit</button>
+
+                            </form>
+                        </div>
+      </div>
+      
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+</div><!-- /.modal -->
+
+
+<!-- <div id="modal-form" class="modal" aria-hidden="false" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 b-r"><h3 class="m-t-none m-b">Thanks, for showing interest!</h3>
+
+                            <p>If we could just get a couple quick things from you before you book an appointment...</p>
+
+                            <form role="form">
+                                <div class="form-group"><label>Name</label> <input type="name" placeholder="Name..." id="modalName" class="form-control"></div>
+                                <div class="form-group"><label>Email</label> <input type="email" placeholder="Email..." id="modalEmail" class="form-control"></div>
+                                <div class="form-group"><label>Phone Number</label> <input type="text" placeholder="Phone..." id="modalPhone" class="form-control"></div>
+
+                               <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Submit</button>
+                              </div>
+                            </form>
+                        </div>
+                </div>
+            </div>
+            </div>
+        </div>
+</div> -->
 
 <section class="about-us" id="aboutus">
 <div class="container">
@@ -364,6 +422,10 @@ var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s
 </div> <!-- / END CONTAINER -->
 </div></div></section>
 <section>
-    <iframe src="https://hwdemo.youcanbook.me/?noframe=true&skipHeaderFooter=true" style="width:100%;height:1000px;border:0px;background-color:transparent;" frameborder="0" allowtransparency="true" onload="keepInView(this);"></iframe>
+    <iframe id="bookMeFrame" src="https://hwdemo.youcanbook.me/?noframe=true&skipHeaderFooter=true" style="width:100%;height:1000px;border:0px;background-color:transparent;" frameborder="0" allowtransparency="true" onload="keepInView(this);"></iframe>
 <script>function keepInView(item) {if((document.documentElement&&document.documentElement.scrollTop)||document.body.scrollTop>item.offsetTop)item.scrollIntoView();}</script>
 </section>
+
+<script>
+    var userId = '<%- user.id %>';
+</script>
