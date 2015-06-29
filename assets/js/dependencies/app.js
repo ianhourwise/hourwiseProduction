@@ -18,14 +18,17 @@ $(document).ready(function() {
 
   io.socket.on('user', function (obj) {
       console.log(obj);
-      var data = obj.data;
-      $('#newAlert').html('1');
-      if (data.fromTask == null)
-        $('#alertsList').prepend('<li id=' + data.id + '><div><i class="fa fa-bullhorn fa-fw"></i> ' + data.message + '<span class="pull-right text-muted small"><div class="btn btn-sml"><a href="/communication/index/' + data.communicationId + '">Go</a></div><div class="btn btn-sml dismissAlert" id="req.session.User.id">Dismiss</div></span></div></li><li class="divider"></li>');
-      else
-        $('#alertsList').prepend('<li id=' + data.id + '><div><i class="fa fa-ticket fa-fw"></i> ' + data.message + '<span class="pull-right text-muted small"><div class="btn btn-sml"><a href="/task/' + data.communicationId + '">Go to task</a></div><div class="btn btn-sml dismissAlert" id="req.session.User.id">Dismiss</div></span></div></li><li class="divider"></li>');
+      if (!obj.data.fromDash) {
+        var data = obj.data;
+        $('#newAlert').html('1');
+        if (data.fromTask == null)
+          $('#alertsList').prepend('<li id=' + data.id + '><div><i class="fa fa-bullhorn fa-fw"></i> ' + data.message + '<span class="pull-right text-muted small"><div class="btn btn-sml"><a href="/communication/index/' + data.communicationId + '">Go</a></div><div class="btn btn-sml dismissAlert" id="req.session.User.id">Dismiss</div></span></div></li><li class="divider"></li>');
+        else
+          $('#alertsList').prepend('<li id=' + data.id + '><div><i class="fa fa-ticket fa-fw"></i> ' + data.message + '<span class="pull-right text-muted small"><div class="btn btn-sml"><a href="/task/' + data.communicationId + '">Go to task</a></div><div class="btn btn-sml dismissAlert" id="req.session.User.id">Dismiss</div></span></div></li><li class="divider"></li>');
 
-      console.log(data.message);
+        console.log(data.message);
+      }
+      
   });
 
   io.socket.on('task', function (obj) {

@@ -59,10 +59,72 @@ var colours = {
 
 $(document).ready(function() {
 
+	io.socket.get('/user/subscribeToDashboard');
+
+	io.socket.on('user', function (obj) {
+	  console.log(obj);
+	  console.log(obj.data.user);
+	  var user = obj.data.user;
+	  sales_data = user.integrations.nutshell.performanceMetrics.sales;
+	  lead_data = user.integrations.nutshell.performanceMetrics.leads;
+	  pipeline_data = user.integrations.nutshell.performanceMetrics.pipeline ;
+	  goal = user.salesGoal;
+
+	  	var noLeadsOpened = previousDaysTotal(noDaysForLeads, lead_data.seriesData.leads);
+		var noLeadsClosed = previousDaysTotal(noDaysForLeads, sales_data.seriesData.closed_leads);
+		var noLeadsWon = previousDaysTotal(noDaysForLeads, sales_data.seriesData.leads_won);
+		var Won2Close = parseFloat(noLeadsWon)/parseFloat(noLeadsClosed);
+		//Leads open/day
+		var openRate = noLeadsOpened/noDaysForLeads;
+		//Leads closed/day
+		var closeRate = noLeadsClosed/noDaysForSales;
+		//No. Open Leads 
+		var i = dayIndex(pipeline_data.seriesData.open_leads, beginningOfToday.valueOf());
+		var noOpen = pipeline_data.seriesData.open_leads[i][1];
+		//Previous Days Totals
+		var salesOfInterest= previousDaysTotal(noDaysForSales,sales_data.seriesData.won_lead_value);
+		var avgSaleOfInterest = 0;
+		if (noLeadsWon > 0)
+			avgSaleOfInterest = salesOfInterest/noLeadsWon;
+		var avgSalePerDay = salesOfInterest/noDaysForSales;
+		var DPLOfInterest = salesOfInterest/noLeadsOpened;
+		//Previous Months Calculations
+
+
+		//Monthly data
+		var leadsOpenByMonth = aggregateMonthly(lead_data.seriesData.leads);
+		var leadsWonByMonth = aggregateMonthly(sales_data.seriesData.leads_won);
+		var leadsClosedByMonth = aggregateMonthly(sales_data.seriesData.closed_leads);
+		var salesByMonth = aggregateMonthly(sales_data.seriesData.won_lead_value);
+		var won2closeByMonth = aggregateMonthly(sales_data.seriesData.win_rate);
+		//Annual Data
+		var projectedSales =(sales_data.summaryData.won_lead_value.sum/effectiveYearElapsed());
+
+		$('#numRedLeads').html(user.integrations.nutshell.redLeads.Total_Red_Leads);
+
+		d1 =  aggregateMonthly(sales_data.seriesData.won_lead_value); 
+    //Update Annual Data
+
+		$('#projectedSales').html('$'+ moneyMe(projectedSales));
+	  	$('#percentGoal').attr('data-percent', percentToGoal.toString()+'%');
+	  	$('#percentGoal').html(percentToGoal.toFixed(0).toString()+'%');
+	    //Plot monthly charts and update views
+
+	    // monthSummary(today.getMonth(), colours);
+	    
+
+		initPieChartPage(20,100,1500, colours);
+		$('#monthOfInterest').val(today.getMonth());
+		updateMonthly();
+		$('#monthOfInterest').change(function(){
+			updateMonthly();
+		});
+  	});
+
     d1 =  aggregateMonthly(sales_data.seriesData.won_lead_value); 
     //Update Annual Data
 
-	$('#projectedSales').html('$'+moneyMe(projectedSales));
+	$('#projectedSales').html('$'+ moneyMe(projectedSales));
   	$('#percentGoal').attr('data-percent', percentToGoal.toString()+'%');
   	$('#percentGoal').html(percentToGoal.toFixed(0).toString()+'%');
     //Plot monthly charts and update views
@@ -544,7 +606,7 @@ function previousDaysTotal(noDays, data){
 	startDay.setHours(0,0,0,0);
 	
 	for(var i in data){
-		console.log(i);
+		//console.log(i);
 		var dataDate= new Date(data[i][0]);
 		if(dataDate>=startDay){total+=parseFloat(data[i][1]); numOpened++;}
 	}

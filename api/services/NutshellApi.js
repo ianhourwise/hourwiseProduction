@@ -120,7 +120,7 @@ module.exports = {
 
   getPerformanceReports: function(user, callback){
   //console.log(pTasks + '____________________');
-  //console.log(completedTasks + '_________________________');
+  console.log(completedTasks + '_________________________');
   var task1= function(){ return getSalesReport(user, callback)};
   var task2= function(){ return getLeadsReport(user,callback)};
   var task3= function(){ return getPipelineReport(user,callback)};
@@ -433,7 +433,7 @@ function getSalesReport(user, callback){
                 function(err, res){
                   if(err) {console.log(err); throw err}
                   else{                            
-                      // console.log(res);
+                      console.log('got sales');
                       data["sales"] = res;
                       // console.log(data);
                       //console.log("nutshell id:" + user.integrations.nutshell.nutshellId);
@@ -460,7 +460,7 @@ function getLeadsReport(user, callback){
                 function(err, res){
                   if(err) {console.log(err); throw err}
                   else{                            
-                      // console.log(res);
+                      console.log('got leads');
                       data["leads"] = res;
                       //console.log('got leads reports');
                       checkIfComplete2(callback);           
@@ -480,7 +480,7 @@ function getPipelineReport(user, callback){
                 function(err, res){
                   if(err) {console.log(err); throw err}
                   else{                            
-                      // console.log(res);
+                      console.log('got pipeline');
                       data["pipeline"] = res;
                       //console.log('got pipeline report');
                       checkIfComplete2(callback);           

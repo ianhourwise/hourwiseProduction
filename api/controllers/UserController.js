@@ -375,6 +375,8 @@ module.exports = {
  	},
 
 	dashboard: function(req, res, next) {
+		User.subscribe(req.socket, req.param('id'));
+		User.publishUpdate(req.param('id'), { message: ' Pushing alert to users subscribed to this users dashboard', id: '1234', communicationId: '1234'  });
 		User.findOne(req.param('id')).exec(function (err, user) {
  			if (user.integrations == null) {
  				res.view('user/simpleDash', {
@@ -385,8 +387,8 @@ module.exports = {
  				//console.log('+++++++++' + user.tickets.length + '+++++++++');
  				if(err) return next(err);
 		 		if(!user) return next();
-		 		user.getPerformanceMetricsNoCallback(user);
-	 			user.getRedLeadsNoCallback(user);
+		 		// user.getPerformanceMetricsNoCallback(user);
+	 			// user.getRedLeadsNoCallback(user);
 
 	 			if(user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.performanceMetrics == null && user.integrations == null && user.integrations.nutshell == null && user.integrations.nutshell.redLead == null) {
 				 			//console.log('no PMs or Leads');
@@ -850,6 +852,62 @@ module.exports = {
 		if (req.session.User.role == 'superUser' || req.session.User.role == 'concierge') {
 			User.subscribe(req.socket, req.session.User);
 		}
+	},
+
+	subscribeToDashboard: function (req, res) {
+		console.log(req.socket);
+		var url = req.socket.handshake.headers.referer;
+		var userId = '';
+
+		for (var i = url.length - 1; i >= 0; i--)
+			if (url[i] == '/') {
+				for (var j = i + 1; j < url.length; j++)
+					userId += url[j];
+				break;
+			}
+
+		console.log(userId);
+
+		User.subscribe(req.socket, userId);
+
+		User.findOne({id: userId}, function (err, user) {
+			if (err)
+				console.log(err);
+
+			console.log(user);
+
+			NutshellApi.getPerformanceReports(user, function(err, response) {
+		        if (err) {
+		          console.log('----------' + err);
+		          callback(user);
+		        }
+		        else {
+		          console.log(response);
+		          user.integrations.nutshell.performanceMetrics = response;
+		          console.log(user.integrations.nutshell.performanceMetrics === response);
+		          
+		          console.log('success performance');
+		       	  NutshellApi.getRedLeads(user, function(err, response) {
+			        if (err) 
+			          console.log('----------' + err);
+			        
+			        user.integrations.nutshell.redLeads = response;
+			        // console.log(this.name);
+			        //console.log('success red leads');
+			        user.integrations.nutshell.lastSyncedOn.date = new Date();
+			        
+			        console.log('made it');
+
+			        user.save(function (err, user) {
+			        	console.log(user);
+			        	User.publishUpdate(user.id, {user: user, fromDash: true});
+			        });
+
+			      });
+		        }  
+			});
+		});
+				
 	},
 
 	dismissAlert: function (req, res) {
