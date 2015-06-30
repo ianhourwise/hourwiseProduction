@@ -62,8 +62,8 @@ $(document).ready(function() {
 	io.socket.get('/user/subscribeToDashboard');
 
 	io.socket.on('user', function (obj) {
-	  console.log(obj);
-	  console.log(obj.data.user);
+	  console.log('hitting socket event trigger');
+	  
 	  var user = obj.data.user;
 	  sales_data = user.integrations.nutshell.performanceMetrics.sales;
 	  lead_data = user.integrations.nutshell.performanceMetrics.leads;
