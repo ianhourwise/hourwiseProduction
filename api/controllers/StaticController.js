@@ -112,6 +112,16 @@ module.exports = {
     //     else 
     //       res.send(200);
     // }); 
+  },
+
+  signUp: function (req, res) {
+    res.locals.layout = false;
+    res.view('signUpWizard');
+  },
+
+  firstStep: function (req, res) {
+    res.locals.layout = false;
+    res.view('firstStep');
   }
 };
 
