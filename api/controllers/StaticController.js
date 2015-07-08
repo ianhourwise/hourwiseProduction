@@ -72,9 +72,11 @@ module.exports = {
 
     var fromEmail = 'ccs_' + req.param('id') + '@hourwise.com';
 
-    Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': fromEmail, 'subject': taskName, 'body': taskDescription}, function (err) {
-      
-              });
+    if (req.param('id') == '5506ccae677a3603007ce0d8')
+      Mandrill.sendEmail({'toEmail': 'millie@89paint.com', 'toName': 'Millie', 'fromEmail': fromEmail, 'subject': taskName, 'body': taskDescription}, function (err) {});
+    else
+       Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': fromEmail, 'subject': taskName, 'body': taskDescription}, function (err) {});
+    
     res.send(200);
 
     // var taskOwner = null;
@@ -115,13 +117,23 @@ module.exports = {
   },
 
   signUp: function (req, res) {
+    console.log(req.params.all());
     res.locals.layout = false;
-    res.view('signUpWizard');
+    res.view('signUpWizard', {
+      showLeadGen: req.param('showLeadGen'),
+      showPipeline: req.param('showPipeline'),
+      showDocument: req.param('showDocument')
+    });
   },
 
   firstStep: function (req, res) {
     res.locals.layout = false;
     res.view('firstStep');
+  },
+
+  firstStepData: function (req, res) {
+    console.log(req.params.all());
+
   }
 };
 
