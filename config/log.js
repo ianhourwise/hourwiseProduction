@@ -27,7 +27,7 @@ module.exports.log = {
 
   // level: 'verbose'
   // level: 'silent'
-  level: 'silent'
+  level: 'info'
 
 
 };
