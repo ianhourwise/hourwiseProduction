@@ -122,7 +122,9 @@ module.exports = {
     res.view('signUpWizard', {
       showLeadGen: req.param('showLeadGen'),
       showPipeline: req.param('showPipeline'),
-      showDocument: req.param('showDocument')
+      showDocument: req.param('showDocument'),
+      email: req.param('email'),
+      name: req.param('name')
     });
   },
 
@@ -134,6 +136,12 @@ module.exports = {
   firstStepData: function (req, res) {
     console.log(req.params.all());
 
+  },
+
+  finishedWizard: function (req, res) {
+    console.log(req.params.all());
+
+    res.redirect('/user/pending');
   }
 };
 
