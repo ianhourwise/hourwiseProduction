@@ -702,6 +702,7 @@ function updateMonthly(){
 	});
 
 	$(document).on('click', '.sendSMS', function(e) {
+		this.disabled = true;
 		var toNumber = $(this).attr('name');
 		toNumber = toNumber.slice(2, 12);
 		console.log(toNumber);
