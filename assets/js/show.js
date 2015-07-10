@@ -307,11 +307,12 @@ $(document).ready(function() {
 
 
 //DOM READY
+	
 });
 
 
 	// var(sales_dataBar = function (month){
-function monthSummary(month, colours){	
+function monthSummary(month, colours) {	
 	//Need to get real lead data...right now just putting in leads won and closed 
 	var monthCode = (new Date(today.getFullYear(), month, 1, 0)).valueOf();
 	var	weight = MONTHLY_WEIGHTS[month][1];
@@ -412,7 +413,7 @@ function monthSummary(month, colours){
 	options2.colors = [colours.brown, colours.yellow, colours.teal];
 	$.plot($("#leads-bars-chart"), leData, options2);
 
-};
+}
 
 // var initPieChartPage = function(lineWidth, size, animateTime, colours) {
 function initPieChartPage(lineWidth, size, animateTime, colours) {
@@ -478,8 +479,9 @@ function initPieChartPage(lineWidth, size, animateTime, colours) {
         animate: animateTime
     });
 
-};
-function effectiveYearElapsed(){
+}
+
+function effectiveYearElapsed() {
 	var yearStart = new Date(today.getFullYear(),0);
 	var elapsed = 0;
 	var currentMonth= today.getMonth();
@@ -494,9 +496,9 @@ function effectiveYearElapsed(){
 	}
 	return elapsed;
 
-};
+}
 
-function perMonthElapsed(month, year){
+function perMonthElapsed(month, year) {
 	var month = month ? month : today.getMonth();
 	var year = year ? year : today.getFullYear();
 	var doi = new Date(year, month);
@@ -505,31 +507,31 @@ function perMonthElapsed(month, year){
 	if(+doi == +thisMonth){ return today.getDate()/noDays(month, year);}
 	else if(+doi > +today){return 0 ;}
 	else {return 1;}
-};
+}
 
-function isThisMonthMOI(moi){
+function isThisMonthMOI(moi) {
 	var thisMonth = new Date(today.getFullYear(), today.getMonth());
 	if (moi == thisMonth.getMonth()){return true};
 	return false
 }
 
-function noDays(month, year){
+function noDays(month, year) {
 	var year = year ? year : today.getFullYear();
 	return (new Date(year, month+1, 0)).getDate();
 
 }
 
-function daysRemaining(month, year){
+function daysRemaining(month, year) {
 	var month = month ? month : today.getMonth();
 	var year = year ? year : today.getFullYear();
 	return noDays(month, year)*(1 - perMonthElapsed(month, year));
 }
 
-function moneyMe(number){
+function moneyMe(number) {
 	return number.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, "$&,")
 }
 
-function dayIndex(data, dayOfInterest){
+function dayIndex(data, dayOfInterest) {
 	var index = 0;
 	//data is in the form [[day, value], [day, value]]
 	var daysArray = data.map(function(arr){
@@ -546,7 +548,7 @@ function dayIndex(data, dayOfInterest){
 
 }
 
-function aggregateMonthly(data){
+function aggregateMonthly(data) {
 	//Data should be in the form [[date, data], [date,data]....]
 	var newArray = [[0,0.0],[1,0.0],[2,0.0],[3,0.0],[4,0.0],[5,0.0],[6,0.0],[7,0.0],[8,0.0],[9,0.0],[10,0.0],[11,0.0]];
 	
@@ -574,11 +576,11 @@ function aggregateMonthly(data){
 	return newArray
 }
 
-function projectedLeads(month){
+function projectedLeads(month) {
 	return daysRemaining(month)*openRate;
 }
 
-function projectedMonthsSales(month){
+function projectedMonthsSales(month) {
 	var totalProjected = 0;
 	var currentSales = salesByMonth[month][1];
 	
@@ -595,7 +597,7 @@ function projectedMonthsSales(month){
 	return totalProjected
 }
 
-function previousDaysTotal(noDays, data){
+function previousDaysTotal(noDays, data) {
 	// data should be in series form and [[datecode, value],[datecode, value]]
 	// functions returns the sum of values between midight noDays before today and Now. 
 	var total=0;
@@ -616,7 +618,7 @@ function previousDaysTotal(noDays, data){
 
 }
 
-function updateMonthly(){
+function updateMonthly() {
 	var index = $('#monthOfInterest').val();
 	var	weight = MONTHLY_WEIGHTS[index][1];
 	var salesTarget = goal*weight; 
@@ -658,8 +660,9 @@ function updateMonthly(){
 	$('#closedPerWeek').html(leadsOutPerWeek.toFixed(1));
 	// }
 	monthSummary(index, colours);
+}
 
-	$(document).on('click', '.addNumber', function(e) {
+$(document).on('click', '.addNumber', function(e) {
 
 	    $.post('/user/addNumber?id=' + $(this).attr('name') + '&primaryNumber=' + $('#newNumber').val() + '&fromDash=true', function ( communication ) {
 	      	if (communication != 'error') {
@@ -701,36 +704,28 @@ function updateMonthly(){
 	   });
 	});
 	
-	var textCount = 0;
-
 	$(document).on('click', '.sendSMS', function(e) {
 		//this.disabled = true;
 		var toNumber = $(this).attr('name');
 		toNumber = toNumber.slice(2, 12);
-		console.log(textCount);
-		if (textCount % 2 == 0) {
-			console.log(toNumber);
-			$.post('/touch/outboundSMS?toNumber=' + toNumber + '&body=' + $('#smsBody').val() + '&fromPost=true', function ( touch ) {
-	          		console.log(touch);
+		console.log(toNumber);
+		$.post('/touch/outboundSMS?toNumber=' + toNumber + '&body=' + $('#smsBody').val() + '&fromPost=true', function ( touch ) {
+          		console.log(touch);
 
-	          		var htmlString = '<div class="timeline-item"><div class="row"><div class="col-xs-3 date">';
+          		var htmlString = '<div class="timeline-item"><div class="row"><div class="col-xs-3 date">';
 
-	          		
-	                htmlString += '<i class="fa fa-arrow-up"></i>+1' + toNumber + '<br><small class="text-navy">Created by:<br>undefined</small>'; 
-	              
-	                htmlString += '</div><div class="col-xs-7 content no-top-border"><p class="m-b-xs"><strong>Message</strong></p>';
+          		
+                htmlString += '<i class="fa fa-arrow-up"></i>+1' + toNumber + '<br><small class="text-navy">Created by:<br>undefined</small>'; 
+              
+                htmlString += '</div><div class="col-xs-7 content no-top-border"><p class="m-b-xs"><strong>Message</strong></p>';
 
-	                htmlString += '<p>' + $('#smsBody').val() + '</p></div></div></div>';
+                htmlString += '<p>' + $('#smsBody').val() + '</p></div></div></div>';
 
-	                $('#smsBody').val('');
-	          		$('#timeLine').prepend(htmlString);
-                    
-        	 });
-		}
-		textCount++;
+                $('#smsBody').val('');
+          		$('#timeLine').prepend(htmlString);
+                
+    	 });
 	});
-
-}
 
 
 
