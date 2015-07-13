@@ -129,9 +129,20 @@ module.exports = {
   },
 
   firstStep: function (req, res) {
-    res.locals.layout = false;
-    res.view('firstStep');
-  },
+    User.findOne({email: req.param('referrer')}).exec( function (err, user) {
+      if (err)
+        throw (err);
+
+      if (user == null)
+        user = {email: 'none'};
+
+      res.locals.layout = false;
+
+      res.view('firstStep', {
+        user: user
+      });
+    });
+   },
 
   firstStepData: function (req, res) {
     console.log(req.params.all());
@@ -141,7 +152,7 @@ module.exports = {
   finishedWizard: function (req, res) {
     console.log(req.params.all());
 
-    res.redirect('/user/pending');
+    res.redirect('thanks');
   }
 };
 

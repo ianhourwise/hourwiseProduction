@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
 	<title>Hourwise</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
@@ -20,42 +21,67 @@
     <link rel="stylesheet" href="/styles/pixeden-icons.css">
     <link href="/css/plugins/switchery/switchery.css" rel="stylesheet">
 
-    <!-- CUSTOM STYLES -->    
+    <!-- CUSTOM STYLES -->
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/responsive.css"> 
+
+    <style>
+      .blue-bg {background: #879F48;}
+      .btn-success {background-color: #879F48; border-color: black;}
+      .btn-lg {border-radius: 60px;}
+      .form-group {padding: 4%;}
+      .form-control1 {
+        background-color: #FFFFFF;
+        background-image: none;
+        border: 1px solid #e5e6e7;
+        border-radius: 1px;
+        color: inherit;
+        display: block;
+        padding: 6px 12px;
+        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+        width: 100%;
+        font-size: 14px;
+      }
+      .form-control1:focus {
+        border-color: #1ab394!important;
+      }
+    </style>
   <!-- <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet"> -->
   
 </head>
 
 <body>
-<div class="image-container" style="background-image: url('/images/backgrounds/bg2.jpg')">
+<div class="image-container" style="background-image: url('/images/backgrounds/bg3.jpg')">
   <div class="container">
   <div class="row" style="margin-top: 2%;">
     <section class="packages" style="background: none; padding-top: 0px!important;">
 
     <div class="col-lg-4 col-sm-4">
-      <div class="package wow fadeInLeft animated" data-wow-offset="30" data-wow-duration="1.5s" data-wow-delay="0.15s">
-          <div class="package-header blue-bg">
-              <h5>Just a bit of info first...</h5>
-          </div>
-      
-          <form role="form" style="margin-top: 5%;">
-            <div class="form-group">
-                <input type="text" class="form-control" name="email" placeholder="Email" id="emailInput">
+      <div class = "col-xs-12">
+        <div class="package wow fadeInLeft animated" data-wow-offset="30" data-wow-duration="1.5s" data-wow-delay="0.15s">
+            <div class="package-header blue-bg" style="background: #879F48!important">
+                <h5>Just a bit of info first...</h5>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control" name="name" placeholder="Name" id="nameInput">
-            </div>
-            <!-- <div class = "form-group">
-                <input type="password" class="form-control" name="password" placeholder="Password">
-            </div> -->
-          </form>
+        
+            <form class="form" style="margin-top: 5%;">
+              <label id="enterEmail" style="color: red; display: none;">Please enter your email and name before continuing...</label> 
+              <div class="form-group">
+                  <input type="text" class="form-control1" name="email" placeholder="Email" id="emailInput" >
+              </div>
+              <div class="form-group">
+                  <input type="text" class="form-control1" name="name" placeholder="Name" id="nameInput">
+              </div>
+              <!-- <div class = "form-group">
+                  <input type="password" class="form-control" name="password" placeholder="Password">
+              </div> -->
+            </form>
+        </div>
       </div>
       
     </div>
     </section>
     <div class="col-lg-8 col-sm-8">
-      <img src="/images/image3047.png">
+      <img src="/images/logo_multinbg.png" style="width: 100%;">
     </div>
   </div>
   </div>
@@ -78,15 +104,15 @@
             <!-- FIRST PACKAGE -->
             <div class="col-lg-4 col-sm-4">
                 <div class="package wow fadeInLeft animated" data-wow-offset="30" data-wow-duration="1.5s" data-wow-delay="0.15s">
-                    <div class="package-header blue-bg">
+                    <div class="package-header blue-bg" id="leadGenHeader">
                         <h5><div align="left" style="margin-left: 5%;"><input type="checkbox" class="js-switch" checked />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lead Generation</div></h5>
                     </div>
                 
                     <ul>
                         <!-- <li><i class="icon-check"></i>50 minuts of concierge time</li> -->
-                        <li><i class="icon-check"></i>PRODUCE leads that are right for your business.</li>
-                        <li><i class="icon-check"></i>CONFIRM lead contact info and scope of work.</li>
-                        <li><i class="icon-check"></i>SCHEDULE a time that works best for you to meet with the lead.</li>
+                        <li><i class="icon-check"></i>PRODUCE LEADS</li>
+                        <li><i class="icon-check"></i>CONFIRM WORK</li>
+                        <li><i class="icon-check"></i>SCHEDULE MEETING</li>
                                        
                     </ul>
                     <div style="padding: 11px;"></div>
@@ -97,17 +123,18 @@
                     <!-- Second PACKAGE -->
             <div class="col-lg-4 col-sm-4">
                 <div class="package wow fadeInLeft animated" data-wow-offset="30" data-wow-duration="1.5s" data-wow-delay="0.15s">
-                    <div class="package-header blue-bg">
+                    <div class="package-header blue-bg" id="pipelineHeader">
                         <h5><div align="left" style="margin-left: 5%;"><input type="checkbox" class="js-switch" checked />&nbsp;&nbsp;&nbsp;Pipeline Management</div></h5>
                     </div>
                     
                     <ul>
                         <!-- <li><i class="icon-check"></i>50 minuts of concierge time</li> -->
-                        <li><i class="icon-check"></i>CENTRALIZE leads from all your sources / channels (phone, web, networking)</li>
-                        <li><i class="icon-check"></i>FOLLOW UP with customers to confirm contact info, job details, appointments, and receipt of estimates, proposals and invoices</li>
-                        <li><i class="icon-check"></i>REPORT on open opportunities and closing metrics</li>
+                        <li><i class="icon-check"></i>CENTRALIZE LEADS</li>
+                        <li><i class="icon-check"></i>FOLLOW UP WITH CUSTOMERS</li>
+                        <li><i class="icon-check"></i>REPORT ON LEADS</li>
                                          
                     </ul>
+                    <div style="padding: 11px;"></div>
                     <a data-toggle="modal" href="#expandPipeline"><img alt="image" class="img-circle" src="/images/pipeline.png" style="width: 200px; height: 200px;"></a>
                 </div>
             </div>
@@ -116,15 +143,15 @@
                     <!-- Third PACKAGE -->
             <div class="col-lg-4 col-sm-4">
                 <div class="package wow fadeInLeft animated" data-wow-offset="30" data-wow-duration="1.5s" data-wow-delay="0.15s">
-                    <div class="package-header blue-bg">
+                    <div class="package-header blue-bg" id="documentHeader">
                         <h5><div align="left" style="margin-left: 5%;"><input type="checkbox" class="js-switch" checked />&nbsp;&nbsp;&nbsp;Document Management</div></h5>
                     </div>
                     
                     <ul>
                         <!-- <li><i class="icon-check"></i>50 minuts of concierge time</li> -->
-                        <li><i class="icon-check"></i>GENERATE professional, digital proposals and invoices for your customers.</li>
-                        <li><i class="icon-check"></i>TRACK the status of documents sent. Our platform alerts us when a document is viewed, commented on, or accepted and signed.</li>
-                        <li><i class="icon-check"></i>FOLLOW UP with your customer to ensure receipt and understanding.</li>
+                        <li><i class="icon-check"></i>GENERATE PROFESSIONAL PROPOSALS/INVOICES</li>
+                        <li><i class="icon-check"></i>TRACK STATUS OF DOCUMENTS</li>
+                        <li><i class="icon-check"></i>FOLLOW UP WITH CUSTOMERS</li>
                                          
                     </ul>
 
@@ -202,6 +229,7 @@
       
     </div>
   </div>
+  <div style="display: none;" id="referrerEmail" name="<%= user.email %>"></div>
 
 </body>
 
