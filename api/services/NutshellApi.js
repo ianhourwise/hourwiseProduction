@@ -33,6 +33,18 @@ module.exports = {
     
   },
 
+  newLead: function(note) {
+    var client = createClient('jon@hourwise.com', '22b17e8532cef15c2dc2a4579caf94498c1d0324');
+
+    client.call('newLead', {"lead" : 
+      {"note": [
+        note
+        ]}}, function (err, res) {
+          if (err)
+            console.log(err);
+        });
+  },
+
   newNote: function(nutshellId, organizationId, zendeskId) {
 
     if (organizationId.toString() == '34898946') {

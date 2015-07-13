@@ -19,13 +19,10 @@ $(document).ready(function() {
 			
 	});
 
-	// $('#emailInput').blur(function() {
-	// 	console.log($('#emailInput').val());
-	// });
 
-	$('#nameInput').blur(function() {
-		if ($('#emailInput').val() != '' && $('#nameInput').val() != '')
-			$.post('/static/firstStepData?email=' + $('#emailInput').val() + '&name=' + $('#nameInput').val());
+	$('#emailInput').blur(function() {
+		if ($('#emailInput').val() != '')
+			$.post('/static/createAccount?email=' + $('#emailInput').val() + '&referrer=' + $('#referrerEmail').val());
 	});
 
 	$('#leadGenHeader').click(function() {

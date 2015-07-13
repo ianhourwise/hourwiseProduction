@@ -10,7 +10,7 @@ var User = {
 
     role: {
     	type: 'string',
-    	enum: ['superUser', 'admin', 'concierge', 'user'],
+    	enum: ['superUser', 'admin', 'concierge', 'user', 'lead', 'bounced'],
     	defaultsTo: 'user'
     },
 

@@ -145,15 +145,71 @@ module.exports = {
     });
    },
 
-  firstStepData: function (req, res) {
-    console.log(req.params.all());
+  createAccount: function (req, res) {  
+    console.log('sdjkfn');
+    User.create({email: req.param('email'), referrer: req.param('referrer'), role: 'bounced'}, function (err, user) {
+      if (err)
+        console.log(err);
+
+      Passport.create({
+            protocol : 'local'
+          , password : 'foobar'
+          , user     : user.id
+          }, function (err, passport) {
+            if (err) {
+        
+              return user.destroy(function (destroyErr) {
+                next(destroyErr || err);
+              });
+            }
+
+            console.log('success');
+      });
+    });
 
   },
 
   finishedWizard: function (req, res) {
     console.log(req.params.all());
 
-    res.view('thanks');
+    User.update({email: req.param('email')}, {name: req.param('name'), role: 'lead', interestedInLeadGen: req.param('interestedInLeadGen'), interestedInPipeline: req.param('interestedInPipeline'), interestedInDocument: req.param('interestedInDocument'), wizardInfo: req.param('wizardInfo')}, function (err, users){
+      //send email to support
+      //create nutshell lead and note
+      if (err)
+        console.log(err);
+
+      var formatString = 'Name: ' + req.param('name') + '\nEmail: ' + req.param('email') + '\nReferrer: ' + req.param('referrer') + '\nInterested in Lead Gen?: ' + req.param('interestedInLeadGen') + '\nInterested in Pipeline?: ' + req.param('interestedInPipeline') + '\nInterested in Document?: ' + req.param('interestedInDocument');
+      formatString += '\n\nQuestionaire:\n';
+
+      var wizardInfo = req.param('wizardInfo');
+
+      if (wizardInfo.currentLeadGen)
+        formatString += 'Do they currently use lead gen services?: ' + wizardInfo.currentLeadGen;
+
+      if (wizardInfo.pipelineTracking)
+        formatString += '\nHow do they track their pipeline now?: ' + wizardInfo.pipelineTracking;
+
+      if (wizardInfo.pipelineLeadSources)
+        formatString += '\nHow do they currently get leads?: ' + wizardInfo.pipelineLeadSources;
+
+      if (wizardInfo.documentGen)
+        formatString += '\nHow do they currently create their documents?: ' + wizardInfo.documentGen;
+
+      if (wizardInfo.documentSending)
+        formatString += '\nHow do they currently send their documents?: ' + wizardInfo.documentSending;
+
+      if (wizardInfo.documentPaperwork)
+        formatString += '\nWhat sort of startard paperwork do they have in their proposals?: ' + wizardInfo.documentPaperwork;
+
+      console.log(formatString);
+
+      Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': 'support@hourwise.com', 'subject': 'New Lead', 'body': formatString}, function (err) {});
+      NutshellApi.newLead(formatString);
+
+      res.view('thanks');
+    });
+
+    
   }
 };
 
