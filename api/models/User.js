@@ -27,6 +27,10 @@ var User = {
 
     tickets: { collection: 'task', via: 'requester'},
 
+    referrals: { collection: 'user', via: 'referrer'},
+
+    referrer: { model: 'user'},
+
     //For company owner's
     myCompany : { model: 'company', defaultsTo: null},
 

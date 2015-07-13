@@ -146,27 +146,56 @@ module.exports = {
    },
 
   createAccount: function (req, res) {  
-    console.log('sdjkfn');
-    User.create({email: req.param('email'), referrer: req.param('referrer'), role: 'bounced'}, function (err, user) {
+    //console.log('sdjkfn');
+    User.findOne({email: req.param('referrer')}, function (err, referrer) {
       if (err)
         console.log(err);
 
-      Passport.create({
-            protocol : 'local'
-          , password : 'foobar'
-          , user     : user.id
-          }, function (err, passport) {
-            if (err) {
-        
-              return user.destroy(function (destroyErr) {
-                next(destroyErr || err);
-              });
-            }
+      console.log(referrer.id);
 
-            console.log('success');
-      });
+      if (referrer != null) {
+        User.create({email: req.param('email'), referrer: referrer.id, role: 'bounced'}, function (err, user) {
+          if (err)
+            console.log(err);
+
+          Passport.create({
+                protocol : 'local'
+              , password : 'foobar'
+              , user     : user.id
+              }, function (err, passport) {
+                if (err) {
+            
+                  return user.destroy(function (destroyErr) {
+                    next(destroyErr || err);
+                  });
+                }
+
+                console.log('success');
+          });
+        });
+      }
+      else {
+        User.create({email: req.param('email'), referrer: null, role: 'bounced'}, function (err, user) {
+          if (err)
+            console.log(err);
+
+          Passport.create({
+                protocol : 'local'
+              , password : 'foobar'
+              , user     : user.id
+              }, function (err, passport) {
+                if (err) {
+            
+                  return user.destroy(function (destroyErr) {
+                    next(destroyErr || err);
+                  });
+                }
+
+                console.log('success');
+          });
+        });
+      }
     });
-
   },
 
   finishedWizard: function (req, res) {
@@ -200,8 +229,6 @@ module.exports = {
 
       if (wizardInfo.documentPaperwork)
         formatString += '\nWhat sort of startard paperwork do they have in their proposals?: ' + wizardInfo.documentPaperwork;
-
-      console.log(formatString);
 
       Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': 'support@hourwise.com', 'subject': 'New Lead', 'body': formatString}, function (err) {});
       NutshellApi.newLead(formatString);

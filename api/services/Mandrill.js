@@ -1,8 +1,7 @@
 
 module.exports = {
 	sendEmail: function(data, callback) {
-		// var mandrill = require('node-mandrill')(process.env.MANDRILL_TOKEN);
-		var mandrill = require('node-mandrill')('mLUovq8DRL15J1jJFDJKWA');
+		var mandrill = require('node-mandrill')(process.env.MANDRILL_TOKEN);
 
 		mandrill('/messages/send', {
 			message: {
