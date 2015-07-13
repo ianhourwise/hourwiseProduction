@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 	$('#nextButton').click(function() {
 		if ($('#emailInput').val() != '' && $('#nameInput').val() != '')
-			window.location.href = '/static/signUp?showLeadGen=' + leadGenCheckBox.checked + '&showPipeline=' + pipelineCheckBox.checked + '&showDocument=' + documentCheckBox.checked + '&email=' + $('#emailInput').val() + '&name=' + $('#nameInput').val() + '&referrer=' + $('#referrerEmail').attr('name');
+			window.location.href = '/static/signUp?showLeadGen=' + leadGenCheckBox.checked + '&showPipeline=' + pipelineCheckBox.checked + '&showDocument=' + documentCheckBox.checked + '&email=' + $('#emailInput').val() + '&name=' + $('#nameInput').val() + '&referrer=' + $('#referrerEmail').val();
 		else {
 			$('#enterEmail').css('display', 'block');
 			$('#emailInput').focus();
@@ -47,5 +47,11 @@ $(document).ready(function() {
 			$(this).css('background', '#EBEBEC');
 		else
 			$(this).css('background', '#879F48');
+	});
+
+	$('#referrer').click(function(ev) {
+		ev.preventDefault();
+
+		$('#referrerForm').css('display', 'block');
 	});
 });

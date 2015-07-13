@@ -124,7 +124,8 @@ module.exports = {
       showPipeline: req.param('showPipeline'),
       showDocument: req.param('showDocument'),
       email: req.param('email'),
-      name: req.param('name')
+      name: req.param('name'),
+      referrer: req.param('referrer')
     });
   },
 
@@ -152,7 +153,7 @@ module.exports = {
   finishedWizard: function (req, res) {
     console.log(req.params.all());
 
-    res.redirect('thanks');
+    res.view('thanks');
   }
 };
 

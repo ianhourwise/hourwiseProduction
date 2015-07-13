@@ -75,7 +75,25 @@
                   <input type="password" class="form-control" name="password" placeholder="Password">
               </div> -->
             </form>
+            <div class="row">
+              <div class="col-offset-8"><a href="" id="referrer">Referral?</a></div>
+            </div>
+            <div class="row" id="referrerForm" style="display: none;">
+              <div class = "col-xs-12">
+
+              <% if (user.email != 'none') { %>
+                <div class="form-group">
+                  <input type="text" class="form-control1" id="referrerEmail" placeholder="<%= user.email %>" value="<%= user.email %>" disabled>
+                </div>
+              <% } else { %>
+                <div class="form-group">
+                  <input type="text" class="form-control1" id="referrerEmail" placeholder="Referrer email">
+                </div>
+              <% } %>
+
+              </div>
         </div>
+
       </div>
       
     </div>
@@ -229,7 +247,7 @@
       
     </div>
   </div>
-  <div style="display: none;" id="referrerEmail" name="<%= user.email %>"></div>
+  
 
 </body>
 
