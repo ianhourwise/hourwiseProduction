@@ -1,2 +1,2 @@
-web: NODE_ENV=production node app.js --max-stack-size=1024
+web: NODE_ENV=production node --stack-size=8192 app.js
 
