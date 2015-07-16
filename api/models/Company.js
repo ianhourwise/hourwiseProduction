@@ -7,7 +7,8 @@
 
 module.exports = {
   // schema: true,
-  connection: ['someMongodbServer'], 	
+  connection: ['someMongodbServer'],
+  dynamicFinders: false, 	
 
 
   attributes: {

@@ -529,6 +529,18 @@ module.exports = {
                 				}
                 );      
             });
+	},
+
+	referenceTest: function (req, res) {
+		var array = ['16926', '16983', '16918', '17025'];
+		//console.log(Zendesk);
+
+		sails.services.zendesk.findTickets(array, false, function (tickets) {
+			sails.services.zendesk.findTickets(array, true, function (tickets) {
+				console.log('made it back');
+				res.send(200);
+			})
+		});
 	}
 
 };

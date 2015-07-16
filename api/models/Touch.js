@@ -8,6 +8,7 @@
 module.exports = {
 
   connection: ['someMongodbServer'], 
+  dynamicFinders: false,
 
   attributes: {
   	type: {

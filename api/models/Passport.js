@@ -32,7 +32,9 @@ function hashPassword (passport, next) {
  * the user, but not the authentication data, to and from the session.
  */
 var Passport = {
-  connection: ['someMongodbServer'], 
+  connection: ['someMongodbServer'],
+  dynamicFinders: false,
+   
   attributes: {
     // Required field: Protocol
     //

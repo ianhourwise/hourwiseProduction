@@ -175,7 +175,12 @@ module.exports = {
 		});
 	},
 
-	findTickets: function (ids, callback) {
+	findTickets: function (ids, bool, callback) {
+		if (bool == true) {
+			console.log(zendesk + '\n');
+			console.log(fs + '\n');
+			console.log(client + '\n');
+		}
 		var zendesk = require('node-zendesk'),
 	    fs      = require('fs');
 

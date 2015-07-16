@@ -151,8 +151,6 @@ module.exports = {
       if (err)
         console.log(err);
 
-      console.log(referrer.id);
-
       if (referrer != null) {
         User.create({email: req.param('email'), referrer: referrer.id, role: 'bounced'}, function (err, user) {
           if (err)

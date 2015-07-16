@@ -7,7 +7,8 @@
 
 module.exports = {
 
-  connection: ['someMongodbServer'], 
+  connection: ['someMongodbServer'],
+  dynamicFinders: false, 
 
   attributes: {
   	company:{model: 'company'},
