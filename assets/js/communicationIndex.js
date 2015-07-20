@@ -3,9 +3,8 @@ $(document).ready(function() {
     this.disabled = true;
 		var toNumber = $(this).attr('name');
 		toNumber = toNumber.slice(2, 12);
-		console.log(toNumber);
-		$.post('/touch/outboundSMS?toNumber=' + toNumber + '&body=' + $('#smsBody').val() + '&fromPost=true', function ( touch ) {
-          		console.log(touch);
+		console.log(encodeURIComponent($('#smsBody').val()));
+		$.post('/touch/outboundSMS?toNumber=' + toNumber + '&body=' + encodeURIComponent($('#smsBody').val()) + '&fromPost=true', function ( touch ) {
 
           		var htmlString = '<div class="timeline-item"><div class="row"><div class="col-xs-3 date">';
 
@@ -17,7 +16,7 @@ $(document).ready(function() {
                 htmlString += '<p>' + $('#smsBody').val() + '</p></div></div></div>';
 
                 $('#smsBody').val('');
-          		$('#timeLine').prepend(htmlString);
+          		  $('#timeLine').prepend(htmlString);
                     
      
          });

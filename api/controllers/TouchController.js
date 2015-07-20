@@ -65,7 +65,7 @@ module.exports = {
 
  	outboundSMS: function(req, res) {
  		//console.log(req.param('toNumber'));
-
+ 		console.log(req.param('body'));
  		Twilio.sendSMS({toNumber: req.param('toNumber'), smsContent: req.param('body')}, function (err) {
  			if (err) 
  				console.log(err);
@@ -132,6 +132,7 @@ module.exports = {
  	},
 
  	outboundJobSMS: function(req, res) {
+ 		console.log(req.param('body'));
  		Twilio.sendSMS({toNumber: req.param('toNumber'), smsContent: req.param('body')}, function (err) {
  			if (err) 
  				console.log(err);
