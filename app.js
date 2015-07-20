@@ -25,7 +25,8 @@ process.chdir(__dirname);
 // Ensure a "sails" can be located:
 (function() {
   
-  
+  require('dotenv').load();
+  console.log(process.env.MANDRILL_TOKEN);
   var newrelic = require('newrelic');
   
   var sails;

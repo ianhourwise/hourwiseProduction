@@ -227,16 +227,39 @@ module.exports = {
 						if (err)
 							console.log(err);
 
-						var ticket = {
-							'subject': 'TXT from ' + touch.inbound + ' for Hourwise/Foundation',
-							'description': touch.body,
-						};
-
-						Zendesk.createTicket(ticket);
-
 						User.find().exec(function (err, users) {
 							if (err)
 								console.log(err)
+
+							var showName = false;
+							var name = '';
+							var email = '1'
+
+							for (var i = 0; i < users.length; i++) 
+								if (users[i].primaryNumber != null)
+									if (users[i].primaryNumber == communication.primaryNumber) {
+										showName = true;
+										name = user.name;
+										email = user.email;
+										break;
+									}
+							if (showName) {
+								var ticket = {
+									'subject': 'TXT from ' + name + ' for Hourwise/Foundation',
+									'description': touch.body,
+									'requester': email,
+								};
+							}
+							else {
+								var ticket = {
+									'subject': 'TXT from ' + touch.inbound + ' for Hourwise/Foundation',
+									'description': touch.body,
+									'requester': email,
+								};
+							}		
+							
+
+							Zendesk.createTicket(ticket);
 							
 			 				for (var i = 0; i < users.length; i++) {
 			 					var uuid = require('node-uuid');
@@ -244,8 +267,15 @@ module.exports = {
 								var alertId = uuid.v4();
 
 			 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-			 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId, communication.id, false);
-			 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: communication.id  });
+			 						if (showName) {
+			 							users[i].addAlert(name + ' just sent in a text message.', alertId, communication.id, false);
+			 							User.publishUpdate(users[i].id, { message: name + ' just sent in a text message.', id: alertId, communicationId: communication.id  });
+			 						}
+			 						else {
+			 							users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId, communication.id, false);
+			 							User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: communication.id  });
+			 						}
+			 						
 			 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
 			 					}
 			 					
