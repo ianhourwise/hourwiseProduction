@@ -17,13 +17,53 @@ module.exports = {
 		   "ticket":
 		     {
 		       "subject": ticket.subject, 
-		       "description": ticket.description
+		       "description": ticket.description,
+		       "requester": ticket.requester,
+		       "custom_fields": [
+		       		{
+		       			"id" : "24123756",
+		       			"value": "cpc"
+		       		},
+		       		{
+		       			"id": "25572787",
+		       			"value": null
+		       		},
+		       		{
+		       			"id": "23900657",
+		       			"value": null
+		       		},
+		       		{
+		       			"id": "25555168",
+		       			"value": "1"
+		       		}
+		       ],
+		       "tags": [
+		       		"cpc"
+		       ],
+		       "fields": [
+		       		{
+		       			"id" : "24123756",
+		       			"value": "cpc"
+		       		},
+		       		{
+		       			"id": "25572787",
+		       			"value": null
+		       		},
+		       		{
+		       			"id": "23900657",
+		       			"value": null
+		       		},
+		       		{
+		       			"id": "25555168",
+		       			"value": "1"
+		       		}
+		       ]
 		     }
 		 };
 
 		client.tickets.create(ticket,  function(err, req, result) {
 		  if (err) return handleError(err);
-		  //console.log(JSON.stringify(result, null, 2, true));
+		  console.log(JSON.stringify(result, null, 2, true));
 		});
 
 		function handleError(err) {
