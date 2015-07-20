@@ -239,8 +239,8 @@ module.exports = {
 								if (users[i].primaryNumber != null)
 									if (users[i].primaryNumber == communication.primaryNumber) {
 										showName = true;
-										name = user.name;
-										email = user.email;
+										name = users[i].name;
+										email = users[i].email;
 										break;
 									}
 							if (showName) {
