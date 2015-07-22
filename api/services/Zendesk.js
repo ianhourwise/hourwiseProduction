@@ -13,11 +13,14 @@ module.exports = {
 		  remoteUri: process.env.ZENDESK_URI,
 		});
 
+		if (ticket.mediaUrl == null)
+			ticket.mediaUrl = '';
+
 		var ticket = { //make a JSON object to pass to Zendesk's API, these will/can be overloaded by params passed to our service method
 		   "ticket":
 		     {
 		       "subject": ticket.subject, 
-		       "description": ticket.description,
+		       "description": ticket.description + ' ' + mediaUrl,
 		       "requester": ticket.requester,
 		       "custom_fields": [
 		       		{

@@ -231,6 +231,8 @@ module.exports = {
 						                        console.log(loop.iteration());
 						                        loop.next();
 
+						                        
+
 			                				// Task.create({zendesk: newTickets[ticketIndex], type: 'zendesk', zendeskId: newTickets[ticketIndex].id, requester: requesterId, createdAtOriginal: new Date(newTickets[ticketIndex].created_at)}, function (err, ticket) {
 						                 //        ticketIndex++;
 						                 //        console.log(loop.iteration());

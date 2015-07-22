@@ -249,6 +249,7 @@ module.exports = {
 									'subject': 'TXT from ' + name + ' for Hourwise/Foundation',
 									'description': touch.body,
 									'requester': email,
+									'mediaUrl': mediaUrl
 								};
 							}
 							else {
@@ -256,6 +257,7 @@ module.exports = {
 									'subject': 'TXT from ' + touch.inbound + ' for Hourwise/Foundation',
 									'description': touch.body,
 									'requester': email,
+									'mediaUrl': mediaUrl
 								};
 							}		
 							
