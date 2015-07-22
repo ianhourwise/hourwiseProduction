@@ -20,7 +20,7 @@ module.exports = {
 		   "ticket":
 		     {
 		       "subject": ticket.subject, 
-		       "description": ticket.description + ' ' + mediaUrl,
+		       "description": ticket.description + ' ' + ticket.mediaUrl,
 		       "requester": ticket.requester,
 		       "custom_fields": [
 		       		{
