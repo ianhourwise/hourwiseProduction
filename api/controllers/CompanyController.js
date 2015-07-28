@@ -10,7 +10,7 @@ module.exports = {
 		//Should look for users without any company associations, but will fix that later.
 		User.find({myCompany: null}).exec(function foundUsers(err, users) {
 			//console.log('---Users----'+ users )
-			res.locals.layout = "layouts/layout"; 
+			res.locals.layout = "layouts/companyLayout"; 
 			res.view({
 				availableUsers: users
 			});
@@ -22,12 +22,55 @@ module.exports = {
 		// console.log(req.params.all());
 		Company.findOne(req.param('id')).populate('owner').populate('employees').exec( function foundCompany(err, company) {
 			if(err) return next(err);
-			res.locals.layout = "layouts/layout";
-			res.view(
-			{ 
-				company: company
-				// user: {companySettings: {role: "Test", type: "Test type"}}
-			});
+
+			var zendeskIds = [];
+
+			for (var i = 0; i < company.employees.length; i++)
+				zendeskIds.push(company.employees[i].id);
+
+			var date = new Date();
+			date.setDate(date.getDate() - (date.getDate() - 1));
+
+			var ticketQuery = Task.find({requester: zendeskIds}).populate('requester');
+			ticketQuery.where({type: 'zendesk', createdAt: {'>=': date}});
+
+		//ticketQuery.exec(function (err, tickets) {
+
+			console.log(zendeskIds);
+			
+			ticketQuery.exec(function (err, tickets) {
+				if (err)
+					console.log(err);
+
+				console.log(tickets.length);
+
+				var totalMinutesMonth = 0;
+
+				for (var i = 0; i < tickets.length; i++)
+					totalMinutesMonth += parseInt(tickets[i].zendesk.fields[3].value);
+
+				console.log('Total minutes - ' + totalMinutesMonth);
+
+				res.locals.layout = "layouts/companyLayout";
+				res.view(
+				{ 
+					company: company,
+					tickets: tickets,
+					totalMinutesMonth: totalMinutesMonth
+					// user: {companySettings: {role: "Test", type: "Test type"}}
+				});
+			})
+			
+		});
+	},
+
+	updateMinutes: function (req, res) {
+		console.log(req.params.all());
+		Company.update({id: req.param('id')}, {minutesPaid: parseFloat(req.param('minutesPaid')), minutesMax: parseFloat(req.param('maxMinutes'))}, function (err, companies) {
+			if (err)
+				res.send(err);
+
+			res.send(null);
 		});
 	},	
 
@@ -72,7 +115,7 @@ module.exports = {
 	 				console.log(err);
 	 			//console.log('should be updating the user...');
 
-	 			res.redirect('/company/show/'+company.id); //send back true instead of reroute
+	 			res.redirect('/company/show/'+ company.id); //send back true instead of reroute
 	 		});
 
 	 	});

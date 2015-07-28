@@ -58,7 +58,11 @@ module.exports = {
         via: 'company'
     },
 
-    productsAndServices: {type: 'array', defaultsTo: []}
+    productsAndServices: {type: 'array', defaultsTo: []},
+
+    minutesPaid: 'float',
+
+    minutesMax: 'float'
 
 
     // employeeRelationships : {

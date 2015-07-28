@@ -376,7 +376,7 @@ module.exports = {
 
 	dashboard: function(req, res, next) {
 		User.subscribe(req.socket, req.param('id'));
-		User.publishUpdate(req.param('id'), { message: ' Pushing alert to users subscribed to this users dashboard', id: '1234', communicationId: '1234'  });
+		//User.publishUpdate(req.param('id'), { message: ' Pushing alert to users subscribed to this users dashboard', id: '1234', communicationId: '1234'  });
 		User.findOne(req.param('id')).exec(function (err, user) {
  			if (user.integrations == null) {
  				res.view('user/simpleDash', {
