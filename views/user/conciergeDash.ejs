@@ -1,9 +1,10 @@
 <div class = "container">
 
     <br>
-    <h1><%= user.company.name %> - <%= user.username %>   
+    <h1><%= user.company.name %> - <%= user.username %> </h1>  
+    <% if (displayDash){%>
     <h3>Data last synced on: <%= user.integrations.nutshell.lastSyncedOn.date %> </h3>
-
+    <%}%>
     <div class="panel blank-panel">
 
         <div class="panel-heading">
@@ -11,9 +12,11 @@
             <div class="panel-options">
 
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">Leads</a></li>
+                    <% if (displayDash){%>
+                    <li class=""><a data-toggle="tab" href="#tab-1" aria-expanded="true">Leads</a></li>
+                    <%}%>
                     <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">Tickets</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">Communication</a></li>
+                    <li class="active"><a data-toggle="tab" href="#tab-3" aria-expanded="true">Communication</a></li>
                 </ul>
             </div>
         </div>
@@ -21,8 +24,10 @@
         <div class="panel-body">
 
             <div class="tab-content">
+                <% if (displayDash){%>
                 <div id="tab-1" class="tab-pane active">
                     <div class="col-lg-12">
+                       
                          <div class = "row">
                             <div class = "col-lg-4">
                                 <div class = "tile blue">
@@ -222,9 +227,10 @@
                                 </div>
                             </div>
                         </div>
+                
                     </div>
                 </div>
-
+            <% } %>
                 <div id="tab-2" class="tab-pane">
                     <div class="col-lg-10">
                         <div class="wrapper wrapper-content animated fadeInUp">
@@ -250,7 +256,7 @@
                     </div>
                 </div>
 
-                <div id="tab-3" class="tab-pane">
+                <div id="tab-3" class="tab-pane active">
                     <div class="col-lg-10">
                         <% if (user.primaryNumber != null) { %>
                             <% if (communication != null) { %>
@@ -308,10 +314,12 @@
         </div>
 
     </div>
-
+<% if(displayDash){%> 
 <script> 
 var sales_data = <%- salesData %> ;
 var lead_data = <%- leadData %> ;
 var pipeline_data = <%- pipelineData %> ;
 var goal = <%= user.salesGoal %>;
+var displayDash = true;
 </script>
+<%}%>
