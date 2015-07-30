@@ -29,7 +29,7 @@
 									</tr>
                                     <% _.each(users, function(user) { if(!user.company){user.company = {name: 'NoCo'}}%>
 										<tr data-id = "<% user.id %>" data-model = "user">
-											<td><%= user.company.name %></td>
+											<td><a href="/company/show/<%= user.company.id %>"><%= user.company.name %></a></td>
 											<td><%= user.username %></td>
 											<% if (user.integrations) { %>
 												<td><%= user.numOpened %></td>

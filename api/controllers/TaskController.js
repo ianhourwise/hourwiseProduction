@@ -455,6 +455,7 @@ module.exports = {
 
 	grabTickets: function(req, res) {
 		 Zendesk.listAllTickets(function (tickets) {
+		 	console.log(tickets.length)
                 function asyncLoop(iterations, func, callback) {
                     var index = 0;
                     var done = false;

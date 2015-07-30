@@ -30,7 +30,7 @@
 
 <% _.each(users, function(user) { if(!user.company){user.company = {name: 'NoCo'}}%>
 <tr data-id = "<% user.id %>" data-model = "user">
-	<td><%= user.company.name %></td>
+	<td><a href="/company/show/<%= user.company.id %>"><%= user.company.name %></a></td>
 	<td><%= user.username %></td>
 	<td><%= user.email %></td>
 	<td><a href= "/user/dashboard/<%= user.id %>" class= "btn btn-sm btn-primary" >Show</a> </td>

@@ -72,16 +72,15 @@
                                                         <div class="col-lg-10"><p class="form-control-static"><%= company.primaryIndustry %></p></div>
                                                     </div>                                                                
                                                     <div class="form-group"><label class="col-sm-2 control-label">Skills</label>
-
                                                         <div class="col-sm-10"><input type="text" class="form-control"></div>
                                                     </div>
                                                     <div class="hr-line-dashed"></div>
                                                     <div class="form-group"><label class="col-sm-2 control-label">Minutes Paid for</label>
-                                                        <div class="col-sm-10"><input type="text" class="form-control" id="minutesPaidFor"> <span class="help-block m-b-none">Amount of minutes paid for by company.</span>
+                                                        <div class="col-sm-10"><input type="text" class="form-control" id="minutesPaidFor" value="<%= company.minutesPaid %>"> <span class="help-block m-b-none">Amount of minutes paid for by company.</span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group"><label class="col-sm-2 control-label">Maximum Minutes allowed</label>
-                                                        <div class="col-sm-10"><input type="text" class="form-control" id="maxMinutesAllowed"> <span class="help-block m-b-none">Maximum amount of minutes the company is willing to pay for.</span>
+                                                        <div class="col-sm-10"><input type="text" class="form-control" id="maxMinutesAllowed" value="<%= company.minutesMax %>"> <span class="help-block m-b-none">Maximum amount of minutes the company is willing to pay for.</span>
                                                         </div>
                                                     </div>
                                                     <input type="hidden" class="form-control1" id="id" value="<%= company.id %>">
@@ -113,7 +112,7 @@
                                         <tr data-id = "<% user.id %>" data-model = "user">
                                             <td><%= employee.username %></td>
                                             <td><%= employee.email %></td>
-                                            <td><a href= "/user/accountSettings/<%= employee.id %>" class= "btn btn-sm btn-primary" >Show</a> </td>
+                                            <td><a href= "/user/dashboard/<%= employee.id %>" class= "btn btn-sm btn-primary" >Show</a> </td>
 
                                             <!-- <td><a href= "user/edit/<%= user.id %>" class= "btn btn-sm btn-warning" >Edit</a> </td> -->
                                        <!--  <td><form action= "user/destroy/<%= user.id %>"  method = 'POST'>

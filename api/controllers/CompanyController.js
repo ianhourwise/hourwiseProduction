@@ -36,20 +36,25 @@ module.exports = {
 
 		//ticketQuery.exec(function (err, tickets) {
 
-			console.log(zendeskIds);
+			//console.log(zendeskIds);
 			
 			ticketQuery.exec(function (err, tickets) {
 				if (err)
 					console.log(err);
 
-				console.log(tickets.length);
+				//console.log(tickets.length);
 
 				var totalMinutesMonth = 0;
 
 				for (var i = 0; i < tickets.length; i++)
-					totalMinutesMonth += parseInt(tickets[i].zendesk.fields[3].value);
+					if (!isNaN(parseFloat(tickets[i].zendesk.fields[3].value)))
+						totalMinutesMonth += parseFloat(tickets[i].zendesk.fields[3].value);
 
-				console.log('Total minutes - ' + totalMinutesMonth);
+				//console.log('Total minutes - ' + totalMinutesMonth);
+
+				tickets.sort(function (a, b) {
+					return a.zendesk.status - b.zendesk.status;
+				});
 
 				res.locals.layout = "layouts/companyLayout";
 				res.view(
@@ -65,7 +70,7 @@ module.exports = {
 	},
 
 	updateMinutes: function (req, res) {
-		console.log(req.params.all());
+		//console.log(req.params.all());
 		Company.update({id: req.param('id')}, {minutesPaid: parseFloat(req.param('minutesPaid')), minutesMax: parseFloat(req.param('maxMinutes'))}, function (err, companies) {
 			if (err)
 				res.send(err);

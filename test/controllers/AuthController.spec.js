@@ -7,7 +7,7 @@ describe('AuthController', function() {
     	console.log('-------------------');
       request(sails.hooks.http.app)
         .post('/auth/local')
-        .send({ name: 'ian@hourwise.com', password: '49616E' })
+        .send({ name: 'ian@hourwise.com', password: '' })
         .expect(302, done)
         // .expect('location','/mypage', done);
     });
