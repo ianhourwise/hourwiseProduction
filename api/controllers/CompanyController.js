@@ -32,7 +32,7 @@ module.exports = {
 			date.setDate(date.getDate() - (date.getDate() - 1));
 
 			var ticketQuery = Task.find({requester: zendeskIds}).populate('requester');
-			ticketQuery.where({type: 'zendesk', createdAt: {'>=': date}});
+			ticketQuery.where({type: 'zendesk', createdAtOriginal: {'>=': date}});
 
 		//ticketQuery.exec(function (err, tickets) {
 
