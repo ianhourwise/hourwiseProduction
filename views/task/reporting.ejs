@@ -28,6 +28,7 @@
                                 <th>Request Date</th>
                                 <th>Ticket Type</th>
                                 <th>Link</th>
+                                <tbody id="ticketList">
                                 <% _.each(tickets, function(ticket) { %>
                                     <tr>
                                         <td><%= ticket.zendesk.subject %></td>
@@ -37,6 +38,7 @@
                                         <td><%= ticket.zendesk.via.channel %></td>
                                         <td><a href="<%= ticket.zendesk.url %>">Go to ticket</a></td>
                                     </tr>
+                                </tbody>
                                 <% }) %>
                              </table>
                         </div>
@@ -55,7 +57,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="wrapper wrapper-content animated fadeInUp">
-                            <table class="table" id="taskTable">
+                            <table class="table">
                                 <th>Organization</th>
                                 <th>Count</th>
                                 <th>Sum of Minutes</th>
@@ -63,7 +65,10 @@
                                 <th>Max. Minute Val</th>
                                 <th>Median</th>
                                 <th>Mean</th>
-                                
+                                <th id="clearTasks">RESET</th>
+                                <tbody id="taskTable">
+
+                                </tbody>
                              </table>
                         </div>
                     </div>
@@ -81,7 +86,7 @@
 	            <div class="row">
                     <div class="col-lg-12">
                         <div class="wrapper wrapper-content animated fadeInUp">
-                            <table class="table" id="orgTable">
+                            <table class="table">
                                 <th>Organization</th>
                                 <th>Count</th>
                                 <th>Sum of Minutes</th>
@@ -89,7 +94,10 @@
                                 <th>Max. Minute Val</th>
                                 <th>Median</th>
                                 <th>Mean</th>
-                                
+                                <th id="clearOrg">RESET</th>
+                                    <tbody id="orgTable">
+
+                                    </tbody>
                              </table>
                         </div>
                     </div>
@@ -104,5 +112,6 @@
 </div>
 
 <script>
-    var tickets = <%-JSON.stringify(tickets)%>;
+    var tickets = <%- JSON.stringify(tickets) %>;
+    var companies = <%- JSON.stringify(companies) %>;
 </script>

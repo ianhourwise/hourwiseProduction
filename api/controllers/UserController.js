@@ -460,7 +460,7 @@ module.exports = {
 					 			tasks: tasks,
 					 			communication: communication,
 					 			organizationTickets: null,
-					 			displayDash: displayDas
+					 			displayDash: displayDash
 					 		});	
 						}
 					});	

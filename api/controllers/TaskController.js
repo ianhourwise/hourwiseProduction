@@ -102,8 +102,9 @@ module.exports = {
 	},
 
 	reporting: function(res, res) {
-		var date = new Date();
-		date.setDate(date.getDate() - (date.getDate() - 1));
+		var date = new Date('2015', '06', '01');
+		console.log(date);
+		//date.setDate(date.getDate() - (date.getDate() - 2));
 
 		var ticketQuery = Task.find();
 		ticketQuery.where({type: 'zendesk', createdAtOriginal: {'>=': date}});
@@ -112,11 +113,17 @@ module.exports = {
 			if (err)
 				console.log(err);
 
-			res.locals.layout = "layouts/reportingLayout"; 
+			Company.find().exec(function (err, companies) {
+				if (err)
+					console.log(err);
 
-			res.view({
-				tickets: tickets
-			});
+				res.locals.layout = "layouts/reportingLayout"; 
+
+				res.view({
+					tickets: tickets,
+					companies: companies
+				});
+			});	
 		});
 	},
 

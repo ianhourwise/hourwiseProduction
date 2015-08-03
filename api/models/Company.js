@@ -62,7 +62,9 @@ module.exports = {
 
     minutesPaid: 'float',
 
-    minutesMax: 'float'
+    minutesMax: 'float',
+
+    zendeskId: 'string'
 
 
     // employeeRelationships : {

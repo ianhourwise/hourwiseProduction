@@ -65,6 +65,7 @@ module.exports = {
 		 };
 
 		client.tickets.create(ticket,  function(err, req, result) {
+			console.log(err);
 		  if (err) return handleError(err);
 		  console.log(JSON.stringify(result, null, 2, true));
 		});
