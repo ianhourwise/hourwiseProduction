@@ -324,4 +324,8 @@ var pipeline_data = <%- pipelineData %> ;
 var goal = <%= user.salesGoal %>;
 var displayDash = true;
 </script>
-<%}%>
+<%} else { %>
+<script>
+var displayDash = false;
+</script>
+<% } %>

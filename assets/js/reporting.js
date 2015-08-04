@@ -1,6 +1,9 @@
 $(document).ready(function() {
 
 	var taskTypeArray = ['client_management', 'fupc', 'ipc', 'invoice', 'junk_spam', 'other', 'quote', 'cpc', 'hourwise', 'unmatched'];
+	var removableTaskArray = ['client_management', 'fupc', 'ipc', 'invoice', 'junk_spam', 'other', 'quote', 'cpc', 'hourwise', 'unmatched'];
+	var currentCompany;
+
 	displayTaskData(tickets, taskTypeArray);
 
 	function displayTaskData (tickets, taskTypeArray) {
@@ -67,7 +70,6 @@ $(document).ready(function() {
 			else
 				taskArray.push(JSON.parse('{"name":"Unmatched", "tickets":' + JSON.stringify(unmatchedTickets.sort(function(a,b) {return a-b})) + '}'));
 		}
-		
 
 		var taskData = [];
 		var ticksArray = [];
@@ -113,198 +115,6 @@ $(document).ready(function() {
 		        }
 			});
 	}
-        
-
-	// var paint89Tickets = [];
-	// var AVETickets = [];
-	// var builderTickets = [];
-	// var cambiumTickets = [];
-	// var commonwealthTickets = [];
-	// var deckTickets = [];
-	// var eveDaleTickets = [];
-	// var firstPlaceTickets = [];
-	// var futureOneTickets = [];
-	// var hourwiseTickets = [];
-	// var projetTickets = [];
-	// var oaklandTickets = [];
-	// var outdoorTickets = [];
-	// var pinnacleTickets = [];
-	// var qualityTickets = [];
-	// var rebuildersTickets = [];
-	// var twoChicksTickets = [];
-	// var depotTickets = [];
-	// var noCompanyTickets = [];
-
-	var companiesTickets = [];
-	var companiesMinutes = [];
-
-	for (var i = 0; i < companies.length; i++) {
-		companiesTickets[i] = [];
-		companiesMinutes[i] = [];
-
-		var ticketCount = 0;
-
-		for (var j = 0; j < tickets.length; j++) {
-			if (companies[i].zendeskId == '34898946') {
-				if (tickets[j].zendesk.organization_id == companies[i].zendeskId || tickets[j].zendesk.organization_id == '34594213' && tickets[j].zendesk.fields[3].value != null) {
-					companiesTickets[i][ticketCount] = tickets[j];
-					companiesMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
-					
-					ticketCount++;
-				}
-			}
-			else {
-				if (tickets[j].zendesk.organization_id == companies[i].zendeskId && tickets[j].zendesk.fields[3].value != null && companies[i].zendeskId != undefined) {
-					companiesTickets[i][ticketCount] = tickets[j];
-					companiesMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
-
-					ticketCount++;
-				}
-			}
-		}
- 	}
-
-	// for (var i = 0; i < tickets.length; i++) {
-
-	// 	if (tickets[i].zendesk.organization_id == '34898946' || tickets[i].zendesk.organization_id == '34594213' && tickets[i].zendesk.fields[3].value != null)
-	// 		paint89Tickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '41674248' && tickets[i].zendesk.fields[3].value != null)
-	// 		AVETickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	if (tickets[i].zendesk.organization_id == '41955688' && tickets[i].zendesk.fields[3].value != null)
-	// 		builderTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '41104057' && tickets[i].zendesk.fields[3].value != null)
-	// 		cambiumTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '41674088' && tickets[i].zendesk.fields[3].value != null)
-	// 		commonwealthTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '257929808' && tickets[i].zendesk.fields[3].value != null)
-	// 		deckTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '251934908' && tickets[i].zendesk.fields[3].value != null)
-	// 		eveDaleTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '35018897' && tickets[i].zendesk.fields[3].value != null)
-	// 		firstPlaceTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '35625427' && tickets[i].zendesk.fields[3].value != null)
-	// 		futureOneTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '40631486' && tickets[i].zendesk.fields[3].value != null)
-	// 		hourwiseTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '41680018' && tickets[i].zendesk.fields[3].value != null)
-	// 		projetTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '42381158' && tickets[i].zendesk.fields[3].value != null)
-	// 		oaklandTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '42012548' && tickets[i].zendesk.fields[3].value != null)
-	// 		outdoorTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '255408727' && tickets[i].zendesk.fields[3].value != null)
-	// 		pinnacleTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '42928357' && tickets[i].zendesk.fields[3].value != null)
-	// 		qualityTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '35029088' && tickets[i].zendesk.fields[3].value != null)
-	// 		rebuildersTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '41673168' && tickets[i].zendesk.fields[3].value != null)
-	// 		twoChicksTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else if (tickets[i].zendesk.organization_id == '255688067' && tickets[i].zendesk.fields[3].value != null)
-	// 		depotTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// 	else
-	// 		noCompanyTickets.push(tickets[i].zendesk.fields[3].value * 1);
-	// }
-
-	var companiesArray = [];
-
-	for (var i = 0; i < companiesTickets.length; i++)
-		if (companiesTickets[i].length > 0)  
-			companiesArray.push(JSON.parse('{"name":"' + companies[i].name + '", "tickets":' + JSON.stringify(companiesMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(companiesTickets[i].sort(function(a,b) {return a-b})) + '}'));
-	
-	companiesTickets.sort(function(a,b) {return a.name - b.name});	
-	// companiesArray.push(JSON.parse('{"name":"89 Paint", "tickets":' + JSON.stringify(paint89Tickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"AVE Construction", "tickets":' + JSON.stringify(AVETickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Builder Decor", "tickets":' + JSON.stringify(builderTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Cambium Tree Services", "tickets":' + JSON.stringify(cambiumTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Commonwealth Curb Appeal", "tickets":' + JSON.stringify(commonwealthTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Deck Restoration", "tickets":' + JSON.stringify(deckTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"EveDale Home Improvement", "tickets":' + JSON.stringify(eveDaleTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"First Place Painting", "tickets":' + JSON.stringify(firstPlaceTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Future One Painting", "tickets":' + JSON.stringify(futureOneTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Hourwise", "tickets":' + JSON.stringify(hourwiseTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"New Projet", "tickets":' + JSON.stringify(projetTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Oakland Masonry and Stonework", "tickets":' + JSON.stringify(oaklandTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Outdoor Lighting Perspectives", "tickets":' + JSON.stringify(outdoorTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Pinnacle Cabinetry & Design", "tickets":' + JSON.stringify(pinnacleTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Quality First Construction", "tickets":' + JSON.stringify(qualityTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Richmond Rebuilders", "tickets":' + JSON.stringify(rebuildersTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Two Chicks and a Truck", "tickets":' + JSON.stringify(twoChicksTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Windows Depot", "tickets":' + JSON.stringify(depotTickets.sort(function(a,b) {return a-b})) + '}'));
-	// companiesArray.push(JSON.parse('{"name":"Unmatched Tickets", "tickets":' + JSON.stringify(noCompanyTickets.sort(function(a,b) {return a-b})) + '}'));
-	displayCompanyData(companiesArray, false);
-	// var companyData = [];
-	// var ticksArray1 = [];
-
-	// for (var i = 0; i < companiesArray.length; i++) {
-		
-	// 	var sum = 0;
-	// 	var min = 0;
-	// 	var max = 0;
-	// 	var median = 0;
-	// 	var mean = 0;
-
-	// 	if (companiesArray[i].tickets.length > 0){
-	// 		sum = companiesArray[i].tickets.reduce(function(a, b) { return a + b; });
-	// 		min = companiesArray[i].tickets[0];
-	// 		max = companiesArray[i].tickets[companiesArray[i].tickets.length - 1];
-
-	// 		if (companiesArray[i].tickets.length % 2 == 0)
-	// 			median = companiesArray[i].tickets[companiesArray[i].tickets.length / 2];
-	// 		else
-	// 			median = companiesArray[i].tickets[(companiesArray[i].tickets.length - 1) / 2]
-
-	// 		mean = (sum)/(companiesArray[i].tickets.length);
-	// 	}
-
-	// 	companyData.push([i, sum]);
-	// 	ticksArray1.push([i, companiesArray[i].name]);
-
-	// 	$('#orgTable').append('<tr class="company" name="' + i +'"><td>' + companiesArray[i].name + '</td><td>' + companiesArray[i].tickets.length + '</td><td>' + sum + '</td><td>' + min + '</td><td>' + max + '</td><td>' + median + '</td><td>' + mean + '</td></tr>');
-	// }
-
-	// $.plot($("#companyGraph"), [companyData], {
-	//   		xaxis: {
-	//   			ticks: ticksArray1
-	//   		},
- //        	series: {
- //            	bars: {
- //                	show: true
- //            	}
- //        	},
-	//         grid: {
-	//             hoverable: true,
-	//             borderWidth: 1
-	//         }
- //    	});
-
-	$(document).on('click', '.company', function (e) {
-		$('#orgTable').html("");
-
-		displayCompanyData([companiesArray[$(this).attr('name')]], true);
-
-	});
-
-	$(document).on('click', '#clearOrg', function (e) {
-		$('#orgTable').html("");
-
-		displayCompanyData(companiesArray, false);
-		displayTaskData(tickets);
-		displayTicketList(tickets);
-	});
-
-	$(document).on('click', '.taskType', function (e) {
-		$('#taskTable').html("");
-
-		displayTaskData(tickets, [$(this).attr('name')]);
-
-	});
-
-	$(document).on('click', '#clearTasks', function (e) {
-		$('#taskTable').html("");
-
-		displayTaskData(tickets, taskTypeArray);
-	});
 
 	function displayCompanyData (companiesArray, showTickets) {
 		var companyData = [];
@@ -336,7 +146,7 @@ $(document).ready(function() {
 			$('#orgTable').append('<tr class="company" name="' + i +'"><td>' + companiesArray[i].name + '</td><td>' + companiesArray[i].tickets.length + '</td><td>' + sum + '</td><td>' + min + '</td><td>' + max + '</td><td>' + median + '</td><td>' + mean + '</td></tr>');
 
 			if (showTickets) {
-				displayTaskData(companiesArray[i].actualTickets);
+				displayTaskData(companiesArray[i].actualTickets, removableTaskArray);
 				displayTicketList(companiesArray[i].actualTickets);
 			}
 			
@@ -370,4 +180,112 @@ $(document).ready(function() {
 			$('#ticketList').append('<tr><td>' + tickets[i].zendesk.subject + '</td><td>' + tickets[i].zendesk.fields[3].value + '</td><td>' + tickets[i].zendesk.requester_id + '</td><td>' + tickets[i].zendesk.created_at + '</td><td>' + tickets[i].zendesk.via.channel + '</td><td> <a href="' +  tickets[i].zendesk.url + '">Go to ticket</a> </td></tr>');
 	}
 
+	var companiesTickets = [];
+	var companiesMinutes = [];
+
+	for (var i = 0; i < companies.length; i++) {
+		companiesTickets[i] = [];
+		companiesMinutes[i] = [];
+
+		var ticketCount = 0;
+
+		for (var j = 0; j < tickets.length; j++) {
+			if (companies[i].zendeskId == '34898946') {
+				if (tickets[j].zendesk.organization_id == companies[i].zendeskId || tickets[j].zendesk.organization_id == '34594213' && tickets[j].zendesk.fields[3].value != null) {
+					companiesTickets[i][ticketCount] = tickets[j];
+					companiesMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
+					
+					ticketCount++;
+				}
+			}
+			else {
+				if (tickets[j].zendesk.organization_id == companies[i].zendeskId && tickets[j].zendesk.fields[3].value != null && companies[i].zendeskId != undefined) {
+					companiesTickets[i][ticketCount] = tickets[j];
+					companiesMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
+
+					ticketCount++;
+				}
+			}
+		}
+ 	}
+
+	var companiesArray = [];
+
+	for (var i = 0; i < companiesTickets.length; i++)
+		if (companiesTickets[i].length > 0)  
+			companiesArray.push(JSON.parse('{"name":"' + companies[i].name + '", "tickets":' + JSON.stringify(companiesMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(companiesTickets[i].sort(function(a,b) {return a-b})) + '}'));
+	
+	companiesTickets.sort(function(a,b) {return a.name - b.name});	
+
+	displayCompanyData(companiesArray, false);
+
+	$(document).on('click', '.company', function (e) {
+		$('#orgTable').html("");
+
+		currentCompany = companiesArray[$(this).attr('name')];
+		$('#singleCompany').removeClass('false');
+		$('#singleCompany').addClass('true');
+
+		displayCompanyData([companiesArray[$(this).attr('name')]], true);
+
+	});
+
+	$(document).on('click', '#clearOrg', function (e) {
+		$('#orgTable').html("");
+
+		$('#singleCompany').removeClass('true');
+		$('#singleCompany').addClass('false');
+
+		displayCompanyData(companiesArray, false);
+		displayTaskData(tickets, removableTaskArray);
+		displayTicketList(tickets);
+	});
+
+	$(document).on('click', '.taskType', function (e) {
+		$('#taskTable').html("");
+
+		displayTaskData(tickets, [$(this).attr('name')]);
+
+	});
+
+	$(document).on('click', '#clearTasks', function (e) {
+		$('#taskTable').html("");
+
+		removableTaskArray = taskTypeArray.slice(0);
+
+		displayTaskData(tickets, taskTypeArray);
+	});
+
+	$(document).on('click', '.taskButton', function (e) {
+		$('#taskTable').html("");
+
+		if ($(this).hasClass('remove')) {
+			var index = removableTaskArray.indexOf($(this).attr('name'));
+
+			if (index > -1)
+				removableTaskArray.splice(index, 1);
+
+			$(this).removeClass('remove');
+			$(this).removeClass('btn-success');
+			$(this).addClass('btn-default');
+
+			if ($('#singleCompany').hasClass('true'))
+				displayTaskData(currentCompany.actualTickets, removableTaskArray);
+			else
+				displayTaskData(tickets, removableTaskArray);
+		}
+		else {
+			removableTaskArray.push($(this).attr('name'));
+
+			$(this).addClass('remove');
+			$(this).removeClass('btn-default');
+			$(this).addClass('btn-success');
+
+			if ($('#singleCompany').hasClass('true'))
+				displayTaskData(currentCompany.actualTickets, removableTaskArray);
+			else
+				displayTaskData(tickets, removableTaskArray);
+		}
+		
+	});
 });
