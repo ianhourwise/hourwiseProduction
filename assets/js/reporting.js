@@ -1,13 +1,23 @@
 $(document).ready(function() {
 
+	$(".chosen").chosen();
+
 	var taskTypeArray = ['client_management', 'fupc', 'ipc', 'invoice', 'junk_spam', 'other', 'quote', 'cpc', 'hourwise', 'unmatched'];
 	var removableTaskArray = ['client_management', 'fupc', 'ipc', 'invoice', 'junk_spam', 'other', 'quote', 'cpc', 'hourwise', 'unmatched'];
-	var currentCompany;
+	var currentCompany = null;
+	var currentAssignee = null;
+	var currentRequester = null;
+
+	var users = [];
+
+	for (var i = 0; i < companies.length; i++)
+		for (var j = 0; j < companies[i].employees.length; j++)
+			if (companies[i].employees[j].zendeskId != undefined)
+				users.push(companies[i].employees[j]);
 
 	displayTaskData(tickets, taskTypeArray);
 
 	function displayTaskData (tickets, taskTypeArray) {
-		console.log('getting called');
 		var clientManagementTickets = [];
 		var fupcTickets = [];
 		var ipcTickets = [];
@@ -149,10 +159,57 @@ $(document).ready(function() {
 				displayTaskData(companiesArray[i].actualTickets, removableTaskArray);
 				displayTicketList(companiesArray[i].actualTickets);
 			}
-			
-			
-				
+		}
 
+		$.plot($("#companyGraph"), [companyData], {
+	  		xaxis: {
+	  			ticks: ticksArray1
+	  		},
+        	series: {
+            	bars: {
+                	show: true
+            	}
+        	},
+	        grid: {
+	            hoverable: true,
+	            borderWidth: 1
+	        }
+    	});
+	}
+
+	function displayAssigneeData (companiesArray, showTickets) {
+		var companyData = [];
+		var ticksArray1 = [];
+
+		for (var i = 0; i < companiesArray.length; i++) {			
+			var sum = 0;
+			var min = 0;
+			var max = 0;
+			var median = 0;
+			var mean = 0;
+
+			if (companiesArray[i].tickets.length > 0){
+				sum = companiesArray[i].tickets.reduce(function(a, b) { return a + b; });
+				min = companiesArray[i].tickets[0];
+				max = companiesArray[i].tickets[companiesArray[i].tickets.length - 1];
+
+				if (companiesArray[i].tickets.length % 2 == 0)
+					median = companiesArray[i].tickets[companiesArray[i].tickets.length / 2];
+				else
+					median = companiesArray[i].tickets[(companiesArray[i].tickets.length - 1) / 2]
+
+				mean = (sum)/(companiesArray[i].tickets.length);
+			}
+
+			companyData.push([i, sum]);
+			ticksArray1.push([i, companiesArray[i].name]);
+
+			$('#orgTable').append('<tr class="company" name="' + i +'"><td>' + companiesArray[i].name + '</td><td>' + companiesArray[i].tickets.length + '</td><td>' + sum + '</td><td>' + min + '</td><td>' + max + '</td><td>' + median + '</td><td>' + mean + '</td></tr>');
+
+			if (showTickets) {
+				displayTaskData(companiesArray[i].actualTickets, removableTaskArray);
+				displayTicketList(companiesArray[i].actualTickets);
+			}
 		}
 
 		$.plot($("#companyGraph"), [companyData], {
@@ -172,8 +229,6 @@ $(document).ready(function() {
 	}
 
 	function displayTicketList (tickets) {
-		console.log('rebuilding ticket list...');
-		console.log(tickets.length);
 		$('#ticketList').html("");
 
 		for (var i = 0; i < tickets.length; i++) 
@@ -209,15 +264,83 @@ $(document).ready(function() {
 		}
  	}
 
+ 	var assigneeTickets = [];
+ 	var assigneeMinutes = [];
+
+ 	for (var i = 0; i < users.length; i++) {
+		assigneeTickets[i] = [];
+		assigneeMinutes[i] = [];
+
+		var ticketCount = 0;
+
+		for (var j = 0; j < tickets.length; j++) {
+			if (tickets[j].zendesk.assignee_id == users[i].zendeskId && tickets[j].zendesk.fields[3].value != null) {
+				assigneeTickets[i][ticketCount] = tickets[j];
+				assigneeMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
+
+				ticketCount++;
+			}
+		}
+ 	}
+
+ 	var requesterTickets = [];
+ 	var requesterMinutes = [];
+
+ 	for (var i = 0; i < users.length; i++) {
+		requesterTickets[i] = [];
+		requesterMinutes[i] = [];
+
+		var ticketCount = 0;
+
+		for (var j = 0; j < tickets.length; j++) {
+			if (tickets[j].zendesk.requester_id == users[i].zendeskId && tickets[j].zendesk.fields[3].value != null) {
+				requesterTickets[i][ticketCount] = tickets[j];
+				requesterMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
+
+				ticketCount++;
+			}
+		}
+ 	}
+
 	var companiesArray = [];
 
 	for (var i = 0; i < companiesTickets.length; i++)
 		if (companiesTickets[i].length > 0)  
-			companiesArray.push(JSON.parse('{"name":"' + companies[i].name + '", "tickets":' + JSON.stringify(companiesMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(companiesTickets[i].sort(function(a,b) {return a-b})) + '}'));
+			companiesArray.push(JSON.parse('{"name":"' + companies[i].name + '", "tickets":' + JSON.stringify(companiesMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(companiesTickets[i].sort(function(a,b) {return a-b})) + ', "employees":' + JSON.stringify(companies[i].employees) + '}'));
 	
+	companiesTickets.sort(function(a,b) {return a.name - b.name});
+
+	var assigneeArray = [];
+
+	for (var i = 0; i < assigneeTickets.length; i++)
+		if (assigneeTickets[i].length > 0)  
+			assigneeArray.push(JSON.parse('{"name":"' + users[i].username + '", "tickets":' + JSON.stringify(assigneeMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(assigneeTickets[i].sort(function(a,b) {return a-b})) + '}'));
+	
+	var requesterArray = [];
+
+	for (var i = 0; i < requesterTickets.length; i++)
+		if (requesterTickets[i].length > 0)  
+			requesterArray.push(JSON.parse('{"name":"' + users[i].username + '", "tickets":' + JSON.stringify(requesterMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(requesterTickets[i].sort(function(a,b) {return a-b})) + '}'));
+
 	companiesTickets.sort(function(a,b) {return a.name - b.name});	
 
 	displayCompanyData(companiesArray, false);
+
+	var htmlString = '<option value="all" selected="selected" class="assignee">All</option>';
+
+	for (var i = 0; i < assigneeArray.length; i++)
+		htmlString += '<option class="assignee" value="' + assigneeArray[i].zendeskId + '">' + assigneeArray[i].name + '</option>';
+
+	$(".assigneeList").html(htmlString);
+	$('.chosen').trigger('chosen:updated');
+
+	htmlString = '<option value="all" selected="selected" class="requester">All</option>';
+
+	for (var i = 0; i < requesterArray.length; i++)
+		htmlString += '<option class="requester" value="' + requesterArray[i].zendeskId + '">' + requesterArray[i].name + '</option>';
+
+	$(".requesterList").html(htmlString);
+	$('.chosen').trigger('chosen:updated');
 
 	$(document).on('click', '.company', function (e) {
 		$('#orgTable').html("");
@@ -225,6 +348,17 @@ $(document).ready(function() {
 		currentCompany = companiesArray[$(this).attr('name')];
 		$('#singleCompany').removeClass('false');
 		$('#singleCompany').addClass('true');
+
+		$('.orgFilters').html(currentCompany.name);
+
+		var htmlString = '<option value="all" selected="selected" class="requester">All</option>';
+
+		for (var i = 0; i < currentCompany.employees.length; i++)
+			if (currentCompany.employees[i].zendeskId != null)
+				htmlString += '<option class="requester" value="' + currentCompany.employees[i].zendeskId + '">' + currentCompany.employees[i].username + '</option>';
+
+		$(".requesterList").html(htmlString);
+		$('.chosen').trigger('chosen:updated');
 
 		displayCompanyData([companiesArray[$(this).attr('name')]], true);
 
@@ -236,8 +370,20 @@ $(document).ready(function() {
 		$('#singleCompany').removeClass('true');
 		$('#singleCompany').addClass('false');
 
+		$('.orgFilters').html('All');
+
+		currentCompany = null;
+
+		var htmlString = '<option value="all" selected="selected" class="requester">All</option>';
+
+		for (var i = 0; i < requesterArray.length; i++)
+			htmlString += '<option class="requester" value="' + requesterArray[i].zendeskId + '">' + requesterArray[i].name + '</option>';
+
+		$('.requesterList').html(htmlString);
+		$('.chosen').trigger('chosen:updated');
+
 		displayCompanyData(companiesArray, false);
-		displayTaskData(tickets, removableTaskArray);
+		displayTaskData(tickets, taskTypeArray);
 		displayTicketList(tickets);
 	});
 
@@ -245,15 +391,70 @@ $(document).ready(function() {
 		$('#taskTable').html("");
 
 		displayTaskData(tickets, [$(this).attr('name')]);
-
 	});
 
 	$(document).on('click', '#clearTasks', function (e) {
 		$('#taskTable').html("");
 
+		$('.taskFilters').html('All');
+
 		removableTaskArray = taskTypeArray.slice(0);
 
-		displayTaskData(tickets, taskTypeArray);
+		$('.btn').removeClass('btn-default');
+		$('.btn').addClass('remove');
+		$('.btn').addClass('btn-success');
+
+		if (currentRequester != null)
+			displayTaskData(currentRequester.actualTickets, removableTaskArray);
+		else if (currentCompany != null)
+			displayTaskData(currentCompany.actualTickets, removableTaskArray);
+		else if (currentAssignee != null)
+			displayTaskData(currentAssignee.actualTickets, removableTaskArray);
+		else
+			displayTaskData(tickets, removableTaskArray);
+	});
+
+	$(document).on('click', '.assignee', function (e) {
+		if ($(this).html() != 'All') {
+			for (var i = 0; i < assigneeArray.length; i++) 
+				if (assigneeArray[i].name == $(this).html())
+					currentAssignee = assigneeArray[i];
+		}
+		else
+			currentAssignee = null;
+
+		console.log(currentAssignee); 
+
+		if (currentCompany != null)
+			displayTaskData(currentCompany.actualTickets, removableTaskArray);
+		else if (currentRequester != null)
+			displayTaskData(currentRequester.actualTickets, removableTaskArray);
+		else if (currentAssignee != null)
+			displayTaskData(currentAssignee.actualTickets, removableTaskArray);
+		else
+			displayTaskData(tickets, removableTaskArray);
+	});
+
+	$(document).on('click', '.requester', function (e) {
+		console.log($(this).html());
+		if ($(this).html() != 'All') {
+			for (var i = 0; i < requesterArray.length; i++) 
+				if (requesterArray[i].name == $(this).html())
+					currentRequester = requesterArray[i];
+		}
+		else
+			currentRequester = null;
+
+		console.log(currentRequester); 
+
+		if (currentRequester != null)
+			displayTaskData(currentRequester.actualTickets, removableTaskArray);
+		else if (currentCompany != null)
+			displayTaskData(currentCompany.actualTickets, removableTaskArray);
+		else if (currentAssignee != null)
+			displayTaskData(currentAssignee.actualTickets, removableTaskArray);
+		else
+			displayTaskData(tickets, removableTaskArray);
 	});
 
 	$(document).on('click', '.taskButton', function (e) {
@@ -269,8 +470,19 @@ $(document).ready(function() {
 			$(this).removeClass('btn-success');
 			$(this).addClass('btn-default');
 
-			if ($('#singleCompany').hasClass('true'))
+			var filterString = '';
+
+			for (var i = 0; i < removableTaskArray.length; i++)
+				filterString += removableTaskArray[i] + ' ';
+
+			$('.taskFilters').html(filterString);
+
+			if (currentRequester != null)
+				displayTaskData(currentRequester.actualTickets, removableTaskArray);
+			else if (currentCompany != null)
 				displayTaskData(currentCompany.actualTickets, removableTaskArray);
+			else if (currentAssignee != null)
+				displayTaskData(currentAssignee.actualTickets, removableTaskArray);
 			else
 				displayTaskData(tickets, removableTaskArray);
 		}
@@ -281,8 +493,19 @@ $(document).ready(function() {
 			$(this).removeClass('btn-default');
 			$(this).addClass('btn-success');
 
-			if ($('#singleCompany').hasClass('true'))
+			var filterString = '';
+
+			for (var i = 0; i < removableTaskArray.length; i++)
+				filterString += removableTaskArray[i] + ' ';
+
+			$('.taskFilters').html(filterString);
+
+			if (currentRequester != null)
+				displayTaskData(currentRequester.actualTickets, removableTaskArray);
+			else if (currentCompany != null)
 				displayTaskData(currentCompany.actualTickets, removableTaskArray);
+			else if (currentAssignee != null)
+				displayTaskData(currentAssignee.actualTickets, removableTaskArray);
 			else
 				displayTaskData(tickets, removableTaskArray);
 		}

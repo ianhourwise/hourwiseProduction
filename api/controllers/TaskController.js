@@ -113,7 +113,7 @@ module.exports = {
 			if (err)
 				console.log(err);
 
-			Company.find().exec(function (err, companies) {
+			Company.find().populate('employees').exec(function (err, companies) {
 				if (err)
 					console.log(err);
 

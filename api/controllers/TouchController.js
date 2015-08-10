@@ -297,30 +297,59 @@ module.exports = {
 							if (err)
 								console.log(err);
 
-							var ticket = {
-								'subject': 'TXT from ' + touch.inbound + 'for Hourwise/Foundation',
-								'description': touch.body,
-							};
+							User.find().exec(function (err, users) {
+								if (err)
+									console.log(err)
 
-							Zendesk.createTicket(ticket);
+								var showName = false;
+								var name = '';
+								var email = '1'
 
-							User.find().exec( function (err, users) {
-				 				for (var i = 0; i < users.length; i++) {
-				 					var uuid = require('node-uuid');
+								for (var i = 0; i < users.length; i++) 
+									if (users[i].primaryNumber != null)
+										if (users[i].primaryNumber == newCommunication.primaryNumber) {
+											showName = true;
+											name = users[i].username;
+											email = users[i].email;
+											break;
+										}
+								if (showName) {
+									var ticket = {
+										'subject': 'TXT from ' + name + ' for Hourwise/Foundation',
+										'description': touch.body,
+										'requester': email,
+										'mediaUrl': mediaURL
+									};
+								}
+								else {
+									var ticket = {
+										'subject': 'TXT from ' + touch.inbound + ' for Hourwise/Foundation',
+										'description': touch.body,
+										'requester': email,
+										'mediaUrl': mediaURL
+									};
+								}
 
-									var alertId = uuid.v4();
+								Zendesk.createTicket(ticket);
 
-				 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-				 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId, newCommunication.id, false);
-				 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: communication.id  });
-				 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
-				 					}
-				 					
-				 				}
+								User.find().exec( function (err, users) {
+					 				for (var i = 0; i < users.length; i++) {
+					 					var uuid = require('node-uuid');
 
-				 				res.send('<Response></Response>'); 
-										
-				 			});
+										var alertId = uuid.v4();
+
+					 					if (users[i].role == 'superUser' || users[i].role == 'concierge') {
+					 						users[i].addAlert(touch.inbound + ' just sent in a text message.', alertId, newCommunication.id, false);
+					 						User.publishUpdate(users[i].id, { message: touch.inbound + ' just sent in a text message.', id: alertId, communicationId: newCommunication.id  });
+					 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
+					 					}
+					 					
+					 				}
+
+					 				res.send('<Response></Response>'); 
+											
+					 			});
+							});
 						});
 					});
 				}
