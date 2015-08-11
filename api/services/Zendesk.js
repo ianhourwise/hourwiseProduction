@@ -293,5 +293,31 @@ module.exports = {
 
 			callback(null, body);
 		});
+	},
+
+	pullOrganizations: function() {
+		var zendesk = require('node-zendesk'),
+	    fs      = require('fs');
+
+	 //    var client = zendesk.createClient({
+		//   username:  process.env.ZENDESK_USERNAME,
+		//   token:     process.env.ZENDESK_TOKEN,
+		//   remoteUri: process.env.ZENDESK_URI,
+		// });
+		
+		var client = zendesk.createClient({
+			  username:  'jon@hourwise.com',
+			  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
+			  remoteUri: 'https://foundation53.zendesk.com/api/v2'
+			});
+
+		client.organizations.list(function (err, statusList, body, responseList, resultList) {
+			if (err)
+				console.log(err);
+
+			for (var i = 0; i < body.length; i++) {
+				console.log('Name - ' + body[i].name + ' id - ' + body[i].id + '\n');
+			}
+		});
 	}
 };

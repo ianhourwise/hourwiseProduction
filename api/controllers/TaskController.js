@@ -102,12 +102,24 @@ module.exports = {
 	},
 
 	reporting: function(res, res) {
-		var date = new Date('2015', '06', '01');
-		console.log(date);
+		var date = new Date();
+		date.setDate(date.getDate() - (date.getDate() - 1));
+		date.setHours(0);
+		date.setMinutes(0);
+		date.setSeconds(0);
+		date.setMonth(date.getMonth() - 1);
 		//date.setDate(date.getDate() - (date.getDate() - 2));
 
+		var endDate = new Date();
+		endDate.setDate(date.getDate() - (date.getDate() - 1));
+		endDate.setHours(0);
+		endDate.setMinutes(0);
+		endDate.setSeconds(0);
+
+		console.log(date + ' - ' + endDate);
+
 		var ticketQuery = Task.find();
-		ticketQuery.where({type: 'zendesk', createdAtOriginal: {'>=': date}});
+		ticketQuery.where({type: 'zendesk', createdAtOriginal: {'>=': date, '<=': endDate}});
 
 		ticketQuery.exec(function (err, tickets) {
 			if (err)
@@ -117,11 +129,23 @@ module.exports = {
 				if (err)
 					console.log(err);
 
-				res.locals.layout = "layouts/reportingLayout"; 
+				var date = new Date();
+				date.setDate(date.getDate() - (date.getDate() - 1));
+				date.setHours(0);
+				date.setMinutes(0);
+				date.setSeconds(0);
 
-				res.view({
-					tickets: tickets,
-					companies: companies
+				var ticketQuery = Task.find();
+				ticketQuery.where({type: 'zendesk', createdAtOriginal: {'>=': date}});
+
+				ticketQuery.exec(function (err, currentTickets) {
+					res.locals.layout = "layouts/reportingLayout"; 
+
+					res.view({
+						lastTickets: tickets,
+						companies: companies,
+						currentTickets: currentTickets
+					});
 				});
 			});	
 		});
@@ -551,6 +575,10 @@ module.exports = {
 				res.send(200);
 			})
 		});
+	},
+
+	pullOrganization: function (req, res) {
+		Zendesk.pullOrganizations();
 	}
 
 };

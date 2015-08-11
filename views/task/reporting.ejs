@@ -1,4 +1,4 @@
-<h3>Total tickets this month: <%- tickets.length %> </h3>
+<h3>Total tickets this month: <%- lastTickets.length %> </h3>
 <div class="row">
     <div class="col-lg-3">
         <h3>Organization - <div class="orgFilters">All</div></h3>
@@ -32,6 +32,10 @@
                 <% } %>
             </select></div></h3>
     </div>
+</div>
+<div class="row">
+    <div class="col-lg-6"><button type="button" class="btn btn-default m-r-sm tickets current" name="lastMonth">Last Month</button></div>
+    <div class="col-lg-6"><button type="button" class="btn btn-success m-r-sm tickets " name="currentMonth">Current Month</button></div>
 </div>
 <div class="row m-t-sm">
     <div class="col-lg-12">
@@ -169,6 +173,7 @@
 </div>
 
 <script>
-    var tickets = <%- JSON.stringify(tickets) %>;
+    var lastTickets = <%- JSON.stringify(lastTickets) %>;
     var companies = <%- JSON.stringify(companies) %>;
+    var currentTickets = <%- JSON.stringify(currentTickets) %>;
 </script>

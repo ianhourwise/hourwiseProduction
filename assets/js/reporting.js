@@ -2,6 +2,8 @@ $(document).ready(function() {
 
 	$(".chosen").chosen();
 
+	var tickets = lastTickets.slice(0);
+
 	var taskTypeArray = ['client_management', 'fupc', 'ipc', 'invoice', 'junk_spam', 'other', 'quote', 'cpc', 'hourwise', 'unmatched'];
 	var removableTaskArray = ['client_management', 'fupc', 'ipc', 'invoice', 'junk_spam', 'other', 'quote', 'cpc', 'hourwise', 'unmatched'];
 	var currentCompany = null;
@@ -32,6 +34,19 @@ $(document).ready(function() {
 		$('#taskTable').html("");
 
 
+
+		if (currentAssignee != null) {
+			//filter companies by assignee
+			console.log(tickets[0].zendesk.assignee_id + ' - ' + currentAssignee.zendeskId);
+			var assigneeTickets = [];
+			for (var i = 0; i < tickets.length; i++)
+				if (tickets[i].zendesk.assignee_id == currentAssignee.zendeskId)
+					assigneeTickets.push(tickets[i]);
+
+			var tickets = [];
+			console.log(assigneeTickets);
+			tickets = assigneeTickets.slice(0);
+		}
 
 		for (var i = 0; i < tickets.length; i++) {
 
@@ -84,12 +99,17 @@ $(document).ready(function() {
 		var taskData = [];
 		var ticksArray = [];
 
+		var ticketsSum = 0;
+		var minutesSum = 0;
+
 		for (var i = 0; i < taskArray.length; i++) {
 			var sum = 0;
 			var min = 0;
 			var max = 0;
 			var median = 0;
 			var mean = 0;
+
+			ticketsSum += taskArray[i].tickets.length;
 
 			if (taskArray[i].tickets.length > 0) {
 				sum = taskArray[i].tickets.reduce(function(a, b) { return a + b; });
@@ -102,13 +122,20 @@ $(document).ready(function() {
 					median = taskArray[i].tickets[(taskArray[i].tickets.length - 1) / 2]
 
 				mean = (sum)/(taskArray[i].tickets.length);
+
+				minutesSum += sum;
 			}
 
 			taskData.push([i, sum]);
 			ticksArray.push([i, taskArray[i].name]);
+
+			
 			
 			$('#taskTable').append('<tr class="taskType" name="' + taskTypeArray[i] + '"><td>' + taskArray[i].name + '</td><td>' + taskArray[i].tickets.length + '</td><td>' + sum + '</td><td>' + min + '</td><td>' + max + '</td><td>' + median + '</td><td>' + mean + '</td></tr>');
 		}
+
+		$('#taskTable').append('<tr class="taskType" name="'+ '"><td>' + '<b>SUMMATIONS</b>' + '</td><td><b>' + ticketsSum + '</b></td><td><b>' + minutesSum + '</b></td></tr>');
+		//console.log('total tix - ' + ticketsSum + '\ntotal min - ' + minutesSum);
 
 		  $.plot($("#taskGraph"), [taskData], {
 		  		xaxis: {
@@ -127,6 +154,8 @@ $(document).ready(function() {
 	}
 
 	function displayCompanyData (companiesArray, showTickets) {
+		$('#orgTable').html("");
+
 		var companyData = [];
 		var ticksArray1 = [];
 
@@ -238,113 +267,130 @@ $(document).ready(function() {
 	var companiesTickets = [];
 	var companiesMinutes = [];
 
-	for (var i = 0; i < companies.length; i++) {
-		companiesTickets[i] = [];
-		companiesMinutes[i] = [];
-
-		var ticketCount = 0;
-
-		for (var j = 0; j < tickets.length; j++) {
-			if (companies[i].zendeskId == '34898946') {
-				if (tickets[j].zendesk.organization_id == companies[i].zendeskId || tickets[j].zendesk.organization_id == '34594213' && tickets[j].zendesk.fields[3].value != null) {
-					companiesTickets[i][ticketCount] = tickets[j];
-					companiesMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
-					
-					ticketCount++;
-				}
-			}
-			else {
-				if (tickets[j].zendesk.organization_id == companies[i].zendeskId && tickets[j].zendesk.fields[3].value != null && companies[i].zendeskId != undefined) {
-					companiesTickets[i][ticketCount] = tickets[j];
-					companiesMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
-
-					ticketCount++;
-				}
-			}
-		}
- 	}
-
- 	var assigneeTickets = [];
+	var assigneeTickets = [];
  	var assigneeMinutes = [];
-
- 	for (var i = 0; i < users.length; i++) {
-		assigneeTickets[i] = [];
-		assigneeMinutes[i] = [];
-
-		var ticketCount = 0;
-
-		for (var j = 0; j < tickets.length; j++) {
-			if (tickets[j].zendesk.assignee_id == users[i].zendeskId && tickets[j].zendesk.fields[3].value != null) {
-				assigneeTickets[i][ticketCount] = tickets[j];
-				assigneeMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
-
-				ticketCount++;
-			}
-		}
- 	}
 
  	var requesterTickets = [];
  	var requesterMinutes = [];
 
- 	for (var i = 0; i < users.length; i++) {
-		requesterTickets[i] = [];
-		requesterMinutes[i] = [];
+ 	var companiesArray = [];
+ 	var assigneeArray = [];
+ 	var requesterArray = [];
 
-		var ticketCount = 0;
+ 	sortTickets(tickets);
 
-		for (var j = 0; j < tickets.length; j++) {
-			if (tickets[j].zendesk.requester_id == users[i].zendeskId && tickets[j].zendesk.fields[3].value != null) {
-				requesterTickets[i][ticketCount] = tickets[j];
-				requesterMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
+	function sortTickets (tickets) {
+		companiesTickets = [];
+		companiesMinutes = [];
 
-				ticketCount++;
+		assigneeTickets = [];
+	 	assigneeMinutes = [];
+
+	 	requesterTickets = [];
+	 	requesterMinutes = [];
+
+	 	companiesArray = [];
+	 	assigneeArray = [];
+	 	requesterArray = [];
+
+		for (var i = 0; i < companies.length; i++) {
+			companiesTickets[i] = [];
+			companiesMinutes[i] = [];
+
+			var ticketCount = 0;
+
+			for (var j = 0; j < tickets.length; j++) {
+				if (companies[i].zendeskId == '34898946') {
+					if (tickets[j].zendesk.organization_id == companies[i].zendeskId || tickets[j].zendesk.organization_id == '34594213' && tickets[j].zendesk.fields[3].value != null) {
+						companiesTickets[i][ticketCount] = tickets[j];
+						companiesMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
+						
+						ticketCount++;
+					}
+				}
+				else {
+					if (tickets[j].zendesk.organization_id == companies[i].zendeskId && tickets[j].zendesk.fields[3].value != null && companies[i].zendeskId != undefined) {
+						companiesTickets[i][ticketCount] = tickets[j];
+						companiesMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
+
+						ticketCount++;
+					}
+				}
 			}
-		}
- 	}
+	 	}
 
-	var companiesArray = [];
+	 	for (var i = 0; i < users.length; i++) {
+			assigneeTickets[i] = [];
+			assigneeMinutes[i] = [];
 
-	for (var i = 0; i < companiesTickets.length; i++)
-		if (companiesTickets[i].length > 0)  
-			companiesArray.push(JSON.parse('{"name":"' + companies[i].name + '", "tickets":' + JSON.stringify(companiesMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(companiesTickets[i].sort(function(a,b) {return a-b})) + ', "employees":' + JSON.stringify(companies[i].employees) + '}'));
-	
-	companiesTickets.sort(function(a,b) {return a.name - b.name});
+			var ticketCount = 0;
 
-	var assigneeArray = [];
+			for (var j = 0; j < tickets.length; j++) {
+				if (tickets[j].zendesk.assignee_id == users[i].zendeskId && tickets[j].zendesk.fields[3].value != null) {
+					assigneeTickets[i][ticketCount] = tickets[j];
+					assigneeMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
 
-	for (var i = 0; i < assigneeTickets.length; i++)
-		if (assigneeTickets[i].length > 0)  
-			assigneeArray.push(JSON.parse('{"name":"' + users[i].username + '", "tickets":' + JSON.stringify(assigneeMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(assigneeTickets[i].sort(function(a,b) {return a-b})) + '}'));
-	
-	var requesterArray = [];
+					ticketCount++;
+				}
+			}
+	 	}
 
-	for (var i = 0; i < requesterTickets.length; i++)
-		if (requesterTickets[i].length > 0)  
-			requesterArray.push(JSON.parse('{"name":"' + users[i].username + '", "tickets":' + JSON.stringify(requesterMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(requesterTickets[i].sort(function(a,b) {return a-b})) + '}'));
+	 	for (var i = 0; i < users.length; i++) {
+			requesterTickets[i] = [];
+			requesterMinutes[i] = [];
 
-	companiesTickets.sort(function(a,b) {return a.name - b.name});	
+			var ticketCount = 0;
 
-	displayCompanyData(companiesArray, false);
+			for (var j = 0; j < tickets.length; j++) {
+				if (tickets[j].zendesk.requester_id == users[i].zendeskId && tickets[j].zendesk.fields[3].value != null) {
+					requesterTickets[i][ticketCount] = tickets[j];
+					requesterMinutes[i][ticketCount] = tickets[j].zendesk.fields[3].value * 1;
 
-	var htmlString = '<option value="all" selected="selected" class="assignee">All</option>';
+					ticketCount++;
+				}
+			}
+	 	}
 
-	for (var i = 0; i < assigneeArray.length; i++)
-		htmlString += '<option class="assignee" value="' + assigneeArray[i].zendeskId + '">' + assigneeArray[i].name + '</option>';
+	 	for (var i = 0; i < companiesTickets.length; i++)
+			if (companiesTickets[i].length > 0)  
+				companiesArray.push(JSON.parse('{"name":"' + companies[i].name + '", "tickets":' + JSON.stringify(companiesMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(companiesTickets[i].sort(function(a,b) {return a-b})) + ', "employees":' + JSON.stringify(companies[i].employees) + '}'));
+		
+		companiesTickets.sort(function(a,b) {return a.name - b.name});
 
-	$(".assigneeList").html(htmlString);
-	$('.chosen').trigger('chosen:updated');
+		
 
-	htmlString = '<option value="all" selected="selected" class="requester">All</option>';
+		for (var i = 0; i < assigneeTickets.length; i++)
+			if (assigneeTickets[i].length > 0)  
+				assigneeArray.push(JSON.parse('{"name":"' + users[i].username + '", "zendeskId": ' + users[i].zendeskId + ', "tickets":' + JSON.stringify(assigneeMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(assigneeTickets[i].sort(function(a,b) {return a-b})) + '}'));
+		
+		
 
-	for (var i = 0; i < requesterArray.length; i++)
-		htmlString += '<option class="requester" value="' + requesterArray[i].zendeskId + '">' + requesterArray[i].name + '</option>';
+		for (var i = 0; i < requesterTickets.length; i++)
+			if (requesterTickets[i].length > 0)  
+				requesterArray.push(JSON.parse('{"name":"' + users[i].username + '", "tickets":' + JSON.stringify(requesterMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(requesterTickets[i].sort(function(a,b) {return a-b})) + '}'));
 
-	$(".requesterList").html(htmlString);
-	$('.chosen').trigger('chosen:updated');
+		companiesTickets.sort(function(a,b) {return a.name - b.name});	
+
+		displayCompanyData(companiesArray, false);
+
+		var htmlString = '<option value="all" selected="selected" class="assignee">All</option>';
+
+		for (var i = 0; i < assigneeArray.length; i++)
+			htmlString += '<option class="assignee" value="' + assigneeArray[i].zendeskId + '">' + assigneeArray[i].name + '</option>';
+
+		$(".assigneeList").html(htmlString);
+		$('.chosen').trigger('chosen:updated');
+
+		htmlString = '<option value="all" selected="selected" class="requester">All</option>';
+
+		for (var i = 0; i < requesterArray.length; i++)
+			htmlString += '<option class="requester" value="' + requesterArray[i].zendeskId + '">' + requesterArray[i].name + '</option>';
+
+		$(".requesterList").html(htmlString);
+		$('.chosen').trigger('chosen:updated');
+	}
 
 	$(document).on('click', '.company', function (e) {
-		$('#orgTable').html("");
-
 		currentCompany = companiesArray[$(this).attr('name')];
 		$('#singleCompany').removeClass('false');
 		$('#singleCompany').addClass('true');
@@ -400,9 +446,9 @@ $(document).ready(function() {
 
 		removableTaskArray = taskTypeArray.slice(0);
 
-		$('.btn').removeClass('btn-default');
-		$('.btn').addClass('remove');
-		$('.btn').addClass('btn-success');
+		$('.taskButton').removeClass('btn-default');
+		$('.taskButton').addClass('remove');
+		$('.taskButton').addClass('btn-success');
 
 		if (currentRequester != null)
 			displayTaskData(currentRequester.actualTickets, removableTaskArray);
@@ -445,7 +491,7 @@ $(document).ready(function() {
 		else
 			currentRequester = null;
 
-		console.log(currentRequester); 
+		currentAssignee = null; 
 
 		if (currentRequester != null)
 			displayTaskData(currentRequester.actualTickets, removableTaskArray);
@@ -455,6 +501,29 @@ $(document).ready(function() {
 			displayTaskData(currentAssignee.actualTickets, removableTaskArray);
 		else
 			displayTaskData(tickets, removableTaskArray);
+	});
+
+	$(document).on('click', '.tickets', function (e) {
+		if ($(this).hasClass('current') != true) {
+			tickets = [];
+
+			if ($(this).attr('name') == 'lastMonth')
+				tickets = lastTickets.slice(0);
+			else
+				tickets = currentTickets.slice(0);
+
+			$('.current').removeClass('btn-default');
+			$('.current').addClass('btn-success');
+			$('.current').removeClass('current');
+			
+
+			$(this).removeClass('btn-success');
+			$(this).addClass('btn-default');
+			$(this).addClass('current');
+
+			sortTickets(tickets);
+			displayTaskData(tickets, removableTaskArray);
+		}
 	});
 
 	$(document).on('click', '.taskButton', function (e) {
