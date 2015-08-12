@@ -295,7 +295,7 @@ module.exports = {
 		});
 	},
 
-	pullOrganizations: function() {
+	pullOrganizations: function (callback) {
 		var zendesk = require('node-zendesk'),
 	    fs      = require('fs');
 
@@ -315,9 +315,35 @@ module.exports = {
 			if (err)
 				console.log(err);
 
-			for (var i = 0; i < body.length; i++) {
-				console.log('Name - ' + body[i].name + ' id - ' + body[i].id + '\n');
-			}
+			callback(body);
+		});
+	},
+
+	getUsersForOrganization: function (id, callback) {
+		var zendesk = require('node-zendesk'),
+	    fs      = require('fs');
+
+	 //    var client = zendesk.createClient({
+		//   username:  process.env.ZENDESK_USERNAME,
+		//   token:     process.env.ZENDESK_TOKEN,
+		//   remoteUri: process.env.ZENDESK_URI,
+		// });
+		
+		var client = zendesk.createClient({
+			  username:  'jon@hourwise.com',
+			  token:     'xNcP4dPcaNnumSE3ikom8hRwRLgkTfPXEa5UGouU',
+			  remoteUri: 'https://foundation53.zendesk.com/api/v2'
+			});
+
+		client.users.listByOrganization(id, function (err, statusList, body, responseList, resultList) {
+			if (err)
+				console.log(err);
+
+			console.log(body.length);
+			console.log(body[0]);
+			console.log(body[1]);
+
+			callback(body);
 		});
 	}
 };

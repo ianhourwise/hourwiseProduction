@@ -748,8 +748,9 @@ module.exports = {
 				  domain_parts = parsed_url.domain.split('.');
 
 
-
-				  if (parsed_url.path == 'user/admin')
+				  if (req.param('fromWizard'))
+				  	res.send(user);
+				  else if (parsed_url.path == 'user/admin')
 				  	res.redirect('/user/admin')
 				  else
 			      	res.redirect('/company/profile');
@@ -836,155 +837,6 @@ module.exports = {
 				req.session.User = user;
 
 				res.send('well alrightttt');
-			});
-		});
-	},
-
-	zendeskTickets: function (req, res) {
-		Task.find({type: 'zendesk'}).exec(function (err, tickets) {
-			//console.log(tickets);
-
-			var totalTickets = tickets.length;
-
-			var daysOfWeek = {
-				'monday': 0,
-				'tuesday': 0,
-				'wendnesday': 0,
-				'thursday': 0,
-				'friday': 0,
-				'saturday': 0,
-				'sunday': 0
-			};
-
-			var cjSolved = {
-				total: 0,
-				tier1: 0,
-				tier2: 0,
-				tier3: 0,
-				tier4: 0,
-				tier5: 0
-			};
-			var cjId = 491576246;
-
-			var stefanySolved = {
-				total: 0,
-				tier1: 0,
-				tier2: 0,
-				tier3: 0,
-				tier4: 0,
-				tier5: 0
-			};
-			var stefanyId = 889077333;
-
-			var emilySolved = {
-				total: 0,
-				tier1: 0,
-				tier2: 0,
-				tier3: 0,
-				tier4: 0,
-				tier5: 0
-			};
-			var emilyId = 760940413;
-
-			//console.log('++++++++++++++++++++' + totalTickets);
-			var solved = [];
-			var unsolvedTickets = [];
-			var pendingTickets = [];
-			var recentlySolved = [];
-
-			for (var i = 0; i < totalTickets; i++) {
-				var dateString = tickets[i].zendesk.created_at;
-			  	var year = parseInt(dateString.substring(0, 4));
-			  	var month = parseInt(dateString.substring(5, 7));
-			  	var day = parseInt(dateString.substring(7, 9));
-
-		  		var createdAt = new Date(year, month, day); //using this to make it easier to handle dates 
-
-		  		if (createdAt.getDay() == 0)
-		  			daysOfWeek.sunday++;
-		  		else if (createdAt.getDay() == 1)
-		  			daysOfWeek.monday++;
-		  		else if (createdAt.getDay() == 2)
-		  			daysOfWeek.tuesday++;
-		  		else if (createdAt.getDay() == 3)
-		  			daysOfWeek.wendnesday++;
-		  		else if (createdAt.getDay() == 4)
-		  			daysOfWeek.thursday++;
-		  		else if (createdAt.getDay() == 5)
-		  			daysOfWeek.friday++;
-		  		else if (createdAt.getDay() == 6)
-		  			daysOfWeek.saturday++;
-
-		  		if (tickets[i].zendesk.status == 'solved')
-		  			recentlySolved.push(tickets[i]);
-
-		  		if (tickets[i].zendesk.status == 'pending')
-		  			pendingTickets.push(tickets[i]);
-
-		  		if (tickets[i].zendesk.status != 'solved' && tickets[i].zendesk.status != 'closed')
-		  			unsolvedTickets.push(tickets[i]);
-
-		  		if (tickets[i].zendesk.status == 'solved' || tickets[i].zendesk.status == 'closed') {
-		  			solved.push(tickets[i].zendesk);
-		  			if (tickets[i].zendesk.assignee_id == cjId) {
-		  				cjSolved.total = cjSolved.total + 1;
-
-		  				if (tickets[i].zendesk.fields[0].value == 'tier_1')
-		  					cjSolved.tier1++;
-		  				else if (tickets[i].zendesk.fields[0].value == 'tier_2')
-		  					cjSolved.tier2++;
-		  				else if (tickets[i].zendesk.fields[0].value == 'tier_3')
-		  					cjSolved.tier3++;
-		  				else if (tickets[i].zendesk.fields[0].value == 'tier_4')
-		  					cjSolved.tier4++;
-		  				else if (tickets[i].zendesk.fields[0].value == 'tier_5')
-		  					cjSolved.tier5++;
-		  			}
-		  			else if (tickets[i].zendesk.assignee_id == stefanyId) {
-		  				stefanySolved.total++;
-
-		  				if (tickets[i].zendesk.fields[0].value == 'tier_1')
-		  					stefanySolved.tier1++;
-		  				else if (tickets[i].zendesk.fields[0].value == 'tier_2')
-		  					stefanySolved.tier2++;
-		  				else if (tickets[i].zendesk.fields[0].value == 'tier_3')
-		  					stefanySolved.tier3++;
-		  				else if (tickets[i].zendesk.fields[0].value == 'tier_4')
-		  					stefanySolved.tier4++;
-		  				else if (tickets[i].zendesk.fields[0].value == 'tier_5')
-		  					stefanySolved.tier5++;
-		  			}
-		  			else if (tickets[i].zendesk.assignee_id == emilyId) {
-						emilySolved.total++;
-
-						if (tickets[i].zendesk.fields[0].value == 'tier_1')
-		  					emilySolved.tier1++;
-		  				else if (tickets[i].zendesk.fields[0].value == 'tier_2')
-		  					emilySolved.tier2++;
-		  				else if (tickets[i].zendesk.fields[0].value == 'tier_3')
-		  					emilySolved.tier3++;
-		  				else if (tickets[i].zendesk.fields[0].value == 'tier_4')
-		  					emilySolved.tier4++;
-		  				else if (tickets[i].zendesk.fields[0].value == 'tier_5')
-		  					emilySolved.tier5++;
-					}
-		  		}
-
-			}
-
-			var solvedTickets = {
-				tickets: solved
-			};
-			res.locals.layout = "layouts/zendeskGraphs"; 
-			res.view('user/zendeskAdmin', {
-				daysOfWeek: daysOfWeek,
-				cjSolved: cjSolved,
-				stefanySolved: stefanySolved,
-				emilySolved: emilySolved,
-				solvedTickets: solvedTickets,
-				unsolvedTickets: unsolvedTickets,
-				pendingTickets: pendingTickets,
-				recentlySolved: recentlySolved
 			});
 		});
 	},

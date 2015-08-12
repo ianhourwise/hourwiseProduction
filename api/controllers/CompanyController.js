@@ -101,6 +101,62 @@ module.exports = {
 		});
 	},
 
+	addCompany: function(req, res) {
+		Zendesk.pullOrganizations(function (organizations) {
+			//console.log(organizations);
+			Company.find().exec(function (err, companies) {
+				if (err)
+					console.log(err);
+
+				for (var i = 0; i < companies.length; i++)
+					for (var j = 0; j < organizations.length; j++)
+						if (organizations[j].id == null) {
+							organizations.splice(j, 1);
+							break;
+						} 
+						else if (companies[i].zendeskId == organizations[j].id) {
+							organizations.splice(j, 1);
+							break;
+						}
+				
+				res.locals.layout = "layouts/addCompanyLayout";	
+
+				res.view('company/add', {
+					organizations: organizations
+				});
+			});
+			
+
+			// Zendesk.getUsersForOrganization(organizations[5].id, function (users) {
+			// 	res.json(organizations[5] + users);
+			// });
+		});
+	},
+
+	nextStep: function (req, res) {
+		Company.create({name: req.param('organizationName'), zendeskId: req.param('organizationId')}, function (err, company) {
+			Zendesk.getUsersForOrganization(company.zendeskId, function (users) {
+				res.locals.layout = "layouts/addNextLayout";	
+
+				res.view('company/addNext', {
+					users: users,
+					company: company
+				});
+			});
+		});
+	},
+
+	addOwner: function (req, res) {
+		Company.update({id: req.param('companyId')}, {owner: req.param('user')}, function (err, companies) {
+			if (err)
+				console.log(err);
+
+			console.log(companies[0]);
+
+			res.send('cool');
+		});
+	},
+
 	create: function(req, res, next) {
 		//console.log('-----ABOUT TO CREATE COMPANY-----');
 		//console.log(req.params.all());
