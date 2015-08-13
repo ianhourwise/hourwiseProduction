@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-lg-12">
+	<h3>Owner</h3> 
+    <select class="form-control col-xs-12 chosen-select" name ="owner" data-placeholder="Select owner...">
+        <option disabled="" selected="">- user -</option>
+        <% for (var i = 0; i < users.length; i++) { %>
+            <option name="<%= users[i].id %>" class="owner"><%= users[i].name %></option>
+        <% } %>
+    </select>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-lg-12">
+        <% for (var i = 0; i < users.length; i++) { %>
+            <input type="checkbox" class="user" value="<%= users[i].id %>"> <b><%= users[i].name %></b></input><br>
+        <% } %>
+    </div>
+<div class="row">
+    <div class="col-lg-10"></div>
+    <div class="col-lg-2">  
+        <button type="button" class="btn btn-success finish" name="finish">Finish</button>
+    </div>
+</div>
+
+<input id="orgId" type="hidden" name="<%= company.id %>"></input>
+
+
+<script>
+    var users = <%- JSON.stringify(users) %>;	  
+</script> 

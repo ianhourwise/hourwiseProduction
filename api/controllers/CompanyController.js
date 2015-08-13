@@ -153,7 +153,7 @@ module.exports = {
 
 			console.log(companies[0]);
 
-			res.send('cool');
+			res.send(companies[0]);
 		});
 	},
 

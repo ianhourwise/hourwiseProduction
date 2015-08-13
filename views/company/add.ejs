@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-lg-12">
+	<h3>Organization</h3> 
+    <select class="form-control col-xs-12 chosen-select" name ="organization" data-placeholder="Select company...">
+        <option disabled="" selected="">- organization -</option>
+        <% for (var i = 0; i < organizations.length; i++) { %>
+            <option name="<%= organizations[i].id %>" class="org"><%= organizations[i].name %></option>
+        <% } %>
+    </select>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-lg-10"></div>
+    <div class="col-lg-2">  
+        <button type="button" class="btn btn-success next" name="next">Next</button>
+    </div>
+</div>
+
+
+<script>
+    var organizations = <%- JSON.stringify(organizations) %>;	  
+</script> 

@@ -1,0 +1,12 @@
+Adding remote repository for remote pushing to server -
+1. Add the remote repository via the link 'ssh://root@45.55.241.68/var/repo/hourwise.git' if you have your ssh key set up or 'http://root@45.55.241.68/var/repo/hourwise.git' if you do not
+	- Use 'git remote add (name you'd like to call it) (url)' to add a remote repo
+2. Now you can push the master branch to the server via the command 'git push (name you called the remote repo)'
+
+
+Geeting secure shell access to the server - 
+1. Use the command 'ssh root@www.hourwise.com' to ssh into the server.
+	- If you haven't added an ssh key to DigitalOcean, you can use the password 'hourwise7X3Y42'
+2. Once you have ssh access, you can restart the sailsjs processes with the command 'pm2 restart all'
+	- A restart is needed after pushing a code change in order for it to take effect
+	- For more info about pm2, you can visit 'https://github.com/Unitech/pm2'
