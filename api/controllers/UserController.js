@@ -753,7 +753,7 @@ module.exports = {
 				  else if (parsed_url.path == 'user/admin')
 				  	res.redirect('/user/admin')
 				  else
-			      	res.redirect('/company/profile');
+			      	res.redirect('/company/show/' + req.param('company'));
 			   });
 	   });	
 	

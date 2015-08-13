@@ -42,6 +42,7 @@
                     <li>
                         <a href="/task/index"><i class="fa fa-calendar"></i> <span class="nav-label">Tasks</span></a>
                     </li>
+                    
                     <% if (req.session.User.role != 'user') { %>
                         <li>
                             <a href="/user/communications"><i class="fa fa-keyboard-o"></i> <span class="nav-label">Communications</span></a>
@@ -81,6 +82,7 @@
                             <a class="btn btn-primary btn-block" href="#"><i class="fa fa-money"></i> Transaction</a>
                             <a class="btn btn-primary btn-block" href="/contact/new"><i class="fa fa-user"></i> Contact</a>
                             <a class="btn btn-primary btn-block" href="/group/new"><i class="fa fa-users"></i> Group</a>
+                            <a class="btn btn-primary btn-block" href="/company/addCompany"><i class="fa fa-star"></i> Company</a>
                           </div>
                           <div class="modal-footer">
                               <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
