@@ -108,15 +108,12 @@ module.exports = {
 		date.setMinutes(0);
 		date.setSeconds(0);
 		date.setMonth(date.getMonth() - 1);
-		//date.setDate(date.getDate() - (date.getDate() - 2));
 
 		var endDate = new Date();
 		endDate.setDate(date.getDate() - (date.getDate() - 1));
 		endDate.setHours(0);
 		endDate.setMinutes(0);
 		endDate.setSeconds(0);
-
-		console.log(date + ' - ' + endDate);
 
 		var ticketQuery = Task.find();
 		ticketQuery.where({type: 'zendesk', createdAtOriginal: {'>=': date, '<=': endDate}});
@@ -159,32 +156,15 @@ module.exports = {
 			if (err)
 				throw (err);
 
-			console.log(tickets.length);
-
-			console.log(new Date(tickets[tickets.length - 1].createdAt));
-			//console.log(new Date(tickets[tickets.length - 1].createdAt) / 1000);
-
 			var dateInSeconds = new Date(tickets[tickets.length - 1].createdAt) / 1000;
 			dateInSeconds = Math.round(dateInSeconds);
 
-			console.log(dateInSeconds);
-
 			Zendesk.exportTicketsSince(dateInSeconds, function(tickets1) {
-				console.log(tickets1.results.length);
-				console.log(tickets1.results[tickets1.results.length - 2]);
 
 				var ticketIds = [];
 
 				for (var i = 0; i < tickets1.results.length; i++)
 						ticketIds.push(tickets1.results[i].id);
-
-				console.log('ticket ids - ' + ticketIds.length);
-
-
-				
-				// Zendesk.findTickets(ticketIds, function(newTickets) {
-				// 	console.log(newTickets[0].id);
-				// 	console.log(newTickets.length);
 
 	                function asyncLoop(iterations, func, callback) {
 	                    var index = 0;
@@ -221,8 +201,6 @@ module.exports = {
 	                var ticketIndex = 0;    
 
 	                asyncLoop(ticketIds.length, function (loop) {
-
-	                	console.log(ticketIds[ticketIndex]);
 	                	Zendesk.findTicket(ticketIds[ticketIndex], function (ticket, comments) {
 	                		console.log(ticket)
 	                		if (ticket != undefined) {
@@ -242,12 +220,6 @@ module.exports = {
 			                				ticketIndex++;
 						                        console.log(loop.iteration());
 						                        loop.next();
-
-			                				// Task.create({zendesk: newTickets[ticketIndex], type: 'zendesk', zendeskId: newTickets[ticketIndex].id, owner: assigneeId, requester: requesterId, createdAtOriginal: new Date(newTickets[ticketIndex].created_at)}, function (err, ticket) {
-						                 //        ticketIndex++;
-						                 //        console.log(loop.iteration());
-						                 //        loop.next();
-						                 //    })
 			                			});
 			                		});
 			                	}
@@ -261,14 +233,6 @@ module.exports = {
 			                				ticketIndex++;
 						                        console.log(loop.iteration());
 						                        loop.next();
-
-						                        
-
-			                				// Task.create({zendesk: newTickets[ticketIndex], type: 'zendesk', zendeskId: newTickets[ticketIndex].id, requester: requesterId, createdAtOriginal: new Date(newTickets[ticketIndex].created_at)}, function (err, ticket) {
-						                 //        ticketIndex++;
-						                 //        console.log(loop.iteration());
-						                 //        loop.next();
-						                 //    })
 			                			});
 			                    }
 	                		}
@@ -323,8 +287,8 @@ module.exports = {
                         return index - 1;
                     },
 
-                    break: function() {
-                        done = true;
+                    break: function() {t
+                        done = true;t
                         callback();
                     }
                 };
@@ -350,7 +314,7 @@ module.exports = {
             		if (err == null) {
             			//console.log(JSON.stringify(comments));
 
-	            		commentsArray.push({comments: comments, subjectId: iOSTickets[commentIndex].raw_subject});
+	            		//commentsArray.push({comments: comments, subjectId: iOSTickets[commentIndex].raw_subject});
 
 	            		//console.log('COMMENT INDEX: ' + commentIndex);
 
@@ -376,11 +340,7 @@ module.exports = {
 	},
 
 	zendeskTrigger: function(req, res) {
-		//console.log('-------------ZENDESK TRIGGER-----------');
-		//console.log(req.param('payload'));
-
 		var ticket = JSON.parse(req.param('payload'));
-		//console.log(ticket.id);
 
 		Zendesk.findTicket(ticket.id, function (ticket, comments) {
 
@@ -399,7 +359,6 @@ module.exports = {
 							console.log(err);
 
 						if (existingTicket == null) {
-							//console.log('creating ticket...');
 							User.findOne({zendeskId: ticket.requester_id.toString()}, function (err, user) {
 								var userId = null;
 
@@ -410,27 +369,12 @@ module.exports = {
 									if (err)
 										console.log(err);
 
-									// for (var i = 0; i < users.length; i++) {
-					 			// 		var uuid = require('node-uuid');
-
-									// 	var alertId = uuid.v4();
-
-					 			// 		if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-					 						
-					 						//users[i].addAlert('New ticket: ' + newTicket.zendesk.raw_subject, alertId, newTicket.zendesk.id, true);
-					 						//User.publishUpdate(users[i].id, { message: 'New ticket: ' + newTicket.zendesk.raw_subject, id: alertId, communicationId: newTicket.zendesk.id, fromTask: true  });
-					 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
-					 				// 	}
-					 					
-					 				// }
-
 									res.send(200);
 								});
 							});
 						}
 
 						else {
-							//console.log('updating ticket...');
 							var assigneeId = null;
 
 							if (ticket.assignee_id != null)
@@ -446,18 +390,6 @@ module.exports = {
 									if (err)
 										console.log(err);
 
-									//for (var i = 0; i < users.length; i++) {
-						 					//var uuid = require('node-uuid');
-
-											//var alertId = uuid.v4();
-
-						 					//if (users[i].role == 'superUser' || users[i].role == 'concierge') {
-						 						//users[i].addAlert('Updated ticket: ' + tickets[0].zendesk.raw_subject, alertId, tickets[0].zendesk.id, true);
-					 							//User.publishUpdate(users[i].id, { message: 'Updated ticket: ' + tickets[0].zendesk.raw_subject, id: alertId, communicationId: tickets[0].zendesk.id, fromTask: true  });
-						 						//console.log('---------SHOULD BE PUBLISHING UPDATE----------');
-						 					//}
-						 					
-						 				//}
 						 			var commentArray = passComments.comments;
 						 			var passCommentArray = [];
 						 			
@@ -559,8 +491,9 @@ module.exports = {
                     }
                     },
 
-                    function() {console.log('cycle ended')
-                				}
+                    function() {
+                    	console.log('cycle ended')
+    				}
                 );      
             });
 	},

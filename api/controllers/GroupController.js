@@ -96,7 +96,6 @@ module.exports = {
 		if (req.param('addUser') != 0)
 			contacts = req.param('addUser');
 
-
 		Group.create({'name': req.param('name'), 'address': req.param('address'), 'contacts': contacts, 'company': req.session.User.company}, function (err, group) {
 
 			if (req.param('addUser') != 0) {
@@ -111,8 +110,7 @@ module.exports = {
 				}); 
 			}
 			else
-				res.redirect('/group/index');
-			
+				res.redirect('/group/index');	
 		});	
 	},
 

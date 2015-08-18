@@ -21,15 +21,6 @@ module.exports = {
 				productsAndServices: company.productsAndServices
 			});
 		});
-		// Contact.find().exec(function (err, contacts) {
-		// 	if (err)
-		// 		console.log(err);
-
-		// 	res.view({
-		// 		user: req.session.User,
-		// 		contacts: contacts
-		// 	});
-		// }); 
 	},
 
 	index: function(req, res) {
@@ -71,64 +62,6 @@ module.exports = {
 
 			 res.redirect('/job/show/' + job.id);
 		});
-
-	  // Job.create(
-	  //   req.params.all()
-	  // , function (err, job) {
-	  //   if (err) {
-	  //     if (err.code === 'E_VALIDATION') {
-	  //       if (err.invalidAttributes.email) {
-	  //         req.flash('error', 'Error.Passport.Email.Exists');
-	  //       } else {
-	  //         req.flash('error', 'Error.Passport.User.Exists');
-	  //       }
-	  //     }
-	
-	  //     return next(err);
-	  //   }
-	
-	  //   Passport.create({
-	  //     protocol : 'local'
-	  //   , password : password
-	  //   , user     : user.id
-	  //   }, function (err, passport) {
-	  //     if (err) {
-	  //       if (err.code === 'E_VALIDATION') {
-	  //         req.flash('error', 'Error.Passport.Password.Invalid');
-	  //       }
-	
-	  //       return user.destroy(function (destroyErr) {
-	  //         next(destroyErr || err);
-	  //       });
-	  //     }
-	
-	  //     // next(null, user);
-	  //     res.redirect('/job/show');
-	  //   });
-	  // });		
-	
-	
-	
-			// User.create(req.params.all(), function userCreated(err, user){
-			// 	if(err) {
-			// 		console.log(err);
-			// 		req.session.flash = {
-			// 			err: err
-			// 		}
-	
-	
-			// 		return res.redirect('/company/profile');
-			// 	}
-	
-	
-				// res.json(user);
-				// res.redirect('user/show/'+ user.id);
-				// res.redirect('/company/profile');
-				// req.session.flash = {};
-			// });
-	
-
-
 	},
 
 	pandaDoc: function(req, res) {
@@ -348,8 +281,6 @@ module.exports = {
 		}, function (err, files) {
 	      if (err)
 	        return res.serverError(err);
-
-	      //return res.send('<img src="' + files[0].extras.Location + '">');
 
 	      console.log(JSON.stringify(files) + '------' + JSON.stringify(files[0]));
 

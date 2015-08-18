@@ -125,11 +125,6 @@ module.exports = {
 					organizations: organizations
 				});
 			});
-			
-
-			// Zendesk.getUsersForOrganization(organizations[5].id, function (users) {
-			// 	res.json(organizations[5] + users);
-			// });
 		});
 	},
 
@@ -151,22 +146,14 @@ module.exports = {
 			if (err)
 				console.log(err);
 
-			console.log(companies[0]);
-
 			res.send(companies[0]);
 		});
 	},
 
 	create: function(req, res, next) {
-		//console.log('-----ABOUT TO CREATE COMPANY-----');
-		//console.log(req.params.all());
 	 	Company.create(req.params.all(), function companyCreated(err, company) {
 	 		if(err) {
 	 			console.log(err);
-	 			// req.session.flash = {
-	 			// 	err: err
-	 			// }
-
 
 	 			return res.redirect('user/login');
 	 		}

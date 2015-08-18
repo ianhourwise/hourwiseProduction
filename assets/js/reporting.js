@@ -33,8 +33,6 @@ $(document).ready(function() {
 
 		$('#taskTable').html("");
 
-
-
 		if (currentAssignee != null) {
 			//filter companies by assignee
 			console.log(tickets[0].zendesk.assignee_id + ' - ' + currentAssignee.zendeskId);
@@ -153,7 +151,7 @@ $(document).ready(function() {
 			});
 	}
 
-	function displayCompanyData (companiesArray, showTickets) {
+	function displayCompanyData (companiesArray, showTickets, taskTypeArray) {
 		$('#orgTable').html("");
 
 		var companyData = [];
@@ -166,7 +164,30 @@ $(document).ready(function() {
 			var median = 0;
 			var mean = 0;
 
-			if (companiesArray[i].tickets.length > 0){
+			var tickets = [];
+
+
+
+			for (var j = 0; j < companiesArray[i].actualTickets.length; j++) 
+				for (var k = 0; k < taskTypeArray.length; k++)
+					if (taskTypeArray[k] == companiesArray[i].actualTickets[j].zendesk.fields[0].value && companiesArray[i].actualTickets[j].zendesk.fields[3].value != null) {
+						if (currentAssignee != null) {
+							if (currentAssignee.zendeskId == companiesArray[i].actualTickets[j].zendesk.assignee_id) {
+								tickets.push(parseInt(companiesArray[i].actualTickets[j].zendesk.fields[3].value));
+								break;
+							}
+						}
+						else {
+							tickets.push(parseInt(companiesArray[i].actualTickets[j].zendesk.fields[3].value));
+							break;
+						}
+					}
+			
+			companiesArray[i].tickets = [];
+			companiesArray[i].tickets = tickets.slice(0);
+			companiesArray[i].tickets.sort(function(a,b) {return a-b});
+
+			if (companiesArray[i].tickets.length > 0) {
 				sum = companiesArray[i].tickets.reduce(function(a, b) { return a + b; });
 				min = companiesArray[i].tickets[0];
 				max = companiesArray[i].tickets[companiesArray[i].tickets.length - 1];
@@ -353,10 +374,12 @@ $(document).ready(function() {
 
 	 	for (var i = 0; i < companiesTickets.length; i++)
 			if (companiesTickets[i].length > 0)  
-				companiesArray.push(JSON.parse('{"name":"' + companies[i].name + '", "tickets":' + JSON.stringify(companiesMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(companiesTickets[i].sort(function(a,b) {return a-b})) + ', "employees":' + JSON.stringify(companies[i].employees) + '}'));
+				companiesArray.push(JSON.parse('{"name":"' + companies[i].name + '", "tickets":' + JSON.stringify(companiesMinutes[i].sort(function(a,b) {return a-b})) + ', "actualTickets":' + JSON.stringify(companiesTickets[i].sort(function(a,b) {return a.zendesk.fields[3].value-b.zendesk.fields[3].value})) + ', "employees":' + JSON.stringify(companies[i].employees) + '}'));
 		
 		companiesTickets.sort(function(a,b) {return a.name - b.name});
 
+		// console.log(companiesArray[4].tickets);
+		// console.log(companiesArray[4].actualTickets);
 		
 
 		for (var i = 0; i < assigneeTickets.length; i++)
@@ -371,7 +394,7 @@ $(document).ready(function() {
 
 		companiesTickets.sort(function(a,b) {return a.name - b.name});	
 
-		displayCompanyData(companiesArray, false);
+		displayCompanyData(companiesArray, false, removableTaskArray);
 
 		var htmlString = '<option value="all" selected="selected" class="assignee">All</option>';
 
@@ -406,7 +429,7 @@ $(document).ready(function() {
 		$(".requesterList").html(htmlString);
 		$('.chosen').trigger('chosen:updated');
 
-		displayCompanyData([companiesArray[$(this).attr('name')]], true);
+		displayCompanyData([companiesArray[$(this).attr('name')]], true, removableTaskArray);
 
 	});
 
@@ -428,9 +451,9 @@ $(document).ready(function() {
 		$('.requesterList').html(htmlString);
 		$('.chosen').trigger('chosen:updated');
 
-		displayCompanyData(companiesArray, false);
+		displayCompanyData(companiesArray, false, removableTaskArray);
 		displayTaskData(tickets, taskTypeArray);
-		displayTicketList(tickets);
+		//displayTicketList(tickets);
 	});
 
 	$(document).on('click', '.taskType', function (e) {
@@ -452,12 +475,18 @@ $(document).ready(function() {
 
 		if (currentRequester != null)
 			displayTaskData(currentRequester.actualTickets, removableTaskArray);
-		else if (currentCompany != null)
+		else if (currentCompany != null) {
 			displayTaskData(currentCompany.actualTickets, removableTaskArray);
-		else if (currentAssignee != null)
+			displayCompanyData(currentCompany, false, removableTaskArray);
+		}
+		else if (currentAssignee != null) {
 			displayTaskData(currentAssignee.actualTickets, removableTaskArray);
-		else
+			displayCompanyData(companiesArray, false, removableTaskArray);
+		}
+		else {
 			displayTaskData(tickets, removableTaskArray);
+			displayCompanyData(companiesArray, false, removableTaskArray);
+		}
 	});
 
 	$(document).on('click', '.assignee', function (e) {
@@ -471,14 +500,20 @@ $(document).ready(function() {
 
 		console.log(currentAssignee); 
 
-		if (currentCompany != null)
-			displayTaskData(currentCompany.actualTickets, removableTaskArray);
-		else if (currentRequester != null)
+		if (currentRequester != null)
 			displayTaskData(currentRequester.actualTickets, removableTaskArray);
-		else if (currentAssignee != null)
+		else if (currentCompany != null) {
+			displayTaskData(currentCompany.actualTickets, removableTaskArray);
+			displayCompanyData(currentCompany, false, removableTaskArray);
+		}
+		else if (currentAssignee != null) {
 			displayTaskData(currentAssignee.actualTickets, removableTaskArray);
-		else
+			displayCompanyData(companiesArray, false, removableTaskArray);
+		}
+		else {
 			displayTaskData(tickets, removableTaskArray);
+			displayCompanyData(companiesArray, false, removableTaskArray);
+		}
 	});
 
 	$(document).on('click', '.requester', function (e) {
@@ -495,12 +530,16 @@ $(document).ready(function() {
 
 		if (currentRequester != null)
 			displayTaskData(currentRequester.actualTickets, removableTaskArray);
-		else if (currentCompany != null)
+		else if (currentCompany != null) {
 			displayTaskData(currentCompany.actualTickets, removableTaskArray);
+			displayCompanyData(currentCompany, false, removableTaskArray);
+		}
 		else if (currentAssignee != null)
 			displayTaskData(currentAssignee.actualTickets, removableTaskArray);
-		else
+		else {
 			displayTaskData(tickets, removableTaskArray);
+			displayCompanyData(companiesArray, false, removableTaskArray);
+		}
 	});
 
 	$(document).on('click', '.tickets', function (e) {
@@ -548,12 +587,19 @@ $(document).ready(function() {
 
 			if (currentRequester != null)
 				displayTaskData(currentRequester.actualTickets, removableTaskArray);
-			else if (currentCompany != null)
+			else if (currentCompany != null) {
 				displayTaskData(currentCompany.actualTickets, removableTaskArray);
-			else if (currentAssignee != null)
+				displayCompanyData(currentCompany, false, removableTaskArray);
+			}
+			else if (currentAssignee != null) {
 				displayTaskData(currentAssignee.actualTickets, removableTaskArray);
-			else
+				displayCompanyData(companiesArray, false, removableTaskArray);
+			}
+			else {
 				displayTaskData(tickets, removableTaskArray);
+				displayCompanyData(companiesArray, false, removableTaskArray);
+			}
+				
 		}
 		else {
 			removableTaskArray.push($(this).attr('name'));
@@ -571,12 +617,16 @@ $(document).ready(function() {
 
 			if (currentRequester != null)
 				displayTaskData(currentRequester.actualTickets, removableTaskArray);
-			else if (currentCompany != null)
+			else if (currentCompany != null) {
 				displayTaskData(currentCompany.actualTickets, removableTaskArray);
+				displayCompanyData(currentCompany, false, removableTaskArray);
+			}
 			else if (currentAssignee != null)
 				displayTaskData(currentAssignee.actualTickets, removableTaskArray);
-			else
+			else {
 				displayTaskData(tickets, removableTaskArray);
+				displayCompanyData(companiesArray, false, removableTaskArray);
+			}
 		}
 		
 	});

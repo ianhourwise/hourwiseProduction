@@ -72,48 +72,12 @@ module.exports = {
 
     var fromEmail = 'ccs_' + req.param('id') + '@hourwise.com';
 
-    if (req.param('id') == '5506ccae677a3603007ce0d8')
-      Mandrill.sendEmail({'toEmail': 'millie@89paint.com', 'toName': 'Millie', 'fromEmail': fromEmail, 'subject': taskName, 'body': taskDescription}, function (err) {});
-    else
-       Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': fromEmail, 'subject': taskName, 'body': taskDescription}, function (err) {});
+    // if (req.param('id') == '5506ccae677a3603007ce0d8')
+    //   Mandrill.sendEmail({'toEmail': 'millie@89paint.com', 'toName': 'Millie', 'fromEmail': fromEmail, 'subject': taskName, 'body': taskDescription}, function (err) {});
+    // else
+    Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': fromEmail, 'subject': taskName, 'body': taskDescription}, function (err) {});
     
     res.send(200);
-
-    // var taskOwner = null;
-
-    // if (req.param('companyRep') != 'null')
-    //   taskOwner = req.param('companyRep');
-
-    // else if (req.param('hourwiseRep') != 'null')
-    //   taskOwner = req.param('hourwiseRep');
-
-    // Task.create({'name': taskName, 'description': taskDescription, 'status': 'open', 'category': taskCategory, 'owner': taskOwner}, function (err, task) {
-    //     if (err)
-    //       console.log(err);
-
-    //     if (taskOwner != 'null') {
-    //       User.findOne({id: taskOwner}, function (err, user) {
-    //           if (err)
-    //             console.log(err);
-
-    //           var uuid = require('node-uuid');
-
-    //           var alertId = uuid.v4();
-
-    //           user.addAlert(taskName, alertId, task.id, true);
-    //           User.publishUpdate(taskOwner, { message: taskName, id: alertId, communicationId: task.id, fromTask: true  });
-
-    //           Mandrill.sendEmail({'toEmail': 'support@hourwise.com', 'toName': 'Hourwise Support', 'fromEmail': req.param('email'), 'subject': taskName, 'body': taskDescription}, function (err) {
-
-    //           });
-
-    //           res.send(200);
-
-    //       });
-    //     }
-    //     else 
-    //       res.send(200);
-    // }); 
   },
 
   signUp: function (req, res) {
@@ -146,7 +110,6 @@ module.exports = {
    },
 
   createAccount: function (req, res) {  
-    //console.log('sdjkfn');
     User.findOne({email: req.param('referrer')}, function (err, referrer) {
       if (err)
         console.log(err);

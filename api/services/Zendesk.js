@@ -339,10 +339,6 @@ module.exports = {
 			if (err)
 				console.log(err);
 
-			console.log(body.length);
-			console.log(body[0]);
-			console.log(body[1]);
-
 			callback(body);
 		});
 	}
